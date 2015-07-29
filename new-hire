@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+
+require 'configatron'
+require_relative 'lib/employee'
+require_relative 'lib/employee_file'
+
+def generate_file(folder, overview_file)
+  contents = <<EOF
+:imagesdir: #{folder.path}
+
+== #{folder.employee}
+
+image::headshot.jpg[#{folder.employee}, width="200", align="right"]
+
+Team: #{folder.employee.team.capitalize}
+EOF
+  print "generating\n"
+  File.open(overview_file.path, 'w') {|f| f.write(contents) }
+end
+
+if __FILE__==$0
+  team = ARGV[0]
+  first = ARGV[1]
+  last = ARGV[2]
+
+  employee = Employee.new({ team: team, first: first, last: last })
+  folder = EmployeeFolder.new employee
+  folder.ensure_exists
+
+  overview_file = EmployeeFile.new folder, "overview.adoc"
+    print "\nReviewing #{overview_file}... "
+  if File.exist? overview_file.path
+    print "exists\n"
+  else
+    generate_file folder, overview_file
+  end
+end

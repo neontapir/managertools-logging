@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+require 'pathname'
+require 'facets/string/titlecase'
+require_relative 'lib/employee_folder'
+
+class String
+  def titleize
+    split(/(\W)/).map(&:capitalize).join
+  end
+end
+
+def split_path(path)
+    Pathname(path).each_filename.to_a
+end
+
+if __FILE__==$0
+  Dir.glob("#{EmployeeFolder.root}/*/*") do |f|
+     next unless Dir.exist? f
+     paths = split_path f
+     name = paths[2].gsub!('-', ' ').titleize
+     puts "Generating #{paths[1]} #{name}..."
+     `./new-hire #{paths[1]} #{name}`
+  end
+end

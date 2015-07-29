@@ -1,0 +1,7 @@
+= Team Directory
+
+== Team Avengers
+
+include::data/avengers/steve-rogers/overview.adoc[]
+
+include::data/avengers/tony-stark/overview.adoc[]
