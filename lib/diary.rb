@@ -27,6 +27,16 @@ module Diary
     end
   end
 
+  def add_elements(result, elements)
+    elements.each do |item|
+      if item.kind_of? Array
+        add_element result, item[0], item[1]
+      else
+        add_element result, item
+      end
+    end
+  end
+
   def get_employee(person)
     employee_spec = Employee.find person
     if (employee_spec.nil?)
@@ -48,14 +58,10 @@ module Diary
     case type
     when :feedback
       puts "With feedback for #{employee}, enter the following:"
-      [:polarity, :content].each do |symbol|
-        add_element result, symbol
-      end
+      add_elements(result, [[:polarity, "positive"], :content])
     when :o3
       puts "For your 1:1 with #{employee}, enter the following:"
-      [:location, :notes, :actions].each do |symbol|
-        add_element result, symbol
-      end
+      add_elements(result, [:location, :notes, :actions])
     else
       raise "You gave me #{type} -- I have no idea what to do with that."
     end

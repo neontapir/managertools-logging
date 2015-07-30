@@ -13,9 +13,9 @@ class FeedbackEntry
     value = ERB.new(<<-BLOCK).result(binding)
 == Feedback (#{@record[:datetime].strftime("%B %e, %Y, %l:%M %p")})
 Polarity::
-  #{@record[:polarity] || "Positive"}
+  #{@record[:polarity].downcase || "positive"}
 Content::
-  #{wrap(@record[:content],100) || "None"}
+  #{wrap(@record[:content],100) || "none"}
 BLOCK
   end
 end
