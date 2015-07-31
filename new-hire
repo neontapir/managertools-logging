@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'configatron'
+require 'slop'
 require_relative 'lib/employee'
 require_relative 'lib/employee_file'
 
@@ -10,26 +11,44 @@ def generate_file(folder, overview_file)
 
 == #{folder.employee}
 
-image::headshot.jpg[#{folder.employee}, width="200", align="right"]
+image::headshot.jpg[#{folder.employee}, width="200", align="right", float="right"]
 
 Team: #{folder.employee.team.capitalize}
+
 EOF
   print "generating\n"
   File.open(overview_file.path, 'w') {|f| f.write(contents) }
 end
 
 if __FILE__==$0
-  team = ARGV[0]
-  first = ARGV[1]
-  last = ARGV[2]
+  opts = Slop.parse do |o|
+    o.bool '-f', '--force', 'generate even if file exists'
+    o.string '-t', '--team', 'team name (like avengers)'
+    o.string '-n', '--name', 'person\'s name (in quotes, like "Tony Stark")'
+  end
+
+  if opts[:team].nil? or opts[:name].nil?
+    puts "--team and --name are required, don't know how to proceed without them"
+    puts opts
+    exit(1)
+  end
+
+  team = opts[:team]
+  first, last = opts[:name].split(' ')
+
+  # team = ARGV[0]
+  # first = ARGV[1]
+  # last = ARGV[2]
 
   employee = Employee.new({ team: team, first: first, last: last })
+  #puts "New file for #{employee}"
+
   folder = EmployeeFolder.new employee
   folder.ensure_exists
 
   overview_file = EmployeeFile.new folder, "overview.adoc"
-    print "\nReviewing #{overview_file}... "
-  if File.exist? overview_file.path
+  print "\nReviewing #{overview_file}... "
+  if (not opts.force?) and File.exist? overview_file.path
     print "exists\n"
   else
     generate_file folder, overview_file

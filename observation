@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require "highline/import"
+require_relative 'lib/diary'
+
+include Diary
+
+if __FILE__==$0
+  person = ARGV[0]
+  record_to_file :observation, person
+end

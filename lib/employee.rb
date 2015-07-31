@@ -10,7 +10,7 @@ class Employee
     @team = params[:team]
     @first = params[:first]
     @last = params[:last]
-    # puts "created employee #{first} #{last} on #{team}"
+    #puts "created employee, first: #{first}, last: #{last} on #{team}"
   end
 
   # consolidate with gen-overview-files?

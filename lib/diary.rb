@@ -1,7 +1,10 @@
 require "highline/import"
 require_relative 'employee'
 require_relative 'employee_folder'
+require_relative 'feedback_entry'
 require_relative 'log_file'
+require_relative 'o3_entry'
+require_relative 'observation_entry'
 
 module Diary
   def record_to_file(type, person)
@@ -12,12 +15,9 @@ module Diary
 
     log_file = LogFile.new folder
     data = create_entry type, employee.to_s
-    case type
-    when :o3
-      entry = O3Entry.new data
-    when :feedback
-      entry = FeedbackEntry.new data
-    end
+    entry_type = Kernel.const_get("#{type.to_s.capitalize}Entry")
+    puts "entry type: #{entry_type}"
+    entry = entry_type.new data
     log_file.append entry
   end
 
@@ -62,6 +62,9 @@ module Diary
     when :o3
       puts "For your 1:1 with #{employee}, enter the following:"
       add_elements(result, [:location, :notes, :actions])
+    when :observation
+      puts "Enter your observation for #{employee}:"
+      add_elements(result, [:content])
     else
       raise "You gave me #{type} -- I have no idea what to do with that."
     end

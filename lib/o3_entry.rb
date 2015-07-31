@@ -19,6 +19,7 @@ Notes::
   #{wrap(@record[:notes] || "none",100)}
 Actions::
   #{wrap(@record[:actions] || "none",100)}
+  
 BLOCK
   end
 end

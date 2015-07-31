@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'pathname'
+require 'slop'
 require 'facets/string/titlecase'
 require_relative 'lib/employee_folder'
 
@@ -15,11 +16,16 @@ def split_path(path)
 end
 
 if __FILE__==$0
+  opts = Slop.parse do |o|
+    o.bool '-f', '--force', 'generate even if file exists'
+  end
+
   Dir.glob("#{EmployeeFolder.root}/*/*") do |f|
      next unless Dir.exist? f
      paths = split_path f
      name = paths[2].gsub!('-', ' ').titleize
      puts "Generating #{paths[1]} #{name}..."
-     `./new-hire #{paths[1]} #{name}`
+     force = if opts.force? then "-f" else "" end
+     system('./new-hire', force, "-t", "#{paths[1]}", "-n", "#{name}") or exit(-1)
   end
 end

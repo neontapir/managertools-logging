@@ -2,7 +2,7 @@ require_relative 'word_wrap'
 
 include WordWrap
 
-class FeedbackEntry
+class ObservationEntry
   attr_accessor :record
 
   def initialize(params = {})
@@ -11,12 +11,10 @@ class FeedbackEntry
 
   def to_s
     value = ERB.new(<<-BLOCK).result(binding)
-== Feedback (#{@record[:datetime].strftime("%B %e, %Y, %l:%M %p")})
-Polarity::
-  #{@record[:polarity].downcase || "positive"}
+=== Observation (#{@record[:datetime].strftime("%B %e, %Y, %l:%M %p")})
 Content::
   #{wrap(@record[:content],100) || "none"}
-  
+
 BLOCK
   end
 end
