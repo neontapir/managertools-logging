@@ -2,7 +2,7 @@
 
 require 'configatron'
 require 'FileUtils'
-require 'slop'
+require 'trollop'
 require_relative 'lib/employee'
 require_relative 'lib/employee_file'
 
@@ -22,10 +22,11 @@ EOF
 end
 
 if __FILE__==$0
-  opts = Slop.parse do |o|
-    o.bool '-f', '--force', 'generate even if file exists'
-    o.string '-t', '--team', 'team name (like avengers)'
-    o.string '-n', '--name', 'person\'s name (in quotes, like "Tony Stark")'
+  opts = Trollop::options do
+    opt :force, 'generate even if file exists'
+    opt :team, 'team name (like avengers)', :type => :string
+    opt :name, 'person\'s name (in quotes, like "Tony Stark")',
+      :type => :string
   end
 
   if opts[:team].nil? or opts[:name].nil?
@@ -37,13 +38,7 @@ if __FILE__==$0
   team = opts[:team]
   first, last = opts[:name].split(' ')
 
-  # team = ARGV[0]
-  # first = ARGV[1]
-  # last = ARGV[2]
-
   employee = Employee.new({ team: team, first: first, last: last })
-  #puts "New file for #{employee}"
-
   folder = EmployeeFolder.new employee
   folder.ensure_exists
 

@@ -12,14 +12,14 @@ class O3Entry
 
   def to_s
     value = ERB.new(<<-BLOCK).result(binding)
-== One-on-One (#{@record[:datetime].strftime("%B %e, %Y, %l:%M %p")})
+=== One-on-One (#{@record[:datetime].strftime("%B %e, %Y, %l:%M %p")})
 Location::
   #{@record[:location] || "unspecified"}
 Notes::
   #{wrap(@record[:notes] || "none",100)}
 Actions::
   #{wrap(@record[:actions] || "none",100)}
-  
+
 BLOCK
   end
 end

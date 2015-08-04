@@ -18,7 +18,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
-    slop (4.2.0)
+    trollop (2.1.2)
 
 PLATFORMS
   ruby
@@ -28,7 +28,7 @@ DEPENDENCIES
   facets
   highline
   rspec
-  slop
+  trollop
 
 BUNDLED WITH
    1.10.6
