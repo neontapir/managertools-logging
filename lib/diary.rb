@@ -16,7 +16,7 @@ module Diary
     log_file = LogFile.new folder
     data = create_entry type, employee.to_s
     entry_type = Kernel.const_get("#{type.to_s.capitalize}Entry")
-    puts "entry type: #{entry_type}"
+    #puts "entry type: #{entry_type}"
     entry = entry_type.new data
     log_file.append entry
   end

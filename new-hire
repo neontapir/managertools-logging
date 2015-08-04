@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'configatron'
+require 'FileUtils'
 require 'slop'
 require_relative 'lib/employee'
 require_relative 'lib/employee_file'
@@ -53,4 +54,8 @@ if __FILE__==$0
   else
     generate_file folder, overview_file
   end
+
+  log_file = EmployeeFile.new folder, "log.adoc"
+  puts "\nTouching #{log_file}... "
+  FileUtils.touch(log_file.to_s)
 end
