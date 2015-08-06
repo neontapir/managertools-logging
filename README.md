@@ -109,6 +109,10 @@ contains some of these commands. (If you followed along and now try to run
 `rake`, you'll have problems because the test data uses the Avengers too. The
 test suite assumes that it can create and destroy Avengers data at will.)
 
+## The 'mt' script
+
+I'm in the process of creating an omnibus script to call o3, feedback, et al, from one script. It works but has no help.
+
 # Extensibility
 
 In `lib/employee_folder.rb`, there is a variable called `root` which defines
