@@ -1,8 +1,9 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-gem "facets"
-gem "highline"
-gem "rspec"
-gem "configatron"
-# gem "slop"
-gem "trollop"
+gem 'rake'
+gem 'facets'
+gem 'highline'
+gem 'rspec'
+gem 'configatron'
+gem 'trollop'
+gem 'command'

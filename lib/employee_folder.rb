@@ -1,4 +1,4 @@
-require 'FileUtils'
+require 'fileutils'
 
 class EmployeeFolder
   attr_reader :employee

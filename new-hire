@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'configatron'
-require 'FileUtils'
+require 'fileutils'
 require 'trollop'
 require_relative 'lib/employee'
 require_relative 'lib/employee_file'
