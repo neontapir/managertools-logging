@@ -18,7 +18,9 @@ Team: #{folder.employee.team.capitalize}
 
 EOF
   print "generating\n"
-  File.open(overview_file.path, 'w') {|f| f.write(contents) }
+  File.open(overview_file.path, 'w') do |f|
+    f.write(contents)
+  end
 end
 
 if __FILE__==$0

@@ -9,16 +9,21 @@ require_relative 'observation_entry'
 module Diary
   def record_to_file(type, person)
     employee = get_employee person
-
-    folder = EmployeeFolder.new employee
-    folder.ensure_exists
-
-    log_file = LogFile.new folder
+    log_file = get_file person
     data = create_entry type, employee.to_s
     entry_type = Kernel.const_get("#{type.to_s.capitalize}Entry")
     #puts "entry type: #{entry_type}"
     entry = entry_type.new data
     log_file.append entry
+  end
+
+  def get_file(person)
+    employee = get_employee person
+
+    folder = EmployeeFolder.new employee
+    folder.ensure_exists
+
+    LogFile.new folder
   end
 
   def add_element(result, key, default = "none")

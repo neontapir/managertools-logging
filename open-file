@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require_relative 'lib/diary'
+
+include Diary
+
+if __FILE__==$0
+  person = ARGV[0]
+  log_file = get_file person
+  exec("open #{log_file}")
+end

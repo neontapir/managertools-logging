@@ -20,6 +20,8 @@ if __FILE__==$0
       script = File.join(script, "gen-overview-files")
     when "observe"
       script = File.join(script, "observation")
+    when "open"
+      script = File.join(script, "open-file")
     when "o3", "feedback", "report"
       script = File.join(script, cmd)
     else
