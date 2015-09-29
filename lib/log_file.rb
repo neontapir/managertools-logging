@@ -9,6 +9,7 @@ class LogFile
 
   def append(entry)
     open(@log_file.path, 'a') { |f|
+      f.puts "\n" unless entry.to_s[0,1] == "\n"
       f.puts entry
     }
   end
