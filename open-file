@@ -6,6 +6,6 @@ include Diary
 
 if __FILE__==$0
   person = ARGV[0]
-  log_file = get_file person
+  log_file = get_file_by_person person
   exec("open #{log_file}")
 end

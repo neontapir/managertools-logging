@@ -3,7 +3,7 @@ require_relative 'word_wrap'
 
 include WordWrap
 
-class O3Entry
+class TeamMeetingEntry
   attr_accessor :record
 
   def initialize(params = {})
@@ -12,7 +12,9 @@ class O3Entry
 
   def to_s
     value = ERB.new(<<-BLOCK).result(binding)
-=== One-on-One (#{format_date(@record[:datetime])})
+=== Team Meeting (#{format_date(@record[:datetime])})
+Attendees::
+  #{wrap(@record[:attendees] || "none")}
 Location::
   #{@record[:location] || "unspecified"}
 Notes::

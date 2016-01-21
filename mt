@@ -4,7 +4,7 @@ require 'trollop'
 
 if __FILE__==$0
   script = File.dirname(File.realpath(__FILE__))
-  SUB_COMMANDS = %w(new gen o3 observe)
+  SUB_COMMANDS = %w(new gen meet o3 observe)
 
   global_opts = Trollop::options do
     banner "Manager Tools"
@@ -18,7 +18,9 @@ if __FILE__==$0
       script = File.join(script, "new-hire")
     when "gen"
       script = File.join(script, "gen-overview-files")
-    when "observe"
+    when "meet"
+      script = File.join(script, "team-meeting")
+    when "observe","ob","obs"
       script = File.join(script, "observation")
     when "open"
       script = File.join(script, "open-file")

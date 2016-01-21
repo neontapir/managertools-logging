@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+require 'highline/import'
+require_relative 'lib/diary'
+require_relative 'lib/team'
+
+include Diary
+
+if __FILE__==$0
+  team_name = ARGV[0]
+  team = Team.find team_name
+  members = team.members
+  puts "FIRST: #{members[0].inspect} in #{members}"
+  entry = get_entry :team_meeting, members[0]
+  members.each do |employee|
+    log_file = get_file employee
+    log_file.append entry
+  end
+  # record_to_file :team_meeting, person
+end

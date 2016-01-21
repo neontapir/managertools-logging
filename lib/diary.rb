@@ -5,21 +5,29 @@ require_relative 'feedback_entry'
 require_relative 'log_file'
 require_relative 'o3_entry'
 require_relative 'observation_entry'
+require_relative 'team_meeting_entry'
 
 module Diary
   def record_to_file(type, person)
     employee = get_employee person
-    log_file = get_file person
-    data = create_entry type, employee.to_s
-    entry_type = Kernel.const_get("#{type.to_s.capitalize}Entry")
-    #puts "entry type: #{entry_type}"
-    entry = entry_type.new data
+    entry = get_entry(type, employee)
+    log_file = get_file employee
     log_file.append entry
   end
 
-  def get_file(person)
-    employee = get_employee person
+  def get_entry(type, employee)
+    data = create_entry type, employee.to_s
+    entry_type_name = type.to_s.tr('_',' ').split(' ').map(&:capitalize).join
+    entry_type = Kernel.const_get("#{entry_type_name}Entry")
+    entry = entry_type.new data
+  end
 
+  def get_file_by_person(person)
+    employee = get_employee person
+    get_file employee
+  end
+
+  def get_file(employee)
     folder = EmployeeFolder.new employee
     folder.ensure_exists
 
@@ -56,20 +64,23 @@ module Diary
     employee
   end
 
-  def create_entry(type, employee)
+  def create_entry(type, name)
     result = Hash.new
     result[:datetime] = Time.now
 
     case type
     when :feedback
-      puts "With feedback for #{employee}, enter the following:"
+      puts "With feedback for #{name}, enter the following:"
       add_elements(result, [[:polarity, "positive"], :content])
     when :o3
-      puts "For your 1:1 with #{employee}, enter the following:"
+      puts "For your 1:1 with #{name}, enter the following:"
       add_elements(result, [:location, :notes, :actions])
     when :observation
-      puts "Enter your observation for #{employee}:"
+      puts "Enter your observation for #{name}:"
       add_elements(result, [:content])
+    when :team_meeting
+      puts "For your team meeting, enter the following:"
+      add_elements(result, [:attendees, :location, :notes, :actions])
     else
       raise "You gave me #{type} -- I have no idea what to do with that."
     end

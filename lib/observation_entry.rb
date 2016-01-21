@@ -11,9 +11,9 @@ class ObservationEntry
 
   def to_s
     value = ERB.new(<<-BLOCK).result(binding)
-=== Observation (#{@record[:datetime].strftime("%B %e, %Y, %l:%M %p")})
+=== Observation (#{format_date(@record[:datetime])})
 Content::
-  #{wrap(@record[:content],100) || "none"}
+  #{wrap(@record[:content]) || "none"}
 
 BLOCK
   end
