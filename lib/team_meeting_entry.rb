@@ -10,6 +10,14 @@ class TeamMeetingEntry
     @record = params
   end
 
+  def self.prompt(name)
+    "For your team meeting, enter the following:"
+  end
+
+  def self.get_elements_array
+    [:attendees, :location, :notes, :actions]
+  end
+
   def to_s
     value = ERB.new(<<-BLOCK).result(binding)
 === Team Meeting (#{format_date(@record[:datetime])})

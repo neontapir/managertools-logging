@@ -3,7 +3,7 @@ require_relative 'word_wrap'
 
 include WordWrap
 
-class O3Entry
+class InterviewEntry
   attr_accessor :record
 
   def initialize(params = {})
@@ -11,7 +11,7 @@ class O3Entry
   end
 
   def self.prompt(name)
-    "For your 1:1 with #{name}, enter the following:"
+    "For your interview with #{name}, enter the following:"
   end
 
   def self.get_elements_array
@@ -20,7 +20,7 @@ class O3Entry
 
   def to_s
     value = ERB.new(<<-BLOCK).result(binding)
-=== One-on-One (#{format_date(@record[:datetime])})
+=== Interview (#{format_date(@record[:datetime])})
 Location::
   #{@record[:location] || "unspecified"}
 Notes::

@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 
+require 'highline/import'
 require_relative 'lib/diary'
 
 include Diary
 
 if __FILE__==$0
   person = ARGV[0]
-  log_file = get_file_by_person person
-  exec("touch #{log_file} && open #{log_file}")
+  record_to_file :interview, person
 end

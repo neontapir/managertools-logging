@@ -21,9 +21,6 @@ class Team
   def self.parse_dir(dir)
     paths = split_path dir
     root, team = paths
-    #name = name.gsub!('-', ' ').titlecase.strip.split(/\s+/)
-    # first = name[0]
-    # last = name[1]
     {team: team}
   end
 

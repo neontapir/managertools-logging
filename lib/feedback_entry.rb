@@ -9,6 +9,14 @@ class FeedbackEntry
     @record = params
   end
 
+  def self.prompt(name)
+    "With feedback for #{name}, enter the following:"
+  end
+
+  def self.get_elements_array
+    [[:polarity, "positive"], :content]
+  end
+
   def to_s
     value = ERB.new(<<-BLOCK).result(binding)
 === Feedback (#{format_date(@record[:datetime])})

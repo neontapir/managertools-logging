@@ -9,6 +9,14 @@ class ObservationEntry
     @record = params
   end
 
+  def self.prompt(name)
+    "Enter your observation for #{name}:"
+  end
+
+  def self.get_elements_array
+    [:content]
+  end
+
   def to_s
     value = ERB.new(<<-BLOCK).result(binding)
 === Observation (#{format_date(@record[:datetime])})

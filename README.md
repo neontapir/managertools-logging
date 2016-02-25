@@ -48,13 +48,16 @@ prompted me for the data it needed. Here are the files that were created:
 These scripts store their data as Asciidoc files. Notice that Tony has an
 overview file, which was created by the new hire script.
 
-You can also provide feedback:
+You can also provide `feedback`:
 
     $ ./feedback tony
     With feedback for Tony Stark, enter the following:
-    Polarity: |none| negative
+    Polarity: |positive| negative
     Content: |none| When you try to provoke people in the team room, it makes
     bystanders uncomfortable. Can you do that differently next time?
+
+Other options not covered here are `interview` (which uses a team called
+`candidates`) and `team meeting`.
 
 After our examples, this is what data/avengers/tony-stark/log.adoc contains:
 
@@ -111,12 +114,14 @@ test suite assumes that it can create and destroy Avengers data at will.)
 
 ## The 'mt' script
 
-I'm in the process of creating an omnibus script to call o3, feedback, et al, from one script. It works but has no help.
+I created an omnibus script to call o3, feedback, et al, from one script. It
+works but has no help.
 
 # Extensibility
 
 In `lib/employee_folder.rb`, there is a variable called `root` which defines
-where your data is stored.
+where your data is stored. The variable `candidates_root` determines in which
+folder interviews are recorded.
 
 If you want to add a new diary entry type, you will need to:
 
@@ -124,8 +129,14 @@ If you want to add a new diary entry type, you will need to:
 for example ObservationEntry for an observation
 * in `lib\diary.rb`:
   - add a `require_relative` entry in `lib\diary.rb` for the new entry class
-  - update `Diary::create_entry` in `lib\diary.rb` to recognize the new entry class
 * create a new script in the root that utilizes that entry class
+
+# Usage Hints
+
+I manually move people who no longer report to me to a team called "departed".
+The script will still find them as normal. You can also use the same approach
+when people change teams. It happens infrequently enough for me that I didn't
+automate it.
 
 # License
 
@@ -134,7 +145,7 @@ been said...
 
 ## The MIT License (MIT)
 
-Copyright (c) 2015 Charles Durfee
+Copyright (c) 2015-2016 Charles Durfee
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

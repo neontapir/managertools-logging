@@ -13,7 +13,12 @@ class EmployeeFolder
 
   # TODO: make this configurable
   def self.root
-    "data"
+    'data'
+  end
+
+  # TODO: make this configurable
+  def self.candidates_root
+    'candidates'
   end
 
   def path
