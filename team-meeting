@@ -14,7 +14,7 @@ if __FILE__==$0
   entry = get_entry :team_meeting, members[0]
   members.each do |employee|
     log_file = get_file employee
+    log_file.ensure_exists
     log_file.append entry
   end
-  # record_to_file :team_meeting, person
 end

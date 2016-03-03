@@ -53,6 +53,5 @@ if __FILE__==$0
   end
 
   log_file = EmployeeFile.new folder, "log.adoc"
-  puts "\nTouching #{log_file}... "
-  FileUtils.touch(log_file.to_s)
+  log_file.ensure_exists
 end

@@ -10,9 +10,10 @@ require_relative 'team_meeting_entry'
 
 module Diary
   def record_to_file(type, person)
-    employee = get_employee type, person
+    employee = get_employee person, type
     entry = get_entry(type, employee)
     log_file = get_file employee
+    log_file.ensure_exists
     log_file.append entry
   end
 
@@ -35,14 +36,7 @@ module Diary
   def get_file(employee)
     folder = EmployeeFolder.new employee
     folder.ensure_exists
-
     LogFile.new folder
-  end
-
-  def add_element(result, key, default = "none")
-    result[key] = ask "#{key.to_s.capitalize}: " do |q|
-      q.default = default
-    end
   end
 
   def add_elements(result, elements)
@@ -55,11 +49,17 @@ module Diary
     end
   end
 
-  def get_employee(type, person)
+  def add_element(result, key, default = "none")
+    result[key] = ask "#{key.to_s.capitalize}: " do |q|
+      q.default = default
+    end
+  end
+
+  def get_employee(person, type = :generic)
     employee_spec = Employee.find person
     if (employee_spec.nil?)
       result = Hash.new
-      result[:team] = EmployeeFolder.candidates_root if type.to_s == 'interview'
+      result[:team] = EmployeeFolder.candidates_root if type.to_sym == :interview
       [:team, :first, :last].each do |symbol|
           result[symbol] ||= ask "#{symbol.to_s.capitalize}: "
       end

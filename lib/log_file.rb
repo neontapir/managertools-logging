@@ -14,7 +14,22 @@ class LogFile
     }
   end
 
-  def to_s
+  def path
     @log_file.path
+  end
+
+  def create
+    FileUtils.touch path
+  end
+
+  def ensure_exists
+    if not File.exist? path
+      puts "Creating #{path}"
+      create
+    end
+  end
+
+  def to_s
+    path
   end
 end
