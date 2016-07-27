@@ -35,4 +35,8 @@ class EmployeeFolder
       create
     end
   end
+
+  def to_s
+    path
+  end
 end
