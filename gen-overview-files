@@ -24,7 +24,6 @@ if __FILE__==$0
      next unless Dir.exist? f
      paths = split_path f
      first, last = paths[2].gsub!('-', ' ').titleize.split(' ')
-     puts "Generating #{paths[1]} #{first} #{last}..."
      force = if opts[:force] then "--force" else "" end
      system('./mt', 'new', force, "--team", "#{paths[1]}", "--first", "#{first}", "--last", "#{last}") or exit(-1)
   end

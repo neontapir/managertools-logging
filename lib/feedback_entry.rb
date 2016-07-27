@@ -1,6 +1,6 @@
-require_relative 'word_wrap'
+require_relative 'mt_data_formatter'
 
-include WordWrap
+include MtDataFormatter
 
 class FeedbackEntry
   attr_accessor :record

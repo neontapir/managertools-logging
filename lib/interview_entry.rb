@@ -1,7 +1,7 @@
 require 'erb'
-require_relative 'word_wrap'
+require_relative 'mt_data_formatter'
 
-include WordWrap
+include MtDataFormatter
 
 class InterviewEntry
   attr_accessor :record

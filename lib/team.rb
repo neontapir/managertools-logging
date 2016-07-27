@@ -48,8 +48,7 @@ class Team
 
   def members
     result = []
-    root = EmployeeFolder.root
-    Dir.glob("#{root}/#{team}/*") do |d|
+    members_by_folder do |d|
         employee = Employee.parse_dir d
         result << Employee.new(employee)
     end

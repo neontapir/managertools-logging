@@ -26,8 +26,9 @@ if __FILE__==$0
   report_source = "report.adoc"
   output = "report.html"
 
-  File.delete output if File.exist? output
-  File.delete report_source if File.exist? report_source
+  [report_source, output].each do |file|
+    File.delete file if File.exist? file
+  end
 
   append_file(report_source, overview_file)
   append_file(report_source, log_file)

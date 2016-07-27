@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+# Should do a './mt gen' before this to ensure overview files exist
+
 require 'facets/string/titlecase'
 require 'highline/import'
 require 'shell'
@@ -12,7 +14,6 @@ class String
 end
 
 def append_file(destination, contents)
-  #contents = IO.read(input)
   open(destination, 'a') { |f|
     f.puts contents
     f.puts "\n"
@@ -27,9 +28,10 @@ if __FILE__==$0
   report_source = "#{report_name}.adoc"
   output = "#{report_name}.html"
 
-  File.delete output if File.exist? output
-  File.delete report_source if File.exist? report_source
-
+  [output, report_source].each do |file|
+    File.delete file if File.exist? file
+  end
+  
   append_file(report_source, "= Team #{team_name.titleize}\n\n")
   team.members_by_folder.each do |e|
     append_file(report_source, "include::#{e}/overview.adoc[]\n\n'''\n\n")

@@ -1,5 +1,5 @@
 # TODO: rename to more general purpose module or split functionality
-module WordWrap
+module MtDataFormatter
   def format_date(date)
     date.strftime("%B %e, %Y, %l:%M %p")
   end
