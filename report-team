@@ -1,0 +1,51 @@
+#!/usr/bin/env ruby
+
+require 'facets/string/titlecase'
+require 'highline/import'
+require 'shell'
+require_relative 'lib/diary'
+require_relative 'lib/team'
+
+class String
+  def titleize
+    split(/(\W)/).map(&:capitalize).join
+  end
+end
+
+include Diary
+
+def append_file(destination, input)
+  contents = IO.read(input)
+  open(destination, 'a') { |f|
+    f.puts contents
+    f.puts "\n"
+  }
+end
+
+if __FILE__==$0
+  team_name = ARGV[0]
+  team = Team.find team_name
+
+  report_name = "team-#{team_name.downcase}-report"
+  report_source = "#{report_name}.adoc"
+  output = "#{report_name}.html"
+
+  File.delete output if File.exist? output
+  File.delete report_source if File.exist? report_source
+
+  open(report_source, 'a') { |f|
+    f.puts "= Team #{team_name.titleize}"
+    f.puts "\n\n"
+  }
+  team.members_by_folder.each do |e|
+    employee = Employee.new(Employee.parse_dir e)
+    #puts "Folder for #{employee}: #{e}"
+    open(report_source, 'a') { |f|
+      f.puts "include::#{e}/overview.adoc[]"
+      f.puts "\n\n'''\n\n"
+    }
+  end
+
+  system("asciidoctor", "-o#{output}", report_source)
+  system("open", output) # for Mac, use "cmd /c" for Windows
+end

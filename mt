@@ -20,11 +20,11 @@ if __FILE__==$0
       script = File.join(script, "gen-overview-files")
     when "meet"
       script = File.join(script, "team-meeting")
-    when "observe","ob","obs"
+    when "observe", "ob", "obs"
       script = File.join(script, "observation")
     when "open"
       script = File.join(script, "open-file")
-    when "interview", "o3", "feedback", "report"
+    when "interview", "o3", "feedback", "report", "report-team"
       script = File.join(script, cmd)
     else
       Trollop::die "unknown subcommand #{cmd.inspect}"

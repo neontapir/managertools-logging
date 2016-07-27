@@ -70,6 +70,16 @@ module Diary
     employee
   end
 
+  def get_team(team)
+    team_spec = Team.find team
+    if (team_spec.nil?)
+      die "No such team #{team} found"
+    else
+      team = team_spec
+    end
+    team
+  end
+
   def create_entry(type, name)
     result = Hash.new
     result[:datetime] = Time.now
