@@ -27,24 +27,13 @@ if __FILE__==$0
   opts = Trollop::options do
     opt :force, 'generate even if file exists'
     opt :team, 'team name (like avengers)', :type => :string, :required => true
-    #opt :name, 'person\'s full name (in quotes, like "Tony Stark")', :type => :string
     opt :first, 'person\'s first name (in quotes, like "Tony Stark")', :type => :string
     opt :last, 'person\'s last name (in quotes, like "Tony Stark")', :type => :string
   end
 
-  # if opts[:name].nil? and (opts[:first].nil? or opts[:last].nil?)
-  #   puts "either --name or both --first and --last are required, don't know how to proceed without them"
-  #   puts opts
-  #   exit(1)
-  # end
-
-  #puts "\nDEBUG: opts = #{opts}\n"
   team = opts[:team]
   first = opts[:first]
   last = opts[:last]
-  #first, last = opts[:name].split(' ')
-  #warn "WARN: First name missing" if first.nil?
-  #warn "WARN: Last name missing" if last.nil?
 
   employee = Employee.new({ team: team, first: first, last: last })
   folder = EmployeeFolder.new employee

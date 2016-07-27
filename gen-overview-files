@@ -23,9 +23,9 @@ if __FILE__==$0
   Dir.glob("#{EmployeeFolder.root}/*/*") do |f|
      next unless Dir.exist? f
      paths = split_path f
-     name = paths[2].gsub!('-', ' ').titleize
-     puts "Generating #{paths[1]} #{name}..."
+     first, last = paths[2].gsub!('-', ' ').titleize.split(' ')
+     puts "Generating #{paths[1]} #{first} #{last}..."
      force = if opts[:force] then "--force" else "" end
-     system('./new-hire', force, "--team", "#{paths[1]}", "--name", "#{name}") or exit(-1)
+     system('./mt', 'new', force, "--team", "#{paths[1]}", "--first", "#{first}", "--last", "#{last}") or exit(-1)
   end
 end

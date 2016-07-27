@@ -3,7 +3,6 @@
 require 'facets/string/titlecase'
 require 'highline/import'
 require 'shell'
-require_relative 'lib/diary'
 require_relative 'lib/team'
 
 class String
@@ -12,10 +11,8 @@ class String
   end
 end
 
-include Diary
-
-def append_file(destination, input)
-  contents = IO.read(input)
+def append_file(destination, contents)
+  #contents = IO.read(input)
   open(destination, 'a') { |f|
     f.puts contents
     f.puts "\n"
@@ -33,17 +30,9 @@ if __FILE__==$0
   File.delete output if File.exist? output
   File.delete report_source if File.exist? report_source
 
-  open(report_source, 'a') { |f|
-    f.puts "= Team #{team_name.titleize}"
-    f.puts "\n\n"
-  }
+  append_file(report_source, "= Team #{team_name.titleize}\n\n")
   team.members_by_folder.each do |e|
-    employee = Employee.new(Employee.parse_dir e)
-    #puts "Folder for #{employee}: #{e}"
-    open(report_source, 'a') { |f|
-      f.puts "include::#{e}/overview.adoc[]"
-      f.puts "\n\n'''\n\n"
-    }
+    append_file(report_source, "include::#{e}/overview.adoc[]\n\n'''\n\n")
   end
 
   system("asciidoctor", "-o#{output}", report_source)
