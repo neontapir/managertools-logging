@@ -2,8 +2,11 @@ require 'pathname'
 require 'facets/string/titlecase'
 require_relative 'employee_file'
 require_relative 'employee_folder'
+require_relative 'path_splitter'
 
 class Employee
+  extend PathSplitter
+
   attr_reader :team, :first, :last
 
   def initialize(params = {})
@@ -11,11 +14,6 @@ class Employee
     @first = params[:first]
     @last = params[:last]
     #puts "DEBUG: created employee, first: '#{first}', last: '#{last}' on '#{team}'"
-  end
-
-  # consolidate with gen-overview-files?
-  def self.split_path(path)
-      Pathname(path).each_filename.to_a
   end
 
   def self.parse_dir(dir)

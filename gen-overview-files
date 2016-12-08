@@ -4,15 +4,14 @@ require 'pathname'
 require 'trollop'
 require 'facets/string/titlecase'
 require_relative 'lib/employee_folder'
+require_relative 'lib/path_splitter'
+
+extend PathSplitter
 
 class String
   def titleize
     split(/(\W)/).map(&:capitalize).join
   end
-end
-
-def split_path(path)
-    Pathname(path).each_filename.to_a
 end
 
 if __FILE__==$0
