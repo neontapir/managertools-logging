@@ -2,6 +2,40 @@
 
 require 'trollop'
 
+def record_diary_entry(entry_type, person)
+  require_relative 'lib/diary'
+  include Diary
+  record_to_file entry_type, person
+end
+
+ALIASES = {
+  "new" => "new-hire",
+  "gen" => "gen-overview-files",
+  "ob" => "observation",
+  "obs" => "observation",
+  "open" => "open-file",
+  "feed" => "feedback",
+  "fb" => "feedback"
+}
+
+def parse(script, subcommand, arguments)
+  case
+    when ALIASES.values.include?(subcommand)
+      script = File.join(script, subcommand)
+    when ALIASES.key?(subcommand)
+      script = File.join(script, ALIASES[subcommand])
+    when ["report", "report-team"].include?(subcommand)
+      script = File.join(script, subcommand)
+    # in cases where we're just adding an entry, invoke module directly
+    when ["interview", "o3"].include?(subcommand)
+      record_diary_entry subcommand.to_sym, arguments[0]
+      exit
+    else
+      Trollop::die "unknown subcommand #{subcommand.inspect}"
+  end
+  script
+end
+
 if __FILE__==$0
   script = File.dirname(File.realpath(__FILE__))
   SUB_COMMANDS = %w(feedback gen interview meet new o3 observe report report-team)
@@ -12,26 +46,7 @@ if __FILE__==$0
     stop_on SUB_COMMANDS
   end
 
-  cmd = ARGV.shift # get the subcommand
-  case cmd
-    when "new-hire", "new"
-      script = File.join(script, "new-hire")
-    when "gen"
-      script = File.join(script, "gen-overview-files")
-    when "meet"
-      script = File.join(script, "team-meeting")
-    when "observe", "ob", "obs"
-      script = File.join(script, "observation")
-    when "open"
-      script = File.join(script, "open-file")
-    when "feedback", "feed", "fb"
-      script = File.join(script, "feedback")
-    # in cases without aliases, just use the action name
-    when "interview", "o3", "report", "report-team"
-      script = File.join(script, cmd)
-    else
-      Trollop::die "unknown subcommand #{cmd.inspect}"
-  end
-
+  subcommand = ARGV.shift
+  script = parse script, subcommand, ARGV
   exec("#{script} #{ARGV.join(' ')}")
 end
