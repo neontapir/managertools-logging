@@ -15,7 +15,10 @@ class InterviewEntry
   end
 
   def self.get_elements_array
-    [:location, :notes, :actions]
+    [:location, :why_new_job, :why_hybris,
+     :goal, :motivation, :challenge, :environment,
+     :why_not, :personality, :candidate_location,
+     :start_date, :compensation, :notes, :actions]
   end
 
   def to_s
@@ -23,6 +26,28 @@ class InterviewEntry
 === Interview (#{format_date(@record[:datetime])})
 Location::
   #{@record[:location] || "unspecified"}
+Why new job::
+  #{wrap(@record[:why_new_job] || "none")}
+Why hybris::
+  #{wrap(@record[:why_hybris] || "none")}
+Career goal::
+  #{wrap(@record[:goal] || "none")}
+Motivation::
+  #{wrap(@record[:motivation] || "none")}
+Challenge::
+  #{wrap(@record[:challenge] || "none")}
+Work environment::
+  #{wrap(@record[:environment] || "none")}
+Why not hire::
+  #{wrap(@record[:why_not] || "none")}
+Personality::
+  #{wrap(@record[:personality] || "none")}
+Location and relocation need::
+  #{wrap(@record[:candidate_location] || "none")}
+Desired start date::
+  #{wrap(@record[:start_date] || "none")}
+Desired compensation::
+  #{wrap(@record[:compensation] || "none")}
 Notes::
   #{wrap(@record[:notes] || "none")}
 Actions::
