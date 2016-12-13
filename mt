@@ -19,11 +19,6 @@ ALIASES = {
 }
 
 def parse(script, subcommand, arguments)
-  # capture options given after subcommand
-  @cmd_opts = Trollop::options do
-    opt :template, "Create blank template entry", :short => "-t"
-  end
-
   case
     when ALIASES.values.include?(subcommand)
       script = File.join(script, subcommand)
@@ -33,6 +28,10 @@ def parse(script, subcommand, arguments)
       script = File.join(script, subcommand)
     # in cases where we're just adding an entry, invoke module directly
     when ["interview", "o3"].include?(subcommand)
+      # capture options given after subcommand
+      @cmd_opts = Trollop::options do
+        opt :template, "Create blank template entry", :short => "-t"
+      end
       record_diary_entry subcommand.to_sym, arguments[0]
       exit
     else
