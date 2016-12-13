@@ -19,6 +19,11 @@ ALIASES = {
 }
 
 def parse(script, subcommand, arguments)
+  # capture options given after subcommand
+  @cmd_opts = Trollop::options do
+    opt :template, "Create blank template entry", :short => "-t"
+  end
+
   case
     when ALIASES.values.include?(subcommand)
       script = File.join(script, subcommand)
@@ -40,9 +45,11 @@ if __FILE__==$0
   script = File.dirname(File.realpath(__FILE__))
   SUB_COMMANDS = %w(feedback gen interview meet new o3 observe report report-team)
 
-  global_opts = Trollop::options do
+  # capture options given before subcommand
+  @global_opts = Trollop::options do
     banner "Manager Tools"
     #opt :dry_run, "Don't actually do anything", :short => "-n"
+    opt :template, "Create blank template entry", :short => "-t"
     stop_on SUB_COMMANDS
   end
 

@@ -18,7 +18,11 @@ module Diary
   end
 
   def get_entry(type, employee)
-    data = create_entry type, employee.to_s
+    if @global_opts.template or @cmd_opts.template
+      data = create_blank_entry type
+    else
+      data = create_entry type, employee.to_s
+    end
     entry_type = get_entry_type(type)
     entry = entry_type.new data
   end
@@ -81,14 +85,34 @@ module Diary
   end
 
   def create_entry(type, name)
-    result = Hash.new
-    result[:datetime] = Time.now
+    result = create_blank_hash
 
     entry_type = get_entry_type type
     puts entry_type.send(:prompt, name)
-    elements = entry_type.send(:get_elements_array)
+
+    elements = get_entry_elements(type)
     add_elements(result, elements)
 
     result
+  end
+
+  def create_blank_entry(type)
+    result = create_blank_hash
+    elements = get_entry_elements(type)
+    elements.each do |item|
+      result[item] = ""
+    end
+    result
+  end
+
+  def create_blank_hash()
+    result = Hash.new
+    result[:datetime] = Time.now
+    result
+  end
+
+  def get_entry_elements(type)
+    entry_type = get_entry_type type
+    entry_type.send(:get_elements_array)
   end
 end
