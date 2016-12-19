@@ -18,7 +18,7 @@ module Diary
   end
 
   def get_entry(type, employee)
-    if @global_opts.template or @cmd_opts.template
+    if (@global_opts and @global_opts.template) or (@cmd_opts and @cmd_opts.template)
       data = create_blank_entry type
     else
       data = create_entry type, employee.to_s
