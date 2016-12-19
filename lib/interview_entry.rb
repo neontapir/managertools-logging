@@ -42,7 +42,7 @@ Why not hire::
   #{wrap(@record[:why_not] || "none")}
 Personality::
   #{wrap(@record[:personality] || "none")}
-Location and relocation need::
+Location and relocation needs including visa::
   #{wrap(@record[:candidate_location] || "none")}
 Desired start date::
   #{wrap(@record[:start_date] || "none")}

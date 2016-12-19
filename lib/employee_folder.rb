@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'unicode'
 
 class EmployeeFolder
   attr_reader :employee
@@ -7,8 +8,12 @@ class EmployeeFolder
     @employee = employee
   end
 
+  def no_alnum(input)
+    input.gsub(/[^-\p{Alnum}]/,'')
+  end
+
   def folder_name
-    "#{@employee.first.gsub(/\W/,'')}-#{@employee.last.gsub(/\W/,'')}".downcase
+    Unicode::downcase("#{no_alnum(@employee.first)}-#{no_alnum(@employee.last)}")
   end
 
   # TODO: make this configurable

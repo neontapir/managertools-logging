@@ -21,6 +21,7 @@ GEM
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
     trollop (2.1.2)
+    unicode (0.4.4.2)
 
 PLATFORMS
   ruby
@@ -33,6 +34,7 @@ DEPENDENCIES
   rake
   rspec
   trollop
+  unicode
 
 BUNDLED WITH
-   1.10.6
+   1.11.2
