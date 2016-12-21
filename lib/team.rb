@@ -43,7 +43,7 @@ class Team
 
   def members
     result = []
-    members_by_folder do |d|
+    members_by_folder.each do |d|
         employee_data = Employee.parse_dir d
         result << Employee.new(employee_data)
     end

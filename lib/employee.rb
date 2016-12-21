@@ -36,6 +36,10 @@ class Employee
     end
   end
 
+  def ==(other)
+    @team == other.team and @first == other.first and @last == other.last
+  end
+
   def to_s
     "#{@first.capitalize} #{@last.capitalize}"
   end
