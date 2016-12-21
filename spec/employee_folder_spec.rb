@@ -5,18 +5,18 @@ describe EmployeeFolder do
   context "in accented characters context" do
     before(:all) do
       Dir.mkdir("data") unless Dir.exist? "data"
-      Dir.mkdir("data/accented")
+      Dir.mkdir("data/āccented")
     end
 
     after(:all) do
-      Dir.rmdir("data/accented/ezel-çeçek")
-      Dir.rmdir("data/accented")
+      Dir.rmdir("data/āccented/ezel-çeçek")
+      Dir.rmdir("data/āccented")
     end
 
     it "should create folder with accented characters" do
-      employee = Employee.new({team: 'accented', first: 'Ezel', last: 'Çeçek'})
+      employee = Employee.new({team: 'Āccented', first: 'Ezel', last: 'Çeçek'})
       folder = EmployeeFolder.new employee
-      expected_path = "data/accented/ezel-çeçek"
+      expected_path = "data/āccented/ezel-çeçek"
       expect(folder.path).to eq(expected_path)
 
       folder.ensure_exists

@@ -8,12 +8,12 @@ class EmployeeFolder
     @employee = employee
   end
 
-  def no_alnum(input)
+  def strip_nonalnum(input)
     input.gsub(/[^-\p{Alnum}]/,'')
   end
 
   def folder_name
-    Unicode::downcase("#{no_alnum(@employee.first)}-#{no_alnum(@employee.last)}")
+    Unicode::downcase("#{strip_nonalnum(@employee.first)}-#{strip_nonalnum(@employee.last)}")
   end
 
   # TODO: make this configurable
@@ -27,7 +27,7 @@ class EmployeeFolder
   end
 
   def path
-    File.join(EmployeeFolder.root, @employee.team.downcase, folder_name)
+    File.join(EmployeeFolder.root, Unicode::downcase(@employee.team), folder_name)
   end
 
   def create
@@ -36,7 +36,7 @@ class EmployeeFolder
 
   def ensure_exists
     if not Dir.exist? path
-      puts "Creating #{path}"
+      #puts "Creating #{path}"
       create
     end
   end
