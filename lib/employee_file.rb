@@ -1,6 +1,9 @@
+require 'fileutils'
 require_relative 'employee_folder'
+require_relative 'mt_file'
 
 class EmployeeFile
+  include MtFile
   attr_accessor :folder, :filename
 
   def initialize(folder, filename)
@@ -10,16 +13,5 @@ class EmployeeFile
 
   def path
     File.join(@folder.path, @filename)
-  end
-
-  def ensure_exists
-    if not File.exist? path
-      puts "Creating #{path}"
-      create
-    end
-  end
-
-  def to_s
-    path
   end
 end

@@ -1,6 +1,7 @@
 require_relative 'employee_file'
 
 class LogFile
+  include MtFile
   attr_reader :o3_file
 
   def initialize(folder)
@@ -16,20 +17,5 @@ class LogFile
 
   def path
     @log_file.path
-  end
-
-  def create
-    FileUtils.touch path
-  end
-
-  def ensure_exists
-    if not File.exist? path
-      puts "Creating #{path}"
-      create
-    end
-  end
-
-  def to_s
-    path
   end
 end
