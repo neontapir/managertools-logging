@@ -21,6 +21,14 @@ describe Team do
       Dir.rmdir("data/avengers")
     end
 
+    it "should find the team" do
+      avengers = { team: "Avengers" }
+      expected = Team.new(avengers)
+      team = Team.find("avengers")
+
+      expect(team).to eq(expected)
+    end
+
     it "should return list of team members" do
       avengers = { team: "Avengers" }
       team = Team.new avengers

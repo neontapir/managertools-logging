@@ -1,19 +1,16 @@
 require 'fileutils'
-require 'unicode'
+require_relative 'mt_data_formatter'
 
 class EmployeeFolder
   attr_reader :employee
+  include MtDataFormatter
 
   def initialize(employee)
     @employee = employee
   end
 
-  def strip_nonalnum(input)
-    input.gsub(/[^-\p{Alnum}]/,'')
-  end
-
   def folder_name
-    Unicode::downcase("#{strip_nonalnum(@employee.first)}-#{strip_nonalnum(@employee.last)}")
+    unidown("#{strip_nonalnum(@employee.first)}-#{strip_nonalnum(@employee.last)}")
   end
 
   # TODO: make this configurable
@@ -27,7 +24,7 @@ class EmployeeFolder
   end
 
   def path
-    File.join(EmployeeFolder.root, Unicode::downcase(@employee.team), folder_name)
+    File.join(EmployeeFolder.root, unidown(@employee.team), folder_name)
   end
 
   def create

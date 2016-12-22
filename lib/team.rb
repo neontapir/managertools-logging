@@ -10,7 +10,7 @@ class Team
   extend PathSplitter
 
   def initialize(params = {})
-    @team = params[:team]
+    @team = params[:team].capitalize
   end
 
   def self.parse_dir(dir)
@@ -48,6 +48,10 @@ class Team
         result << Employee.new(employee_data)
     end
     result
+  end
+
+  def ==(other)
+    @team == other.team
   end
 
   def to_s
