@@ -8,3 +8,4 @@ gem 'configatron'
 gem 'trollop'
 gem 'command'
 gem 'unicode'
+gem 'simplecov', :require => false, :group => :test
