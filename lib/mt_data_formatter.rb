@@ -1,4 +1,3 @@
-# TODO: rename to more general purpose module or split functionality
 require 'unicode'
 
 module MtDataFormatter

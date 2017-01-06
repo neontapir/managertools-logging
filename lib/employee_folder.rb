@@ -1,5 +1,6 @@
 require 'fileutils'
 require_relative 'mt_data_formatter'
+require_relative 'settings'
 
 class EmployeeFolder
   attr_reader :employee
@@ -13,14 +14,12 @@ class EmployeeFolder
     unidown("#{strip_nonalnum(@employee.first)}-#{strip_nonalnum(@employee.last)}")
   end
 
-  # TODO: make this configurable
   def self.root
-    'data'
+    Settings.root
   end
 
-  # TODO: make this configurable
   def self.candidates_root
-    'candidates'
+    Settings.candidates_root
   end
 
   def path
@@ -33,7 +32,6 @@ class EmployeeFolder
 
   def ensure_exists
     if not Dir.exist? path
-      #puts "Creating #{path}"
       create
     end
   end
