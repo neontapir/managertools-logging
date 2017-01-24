@@ -12,6 +12,7 @@ if __FILE__==$0
   members = team.members
   #puts "FIRST: #{members[0].inspect} in #{members}"
   entry = get_entry :team_meeting, members[0]
+  entry.team = team.to_s
   members.each do |employee|
     log_file = get_file employee
     log_file.ensure_exists
