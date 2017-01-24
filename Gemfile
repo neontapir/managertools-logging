@@ -10,3 +10,4 @@ gem 'command'
 gem 'unicode'
 gem 'simplecov', :require => false, :group => :test
 gem 'settingslogic', '~> 2.0', '>= 2.0.9'
+

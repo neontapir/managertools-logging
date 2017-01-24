@@ -15,7 +15,9 @@ ALIASES = {
   "obs" => "observation",
   "open" => "open-file",
   "feed" => "feedback",
-  "fb" => "feedback"
+  "fb" => "feedback",
+  "team" => "team-meeting",
+  "meeting" => "team-meeting"
 }
 
 def parse(script, subcommand, arguments)
