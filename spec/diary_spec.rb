@@ -29,5 +29,12 @@ describe Diary do
       team = diary_instance.get_team "avengers"
       expect(team.to_s).to eq("Avengers")
     end
+
+    it "should create a blank entry" do
+      result = diary_instance.create_blank_entry("Feedback")
+      expect(result[:content]).to eq("")
+      one_second = 1
+      expect(result[:datetime].to_i).to be_within(one_second).of Time.now.to_i
+    end
   end
 end
