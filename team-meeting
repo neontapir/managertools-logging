@@ -1,12 +1,17 @@
 #!/usr/bin/env ruby
 
 require 'highline/import'
+require 'trollop'
 require_relative 'lib/diary'
 require_relative 'lib/team'
 
 include Diary
 
 if __FILE__==$0
+  opts = Trollop::options do
+    banner "Create a meeting entry for a team, adding to each member's log file"
+  end
+
   team_name = ARGV[0]
   team = Team.find team_name
   members = team.members

@@ -1,10 +1,15 @@
 #!/usr/bin/env ruby
 
+require 'trollop'
 require_relative 'lib/diary'
 
 include Diary
 
 if __FILE__==$0
+  opts = Trollop::options do
+    banner "Open a person's log file"
+  end
+
   person = ARGV[0]
   log_file = get_file_by_person person
   log_file.ensure_exists

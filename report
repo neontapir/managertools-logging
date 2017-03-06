@@ -2,6 +2,7 @@
 
 require 'highline/import'
 require 'shell'
+require 'trollop'
 require_relative 'lib/diary'
 
 include Diary
@@ -15,6 +16,10 @@ def append_file(destination, input)
 end
 
 if __FILE__==$0
+  opts = Trollop::options do
+    banner "Create a report from a person's files"
+  end
+
   person = ARGV[0]
   employee = get_employee person
 

@@ -9,15 +9,15 @@ def record_diary_entry(entry_type, person)
 end
 
 ALIASES = {
-  "new" => "new-hire",
-  "gen" => "gen-overview-files",
-  "ob" => "observation",
-  "obs" => "observation",
-  "open" => "open-file",
-  "feed" => "feedback",
-  "fb" => "feedback",
-  "team" => "team-meeting",
-  "meeting" => "team-meeting"
+  'new' => 'new-hire',
+  'gen' => 'gen-overview-files',
+  'ob' => 'observation',
+  'obs' => 'observation',
+  'open' => 'open-file',
+  'feed' => 'feedback',
+  'fb' => 'feedback',
+  'team' => 'team-meeting',
+  'meeting' => 'team-meeting'
 }
 
 def parse(script, subcommand, arguments)
@@ -26,13 +26,18 @@ def parse(script, subcommand, arguments)
       script = File.join(script, subcommand)
     when ALIASES.key?(subcommand)
       script = File.join(script, ALIASES[subcommand])
-    when ["report", "report-team"].include?(subcommand)
+    when ['report', 'report-team'].include?(subcommand)
       script = File.join(script, subcommand)
     # in cases where we're just adding an entry, invoke module directly
-    when ["interview", "o3"].include?(subcommand)
+    when ['interview', 'o3'].include?(subcommand)
+      banners = {
+        'interview' => 'Add an interview entry for a candidate',
+        'o3' => 'Add a one-on-one entry for a direct report',
+      }
       # capture options given after subcommand
       @cmd_opts = Trollop::options do
-        opt :template, "Create blank template entry", :short => "-t"
+        banner banners[subcommand]
+        opt :template, 'Create blank template entry', :short => '-t'
       end
       record_diary_entry subcommand.to_sym, arguments[0]
       exit
@@ -42,15 +47,24 @@ def parse(script, subcommand, arguments)
   script
 end
 
+CSV_DELIMITER = ', '
+
+def display(hash)
+  hash.map {|k,v| "#{k} -> #{v}"}.join(CSV_DELIMITER)
+end
+
 if __FILE__==$0
   script = File.dirname(File.realpath(__FILE__))
-  SUB_COMMANDS = %w(feedback gen interview meet new o3 observe report report-team)
+  SUB_COMMANDS = %w(feedback gen-overview-files interview team-meeting new-hire
+  o3 observation report report-team)
 
   # capture options given before subcommand
   @global_opts = Trollop::options do
-    banner "Manager Tools"
+    banner 'Command-line note-taking system based on Manager Tools practices'
+    banner "Subcommands are: #{SUB_COMMANDS.sort! * CSV_DELIMITER}"
+    banner "Aliases are: #{display(ALIASES)}"
     #opt :dry_run, "Don't actually do anything", :short => "-n"
-    opt :template, "Create blank template entry", :short => "-t"
+    opt :template, 'Create blank template entry', :short => '-t'
     stop_on SUB_COMMANDS
   end
 

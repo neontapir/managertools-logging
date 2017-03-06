@@ -16,6 +16,7 @@ end
 
 if __FILE__==$0
   opts = Trollop::options do
+    banner "Generate the files needed to create a team overview"
     opt :force, 'generate even if file exists', :default => false
   end
 

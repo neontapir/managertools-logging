@@ -5,6 +5,7 @@
 require 'facets/string/titlecase'
 require 'highline/import'
 require 'shell'
+require 'trollop'
 require_relative 'lib/team'
 
 class String
@@ -21,6 +22,10 @@ def append_file(destination, contents)
 end
 
 if __FILE__==$0
+  opts = Trollop::options do
+    banner "Create a report of a team, using each member's files"
+  end
+
   team_name = ARGV[0]
   team = Team.find team_name
 
@@ -31,7 +36,7 @@ if __FILE__==$0
   [output, report_source].each do |file|
     File.delete file if File.exist? file
   end
-  
+
   append_file(report_source, "= Team #{team_name.titleize}\n\n")
   team.members_by_folder.each do |e|
     append_file(report_source, "include::#{e}/overview.adoc[]\n\n'''\n\n")
