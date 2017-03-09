@@ -2,6 +2,11 @@
 
 require 'trollop'
 
+def feedback
+  person = ARGV[0]
+  record_to_file :feedback, person
+end
+
 def record_diary_entry(entry_type, person)
   require_relative 'lib/diary'
   include Diary
@@ -22,15 +27,15 @@ ALIASES = {
 
 def parse(script, subcommand, arguments)
   case
-    when ALIASES.values.include?(subcommand)
-      script = File.join(script, subcommand)
     when ALIASES.key?(subcommand)
-      script = File.join(script, ALIASES[subcommand])
+      #script = File.join(script, ALIASES[subcommand])
+      parse(script, ALIASES[subcommand], arguments)
     when ['report', 'report-team'].include?(subcommand)
       script = File.join(script, subcommand)
     # in cases where we're just adding an entry, invoke module directly
-    when ['interview', 'o3'].include?(subcommand)
+    when ['feedback', 'interview', 'o3'].include?(subcommand)
       banners = {
+        'feedback' => 'Add a feedback entry for a direct report',
         'interview' => 'Add an interview entry for a candidate',
         'o3' => 'Add a one-on-one entry for a direct report',
       }
@@ -41,6 +46,8 @@ def parse(script, subcommand, arguments)
       end
       record_diary_entry subcommand.to_sym, arguments[0]
       exit
+    when ALIASES.values.include?(subcommand)
+      script = File.join(script, subcommand)
     else
       Trollop::die "unknown subcommand #{subcommand.inspect}"
   end
