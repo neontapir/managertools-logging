@@ -33,11 +33,12 @@ def parse(script, subcommand, arguments)
     when ['report', 'report-team'].include?(subcommand)
       script = File.join(script, subcommand)
     # in cases where we're just adding an entry, invoke module directly
-    when ['feedback', 'interview', 'o3'].include?(subcommand)
+    when ['feedback', 'interview', 'o3', 'observation'].include?(subcommand)
       banners = {
         'feedback' => 'Add a feedback entry for a direct report',
         'interview' => 'Add an interview entry for a candidate',
         'o3' => 'Add a one-on-one entry for a direct report',
+        'observation' => 'Make an observation about a person',
       }
       # capture options given after subcommand
       @cmd_opts = Trollop::options do
