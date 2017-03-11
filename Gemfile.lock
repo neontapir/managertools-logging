@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    asciidoctor (1.5.5)
     command (1.0.0)
     configatron (4.5.0)
     diff-lcs (1.2.5)
@@ -35,6 +36,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  asciidoctor
   command
   configatron
   facets
@@ -47,4 +49,4 @@ DEPENDENCIES
   unicode
 
 BUNDLED WITH
-   1.13.7
+   1.14.6

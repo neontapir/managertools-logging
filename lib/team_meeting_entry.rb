@@ -1,4 +1,3 @@
-require 'erb'
 require_relative 'mt_data_formatter'
 
 include MtDataFormatter
@@ -19,7 +18,7 @@ class TeamMeetingEntry
   end
 
   def to_s
-    value = ERB.new(<<-BLOCK).result(binding)
+    <<-BLOCK
 === #{@team} Team Meeting (#{format_date(@record[:datetime])})
 Attendees::
   #{wrap(@record[:attendees] || "none")}

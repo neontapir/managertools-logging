@@ -14,6 +14,7 @@ end
 desc "Build the team directory document"
 task :build do
   task(:test).invoke
+  task(:rebuild).invoke
   system( "asciidoctor team-directory.adoc" ) or exit!(1)
   puts "Success, try `open team-directory.html` to view"
 end

@@ -1,4 +1,3 @@
-require 'erb'
 require_relative 'mt_data_formatter'
 
 include MtDataFormatter
@@ -19,7 +18,7 @@ class O3Entry
   end
 
   def to_s
-    value = ERB.new(<<-BLOCK).result(binding)
+    <<-BLOCK
 === One-on-One (#{format_date(@record[:datetime])})
 Location::
   #{@record[:location] || "unspecified"}

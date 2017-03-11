@@ -18,7 +18,7 @@ class FeedbackEntry
   end
 
   def to_s
-    value = ERB.new(<<-BLOCK).result(binding)
+    <<-BLOCK
 === Feedback (#{format_date(@record[:datetime])})
 Polarity::
   #{@record[:polarity].downcase || "positive"}

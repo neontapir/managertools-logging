@@ -1,4 +1,3 @@
-require 'erb'
 require_relative 'mt_data_formatter'
 
 include MtDataFormatter
@@ -22,7 +21,7 @@ class InterviewEntry
   end
 
   def to_s
-    value = ERB.new(<<-BLOCK).result(binding)
+    <<-BLOCK
 === Interview (#{format_date(@record[:datetime])})
 Location::
   #{@record[:location] || "unspecified"}

@@ -18,7 +18,8 @@ class ObservationEntry
   end
 
   def to_s
-    value = ERB.new(<<-BLOCK).result(binding)
+    #value = ERB.new(<<-BLOCK).result(binding)
+    <<-BLOCK
 === Observation (#{format_date(@record[:datetime])})
 Content::
   #{wrap(@record[:content]) || "none"}
