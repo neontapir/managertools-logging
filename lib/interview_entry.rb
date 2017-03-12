@@ -2,10 +2,11 @@ require_relative 'mt_data_formatter'
 
 include MtDataFormatter
 
+# Template for a phone screening interview
 class InterviewEntry
   attr_accessor :record
 
-  def initialize(params = {})
+  def initialize(**params)
     @record = params
   end
 
@@ -13,44 +14,45 @@ class InterviewEntry
     "For your interview with #{name}, enter the following:"
   end
 
-  def self.get_elements_array
+  def self.elements_array
     [:location, :why_new_job, :why_hybris,
      :goal, :motivation, :challenge, :environment,
      :why_not, :personality, :candidate_location,
      :start_date, :compensation, :notes, :actions]
   end
 
+  NONE = 'none'.freeze
   def to_s
     <<-BLOCK
 === Interview (#{format_date(@record[:datetime])})
 Location::
-  #{@record[:location] || "unspecified"}
+  #{@record[:location] || 'unspecified'}
 Why new job::
-  #{wrap(@record[:why_new_job] || "none")}
+  #{wrap(@record[:why_new_job] || NONE)}
 Why hybris::
-  #{wrap(@record[:why_hybris] || "none")}
+  #{wrap(@record[:why_hybris] || NONE)}
 Career goal::
-  #{wrap(@record[:goal] || "none")}
+  #{wrap(@record[:goal] || NONE)}
 Motivation::
-  #{wrap(@record[:motivation] || "none")}
+  #{wrap(@record[:motivation] || NONE)}
 Challenge::
-  #{wrap(@record[:challenge] || "none")}
+  #{wrap(@record[:challenge] || NONE)}
 Work environment::
-  #{wrap(@record[:environment] || "none")}
+  #{wrap(@record[:environment] || NONE)}
 Why not hire::
-  #{wrap(@record[:why_not] || "none")}
+  #{wrap(@record[:why_not] || NONE)}
 Personality::
-  #{wrap(@record[:personality] || "none")}
+  #{wrap(@record[:personality] || NONE)}
 Location and relocation needs including visa::
-  #{wrap(@record[:candidate_location] || "none")}
+  #{wrap(@record[:candidate_location] || NONE)}
 Desired start date::
-  #{wrap(@record[:start_date] || "none")}
+  #{wrap(@record[:start_date] || NONE)}
 Desired compensation::
-  #{wrap(@record[:compensation] || "none")}
+  #{wrap(@record[:compensation] || NONE)}
 Notes::
-  #{wrap(@record[:notes] || "none")}
+  #{wrap(@record[:notes] || NONE)}
 Actions::
-  #{wrap(@record[:actions] || "none")}
+  #{wrap(@record[:actions] || NONE)}
 
 BLOCK
   end

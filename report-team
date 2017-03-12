@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-# Should do a './mt gen' before this to ensure overview files exist
+# Should do a './gen-overview-files' before this to ensure overview files exist
 
 require 'facets/string/titlecase'
 require 'highline/import'
@@ -15,15 +15,15 @@ class String
 end
 
 def append_file(destination, contents)
-  open(destination, 'a') { |f|
+  open(destination, 'a') do |f|
     f.puts contents
     f.puts "\n"
-  }
+  end
 end
 
-if __FILE__==$0
-  opts = Trollop::options do
-    banner "Create a report of a team, using each member's files"
+if __FILE__ == $PROGRAM_NAME
+  Trollop.options do
+    banner 'Create a report of a team, using each member\'s files'
   end
 
   team_name = ARGV[0]
@@ -37,11 +37,12 @@ if __FILE__==$0
     File.delete file if File.exist? file
   end
 
+  HORIZONTAL_RULE = "'''".freeze
   append_file(report_source, "= Team #{team_name.titleize}\n\n")
   team.members_by_folder.each do |e|
-    append_file(report_source, "include::#{e}/overview.adoc[]\n\n'''\n\n")
+    append_file(report_source, "include::#{e}/overview.adoc[]\n\n#{HORIZONTAL_RULE}\n\n")
   end
 
-  system("asciidoctor", "-o#{output}", report_source)
-  system("open", output) # for Mac, use "cmd /c" for Windows
+  system('asciidoctor', "-o#{output}", report_source)
+  system('open', output) # for Mac, use "cmd /c" for Windows
 end

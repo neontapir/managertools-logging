@@ -2,10 +2,11 @@ require_relative 'mt_data_formatter'
 
 include MtDataFormatter
 
+# Template for documenting feedback given
 class FeedbackEntry
   attr_accessor :record
 
-  def initialize(params = {})
+  def initialize(**params)
     @record = params
   end
 
@@ -13,17 +14,17 @@ class FeedbackEntry
     "With feedback for #{name}, enter the following:"
   end
 
-  def self.get_elements_array
-    [[:polarity, "positive"], :content]
+  def self.elements_array
+    [[:polarity, 'positive'], :content]
   end
 
   def to_s
     <<-BLOCK
 === Feedback (#{format_date(@record[:datetime])})
 Polarity::
-  #{@record[:polarity].downcase || "positive"}
+  #{@record[:polarity].downcase || 'positive'}
 Content::
-  #{wrap(@record[:content]) || "none"}
+  #{wrap(@record[:content]) || 'none'}
 
 BLOCK
   end

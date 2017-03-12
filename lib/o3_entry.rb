@@ -2,10 +2,11 @@ require_relative 'mt_data_formatter'
 
 include MtDataFormatter
 
+# Template for a one-on-one meeting
 class O3Entry
   attr_accessor :record
 
-  def initialize(params = {})
+  def initialize(**params)
     @record = params
   end
 
@@ -13,7 +14,7 @@ class O3Entry
     "For your 1:1 with #{name}, enter the following:"
   end
 
-  def self.get_elements_array
+  def self.elements_array
     [:location, :notes, :actions]
   end
 
@@ -21,11 +22,11 @@ class O3Entry
     <<-BLOCK
 === One-on-One (#{format_date(@record[:datetime])})
 Location::
-  #{@record[:location] || "unspecified"}
+  #{@record[:location] || 'unspecified'}
 Notes::
-  #{wrap(@record[:notes] || "none")}
+  #{wrap(@record[:notes] || 'none')}
 Actions::
-  #{wrap(@record[:actions] || "none")}
+  #{wrap(@record[:actions] || 'none')}
 
 BLOCK
   end

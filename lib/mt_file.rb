@@ -1,12 +1,9 @@
 require 'fileutils'
-#require_relative 'employee_folder'
 
+# Basic file utilities
 module MtFile
   def ensure_exists
-    if not File.exist? path
-      #puts "Creating #{path}"
-      create
-    end
+    create unless File.exist? path
   end
 
   def create
@@ -14,7 +11,7 @@ module MtFile
   end
 
   def path
-    fail NotImplementedError, "A MtFile must define its #path"
+    raise NotImplementedError, 'A MtFile must define its #path'
   end
 
   def to_s

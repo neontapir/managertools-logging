@@ -7,8 +7,8 @@ require_relative 'lib/team'
 
 include Diary
 
-if __FILE__==$0
-  opts = Trollop::options do
+if __FILE__ == $PROGRAM_NAME
+  Trollop.options do
     banner "Create a meeting entry for a team, adding to each member's log file"
   end
 

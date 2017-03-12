@@ -10,6 +10,7 @@ GEM
     highline (1.7.3)
     json (2.0.3)
     rake (10.4.2)
+    require_all (1.4.0)
     rspec (3.3.0)
       rspec-core (~> 3.3.0)
       rspec-expectations (~> 3.3.0)
@@ -42,6 +43,7 @@ DEPENDENCIES
   facets
   highline
   rake
+  require_all
   rspec
   settingslogic (~> 2.0, >= 2.0.9)
   simplecov

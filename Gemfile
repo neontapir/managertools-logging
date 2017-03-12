@@ -1,13 +1,15 @@
 source 'https://rubygems.org'
 
-gem 'rake'
+gem 'asciidoctor'
+gem 'command'
+gem 'configatron'
 gem 'facets'
 gem 'highline'
+gem 'rake'
+gem 'require_all'
 gem 'rspec'
-gem 'configatron'
-gem 'trollop'
-gem 'command'
-gem 'unicode'
-gem 'asciidoctor'
-gem 'simplecov', :require => false, :group => :test
 gem 'settingslogic', '~> 2.0', '>= 2.0.9'
+gem 'trollop'
+gem 'unicode'
+
+gem 'simplecov', require: false, group: :test

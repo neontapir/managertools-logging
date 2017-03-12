@@ -14,17 +14,17 @@ class String
   end
 end
 
-if __FILE__==$0
-  opts = Trollop::options do
-    banner "Generate the files needed to create a team overview"
-    opt :force, 'generate even if file exists', :default => false
+if __FILE__ == $PROGRAM_NAME
+  Trollop.options do
+    banner 'Generate the files needed to create a team overview'
+    opt :force, 'generate even if file exists', default: false
   end
 
   Dir.glob("#{EmployeeFolder.root}/*/*") do |f|
-     next unless Dir.exist? f
-     paths = split_path f
-     first, last = paths[2].gsub!('-', ' ').titleize.split(' ')
-     force = if opts[:force] then "--force" else "" end
-     system('./mt', 'new-hire', force, "--team", "#{paths[1]}", "--first", "#{first}", "--last", "#{last}") or exit(-1)
+    next unless Dir.exist? f
+    paths = split_path f
+    first, last = paths[2].tr!('-', ' ').titleize.split(' ')
+    force = opts[:force] ? '--force' : ''
+    system('./mt', 'new-hire', force, '--team', paths[1], '--first', first, '--last', last) || exit(-1)
   end
 end

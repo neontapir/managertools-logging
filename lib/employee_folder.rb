@@ -2,6 +2,7 @@ require 'fileutils'
 require_relative 'mt_data_formatter'
 require_relative 'settings'
 
+# Reparesents a folder that contains files about a direct report
 class EmployeeFolder
   attr_reader :employee
   include MtDataFormatter
@@ -11,7 +12,9 @@ class EmployeeFolder
   end
 
   def folder_name
-    unidown("#{strip_nonalnum(@employee.first)}-#{strip_nonalnum(@employee.last)}")
+    first_name = strip_nonalnum(@employee.first)
+    last_name = strip_nonalnum(@employee.last)
+    unidown("#{first_name}-#{last_name}")
   end
 
   def self.root
@@ -31,9 +34,7 @@ class EmployeeFolder
   end
 
   def ensure_exists
-    if not Dir.exist? path
-      create
-    end
+    create unless Dir.exist? path
   end
 
   def to_s

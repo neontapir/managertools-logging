@@ -1,22 +1,22 @@
 require 'pathname'
 require 'facets/string/titlecase'
-require_relative 'employee_file'
-require_relative 'employee_folder'
-require_relative 'path_splitter'
+require 'require_all'
+require_rel '.'
 
+# Represents a delivery team
 class Team
   attr_reader :team
 
   extend PathSplitter
 
-  def initialize(params = {})
+  def initialize(**params)
     @team = params[:team].capitalize
   end
 
   def self.parse_dir(dir)
     paths = split_path dir
-    root, team = paths
-    {team: team}
+    _root, team = paths
+    { team: team }
   end
 
   def self.find(key)
@@ -36,7 +36,7 @@ class Team
     result = []
     root = EmployeeFolder.root
     Dir.glob("#{root}/#{team}/*") do |d|
-        result << d
+      result << d
     end
     result
   end
@@ -44,8 +44,8 @@ class Team
   def members
     result = []
     members_by_folder.each do |d|
-        employee_data = Employee.parse_dir d
-        result << Employee.new(employee_data)
+      employee_data = Employee.parse_dir d
+      result << Employee.new(employee_data)
     end
     result
   end
@@ -55,6 +55,6 @@ class Team
   end
 
   def to_s
-    "#{@team.capitalize}"
+    @team.capitalize
   end
 end

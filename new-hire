@@ -23,31 +23,31 @@ EOF
   end
 end
 
-if __FILE__==$0
-  opts = Trollop::options do
-    banner "Create a new entry for a person"
+if __FILE__ == $PROGRAM_NAME
+  Trollop.options do
+    banner 'Create a new entry for a person'
     opt :force, 'generate even if file exists'
-    opt :team, 'team name (like avengers)', :type => :string, :required => true
-    opt :first, 'person\'s first name (in quotes, like "Tony Stark")', :type => :string
-    opt :last, 'person\'s last name (in quotes, like "Tony Stark")', :type => :string
+    opt :team, 'team name (like avengers)', type: :string, required: true
+    opt :first, 'person\'s first name (in quotes, like "Tony Stark")', type: :string
+    opt :last, 'person\'s last name (in quotes, like "Tony Stark")', type: :string
   end
 
   team = opts[:team]
   first = opts[:first]
   last = opts[:last]
 
-  employee = Employee.new({ team: team, first: first, last: last })
+  employee = Employee.new(team: team, first: first, last: last)
   folder = EmployeeFolder.new employee
   folder.ensure_exists
 
-  overview_file = EmployeeFile.new folder, "overview.adoc"
+  overview_file = EmployeeFile.new folder, 'overview.adoc'
   print "\nReviewing #{overview_file}... "
-  if (not opts.force?) and File.exist? overview_file.path
+  if !opts.force? && File.exist?(overview_file.path)
     print "exists\n"
   else
     generate_file folder, overview_file
   end
 
-  log_file = EmployeeFile.new folder, "log.adoc"
+  log_file = EmployeeFile.new folder, 'log.adoc'
   log_file.ensure_exists
 end

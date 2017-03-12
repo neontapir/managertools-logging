@@ -1,15 +1,15 @@
 require 'pathname'
 require 'facets/string/titlecase'
-require_relative 'employee_file'
-require_relative 'employee_folder'
-require_relative 'path_splitter'
+require 'require_all'
+require_rel '.'
 
+# Represents a team member
 class Employee
   extend PathSplitter
 
   attr_reader :team, :first, :last
 
-  def initialize(params = {})
+  def initialize(**params)
     @team = params[:team]
     @first = params[:first]
     @last = params[:last]
@@ -18,11 +18,11 @@ class Employee
 
   def self.parse_dir(dir)
     paths = split_path dir
-    root, team, name = paths
-    name = name.gsub!('-', ' ').titlecase.strip.split(/\s+/)
+    _root, team, name = paths
+    name = name.tr!('-', ' ').titlecase.strip.split(/\s+/)
     first = name[0]
     last = name[1]
-    {team: team, first: first, last: last}
+    { team: team, first: first, last: last }
   end
 
   def self.find(key)
@@ -37,7 +37,7 @@ class Employee
   end
 
   def ==(other)
-    @team == other.team and @first == other.first and @last == other.last
+    @team == other.team && @first == other.first && @last == other.last
   end
 
   def to_s
