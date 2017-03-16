@@ -67,7 +67,7 @@ if __FILE__ == $PROGRAM_NAME
   @global_opts = Trollop.options do
     banner 'Command-line note-taking system based on Manager Tools practices'
     banner "Subcommands are: #{SUB_COMMANDS.sort * CSV_DELIMITER}"
-    banner "Aliases are: #{display(ALIASES)}"
+    banner "Aliases are: #{display ALIASES.sort}"
     # opt :dry_run, "Don't actually do anything", :short => "-n"
     opt :template, 'Create blank template entry', short: '-t'
     stop_on SUB_COMMANDS
