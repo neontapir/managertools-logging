@@ -2,14 +2,9 @@
 
 require 'trollop'
 
-def feedback
-  person = ARGV[0]
-  record_to_file :feedback, person
-end
-
 def record_diary_entry(entry_type, person)
   require_relative 'lib/diary'
-  prepend Diary
+  include Diary
   record_to_file entry_type, person
 end
 
