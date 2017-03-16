@@ -9,7 +9,7 @@ include Diary
 
 if __FILE__ == $PROGRAM_NAME
   Trollop.options do
-    banner "Create a meeting entry for a team, adding to each member's log file"
+    banner 'Create a meeting entry for a team, adding to each member\'s log file'
   end
 
   team_name = ARGV[0]

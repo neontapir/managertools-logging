@@ -1,15 +1,15 @@
 source 'https://rubygems.org'
 
-gem 'asciidoctor'
-gem 'command'
-gem 'configatron'
-gem 'facets'
-gem 'highline'
-gem 'rake'
-gem 'require_all'
-gem 'rspec'
+gem 'asciidoctor', '~> 1.5'
+gem 'command', '~> 1.0'
+gem 'configatron', '~> 4.5'
+gem 'facets', '~> 3.0'
+gem 'highline', '~> 1.7'
+gem 'rake', '~> 10.4'
+gem 'require_all', '~> 1.4'
+gem 'rspec', '~> 3.3'
 gem 'settingslogic', '~> 2.0', '>= 2.0.9'
-gem 'trollop'
-gem 'unicode'
+gem 'trollop', '~> 2.1'
+gem 'unicode', '~> 0.4'
 
-gem 'simplecov', require: false, group: :test
+gem 'simplecov', '~> 0.12', require: false, group: :test

@@ -15,18 +15,18 @@ class O3Entry
   end
 
   def self.elements_array
-    [:location, :notes, :actions]
+    [[:location, 'unspecified'], :notes, :actions]
   end
 
   def to_s
     <<-BLOCK
 === One-on-One (#{format_date(@record[:datetime])})
 Location::
-  #{@record[:location] || 'unspecified'}
+  #{@record[:location] }
 Notes::
-  #{wrap(@record[:notes] || 'none')}
+  #{wrap(@record[:notes])}
 Actions::
-  #{wrap(@record[:actions] || 'none')}
+  #{wrap(@record[:actions])}
 
 BLOCK
   end

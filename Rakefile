@@ -6,7 +6,7 @@ end
 desc 'Rebuild the overview and team directory documents'
 task :rebuild do
   system('rm -f */*/*/overview.adoc') || exit!(1)
-  system('./gen-overview-files') || exit!(1)
+  system('./mt gen-overview-files') || exit!(1)
   task(:build).invoke
 end
 

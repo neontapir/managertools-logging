@@ -75,12 +75,8 @@ module Diary
 
   def get_team(team)
     team_spec = Team.find team
-    if team_spec.nil?
-      die "No such team #{team} found"
-    else
-      team = team_spec
-    end
-    team
+    die "No such team #{team} found" if team_spec.nil?
+    team_spec
   end
 
   def create_entry(type, name)

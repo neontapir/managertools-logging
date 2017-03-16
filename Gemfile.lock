@@ -37,18 +37,18 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  asciidoctor
-  command
-  configatron
-  facets
-  highline
-  rake
-  require_all
-  rspec
+  asciidoctor (~> 1.5)
+  command (~> 1.0)
+  configatron (~> 4.5)
+  facets (~> 3.0)
+  highline (~> 1.7)
+  rake (~> 10.4)
+  require_all (~> 1.4)
+  rspec (~> 3.3)
   settingslogic (~> 2.0, >= 2.0.9)
-  simplecov
-  trollop
-  unicode
+  simplecov (~> 0.12)
+  trollop (~> 2.1)
+  unicode (~> 0.4)
 
 BUNDLED WITH
    1.14.6

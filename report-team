@@ -35,7 +35,7 @@ if __FILE__ == $PROGRAM_NAME
   end
 
   HORIZONTAL_RULE = "'''".freeze
-  append_file(report_source, "= Team #{titleize team_name}\n\n")
+  append_file(report_source, "= Team #{team_name.titlecase}\n\n")
   team.members_by_folder.each do |tm|
     append_file(report_source, "include::#{tm}/overview.adoc[]\n\n#{HORIZONTAL_RULE}\n\n")
   end

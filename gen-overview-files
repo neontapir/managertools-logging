@@ -2,7 +2,7 @@
 
 require 'pathname'
 require 'trollop'
-# require 'facets/string/titlecase'
+require 'facets/string/titlecase'
 require_relative 'lib/employee_folder'
 require_relative 'lib/mt_data_formatter'
 require_relative 'lib/path_splitter'
@@ -19,7 +19,7 @@ if __FILE__ == $PROGRAM_NAME
   Dir.glob("#{EmployeeFolder.root}/*/*") do |f|
     next unless Dir.exist? f
     _root, team, name = split_path f
-    first, last = titleize(name.tr!('-', ' ')).split(' ')
+    first, last = name.tr!('-', ' ').titlecase.split(' ')
     force = opts[:force] ? '--force' : ''
     system('./mt', 'new-hire', force, '--team', team, '--first', first, '--last', last) || exit(-1)
   end
