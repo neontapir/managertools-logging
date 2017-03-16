@@ -168,10 +168,10 @@ new entry class
 
 # Usage Hints
 
-I manually move people who no longer report to me to a team called "departed".
-The script will still find them as normal. You can also use the same approach
-when people change teams. It happens infrequently enough for me that I didn't
-automate it.
+I manually move the folders of people who no longer report to me to a team
+folder called "zzz_departed". The script will still find them as normal. You can
+also use the same approach when people change teams. It happens infrequently
+enough for me that I didn't automate it.
 
 # Contributing
 

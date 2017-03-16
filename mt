@@ -9,7 +9,7 @@ end
 
 def record_diary_entry(entry_type, person)
   require_relative 'lib/diary'
-  include Diary
+  prepend Diary
   record_to_file entry_type, person
 end
 
@@ -42,15 +42,14 @@ def add_entry(subcommand, arguments)
 end
 
 def parse(script, subcommand, arguments)
+  # in cases where a command alias is given, call this with the canonical name
   if ALIASES.key?(subcommand)
-    # script = File.join(script, ALIASES[subcommand])
-    parse(script, ALIASES[subcommand], arguments)
-  elsif %w(report report-team).include?(subcommand)
-    script = File.join(script, subcommand)
+    script = parse(script, ALIASES[subcommand], arguments)
   # in cases where we're just adding an entry, invoke module directly
   elsif %w(feedback interview o3 observation).include?(subcommand)
     add_entry(subcommand, arguments)
-  elsif ALIASES.values.include?(subcommand)
+  # in cases where we will invoke an external script (spelled out if no alias defined)
+  elsif %w(report report-team).include?(subcommand) || ALIASES.values.include?(subcommand)
     script = File.join(script, subcommand)
   else
     Trollop.die "unknown subcommand #{subcommand.inspect}"
@@ -80,6 +79,6 @@ if __FILE__ == $PROGRAM_NAME
   end
 
   subcommand = ARGV.shift
-  script = parse script, subcommand, ARGV
+  script = parse(script, subcommand, ARGV)
   exec("#{script} #{ARGV.join(' ')}")
 end

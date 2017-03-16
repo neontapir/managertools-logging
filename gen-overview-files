@@ -2,29 +2,25 @@
 
 require 'pathname'
 require 'trollop'
-require 'facets/string/titlecase'
+# require 'facets/string/titlecase'
 require_relative 'lib/employee_folder'
+require_relative 'lib/mt_data_formatter'
 require_relative 'lib/path_splitter'
 
+extend MtDataFormatter
 extend PathSplitter
 
-class String
-  def titleize
-    split(/(\W)/).map(&:capitalize).join
-  end
-end
-
 if __FILE__ == $PROGRAM_NAME
-  Trollop.options do
+  opts = Trollop.options do
     banner 'Generate the files needed to create a team overview'
     opt :force, 'generate even if file exists', default: false
   end
 
   Dir.glob("#{EmployeeFolder.root}/*/*") do |f|
     next unless Dir.exist? f
-    paths = split_path f
-    first, last = paths[2].tr!('-', ' ').titleize.split(' ')
+    _root, team, name = split_path f
+    first, last = titleize(name.tr!('-', ' ')).split(' ')
     force = opts[:force] ? '--force' : ''
-    system('./mt', 'new-hire', force, '--team', paths[1], '--first', first, '--last', last) || exit(-1)
+    system('./mt', 'new-hire', force, '--team', team, '--first', first, '--last', last) || exit(-1)
   end
 end

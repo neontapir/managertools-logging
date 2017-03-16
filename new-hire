@@ -24,7 +24,7 @@ EOF
 end
 
 if __FILE__ == $PROGRAM_NAME
-  Trollop.options do
+  opts = Trollop.options do
     banner 'Create a new entry for a person'
     opt :force, 'generate even if file exists'
     opt :team, 'team name (like avengers)', type: :string, required: true

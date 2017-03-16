@@ -5,6 +5,7 @@ require_rel '.'
 
 # Represents a team member
 class Employee
+  extend MtDataFormatter
   extend PathSplitter
 
   attr_reader :team, :first, :last
@@ -38,6 +39,10 @@ class Employee
 
   def ==(other)
     @team == other.team && @first == other.first && @last == other.last
+  end
+
+  def canonical_name
+    unidown "#{@first}-#{@last}"
   end
 
   def to_s

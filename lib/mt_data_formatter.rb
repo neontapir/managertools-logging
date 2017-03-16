@@ -6,6 +6,10 @@ module MtDataFormatter
     Unicode.downcase(input)
   end
 
+  def titleize(input)
+    input.split(/(\W)/).map(&:capitalize).join
+  end
+
   def format_date(date)
     date.strftime('%B %e, %Y, %l:%M %p')
   end
