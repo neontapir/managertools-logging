@@ -19,9 +19,7 @@ class Employee
   def self.parse_dir(dir)
     paths = split_path dir
     _root, team, name = paths
-    name = name.tr!('-', ' ').titlecase.strip.split(/\s+/)
-    first = name[0]
-    last = name[1]
+    first, last = name.tr!('-', ' ').titlecase.strip.split(/\s+/)
     { team: team, first: first, last: last }
   end
 

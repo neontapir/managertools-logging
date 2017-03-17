@@ -15,8 +15,8 @@ module MtDataFormatter
   end
 
   INDENT = '  '.freeze # this should match what's in the templates
-  def wrap(s, width = 78)
-    s.gsub(/(.{1,#{width - INDENT.length}})(\s+|\Z)/, "\\1\n#{INDENT}") \
+  def wrap(input, width = 78)
+    input.gsub(/(.{1,#{width - INDENT.length}})(\s+|\Z)/, "\\1\n#{INDENT}") \
      .chomp(INDENT).chomp
   end
 

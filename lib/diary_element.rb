@@ -1,6 +1,6 @@
 # A single item in a diary entry, like "Location"
 class DiaryElement
-  attr_accessor :key, :prompt, :default
+  attr_reader :key, :prompt, :default
 
   NONE = 'none'.freeze
 
@@ -11,5 +11,11 @@ class DiaryElement
 
     # TODO: Research, this may not actually be true
     raise ArgumentError, "Asciidoc labeled lists cannot contain special characters" unless @prompt =~ /^['\-A-Za-z ]+$/
+  end
+
+  def obtain
+    ask "#{prompt}: " do |answer|
+      answer.default = default
+    end
   end
 end

@@ -4,8 +4,6 @@ include MtDataFormatter
 
 # Tempate used for team meetings, propagated to all team members' files
 class TeamMeetingEntry < DiaryEntry
-  attr_accessor :team
-
   def self.prompt(*)
     'For your team meeting, enter the following:'
   end

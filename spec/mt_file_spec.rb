@@ -1,6 +1,7 @@
 require './lib/mt_file.rb'
 
 describe MtFile do
+  # Helper class for testing MtFile
   MtFileClass = Class.new do
     include MtFile
     def path
