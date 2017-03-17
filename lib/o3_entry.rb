@@ -3,13 +3,7 @@ require_relative 'mt_data_formatter'
 include MtDataFormatter
 
 # Template for a one-on-one meeting
-class O3Entry
-  attr_accessor :record
-
-  def initialize(**params)
-    @record = params
-  end
-
+class O3Entry < DiaryEntry
   def self.prompt(name)
     "For your 1:1 with #{name}, enter the following:"
   end
@@ -23,9 +17,6 @@ class O3Entry
   end
 
   def to_s
-    initial = "=== One-on-One (#{format_date(@record[:datetime])})\n"
-    O3Entry.elements_array.inject(initial) do |output, p|
-      output << "#{p.prompt}::\n  #{wrap(@record[p.key] || p.default)}\n"
-    end
+    render('One-on-One')
   end
 end

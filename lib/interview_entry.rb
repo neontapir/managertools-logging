@@ -4,12 +4,6 @@ include MtDataFormatter
 
 # Template for a phone screening interview
 class InterviewEntry
-  attr_accessor :record
-
-  def initialize(**params)
-    @record = params
-  end
-
   def self.prompt(name)
     "For your interview with #{name}, enter the following:"
   end
@@ -34,9 +28,6 @@ class InterviewEntry
   end
 
   def to_s
-    initial = "=== Interview (#{format_date(@record[:datetime])})\n"
-    InterviewEntry.elements_array.inject(initial) do |output, p|
-      output << "#{p.prompt}::\n  #{wrap(@record[p.key] || p.default)}\n"
-    end
+    render('Interview')
   end
 end

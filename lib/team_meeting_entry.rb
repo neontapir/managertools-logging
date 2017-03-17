@@ -3,12 +3,8 @@ require_relative 'mt_data_formatter'
 include MtDataFormatter
 
 # Tempate used for team meetings, propagated to all team members' files
-class TeamMeetingEntry
-  attr_accessor :record, :team
-
-  def initialize(**params)
-    @record = params
-  end
+class TeamMeetingEntry < DiaryEntry
+  attr_accessor :team
 
   def self.prompt(*)
     'For your team meeting, enter the following:'
@@ -24,9 +20,6 @@ class TeamMeetingEntry
   end
 
   def to_s
-    initial = "=== Team Meeting (#{format_date(@record[:datetime])})\n"
-    TeamMeetingEntry.elements_array.inject(initial) do |output, p|
-      output << "#{p.prompt}::\n  #{wrap(@record[p.key] || p.default)}\n"
-    end
+    render('Team Meeting')
   end
 end
