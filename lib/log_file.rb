@@ -11,7 +11,7 @@ class LogFile
 
   def append(entry)
     open(@log_file.path, 'a') do |f|
-      f.puts "\n" unless entry.to_s[0, 1] == "\n"
+      f.puts "\n" unless entry.to_s[0, 1] == "\n" # ensure leading CR for Asciidoc
       f.puts entry
     end
   end

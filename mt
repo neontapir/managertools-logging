@@ -9,7 +9,6 @@ def record_diary_entry(entry_type, person)
 end
 
 ALIASES = {
-  'new' => 'new-hire',
   'gen' => 'gen-overview-files',
   'ob' => 'observation',
   'obs' => 'observation',

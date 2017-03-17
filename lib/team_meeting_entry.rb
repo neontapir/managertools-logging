@@ -15,21 +15,18 @@ class TeamMeetingEntry
   end
 
   def self.elements_array
-    [:attendees, :location, :notes, :actions]
+    [
+      DiaryElement.new(:attendees),
+      DiaryElement.new(:location, 'Location', 'unspecified'),
+      DiaryElement.new(:notes),
+      DiaryElement.new(:actions)
+    ]
   end
 
   def to_s
-    <<-BLOCK
-=== #{@team} Team Meeting (#{format_date(@record[:datetime])})
-Attendees::
-  #{wrap(@record[:attendees] || 'none')}
-Location::
-  #{@record[:location] || 'unspecified'}
-Notes::
-  #{wrap(@record[:notes] || 'none')}
-Actions::
-  #{wrap(@record[:actions] || 'none')}
-
-BLOCK
+    initial = "=== Team Meeting (#{format_date(@record[:datetime])})\n"
+    TeamMeetingEntry.elements_array.inject(initial) do |output, p|
+      output << "#{p.prompt}::\n  #{wrap(@record[p.key] || p.default)}\n"
+    end
   end
 end

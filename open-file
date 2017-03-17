@@ -11,7 +11,8 @@ if __FILE__ == $PROGRAM_NAME
   end
 
   person = ARGV[0]
-  log_file = get_file_by_person person
+  employee = Employee.get person
+  log_file = employee.file
   log_file.ensure_exists
   exec("open #{log_file}")
 end

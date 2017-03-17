@@ -21,7 +21,7 @@ if __FILE__ == $PROGRAM_NAME
   entry.team = team
 
   members.each do |employee|
-    log_file = get_file employee
+    log_file = employee.file
     log_file.ensure_exists
     log_file.append entry
   end

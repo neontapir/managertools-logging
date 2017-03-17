@@ -15,45 +15,28 @@ class InterviewEntry
   end
 
   def self.elements_array
-    [:location, :why_new_job, :why_hybris,
-     :goal, :motivation, :challenge, :environment,
-     :why_not, :personality, :candidate_location,
-     :start_date, :compensation, :notes, :actions]
+    [
+      DiaryElement.new(:location, 'Location', 'Skype'),
+      DiaryElement.new(:why_new_job, 'Why new job'),
+      DiaryElement.new(:why_hybris, 'Why hybris'),
+      DiaryElement.new(:goal, 'Career goal'),
+      DiaryElement.new(:motivation, 'What motivates you'),
+      DiaryElement.new(:challenge, 'What do you find challenging'),
+      DiaryElement.new(:environment, 'Work environment'),
+      DiaryElement.new(:why_not, 'Why not hire you'),
+      DiaryElement.new(:personality, 'Personality'),
+      DiaryElement.new(:relocation_needs, 'Relocation needs'),
+      DiaryElement.new(:start_date, 'Desired start date'),
+      DiaryElement.new(:compensation, 'Desired compensation'),
+      DiaryElement.new(:notes, 'Notes'),
+      DiaryElement.new(:actions, 'Actions')
+    ]
   end
 
-  NONE = 'none'.freeze
   def to_s
-    <<-BLOCK
-=== Interview (#{format_date(@record[:datetime])})
-Location::
-  #{@record[:location] || 'unspecified'}
-Why new job::
-  #{wrap(@record[:why_new_job] || NONE)}
-Why hybris::
-  #{wrap(@record[:why_hybris] || NONE)}
-Career goal::
-  #{wrap(@record[:goal] || NONE)}
-Motivation::
-  #{wrap(@record[:motivation] || NONE)}
-Challenge::
-  #{wrap(@record[:challenge] || NONE)}
-Work environment::
-  #{wrap(@record[:environment] || NONE)}
-Why not hire::
-  #{wrap(@record[:why_not] || NONE)}
-Personality::
-  #{wrap(@record[:personality] || NONE)}
-Location and relocation needs including visa::
-  #{wrap(@record[:candidate_location] || NONE)}
-Desired start date::
-  #{wrap(@record[:start_date] || NONE)}
-Desired compensation::
-  #{wrap(@record[:compensation] || NONE)}
-Notes::
-  #{wrap(@record[:notes] || NONE)}
-Actions::
-  #{wrap(@record[:actions] || NONE)}
-
-BLOCK
+    initial = "=== Interview (#{format_date(@record[:datetime])})\n"
+    InterviewEntry.elements_array.inject(initial) do |output, p|
+      output << "#{p.prompt}::\n  #{wrap(@record[p.key] || p.default)}\n"
+    end
   end
 end

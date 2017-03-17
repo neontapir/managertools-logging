@@ -20,18 +20,8 @@ describe Diary do
       Dir.rmdir('data/avengers')
     end
 
-    it 'should get the employee file' do
-      log = diary_instance.get_file_by_person 'tony'
-      expect(log.to_s).to eq('data/avengers/tony-stark/log.adoc')
-    end
-
-    it 'should get the team' do
-      team = diary_instance.get_team 'avengers'
-      expect(team.to_s).to eq('Avengers')
-    end
-
-    it 'should create a blank entry' do
-      result = diary_instance.create_blank_entry('Feedback')
+    it 'should create a entry with the current date and time' do
+      result = diary_instance.create_blank_hash
       expect(result[:content]).to eq('')
       one_second = 1
       expect(result[:datetime].to_i).to be_within(one_second).of Time.now.to_i

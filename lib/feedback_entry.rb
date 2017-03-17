@@ -15,17 +15,16 @@ class FeedbackEntry
   end
 
   def self.elements_array
-    [[:polarity, 'positive'], :content]
+    [
+      DiaryElement.new(:polarity, 'Polarity', 'positive'),
+      DiaryElement.new(:content)
+    ]
   end
 
   def to_s
-    <<-BLOCK
-=== Feedback (#{format_date(@record[:datetime])})
-Polarity::
-  #{@record[:polarity].downcase || 'positive'}
-Content::
-  #{wrap(@record[:content]) || 'none'}
-
-BLOCK
+    initial = "=== Feedback (#{format_date(@record[:datetime])})\n"
+    FeedbackEntry.elements_array.inject(initial) do |output, p|
+      output << "#{p.prompt}::\n  #{wrap(@record[p.key] || p.default)}\n"
+    end
   end
 end

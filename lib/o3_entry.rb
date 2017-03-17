@@ -15,19 +15,17 @@ class O3Entry
   end
 
   def self.elements_array
-    [[:location, 'unspecified'], :notes, :actions]
+    [
+      DiaryElement.new(:location, 'Location', 'unspecified'),
+      DiaryElement.new(:notes),
+      DiaryElement.new(:actions)
+    ]
   end
 
   def to_s
-    <<-BLOCK
-=== One-on-One (#{format_date(@record[:datetime])})
-Location::
-  #{@record[:location] }
-Notes::
-  #{wrap(@record[:notes])}
-Actions::
-  #{wrap(@record[:actions])}
-
-BLOCK
+    initial = "=== One-on-One (#{format_date(@record[:datetime])})\n"
+    O3Entry.elements_array.inject(initial) do |output, p|
+      output << "#{p.prompt}::\n  #{wrap(@record[p.key] || p.default)}\n"
+    end
   end
 end

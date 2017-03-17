@@ -14,7 +14,6 @@ class Employee
     @team = params[:team]
     @first = params[:first]
     @last = params[:last]
-    #puts "DEBUG: created employee, first: '#{first}', last: '#{last}' on '#{team}'"
   end
 
   def self.parse_dir(dir)
@@ -35,6 +34,31 @@ class Employee
         return Employee.new employee
       end
     end
+  end
+
+  def self.get(person, type = :generic)
+    employee_spec = Employee.find person
+    employee = if employee_spec.nil?
+                 Employee.new(create_spec(type))
+               else
+                 employee_spec
+               end
+    employee
+  end
+
+  def self.create_spec(type)
+    result = {}
+    result[:team] = EmployeeFolder.candidates_root if type.to_sym == :interview
+    [:team, :first, :last].each do |symbol|
+      result[symbol] ||= ask "#{symbol.to_s.capitalize}: "
+    end
+    result
+  end
+
+  def file
+    folder = EmployeeFolder.new self
+    folder.ensure_exists
+    LogFile.new folder
   end
 
   def ==(other)

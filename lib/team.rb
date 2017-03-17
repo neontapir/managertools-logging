@@ -21,9 +21,9 @@ class Team
 
   def self.find(key)
     root = EmployeeFolder.root
-    #puts "FIND: Searching in #{root}"
+    # puts "FIND: Searching in #{root}"
     Dir.glob("#{root}/*") do |d|
-      #puts "FIND: Searching #{d}"
+      # puts "FIND: Searching #{d}"
       next unless Dir.exist? d
       if /#{key}/ =~ d.to_s
         team = parse_dir d
