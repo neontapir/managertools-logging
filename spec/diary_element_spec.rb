@@ -14,4 +14,8 @@ describe DiaryElement do
     expect(element.prompt).to eq('Actions to take')
     expect(element.default).to eq('No actions')
   end
+
+  it 'should fail if prompt has special characters' do
+    expect{DiaryElement.new(:question, 'Questions?', 'No questions')}.to raise_error ArgumentError
+  end
 end

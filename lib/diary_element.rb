@@ -8,5 +8,8 @@ class DiaryElement
     @key = key
     @prompt = prompt
     @default = default
+
+    # TODO: Research, this may not actually be true
+    raise ArgumentError, "Asciidoc labeled lists cannot contain special characters" unless @prompt =~ /^['\-A-Za-z ]+$/
   end
 end
