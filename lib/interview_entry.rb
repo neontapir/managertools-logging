@@ -3,7 +3,7 @@ require_relative 'mt_data_formatter'
 include MtDataFormatter
 
 # Template for a phone screening interview
-class InterviewEntry
+class InterviewEntry < DiaryEntry
   def self.prompt(name)
     "For your interview with #{name}, enter the following:"
   end

@@ -3,6 +3,10 @@ require_rel '.'
 
 # Base functionality for all entry types
 module Diary
+  def template?
+    (@global_opts && @global_opts.template) || (@cmd_opts && @cmd_opts.template)
+  end
+
   def record_to_file(type, person)
     employee = Employee.get(person, type)
     entry = get_entry(type, employee)
@@ -10,7 +14,7 @@ module Diary
   end
 
   def get_entry(type, employee)
-    data = if (@global_opts && @global_opts.template) || (@cmd_opts && @cmd_opts.template)
+    data = if template?
              started_entry
            else
              create_entry type, employee.to_s

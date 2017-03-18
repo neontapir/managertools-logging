@@ -3,7 +3,7 @@ require_relative 'mt_data_formatter'
 include MtDataFormatter
 
 # Template for documenting feedback given
-class FeedbackEntry
+class FeedbackEntry < DiaryEntry
   def self.prompt(name)
     "With feedback for #{name}, enter the following:"
   end
