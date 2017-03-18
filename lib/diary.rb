@@ -1,4 +1,3 @@
-require 'highline/import'
 require 'require_all'
 require_rel '.'
 

@@ -22,8 +22,11 @@ describe Employee do
     it 'should parse a folder correctly' do
       dir = Dir.new('data/avengers/tony-stark')
       iron_man = Employee.parse_dir(dir)
+      expect(iron_man.has_key? :team).to be_truthy
       expect(iron_man[:team]).to eq 'avengers'
+      expect(iron_man.has_key? :first).to be_truthy
       expect(iron_man[:first]).to eq 'Tony'
+      expect(iron_man.has_key? :last).to be_truthy
       expect(iron_man[:last]).to eq 'Stark'
     end
 
@@ -33,6 +36,11 @@ describe Employee do
       expect(iron_man.team).to eq 'avengers'
       expect(iron_man.first).to eq 'Tony'
       expect(iron_man.last).to eq 'Stark'
+    end
+
+    it 'should give Iron Man\'s name' do
+      iron_man = Employee.find('tony')
+      expect(iron_man.to_s).to eq('Tony Stark')
     end
 
     it 'should not find Captain America' do

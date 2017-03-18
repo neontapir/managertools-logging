@@ -12,8 +12,8 @@ class EmployeeFolder
   end
 
   def folder_name
-    first_name = strip_nonalnum(@employee.first)
-    last_name = strip_nonalnum(@employee.last)
+    first_name = strip_nonalnum(employee.first)
+    last_name = strip_nonalnum(employee.last)
     unidown("#{first_name}-#{last_name}")
   end
 
@@ -26,7 +26,7 @@ class EmployeeFolder
   end
 
   def path
-    File.join(EmployeeFolder.root, unidown(@employee.team), folder_name)
+    File.join(EmployeeFolder.root, unidown(employee.team), folder_name)
   end
 
   def create

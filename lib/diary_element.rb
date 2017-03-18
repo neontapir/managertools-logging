@@ -1,3 +1,5 @@
+require 'highline/import'
+
 # A single item in a diary entry, like "Location"
 class DiaryElement
   attr_reader :key, :prompt, :default

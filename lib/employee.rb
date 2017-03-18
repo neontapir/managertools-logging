@@ -60,14 +60,14 @@ class Employee
   end
 
   def ==(other)
-    @team == other.team && @first == other.first && @last == other.last
+    team == other.team && first == other.first && last == other.last
   end
 
   def canonical_name
-    unidown "#{@first}-#{@last}"
+    unidown "#{first}-#{last}"
   end
 
   def to_s
-    "#{@first.capitalize} #{@last.capitalize}"
+    "#{first.capitalize} #{last.capitalize}"
   end
 end

@@ -13,6 +13,6 @@ class EmployeeFile
   end
 
   def path
-    File.join(@folder.path, @filename)
+    File.join(folder.path, filename)
   end
 end

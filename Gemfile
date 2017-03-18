@@ -7,9 +7,11 @@ gem 'facets', '~> 3.0'
 gem 'highline', '~> 1.7'
 gem 'rake', '~> 10.4'
 gem 'require_all', '~> 1.4'
-gem 'rspec', '~> 3.3'
 gem 'settingslogic', '~> 2.0', '>= 2.0.9'
 gem 'trollop', '~> 2.1'
 gem 'unicode', '~> 0.4'
 
+gem 'rspec', '~> 3.5', require: false, group: :test
 gem 'simplecov', '~> 0.12', require: false, group: :test
+gem 'mutant'
+gem 'mutant-rspec', '0.8.11', require: false, group: :test
