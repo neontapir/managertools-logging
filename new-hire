@@ -32,9 +32,9 @@ if __FILE__ == $PROGRAM_NAME
     opt :last, 'person\'s last name (in quotes, like "Tony Stark")', type: :string
   end
 
-  team = opts[:team]
-  first = opts[:first]
-  last = opts[:last]
+  team = opts.fetch(:team)
+  first = opts.fetch(:first)
+  last = opts.fetch(:last)
 
   employee = Employee.new(team: team, first: first, last: last)
   folder = EmployeeFolder.new employee

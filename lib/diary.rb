@@ -1,5 +1,5 @@
-require 'require_all'
-require_rel '.'
+require_relative 'diary_entry'
+require_relative 'employee'
 
 # Base functionality for all entry types
 module Diary

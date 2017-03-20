@@ -1,7 +1,8 @@
-require 'pathname'
 require 'facets/string/titlecase'
-require 'require_all'
-require_rel '.'
+
+require_relative 'employee'
+require_relative 'employee_folder'
+require_relative 'path_splitter'
 
 # Represents a delivery team
 class Team
@@ -10,7 +11,9 @@ class Team
   extend PathSplitter
 
   def initialize(**params)
-    @team = params[:team].capitalize
+    team = params.fetch(:team).downcase
+    team.tr!(' ','-') if team.include? ' '
+    @team = team
   end
 
   def self.parse_dir(dir)
@@ -29,21 +32,35 @@ class Team
     end
   end
 
+  def self.to_path_string(input)
+    input = input.tr(' ','-') if input.include? ' '
+    input.downcase
+  end
+
+  def self.to_name(input)
+    input = input.tr('-',' ') if input.include? '-'
+    input.titlecase
+  end
+
   def members_by_folder
-    Dir.glob("#{EmployeeFolder.root}/#{team}/*")
+    Dir.glob("#{EmployeeFolder.root}/#{Team.to_path_string(team)}/*")
   end
 
   def members
-    members_by_folder.map do |folder|
-      Employee.new(Employee.parse_dir(folder))
+    members_by_folder.map { |folder| Employee.new(Employee.parse_dir(folder)) }
+  end
+
+  def to_s
+    Team.to_name(self.team)
+  end
+
+  def eql?(other)
+    if other.respond_to?(:team)
+      team == other.team
     end
   end
 
   def ==(other)
-    @team == other.team
-  end
-
-  def to_s
-    @team.capitalize
+    eql?(other)
   end
 end

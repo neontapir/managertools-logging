@@ -1,6 +1,6 @@
 require './lib/path_splitter.rb'
 
-describe MtFile do
+describe PathSplitter do
   let(:splitter_instance) { (Class.new { include PathSplitter }).new }
 
   context 'splitting a path' do

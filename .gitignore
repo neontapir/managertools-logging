@@ -1,4 +1,5 @@
 .idea/
 coverage/
 data/
+spec/examples.txt
 test

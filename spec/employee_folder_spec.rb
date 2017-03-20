@@ -1,18 +1,22 @@
 require './lib/employee.rb'
 require './lib/employee_folder.rb'
+require_relative 'settings_helper'
+
+include SettingsHelper
 
 describe EmployeeFolder do
   context 'in normal characters context' do
     before(:all) do
       Dir.mkdir('data') unless Dir.exist? 'data'
+      create_test_settings_file
       Dir.mkdir('data/normal') unless Dir.exist? 'data/normal'
       employee = Employee.new(team: 'normal', first: 'John', last: 'Smith')
       @folder = EmployeeFolder.new employee
     end
 
     after(:all) do
-      Dir.rmdir('data/normal/john-smith') if Dir.exist? 'data/normal/john-smith'
-      Dir.rmdir('data/normal') if Dir.exist? 'data/normal'
+      FileUtils.remove_dir('data/normal')
+      remove_test_settings_file
     end
 
     it 'should create folder with normal characters' do
@@ -35,8 +39,7 @@ describe EmployeeFolder do
     end
 
     after(:all) do
-      Dir.rmdir('data/āčċéñťèð/ezel-çeçek') unless Dir.exist? 'data/āčċéñťèð/ezel-çeçek'
-      Dir.rmdir('data/āčċéñťèð') unless Dir.exist? 'data/āčċéñťèð'
+      FileUtils.remove_dir('data/āčċéñťèð')
     end
 
     it 'should create folder with accented characters' do
@@ -60,8 +63,7 @@ describe EmployeeFolder do
     end
 
     after(:all) do
-      Dir.rmdir('data/bad/jhn-smth') unless Dir.exist? 'data/bad/jhn-smth'
-      Dir.rmdir('data/bad') unless Dir.exist? 'data/bad'
+      FileUtils.remove_dir('data/bad')
     end
 
     it 'should ensure the correct folder exists' do

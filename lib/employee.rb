@@ -1,7 +1,10 @@
 require 'pathname'
 require 'facets/string/titlecase'
-require 'require_all'
-require_rel '.'
+
+require_relative 'employee_folder'
+require_relative 'log_file'
+require_relative 'mt_data_formatter'
+require_relative 'path_splitter'
 
 # Represents a team member
 class Employee
@@ -11,9 +14,9 @@ class Employee
   attr_reader :team, :first, :last
 
   def initialize(**params)
-    @team = params[:team]
-    @first = params[:first]
-    @last = params[:last]
+    @team = params.fetch(:team)
+    @first = params.fetch(:first)
+    @last = params.fetch(:last)
   end
 
   def self.parse_dir(dir)
@@ -59,8 +62,14 @@ class Employee
     LogFile.new folder
   end
 
+  def eql?(other)
+    if other.respond_to?(:team) && other.respond_to?(:first) && other.respond_to?(:last)
+      team == other.team && first == other.first && last == other.last
+    end
+  end
+
   def ==(other)
-    team == other.team && first == other.first && last == other.last
+    eql?(other)
   end
 
   def canonical_name

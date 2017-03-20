@@ -1,3 +1,4 @@
+require_relative 'diary_entry'
 require_relative 'mt_data_formatter'
 
 include MtDataFormatter

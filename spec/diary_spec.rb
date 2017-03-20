@@ -1,6 +1,7 @@
 require 'trollop'
+
 require './lib/diary.rb'
-require './lib/feedback_entry.rb'
+Dir.glob('./lib/*_entry.rb', &method(:require))
 
 describe Diary do
   let(:diary_instance) { (Class.new do
