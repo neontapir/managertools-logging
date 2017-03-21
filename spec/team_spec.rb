@@ -96,8 +96,6 @@ describe Team do
     end
 
     it 'should return list of team members by folder' do
-      # results = exec("ls #{Settings.root}")
-      # p "Results: #{results}"
       raise IOError, 'No Batman folder' unless Dir.exist? 'data/justice-league/bruce-wayne'
       raise IOError, 'No Superman folder' unless Dir.exist? 'data/justice-league/clark-kent'
       expect(@justice_league.members_by_folder).to contain_exactly(

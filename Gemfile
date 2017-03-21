@@ -11,6 +11,5 @@ gem 'trollop', '~> 2.1'
 gem 'unicode', '~> 0.4'
 
 gem 'rspec', '~> 3.5', require: false, group: :test
-gem 'simplecov', '~> 0.12', require: false, group: :test
-gem 'mutant'
+gem 'simplecov', '~> 0.14', require: false, group: :test
 gem 'mutant-rspec', '0.8.11', require: false, group: :test
