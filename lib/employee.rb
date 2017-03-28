@@ -63,9 +63,8 @@ class Employee
   end
 
   def eql?(other)
-    if other.respond_to?(:team) && other.respond_to?(:first) && other.respond_to?(:last)
-      team == other.team && first == other.first && last == other.last
-    end
+    return unless other.respond_to?(:team) && other.respond_to?(:first) && other.respond_to?(:last)
+    team == other.team && first == other.first && last == other.last
   end
 
   def ==(other)

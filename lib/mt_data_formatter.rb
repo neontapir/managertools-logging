@@ -2,8 +2,6 @@ require 'unicode'
 
 # Commodity data formatting functions
 module MtDataFormatter
-  extend self
-
   def unidown(input)
     Unicode.downcase(input)
   end
@@ -13,12 +11,16 @@ module MtDataFormatter
   end
 
   def strip_nonalnum(input)
-    input.gsub(/[^-\p{Alnum}]/,'')
+    input.gsub(/[^-\p{Alnum}]/, '')
   end
 
   INDENT = '  '.freeze # this should match what's in the templates
   def wrap(input, width = 78)
-    input.gsub(/(.{1,#{width - INDENT.length}})(\s+|\Z)/, "\\1\n#{INDENT}") \
-     .chomp(INDENT).chomp
+    input
+      .gsub(/(.{1,#{width - INDENT.length}})(\s+|\Z)/, "\\1\n#{INDENT}") \
+      .chomp(INDENT)
+      .chomp
   end
+
+  module_function
 end

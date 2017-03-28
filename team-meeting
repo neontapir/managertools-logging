@@ -18,7 +18,7 @@ if __FILE__ == $PROGRAM_NAME
   a_team_member = members[0]
 
   entry = get_entry :team_meeting, a_team_member
-  
+
   members.each do |employee|
     log_file = employee.file
     log_file.ensure_exists

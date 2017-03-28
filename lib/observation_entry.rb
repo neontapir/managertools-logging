@@ -1,3 +1,4 @@
+require_relative 'diary_element'
 require_relative 'diary_entry'
 require_relative 'mt_data_formatter'
 
@@ -10,7 +11,7 @@ class ObservationEntry < DiaryEntry
   end
 
   def self.elements_array
-    [ DiaryElement.new(:content) ]
+    [DiaryElement.new(:content)]
   end
 
   def to_s

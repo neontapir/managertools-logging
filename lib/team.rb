@@ -12,7 +12,7 @@ class Team
 
   def initialize(**params)
     team = params.fetch(:team).downcase
-    team.tr!(' ','-') if team.include? ' '
+    team.tr!(' ', '-') if team.include? ' '
     @team = team
   end
 
@@ -33,12 +33,12 @@ class Team
   end
 
   def self.to_path_string(input)
-    input = input.tr(' ','-') if input.include? ' '
+    input = input.tr(' ', '-') if input.include? ' '
     input.downcase
   end
 
   def self.to_name(input)
-    input = input.tr('-',' ') if input.include? '-'
+    input = input.tr('-', ' ') if input.include? '-'
     input.titlecase
   end
 
@@ -51,13 +51,11 @@ class Team
   end
 
   def to_s
-    Team.to_name(self.team)
+    Team.to_name(team)
   end
 
   def eql?(other)
-    if other.respond_to?(:team)
-      team == other.team
-    end
+    team == other.team if other.respond_to?(:team)
   end
 
   def ==(other)

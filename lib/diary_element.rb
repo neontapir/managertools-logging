@@ -12,7 +12,7 @@ class DiaryElement
     @default = default
 
     # TODO: Research, this may not actually be true
-    raise ArgumentError, "Asciidoc labeled lists cannot contain special characters" unless @prompt =~ /\A['\-A-Za-z ]+\z/
+    raise ArgumentError, 'Asciidoc labeled lists cannot contain special characters' unless @prompt =~ /\A['\-A-Za-z ]+\z/
   end
 
   def obtain
