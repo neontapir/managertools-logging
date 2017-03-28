@@ -10,7 +10,7 @@ if __FILE__ == $PROGRAM_NAME
     banner 'Open a person\'s log file'
   end
 
-  person = ARGV[0]
+  person = ARGV.first
   employee = Employee.get person
   log_file = employee.file
   log_file.ensure_exists

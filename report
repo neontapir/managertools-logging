@@ -20,7 +20,7 @@ if __FILE__ == $PROGRAM_NAME
     banner 'Create a report from a person\'s files'
   end
 
-  person = ARGV[0]
+  person = ARGV.first
   employee = get_employee person
   employee_name = employee.canonical_name
 

@@ -23,7 +23,7 @@ if __FILE__ == $PROGRAM_NAME
     banner 'Create a report of a team, using each member\'s files'
   end
 
-  team_name = ARGV[0]
+  team_name = ARGV.first
   team = Team.find team_name
 
   report_name = "team-#{unidown team_name}-report"
