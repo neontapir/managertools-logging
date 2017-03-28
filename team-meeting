@@ -12,10 +12,10 @@ if __FILE__ == $PROGRAM_NAME
     banner 'Create a meeting entry for a team, adding to each member\'s log file'
   end
 
-  team_name = ARGV[0]
+  team_name = ARGV.first
   team = Team.find team_name
   members = team.members
-  a_team_member = members[0]
+  a_team_member = members.first
 
   entry = get_entry :team_meeting, a_team_member
 

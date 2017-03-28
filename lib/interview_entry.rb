@@ -10,6 +10,7 @@ class InterviewEntry < DiaryEntry
     "For your interview with #{name}, enter the following:"
   end
 
+  # rubocop:disable Metrics/MethodLength
   def self.elements_array
     [
       DiaryElement.new(:location, 'Location', 'Skype'),
@@ -28,6 +29,7 @@ class InterviewEntry < DiaryEntry
       DiaryElement.new(:actions, 'Actions')
     ]
   end
+  # rubocop:enable Metrics/MethodLength
 
   def to_s
     render('Interview')

@@ -19,19 +19,20 @@ ALIASES = {
   'meeting' => 'team-meeting'
 }.freeze
 
+BANNERS = {
+  'feedback' => 'Add a feedback entry for a direct report',
+  'interview' => 'Add an interview entry for a candidate',
+  'o3' => 'Add a one-on-one entry for a direct report',
+  'observation' => 'Make an observation about a person'
+}.freeze
+
 def add_entry(subcommand, arguments)
-  banners = {
-    'feedback' => 'Add a feedback entry for a direct report',
-    'interview' => 'Add an interview entry for a candidate',
-    'o3' => 'Add a one-on-one entry for a direct report',
-    'observation' => 'Make an observation about a person'
-  }
   # capture options given after subcommand
   @cmd_opts = Trollop.options do
-    banner banners[subcommand]
+    banner BANNERS[subcommand]
     opt :template, 'Create blank template entry', short: '-t'
   end
-  record_diary_entry subcommand.to_sym, arguments[0]
+  record_diary_entry subcommand.to_sym, arguments.first
   exit
 end
 

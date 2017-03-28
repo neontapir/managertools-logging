@@ -2,3 +2,12 @@ AllCops:
   Exclude:
     - 'test'
     - 'spec/**/*'
+Metrics/LineLength:
+  Max: 100
+Style/CollectionMethods:
+  Enabled: true
+  PreferredMethods:
+    # inject seems more common in the community.
+    reduce: "inject"
+Style/SignalException:
+  EnforcedStyle: only_raise

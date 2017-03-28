@@ -23,23 +23,24 @@ class Team
   end
 
   def self.find(key)
-    Dir.glob("#{EmployeeFolder.root}/*") do |folder|
-      next unless Dir.exist? folder
-      if /#{key}/ =~ folder.to_s
-        team = parse_dir folder
-        return Team.new team
-      end
-    end
+    folder = Dir.glob("#{EmployeeFolder.root}/*").find { |f| folder_matches?(f, key) }
+    return if folder.nil?
+    team = parse_dir folder
+    Team.new team
   end
 
-  def self.to_path_string(input)
-    input = input.tr(' ', '-') if input.include? ' '
-    input.downcase
+  def self.folder_matches?(f, key)
+    (Dir.exist? f) && (/#{key}/ =~ f.to_s)
   end
 
   def self.to_name(input)
     input = input.tr('-', ' ') if input.include? '-'
     input.titlecase
+  end
+
+  def self.to_path_string(input)
+    input = input.tr(' ', '-') if input.include? ' '
+    input.downcase
   end
 
   def members_by_folder

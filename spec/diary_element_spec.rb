@@ -5,7 +5,7 @@ describe DiaryElement do
     element = DiaryElement.new(:location)
     expect(element.key).to be(:location)
     expect(element.prompt).to eq("Location")
-    expect(element.default).to eq(DiaryElement::NONE)
+    expect(element.default).to eq(DiaryElement::DEFAULT_VALUE)
   end
 
   it 'should create an element with specified values' do
