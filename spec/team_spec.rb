@@ -14,24 +14,36 @@ describe Team do
     end
 
     it 'should find the same team equal to itself' do
-      expect(@avengers.eql?(@avengers)).to be_truthy
-      expect(@justice_league.eql?(@justice_league)).to be_truthy
+      expect(@avengers.eql?(@avengers)).to be true
+      expect(@justice_league.eql?(@justice_league)).to be true
     end
 
     it 'should not find different teams equal to each other' do
-      expect(@avengers.eql?(@justice_league)).to be_falsey
-      expect(@justice_league.eql?(@avengers)).to be_falsey
+      expect(@avengers.eql?(@justice_league)).to be false
+      expect(@justice_league.eql?(@avengers)).to be false
+    end
+
+    it 'should get the same results with the equals operator' do
+      expect(@avengers == @avengers).to be true
+      expect(@avengers == @justice_league).to be false
     end
 
     it 'should find teams with different casing in names the same' do
       avengers_miniscule = Team.new(team: 'avengers')
-      expect(@avengers.eql?(avengers_miniscule)).to be_truthy
+      expect(@avengers.eql?(avengers_miniscule)).to be true
     end
+
+    it 'should not a team equal to a non-team' do
+      expect(@avengers.eql?('Avengers')).to be false
+    end
+  end
+
+  it 'should not find a non-existant team' do
+    expect(Team.find('xyzzy')).to be nil
   end
 
   it 'should create the name correctly' do
     expect(Team.to_name('avengers')).to eq('Avengers')
-
     expect(Team.to_name('justice-league')).to eq('Justice League')
     expect(Team.to_name('Justice League')).to eq('Justice League')
   end
@@ -43,7 +55,6 @@ describe Team do
 
   it 'should create the path string correctly' do
     expect(Team.to_path_string('avengers')).to eq('avengers')
-
     expect(Team.to_path_string('justice-league')).to eq('justice-league')
     expect(Team.to_path_string('Justice League')).to eq('justice-league')
   end

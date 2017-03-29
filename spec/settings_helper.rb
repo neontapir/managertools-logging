@@ -22,7 +22,8 @@ module SettingsHelper
         <<: *defaults
     EOF
 
-    File.open(config_file, 'w') {|file| file.write(doc) } unless File.exist? config_file
+    FileUtils.mkdir_p(Settings.root)
+    IO.write(config_file, doc)
     raise IOError, "Missing settings file #{config_file}" unless File.exist? config_file
   end
 

@@ -22,13 +22,11 @@ describe MtFile do
 
   context 'when working with MT files' do
     before(:each) do
-      Dir.mkdir('data') unless Dir.exist? 'data'
-      Dir.mkdir('data/mtfile') unless Dir.exist? 'data/mtfile'
+      FileUtils.mkdir_p('data/mtfile')
     end
 
     after(:each) do
-      File.delete('data/mtfile/foo') if File.exist? 'data/mtfile/foo'
-      Dir.rmdir('data/mtfile') if Dir.exist? 'data/mtfile'
+      FileUtils.rm_r('data/mtfile')
     end
 
     it 'should be represented as a string by its path' do
@@ -37,12 +35,6 @@ describe MtFile do
 
     it 'should contain a path method' do
       expect(file_instance.path).to eq('data/mtfile/foo')
-    end
-
-    it 'should create a file' do
-      expect(foo_exists).to be_falsey
-      file_instance.create
-      expect(foo_exists).to be_truthy
     end
 
     context 'and ensuring file existance' do
@@ -54,7 +46,7 @@ describe MtFile do
 
       it 'should do nothing if file already exists' do
         expect(foo_exists).to be_falsey
-        file_instance.create
+        file_instance.ensure_exists
         expect(foo_exists).to be_truthy
         file_instance.ensure_exists
         expect(foo_exists).to be_truthy

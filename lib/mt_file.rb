@@ -5,11 +5,6 @@ module MtFile
 
   # Ensure a file exists
   def ensure_exists
-    create unless File.exist? path
-  end
-
-  # Create an empty file
-  def create
     FileUtils.touch path
   end
 

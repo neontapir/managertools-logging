@@ -3,13 +3,11 @@ require './lib/employee_folder.rb'
 
 describe EmployeeFile do
   before(:all) do
-    Dir.mkdir('data') unless Dir.exist? 'data'
-    Dir.mkdir('data/normal') unless Dir.exist? 'data/normal'
+    FileUtils.mkdir_p('data/normal')
   end
 
   after(:all) do
-    Dir.rmdir('data/normal/john-smith') if Dir.exist? 'data/normal/john-smith'
-    Dir.rmdir('data/normal') if Dir.exist? 'data/normal'
+    FileUtils.rm_r('data/normal')
   end
 
   it 'should join paths correctly' do

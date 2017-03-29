@@ -13,16 +13,12 @@ describe Diary do
 
   context 'in Iron Man context' do
     before(:all) do
-      Dir.mkdir('data') unless Dir.exist? 'data'
-      Dir.mkdir('data/avengers') unless Dir.exist? 'data/avengers'
-      Dir.mkdir('data/avengers/tony-stark') unless Dir.exist? 'data/avengers/tony-stark'
+      FileUtils.mkdir_p('data/avengers/tony-stark')
       @log_file = LogFile.new(Dir.new('data/avengers/tony-stark'))
     end
 
     after(:all) do
-      File.delete(@log_file.path) if File.exist? @log_file.path
-      Dir.rmdir('data/avengers/tony-stark') if Dir.exist? 'data/avengers/tony-stark'
-      Dir.rmdir('data/avengers') if Dir.exist? 'data/avengers'
+      FileUtils.rm_r('data/avengers')
     end
 
     it 'should start a entry with the current date and time' do

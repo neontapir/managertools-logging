@@ -134,7 +134,7 @@ DEPENDENCIES
   configatron (~> 4.5)
   facets (~> 3.0)
   flay
-  flog (~> 4.6)
+  flog
   highline (~> 1.7)
   mutant-rspec (= 0.8.11)
   rake (~> 10.4)
@@ -144,7 +144,7 @@ DEPENDENCIES
   simplecov (~> 0.14)
   trollop (~> 2.1)
   unicode (~> 0.4)
-  yard (~> 0.9)
+  yard
 
 BUNDLED WITH
    1.14.6

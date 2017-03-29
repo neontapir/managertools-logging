@@ -84,7 +84,6 @@ class Employee
   # @return [LogFile] the employee's log file
   def file
     folder = EmployeeFolder.new self
-    folder.ensure_exists
     LogFile.new folder
   end
 
@@ -94,7 +93,7 @@ class Employee
   # @return [Boolean] whether the object is equivalent
   def eql?(other)
     return unless other.respond_to?(:team) && other.respond_to?(:first) && other.respond_to?(:last)
-    team == other.team && first == other.first && last == other.last
+    team.eql?(other.team) && first.eql?(other.first) && last.eql?(other.last)
   end
 
   # Object equality

@@ -2,21 +2,16 @@ require './lib/employee.rb'
 require './lib/employee_folder.rb'
 require_relative 'settings_helper'
 
-include SettingsHelper
-
 describe EmployeeFolder do
   context 'in normal characters context' do
     before(:all) do
-      Dir.mkdir('data') unless Dir.exist? 'data'
-      create_test_settings_file
-      Dir.mkdir('data/normal') unless Dir.exist? 'data/normal'
+      FileUtils.mkdir_p('data/normal') unless Dir.exist? 'data/normal'
       employee = Employee.new(team: 'normal', first: 'John', last: 'Smith')
       @folder = EmployeeFolder.new employee
     end
 
     after(:all) do
-      FileUtils.remove_dir('data/normal')
-      remove_test_settings_file
+      FileUtils.rm_r('data/normal')
     end
 
     it 'should create folder with normal characters' do
@@ -34,12 +29,11 @@ describe EmployeeFolder do
 
   context 'in accented characters context' do
     before(:all) do
-      Dir.mkdir('data') unless Dir.exist? 'data'
-      Dir.mkdir('data/āčċéñťèð') unless Dir.exist? 'data/āčċéñťèð'
+      FileUtils.mkdir_p('data/āčċéñťèð') unless Dir.exist? 'data/āčċéñťèð'
     end
 
     after(:all) do
-      FileUtils.remove_dir('data/āčċéñťèð')
+      FileUtils.rm_r('data/āčċéñťèð')
     end
 
     it 'should create folder with accented characters' do
@@ -55,19 +49,18 @@ describe EmployeeFolder do
 
   context 'in nonalnum characters context' do
     before(:all) do
-      Dir.mkdir('data') unless Dir.exist? 'data'
-      Dir.mkdir('data/bad') unless Dir.exist? 'data/bad'
+      FileUtils.mkdir_p('data/bad')
 
       employee = Employee.new(team: 'bad', first: 'J%hn', last: 'Sm][th')
       @folder = EmployeeFolder.new employee
     end
 
     after(:all) do
-      FileUtils.remove_dir('data/bad')
+      FileUtils.rm_r('data/bad')
     end
 
     it 'should ensure the correct folder exists' do
-      Dir.rmdir('data/bad/jhn-smth') if Dir.exist? 'data/bad/jhn-smth'
+      FileUtils.rm_r('data/bad/jhn-smth') if Dir.exist? 'data/bad/jhn-smth'
       expect(Dir.exist?('data/bad/jhn-smth')).to be_falsey
       @folder.ensure_exists
       expect(Dir.exist?('data/bad/jhn-smth')).to be_truthy

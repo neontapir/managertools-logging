@@ -15,9 +15,7 @@ class Team
   # Create a new Team object
   # @param [Hash] params a Hash with a :team entry
   def initialize(**params)
-    team = params.fetch(:team).downcase
-    team.tr!(' ', '-') if team.include? ' '
-    @team = team
+    @team = Team.to_path_string(params.fetch(:team))
   end
 
   # Extract the team section of a path
@@ -29,32 +27,25 @@ class Team
 
   # Find the first matching folder and return a corresponding team object
   def self.find(key)
-    folder = Dir.glob("#{EmployeeFolder.root}/*").find { |f| folder_matches?(f, key) }
+    folder = Dir.glob("#{EmployeeFolder.root}/*").find { |path| matches?(path, key) }
     return if folder.nil?
     team = parse_dir folder
-    Team.new team
-  end
-
-  # Determine if a folder matches the given string
-  def self.folder_matches?(folder, key)
-    (Dir.exist? folder) && (/#{key}/ =~ folder.to_s)
+    self.new team
   end
 
   # Convert a path string to a titlecased name
   def self.to_name(input)
-    input = input.tr('-', ' ') if input.include? '-'
-    input.titlecase
+    input.tr('-', ' ').titlecase
   end
 
   # Convert a titlecased string to a path name
   def self.to_path_string(input)
-    input = input.tr(' ', '-') if input.include? ' '
-    input.downcase
+    input.tr(' ', '-').downcase
   end
 
   # Get an array of team members folders located in this folder
   def members_by_folder
-    Dir.glob("#{EmployeeFolder.root}/#{Team.to_path_string(team)}/*")
+    Dir.glob("#{EmployeeFolder.root}/#{team}/*")
   end
 
   # Get an array of team members, based on folder location
@@ -69,7 +60,8 @@ class Team
 
   # Teams are equal if the have the same #team value
   def eql?(other)
-    team == other.team if other.respond_to?(:team)
+    return false unless other.respond_to?(:team)
+    team.eql?(other.team)
   end
 
   # Equality operator overload

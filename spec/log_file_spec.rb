@@ -1,30 +1,35 @@
 require './lib/log_file.rb'
 
-describe LogFile do
+describe LogFile, :order => :defined do
   context 'in Iron Man context' do
     before(:all) do
-      Dir.mkdir('data') unless Dir.exist? 'data'
-      Dir.mkdir('data/avengers')
-      Dir.mkdir('data/avengers/tony-stark')
+      FileUtils.mkdir_p('data/avengers/tony-stark')
       tony = Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark')
       folder = EmployeeFolder.new tony
       @log = LogFile.new folder
     end
 
     after(:all) do
-      File.delete('data/avengers/tony-stark/log.adoc')
-      Dir.rmdir('data/avengers/tony-stark')
-      Dir.rmdir('data/avengers')
+      FileUtils.rm_r('data/avengers')
     end
 
     it 'should know its path' do
       expect(@log.path).to eq('data/avengers/tony-stark/log.adoc')
     end
 
+    it 'should create a new file if none exists' do
+      @log.append 'foobar'
+      expect(File.readlines(@log.path)).to eq ["\n", "foobar\n"]
+    end
+
     it 'should append an entry' do
-      @log.append 'foo'
-      expect(File.readlines(@log.path).grep(/foo/).size).to be > 0
-      expect(File.readlines(@log.path).grep(/bar/).size).not_to be > 0
+      @log.append 'baz'
+      expect(File.readlines(@log.path)).to eq ["\n", "foobar\n", "\n", "baz\n"]
+    end
+
+    it 'should not add an extra leading carriage return if one provided' do
+      @log.append "\nqux"
+      expect(File.readlines(@log.path)).to eq ["\n", "foobar\n", "\n", "baz\n", "\n", "qux\n"]
     end
   end
 end

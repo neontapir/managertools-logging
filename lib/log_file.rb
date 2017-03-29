@@ -16,7 +16,7 @@ class LogFile
     ensure_exists
     open(@log_file.path, 'a') do |file|
       file.puts "\n" unless entry.to_s[0, 1] == "\n" # ensure leading CR for Asciidoc
-      file.puts entry.to_s
+      file.puts entry
     end
   end
 

@@ -20,7 +20,19 @@
 require 'simplecov'
 SimpleCov.start
 
+require './spec/settings_helper'
+include SettingsHelper
+
 RSpec.configure do |config|
+  config.before(:suite) do
+    FileUtils.mkdir_p('data')
+    create_test_settings_file
+  end
+
+  config.after(:suite) do
+    remove_test_settings_file
+  end
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
