@@ -32,9 +32,9 @@ describe Diary do
       expect(result[:datetime].to_i).to be_within(one_second).of Time.now.to_i
     end
 
-    it 'should record an entry to the correct file' do
+    it 'should append an entry to the correct file' do
       old_length = File.size?(@log_file.path) ? File.size(@log_file.path) : 0
-      result = diary_instance.record_to_file(:interview, 'tony-stark')
+      _ = diary_instance.record_to_file(:interview, 'tony-stark')
       expect(File.size(@log_file.path)).to be > old_length
     end
   end

@@ -1,4 +1,5 @@
 .idea/
+.yardoc/
 coverage/
 data/
 spec/examples.txt

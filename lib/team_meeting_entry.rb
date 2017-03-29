@@ -6,11 +6,11 @@ include MtDataFormatter
 
 # Tempate used for team meetings, propagated to all team members' files
 class TeamMeetingEntry < DiaryEntry
-  def self.prompt(*)
+  def prompt(*)
     'For your team meeting, enter the following:'
   end
 
-  def self.elements_array
+  def elements_array
     [
       DiaryElement.new(:attendees),
       DiaryElement.new(:location, 'Location', 'unspecified'),

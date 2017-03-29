@@ -1,27 +1,31 @@
 require 'highline/import'
 
 # A single item in a diary entry, like "Location"
-# @attr_reader [Symbol] key the key to use for the entry's data dictionary
-# @attr_reader [String] prompt the phrase to display when prompting the user for its value
-# @attr_reader [String] default the default value of the entry
+# @!attribute [r] key
+#   @return [Symbol] the key to use for the diary entry's data dictionary, should be unique
+# @!attribute [r] prompt
+#   @return [String] the phrase to display when prompting the user for its value
+# @!attribute [r] default
+#   @return [String] the default value of the element
 class DiaryElement
   attr_reader :key, :prompt, :default
 
   # The value used if the element's default value is not specified during object construction
   DEFAULT_VALUE = 'none'.freeze
 
-  # Create a new diary element
-  # @raise [ArgumentError] when prompt contains characters not allowed in Asciidoc definition lists
+  # @!method initialize(key, prompt = key.to_s.capitalize, default = DEFAULT_VALUE)
+  #   Create a new diary element
+  #   @raise [ArgumentError] when prompt contains characters not allowed in Asciidoc definition lists
   def initialize(key, prompt = key.to_s.capitalize, default = DEFAULT_VALUE)
+    # TODO: Research, this assertion may not actually be true
+    raise ArgumentError, 'Asciidoc labeled lists cannot contain special characters' unless prompt =~ /\A['\-A-Za-z ]+\z/
+
     @key = key
     @prompt = prompt
     @default = default
-
-    # TODO: Research, this may not actually be true
-    raise ArgumentError, 'Asciidoc labeled lists cannot contain special characters' unless @prompt =~ /\A['\-A-Za-z ]+\z/
   end
 
-  # Display the prompt, and get the user's input for the element's value
+  # Display the prompt, and get the element's value from the user
   def obtain
     ask "#{prompt}: " do |answer|
       answer.default = default

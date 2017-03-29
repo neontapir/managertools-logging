@@ -11,3 +11,5 @@ Style/CollectionMethods:
     reduce: "inject"
 Style/SignalException:
   EnforcedStyle: only_raise
+Style/FormatString:
+  EnforcedStyle: percent

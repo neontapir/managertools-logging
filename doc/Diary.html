@@ -327,7 +327,8 @@ interactive session.</p>
 43
 44
 45
-46</pre>
+46
+47</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/diary.rb', line 38</span>
@@ -335,9 +336,10 @@ interactive session.</p>
 <span class='kw'>def</span> <span class='id identifier rubyid_create_entry'>create_entry</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_header'>header</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_entry_type'>entry_type</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="DiaryEntry.html" title="DiaryEntry (class)">DiaryEntry</a></span></span><span class='period'>.</span><span class='id identifier rubyid_get'><span class='object_link'><a href="DiaryEntry.html#get-class_method" title="DiaryEntry.get (method)">get</a></span></span> <span class='id identifier rubyid_type'>type</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span> <span class='kw'>unless</span> <span class='id identifier rubyid_entry_type'>entry_type</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="DiaryEntry.html" title="DiaryEntry (class)">DiaryEntry</a></span></span>
-  <span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_entry_type'>entry_type</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='symbol'>:prompt</span><span class='comma'>,</span> <span class='id identifier rubyid_header'>header</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_new_entry'>new_entry</span> <span class='op'>=</span> <span class='id identifier rubyid_entry_type'>entry_type</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+  <span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_new_entry'>new_entry</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='symbol'>:prompt</span><span class='comma'>,</span> <span class='id identifier rubyid_header'>header</span><span class='rparen'>)</span>
 
-  <span class='id identifier rubyid_entry_type'>entry_type</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='symbol'>:elements_array</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each_with_object'>each_with_object</span><span class='lparen'>(</span><span class='id identifier rubyid_started_entry'>started_entry</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_item'>item</span><span class='comma'>,</span> <span class='id identifier rubyid_memo'>memo</span><span class='op'>|</span>
+  <span class='id identifier rubyid_new_entry'>new_entry</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='symbol'>:elements_array</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each_with_object'>each_with_object</span><span class='lparen'>(</span><span class='id identifier rubyid_started_entry'>started_entry</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_item'>item</span><span class='comma'>,</span> <span class='id identifier rubyid_memo'>memo</span><span class='op'>|</span>
     <span class='id identifier rubyid_memo'>memo</span><span class='lbracket'>[</span><span class='id identifier rubyid_item'>item</span><span class='period'>.</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_item'>item</span><span class='period'>.</span><span class='id identifier rubyid_obtain'>obtain</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
@@ -542,14 +544,14 @@ interactive session.</p>
       <pre class="lines">
 
 
-49
 50
 51
 52
-53</pre>
+53
+54</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/diary.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'lib/diary.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_started_entry'>started_entry</span>
   <span class='id identifier rubyid_hash'>hash</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
@@ -621,9 +623,9 @@ interactive session</p>
 </div>
 
       <div id="footer">
-  Generated on Tue Mar 28 15:34:01 2017 by
+  Generated on Wed Mar 29 12:27:48 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.8 (ruby-2.4.0).
+  0.9.8 (ruby-2.4.1).
 </div>
 
     </div>

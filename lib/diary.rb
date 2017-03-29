@@ -38,9 +38,10 @@ module Diary
   def create_entry(type, header)
     entry_type = DiaryEntry.get type
     raise ArgumentError unless entry_type < DiaryEntry
-    puts entry_type.send(:prompt, header)
+    new_entry = entry_type.new
+    puts new_entry.send(:prompt, header)
 
-    entry_type.send(:elements_array).each_with_object(started_entry) do |item, memo|
+    new_entry.send(:elements_array).each_with_object(started_entry) do |item, memo|
       memo[item.key] = item.obtain
     end
   end

@@ -6,11 +6,11 @@ include MtDataFormatter
 
 # Template for documenting feedback given
 class FeedbackEntry < DiaryEntry
-  def self.prompt(name)
+  def prompt(name)
     "With feedback for #{name}, enter the following:"
   end
 
-  def self.elements_array
+  def elements_array
     [
       DiaryElement.new(:polarity, 'Polarity', 'positive'),
       DiaryElement.new(:content)

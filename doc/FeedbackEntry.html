@@ -126,64 +126,55 @@
 
   
     <h2>
-      Class Method Summary
-      <small><a href="#" class="summary_toggle">collapse</a></small>
-    </h2>
-
-    <ul class="summary">
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#elements_array-class_method" title="elements_array (class method)">.<strong>elements_array</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#prompt-class_method" title="prompt (class method)">.<strong>prompt</strong>(name)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-    </ul>
-  
-    <h2>
       Instance Method Summary
       <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#elements_array-instance_method" title="#elements_array (instance method)">#<strong>elements_array</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#prompt-instance_method" title="#prompt (instance method)">#<strong>prompt</strong>(name)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
       
         <li class="public ">
   <span class="summary_signature">
@@ -229,14 +220,14 @@
 </div>
 
 
-  <div id="class_method_details" class="method_details_list">
-    <h2>Class Method Details</h2>
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="elements_array-class_method">
+  <h3 class="signature first" id="elements_array-instance_method">
   
-    .<strong>elements_array</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>elements_array</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -258,7 +249,7 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/feedback_entry.rb', line 13</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_elements_array'>elements_array</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_elements_array'>elements_array</span>
   <span class='lbracket'>[</span>
     <span class='const'><span class='object_link'><a href="DiaryElement.html" title="DiaryElement (class)">DiaryElement</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="DiaryElement.html#initialize-instance_method" title="DiaryElement#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='symbol'>:polarity</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Polarity</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>positive</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span>
     <span class='const'><span class='object_link'><a href="DiaryElement.html" title="DiaryElement (class)">DiaryElement</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="DiaryElement.html#initialize-instance_method" title="DiaryElement#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='symbol'>:content</span><span class='rparen'>)</span>
@@ -270,9 +261,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="prompt-class_method">
+  <h3 class="signature " id="prompt-instance_method">
   
-    .<strong>prompt</strong>(name)  &#x21d2; <tt>Object</tt> 
+    #<strong>prompt</strong>(name)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -291,7 +282,7 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/feedback_entry.rb', line 9</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_prompt'>prompt</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_prompt'>prompt</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>With feedback for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>, enter the following:</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
@@ -299,14 +290,8 @@
 </table>
 </div>
     
-  </div>
-
-  <div id="instance_method_details" class="method_details_list">
-    <h2>Instance Method Details</h2>
-
-    
-      <div class="method_details first">
-  <h3 class="signature first" id="to_s-instance_method">
+      <div class="method_details ">
+  <h3 class="signature " id="to_s-instance_method">
   
     #<strong>to_s</strong>  &#x21d2; <tt>Object</tt> 
   
@@ -340,9 +325,9 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Mar 28 15:34:01 2017 by
+  Generated on Wed Mar 29 12:27:49 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.8 (ruby-2.4.0).
+  0.9.8 (ruby-2.4.1).
 </div>
 
     </div>

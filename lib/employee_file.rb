@@ -9,13 +9,13 @@ class EmployeeFile
   include MtFile
   attr_reader :folder, :filename
 
-  # Create an employee folder object
+  # Create an employee file object
   def initialize(folder, filename)
     @folder = folder
     @filename = filename
   end
 
-  # The file path to this EmployeeFile
+  # The file system path to this EmployeeFile
   def path
     File.join(folder.path, filename)
   end

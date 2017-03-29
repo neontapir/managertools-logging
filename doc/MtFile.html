@@ -131,7 +131,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Create an empty file.</p>
+</div></span>
   
 </li>
 
@@ -153,7 +155,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Ensure a file exists.</p>
+</div></span>
   
 </li>
 
@@ -170,7 +174,7 @@
   
   
   
-  
+  <span class="abstract note title">abstract</span>
   
   
 
@@ -197,7 +201,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Represent the file as its filesystem location.</p>
+</div></span>
   
 </li>
 
@@ -220,18 +226,29 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Create an empty file</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-9
-10
-11</pre>
+12
+13
+14</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mt_file.rb', line 9</span>
+      <pre class="code"><span class="info file"># File 'lib/mt_file.rb', line 12</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span>
   <span class='const'>FileUtils</span><span class='period'>.</span><span class='id identifier rubyid_touch'>touch</span> <span class='id identifier rubyid_path'>path</span>
@@ -250,18 +267,29 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Ensure a file exists</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-5
-6
-7</pre>
+7
+8
+9</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mt_file.rb', line 5</span>
+      <pre class="code"><span class="info file"># File 'lib/mt_file.rb', line 7</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ensure_exists'>ensure_exists</span>
   <span class='id identifier rubyid_create'>create</span> <span class='kw'>unless</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span> <span class='id identifier rubyid_path'>path</span>
@@ -282,7 +310,13 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
+    <div class="note abstract">
+  <strong>This method is abstract.</strong>
+  <div class='inline'>
+<p>returns the file system location of the file</p>
+</div>
+</div>
+
 
   </div>
 </div>
@@ -308,12 +342,12 @@
       <pre class="lines">
 
 
-13
-14
-15</pre>
+17
+18
+19</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mt_file.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'lib/mt_file.rb', line 17</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_path'>path</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotImplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>A MtFile must define its #path</span><span class='tstring_end'>&#39;</span></span>
@@ -332,18 +366,29 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Represent the file as its filesystem location</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-17
-18
-19</pre>
+22
+23
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mt_file.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'lib/mt_file.rb', line 22</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
   <span class='id identifier rubyid_path'>path</span>
@@ -358,9 +403,9 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Mar 28 15:34:01 2017 by
+  Generated on Wed Mar 29 12:27:48 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.8 (ruby-2.4.0).
+  0.9.8 (ruby-2.4.1).
 </div>
 
     </div>

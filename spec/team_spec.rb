@@ -1,6 +1,12 @@
 require './lib/team.rb'
 
 describe Team do
+  context 'in initializer context' do
+    it 'should raise if params hash does not contain a team entry' do
+      expect{Team.new({})}.to raise_error KeyError
+    end
+  end
+
   context 'in equality context' do
     before(:all) do
       @avengers = Team.new(team: 'Avengers')

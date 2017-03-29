@@ -6,11 +6,11 @@ include MtDataFormatter
 
 # Template for an observation
 class ObservationEntry < DiaryEntry
-  def self.prompt(name)
+  def prompt(name)
     "Enter your observation for #{name}:"
   end
 
-  def self.elements_array
+  def elements_array
     [DiaryElement.new(:content)]
   end
 

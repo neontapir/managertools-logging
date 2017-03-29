@@ -22,7 +22,7 @@ module SettingsHelper
         <<: *defaults
     EOF
 
-    File.open(config_file, 'w') {|f| f.write(doc) } unless File.exist? config_file
+    File.open(config_file, 'w') {|file| file.write(doc) } unless File.exist? config_file
     raise IOError, "Missing settings file #{config_file}" unless File.exist? config_file
   end
 

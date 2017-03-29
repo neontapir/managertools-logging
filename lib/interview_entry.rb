@@ -6,12 +6,12 @@ include MtDataFormatter
 
 # Template for a phone screening interview
 class InterviewEntry < DiaryEntry
-  def self.prompt(name)
+  def prompt(name)
     "For your interview with #{name}, enter the following:"
   end
 
   # rubocop:disable Metrics/MethodLength
-  def self.elements_array
+  def elements_array
     [
       DiaryElement.new(:location, 'Location', 'Skype'),
       DiaryElement.new(:why_new_job, 'Why new job'),
