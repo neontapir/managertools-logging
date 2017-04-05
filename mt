@@ -44,7 +44,7 @@ def parse(script, subcommand, arguments)
   elsif %w(feedback interview o3 observation).include?(subcommand)
     add_entry(subcommand, arguments)
   # in cases where we will invoke an external script (spelled out if no alias defined)
-  elsif %w(report report-team).include?(subcommand) || ALIASES.values.include?(subcommand)
+elsif %w(new-hire report report-team).include?(subcommand) || ALIASES.values.include?(subcommand)
     script = File.join(script, subcommand)
   else
     Trollop.die "unknown subcommand #{subcommand.inspect}"

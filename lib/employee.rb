@@ -25,15 +25,20 @@ class Employee
     @last = params.fetch(:last)
   end
 
-  # Description of method
+  # Parse the path as though it is an employee spec and return the result
   #
   # @param [String] dir the location of a person
   # @return [Hash] the employee data represented by the location
   def self.parse_dir(dir)
     paths = split_path dir
     _root, team, name = paths
-    first, last = name.tr!('-', ' ').titlecase.strip.split(/\s+/)
-    { team: team, first: first, last: last }
+    { team: team }.merge(parse_name(name))
+  end
+
+  # Parse a string as though it is part of an employee spec and return the result
+  def self.parse_name(name)
+    first, last = name.tr('-', ' ').titlecase.strip.split(/\s+/)
+    { first: first, last: last }
   end
 
   # Given a part of employee data, find the first matching employee
@@ -59,7 +64,7 @@ class Employee
   def self.get(person, type = :generic)
     employee_spec = Employee.find person
     employee = if employee_spec.nil?
-                 Employee.new(create_spec(type))
+                 Employee.new(create_spec(type, parse_name(person)))
                else
                  employee_spec
                end
@@ -70,13 +75,23 @@ class Employee
   #
   # @param [String] type the type of entry
   # @return [Hash] a specification of the employee
-  def self.create_spec(type)
+  def self.create_spec(type, person)
     result = {}
-    result[:team] = EmployeeFolder.candidates_root if type.to_sym == :interview
-    [:team, :first, :last].each do |symbol|
-      result[symbol] ||= ask "#{symbol.to_s.capitalize}: "
+    result[:team] = if type.to_sym.eql? :interview
+      EmployeeFolder.candidates_root
+    else
+      obtain('Team', EmployeeFolder.candidates_root)
     end
+    result[:first] = obtain('First', person[:first] || 'Zaphod')
+    result[:last] = obtain('Last', person[:last] || 'Beeblebrox')
     result
+  end
+
+  # Display the prompt, and get the element's value from the user
+  def self.obtain(prompt, default = '')
+    ask "#{prompt}: " do |answer|
+      answer.default = default
+    end
   end
 
   # Get the LogFile for the employee

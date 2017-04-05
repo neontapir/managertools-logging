@@ -5,6 +5,7 @@ module MtFile
 
   # Ensure a file exists
   def ensure_exists
+    FileUtils.mkdir_p(File.dirname(path))
     FileUtils.touch path
   end
 
