@@ -3,6 +3,7 @@
 require 'pathname'
 require 'trollop'
 require 'facets/string/titlecase'
+require_relative 'lib/employee'
 require_relative 'lib/employee_folder'
 require_relative 'lib/mt_data_formatter'
 require_relative 'lib/path_splitter'
@@ -16,11 +17,15 @@ if __FILE__ == $PROGRAM_NAME
     opt :force, 'generate even if file exists', default: false
   end
 
-  Dir.glob("#{EmployeeFolder.root}/*/*") do |f|
-    next unless Dir.exist? f
-    _root, team, name = split_path f
-    first, last = name.tr!('-', ' ').titlecase.split(' ')
-    force = opts[:force] ? '--force' : ''
-    system('./mt', 'new-hire', force, '--team', team, '--first', first, '--last', last) || exit(-1)
+  force = opts[:force] ? '--force' : ''
+  Dir.glob("#{EmployeeFolder.root}/*/*") do |folder|
+    next unless Dir.exist? folder
+    employee = Employee.find(folder)
+    args = %w(new-hire) << force
+    %w(team first last).each do |p|
+      args << "--#{p}"
+      args << "#{employee.send(p.to_sym)}"
+    end
+    system('./mt', *args) || exit(-1)
   end
 end

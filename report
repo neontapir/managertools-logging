@@ -4,6 +4,7 @@ require 'highline/import'
 require 'shell'
 require 'trollop'
 require_relative 'lib/diary'
+require_relative 'lib/employee'
 
 include Diary
 
@@ -21,7 +22,7 @@ if __FILE__ == $PROGRAM_NAME
   end
 
   person = ARGV.first
-  employee = get_employee person
+  employee = Employee.get person
   employee_name = employee.canonical_name
 
   folder = EmployeeFolder.new employee

@@ -9,14 +9,14 @@ def record_diary_entry(entry_type, person)
 end
 
 ALIASES = {
+  'fb' => 'feedback',
+  'feed' => 'feedback',
   'gen' => 'gen-overview-files',
+  'meeting' => 'team-meeting',
   'ob' => 'observation',
   'obs' => 'observation',
   'open' => 'open-file',
-  'feed' => 'feedback',
-  'fb' => 'feedback',
-  'team' => 'team-meeting',
-  'meeting' => 'team-meeting'
+  'team' => 'team-meeting'
 }.freeze
 
 BANNERS = {
@@ -44,7 +44,7 @@ def parse(script, subcommand, arguments)
   elsif %w(feedback interview o3 observation).include?(subcommand)
     add_entry(subcommand, arguments)
   # in cases where we will invoke an external script (spelled out if no alias defined)
-elsif %w(new-hire report report-team).include?(subcommand) || ALIASES.values.include?(subcommand)
+  elsif %w(new-hire report report-team).include?(subcommand) || ALIASES.values.include?(subcommand)
     script = File.join(script, subcommand)
   else
     Trollop.die "unknown subcommand #{subcommand.inspect}"
@@ -64,6 +64,8 @@ if __FILE__ == $PROGRAM_NAME
                     o3 observation report report-team).freeze
 
   # capture options given before subcommand
+  # TODO: there's a bug here in the way arguments to subcommands are parsed
+  #   for example, './mt gen --force' returns an error
   @global_opts = Trollop.options do
     banner 'Command-line note-taking system based on Manager Tools practices'
     banner "Subcommands are: #{SUB_COMMANDS.sort * CSV_DELIMITER}"

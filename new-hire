@@ -32,21 +32,18 @@ if __FILE__ == $PROGRAM_NAME
     opt :last, 'person\'s last name (in quotes, like "Tony Stark")', type: :string
   end
 
-  team = opts.fetch(:team)
-  first = opts.fetch(:first)
-  last = opts.fetch(:last)
-
-  employee = Employee.new(team: team, first: first, last: last)
+  employee = Employee.new(opts)
   folder = EmployeeFolder.new employee
   folder.ensure_exists
 
   overview_file = EmployeeFile.new folder, 'overview.adoc'
   print "\nReviewing #{overview_file}... "
   if !opts.force? && File.exist?(overview_file.path)
-    print "exists\n"
+    print 'exists'
   else
     generate_file folder, overview_file
   end
+  print "\n"
 
   log_file = EmployeeFile.new folder, 'log.adoc'
   log_file.ensure_exists
