@@ -12,8 +12,7 @@ describe LogFile, :order => :defined do
 
     subject do
       tony = Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark')
-      folder = EmployeeFolder.new tony
-      LogFile.new folder
+      LogFile.new(EmployeeFolder.new tony)
     end
 
     it 'knows the file path' do
