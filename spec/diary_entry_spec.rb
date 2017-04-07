@@ -23,24 +23,22 @@ describe DiaryEntry do
     class UnimplementedDiaryEntry < DiaryEntry
     end
 
-    before(:all) do
-      @entry = UnimplementedDiaryEntry.new({:datetime => Time.new(2002)})
-    end
+    subject { UnimplementedDiaryEntry.new({:datetime => Time.new(2002)}) }
 
     it 'should raise if the template class is not inherited' do
-      expect{@entry.render('Test')}.to raise_error(NotImplementedError, 'DiaryElement#elements_array must be overriden')
+      expect{subject.render('Test')}.to raise_error(NotImplementedError, 'DiaryElement#elements_array must be overriden')
     end
 
     it 'should raise if elements_array is not overriden' do
-      expect{@entry.elements_array}.to raise_error(NotImplementedError, 'DiaryElement#elements_array must be overriden')
+      expect{subject.elements_array}.to raise_error(NotImplementedError, 'DiaryElement#elements_array must be overriden')
     end
 
     it 'should raise if prompt is not overriden' do
-      expect{@entry.prompt(nil)}.to raise_error(NotImplementedError, 'DiaryElement#prompt must be overriden')
+      expect{subject.prompt(nil)}.to raise_error(NotImplementedError, 'DiaryElement#prompt must be overriden')
     end
 
     it 'should raise if to_s is not overriden' do
-      expect{@entry.to_s}.to raise_error(NotImplementedError, 'DiaryElement#to_s must be overriden')
+      expect{subject.to_s}.to raise_error(NotImplementedError, 'DiaryElement#to_s must be overriden')
     end
   end
 

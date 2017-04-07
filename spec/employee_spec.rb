@@ -2,6 +2,16 @@ require 'ostruct'
 require './lib/employee.rb'
 
 describe Employee do
+  def is_correct?(employee, team, first, last)
+    expect(employee).not_to be_nil
+    employee_team = employee.instance_of?(Employee) ? employee.team : employee.fetch(:team)
+    expect(employee_team).to eq team
+    employee_first = employee.instance_of?(Employee) ? employee.first : employee.fetch(:first)
+    expect(employee_first).to eq first
+    employee_last = employee.instance_of?(Employee) ? employee.last : employee.fetch(:last)
+    expect(employee_last).to eq last
+  end
+
   context 'when getting the name' do
     it 'should be capitalized if input is capitalized' do
       cap = { team: 'Avengers', first: 'Steve', last: 'Rogers' }
@@ -19,50 +29,50 @@ describe Employee do
   context 'in Iron Man context' do
     before(:all) do
       FileUtils.mkdir_p('data/avengers/tony-stark')
-      @iron_man = Employee.find('tony')
     end
 
     after(:all) do
       FileUtils.rm_r('data/avengers')
     end
 
+    subject { Employee.find('tony') }
+
+    def is_tony?(employee)
+      is_correct? employee, 'avengers', 'Tony', 'Stark'
+    end
+
     it 'should parse a folder correctly' do
       dir = Dir.new('data/avengers/tony-stark')
       iron_man = Employee.parse_dir(dir)
-      expect(iron_man.fetch(:team)).to eq 'avengers'
-      expect(iron_man.fetch(:first)).to eq 'Tony'
-      expect(iron_man.fetch(:last)).to eq 'Stark'
+      expect(is_tony? iron_man).to be_truthy
     end
 
     it 'should find Iron Man' do
-      expect(@iron_man).not_to be_nil
-      expect(@iron_man.team).to eq 'avengers'
-      expect(@iron_man.first).to eq 'Tony'
-      expect(@iron_man.last).to eq 'Stark'
+      expect(is_tony? subject).to be_truthy
     end
 
     it 'should give the correct log file location' do
-      file = @iron_man.file
+      file = subject.file
       expect(file).not_to be_nil
       expect(file.path).to eq 'data/avengers/tony-stark/log.adoc'
     end
 
     it 'should give Iron Man\'s name' do
-      expect(@iron_man.to_s).to eq 'Tony Stark'
+      expect(subject.to_s).to eq 'Tony Stark'
     end
 
     it 'equality should match on team, first, and last name' do
-      expect(@iron_man).to eq Employee.new(team: 'avengers', first: 'Tony', last: 'Stark')
-      expect(@iron_man).not_to eq Employee.new(team: 'justice-league', first: 'Tony', last: 'Stark')
-      expect(@iron_man).not_to eq Employee.new(team: 'avengers', first: 'Anthony', last: 'Stark')
-      expect(@iron_man).not_to eq Employee.new(team: 'avengers', first: 'Tony', last: 'Starkraving')
+      is_expected.to eq Employee.new(team: 'avengers', first: 'Tony', last: 'Stark')
+      is_expected.not_to eq Employee.new(team: 'justice-league', first: 'Tony', last: 'Stark')
+      is_expected.not_to eq Employee.new(team: 'avengers', first: 'Anthony', last: 'Stark')
+      is_expected.not_to eq Employee.new(team: 'avengers', first: 'Tony', last: 'Starkraving')
     end
 
     it 'equality should not match on invalid objects' do
-      expect(@iron_man).not_to eq 'Tony Stark of the Avengers'
-      expect(@iron_man).not_to eq OpenStruct.new(first: 'Tony', last: 'Stark') # no team
-      expect(@iron_man).not_to eq OpenStruct.new(team: 'avengers', last: 'Stark') # no first
-      expect(@iron_man).not_to eq OpenStruct.new(team: 'avengers', first: 'Tony') # no last
+      is_expected.not_to eq 'Tony Stark of the Avengers'
+      is_expected.not_to eq OpenStruct.new(first: 'Tony', last: 'Stark') # no team
+      is_expected.not_to eq OpenStruct.new(team: 'avengers', last: 'Stark') # no first
+      is_expected.not_to eq OpenStruct.new(team: 'avengers', first: 'Tony') # no last
     end
 
     it 'should not find Captain America' do
@@ -83,18 +93,12 @@ describe Employee do
 
     it 'should return first in alphabetical order if multiples match' do
       beast = Employee.find('hank')
-      expect(beast).not_to be_nil
-      expect(beast.team).to eq 'avengers'
-      expect(beast.first).to eq 'Hank'
-      expect(beast.last).to eq 'Mccoy'
+      is_correct?(beast, 'avengers', 'Hank', 'Mccoy')
     end
 
     it 'should find someone if given a unique key' do
       ant_man = Employee.find('hank-p')
-      expect(ant_man).not_to be_nil
-      expect(ant_man.team).to eq 'avengers'
-      expect(ant_man.first).to eq 'Hank'
-      expect(ant_man.last).to eq 'Pym'
+      is_correct?(ant_man, 'avengers', 'Hank', 'Pym')
     end
   end
 end
