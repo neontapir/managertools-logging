@@ -11,6 +11,8 @@ class EmployeeFile
 
   # Create an employee file object
   def initialize(folder, filename)
+    raise ArgumentError, 'Folder cannot be empty' if folder.to_s.empty?
+    raise ArgumentError, 'Filename cannot be empty' if filename.to_s.empty?
     @folder = folder
     @filename = filename
   end

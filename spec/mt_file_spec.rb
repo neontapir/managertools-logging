@@ -9,7 +9,7 @@ describe MtFile do
     end
   end
 
-  context 'when working with MT files' do
+  context 'with a typical instance' do
     # Helper class for testing MtFile
     MtFileClass = Class.new do
       include MtFile
@@ -32,22 +32,22 @@ describe MtFile do
       File.exist?('data/mtfile/foo')
     end
 
-    it 'should be represented as a string by its path' do
-      expect(subject.to_s).to eq(subject.path)
-    end
-
-    it 'should contain a path method' do
+    it 'knows the file path' do
       expect(subject.path).to eq('data/mtfile/foo')
     end
 
-    context 'and ensuring file existance' do
-      it 'should create a file if none does' do
+    it 'is represented as a string by its path' do
+      expect(subject.to_s).to eq(subject.path)
+    end
+
+    context 'when ensuring existance' do
+      it 'creates a file if none exists' do
         expect(foo_exists).to be_falsey
         subject.ensure_exists
         expect(foo_exists).to be_truthy
       end
 
-      it 'should do nothing if file already exists' do
+      it 'does nothing if file already exists' do
         expect(foo_exists).to be_falsey
         subject.ensure_exists
         expect(foo_exists).to be_truthy

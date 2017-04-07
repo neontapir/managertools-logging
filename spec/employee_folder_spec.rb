@@ -3,7 +3,7 @@ require './lib/employee_folder.rb'
 require_relative 'settings_helper'
 
 describe EmployeeFolder do
-  context 'in normal characters context' do
+  context 'with normal characters' do
     before(:all) do
       FileUtils.mkdir_p('data/normal') unless Dir.exist? 'data/normal'
     end
@@ -17,7 +17,7 @@ describe EmployeeFolder do
       EmployeeFolder.new(john)
     end
 
-    it 'should create folder with normal characters' do
+    it 'creates folder with normal characters' do
       expected_path = 'data/normal/john-smith'
       expect(subject.path).to eq(expected_path)
 
@@ -25,12 +25,12 @@ describe EmployeeFolder do
       expect(Dir.exist?(expected_path))
     end
 
-    it 'should return the path when cast as a string' do
+    it 'returns the path when cast as a string' do
       expect(subject.to_s).to eq(subject.path)
     end
   end
 
-  context 'in accented characters context' do
+  context 'with accented characters' do
     before(:all) do
       FileUtils.mkdir_p('data/āčċéñťèð') unless Dir.exist? 'data/āčċéñťèð'
     end
@@ -44,7 +44,7 @@ describe EmployeeFolder do
       EmployeeFolder.new(ezel)
     end
 
-    it 'should create folder with accented characters' do
+    it 'creates folder with accented characters' do
       expected_path = 'data/āčċéñťèð/ezel-çeçek'
       expect(subject.path).to eq(expected_path)
 
@@ -53,7 +53,7 @@ describe EmployeeFolder do
     end
   end
 
-  context 'in nonalnum characters context' do
+  context 'with nonalnum characters' do
     before(:all) do
       FileUtils.mkdir_p('data/bad')
     end
@@ -67,14 +67,14 @@ describe EmployeeFolder do
       EmployeeFolder.new bad
     end
 
-    it 'should ensure the correct folder exists' do
+    it 'ensures the correct folder exists' do
       FileUtils.rm_r('data/bad/jhn-smth') if Dir.exist? 'data/bad/jhn-smth'
       expect(Dir.exist?('data/bad/jhn-smth')).to be_falsey
       subject.ensure_exists
       expect(Dir.exist?('data/bad/jhn-smth')).to be_truthy
     end
 
-    it 'should strip non-alphanumeric characters from the name' do
+    it 'strips non-alphanumeric characters from the name' do
       expect(subject.folder_name).to eq('jhn-smth')
     end
   end
