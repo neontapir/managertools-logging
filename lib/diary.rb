@@ -3,7 +3,6 @@ Dir["#{File.dirname(__FILE__)}/*_entry.rb"].each { |f| require_relative(f) }
 
 # Base functionality for all entry types
 module Diary
-
   # Returns true if a command line option requests a template instead of an interactive session
   def template?
     (@global_opts && @global_opts.template) || (@cmd_opts && @cmd_opts.template)
@@ -22,11 +21,7 @@ module Diary
   # @param [String] type The name of the template entry type
   # @param [String] employee The name of the employee
   def get_entry(type, employee)
-    data = if template?
-             started_entry
-           else
-             create_entry type, employee.to_s
-           end
+    data = template? ? {} : create_entry(type, employee.to_s)
     entry_type = DiaryEntry.get type
     entry_type.new data
   end
@@ -40,16 +35,8 @@ module Diary
     raise ArgumentError unless entry_type < DiaryEntry
     new_entry = entry_type.new
     puts new_entry.send(:prompt, header)
-
-    new_entry.send(:elements_array).each_with_object(started_entry) do |item, memo|
+    new_entry.send(:elements_array).each_with_object({}) do |item, memo|
       memo[item.key] = item.obtain
     end
-  end
-
-  # Creates a brand-new entry, which includes the current time
-  def started_entry
-    hash = Hash.new('')
-    hash[:datetime] = Time.now
-    hash
   end
 end

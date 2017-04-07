@@ -8,6 +8,7 @@ class DiaryEntry
 
   # Create a new diary entry
   def initialize(**record)
+    record[:datetime] = Time.now unless record.key? :datetime
     @record = record
   end
 
@@ -27,27 +28,33 @@ class DiaryEntry
   #   @return [String] an Asciidoc fragment suitable for appending to a log file
   def render(title, entry_type = self.class)
     raise NotImplementedError, 'DiaryElement#elements_array must be overriden' unless entry_type.instance_methods(false).include?(:elements_array)
+    raise ArgumentError, "#{entry_type}#elements_array must return an enumerable" unless elements_array.is_a?(Enumerable)
     initial = "=== #{title} (#{format_date(@record.fetch(:datetime))})\n"
-    raise ArgumentError, "#{entry_type}#elements_array must return an enumerable" unless elements_array.kind_of?(Enumerable)
-    elements_array.inject(initial) do |output, entry|
-      output << "#{entry.prompt}::\n  #{wrap(@record.fetch(entry.key, entry.default))}\n"
-    end
+    populate(elements_array, initial)
   end
 
   # @abstract Gives the text shown at the beginning of an interactive session to provide the user context
   # @param [String] preamble the string to display
-  def prompt(preamble)
-    fail NotImplementedError, 'DiaryElement#prompt must be overriden'
+  def prompt(_preamble)
+    raise NotImplementedError, 'DiaryElement#prompt must be overriden'
   end
 
   # @abstract Gives an array of DiaryElement objects that the user will be prompted to fill out
   # @return [Array] the elements to prompt on
   def elements_array
-    fail NotImplementedError, 'DiaryElement#elements_array must be overriden'
+    raise NotImplementedError, 'DiaryElement#elements_array must be overriden'
   end
 
   # @abstract Gives the string representation of the class, written to the person's log file
   def to_s
-    fail NotImplementedError, 'DiaryElement#to_s must be overriden'
+    raise NotImplementedError, 'DiaryElement#to_s must be overriden'
+  end
+
+  private
+
+  def populate(elements_array, initial)
+    elements_array.inject(initial) do |output, entry|
+      output << "#{entry.prompt}::\n  #{wrap(@record.fetch(entry.key, entry.default))}\n"
+    end
   end
 end

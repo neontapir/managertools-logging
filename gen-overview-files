@@ -24,7 +24,7 @@ if __FILE__ == $PROGRAM_NAME
     args = %w(new-hire) << force
     %w(team first last).each do |p|
       args << "--#{p}"
-      args << "#{employee.send(p.to_sym)}"
+      args << employee.send(p.to_sym).to_s
     end
     system('./mt', *args) || exit(-1)
   end

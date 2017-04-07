@@ -30,7 +30,7 @@ class Team
     folder = Dir.glob("#{EmployeeFolder.root}/*").find { |path| matches?(path, key) }
     return if folder.nil?
     team = parse_dir folder
-    self.new team
+    new team
   end
 
   # Convert a path string to a titlecased name

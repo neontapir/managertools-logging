@@ -2,7 +2,6 @@ require 'fileutils'
 
 # Basic file utilities
 module MtFile
-
   # Ensure a file exists
   def ensure_exists
     FileUtils.mkdir_p(File.dirname(path))

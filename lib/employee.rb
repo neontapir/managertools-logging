@@ -78,10 +78,10 @@ class Employee
   def self.create_spec(type, person)
     result = {}
     result[:team] = if type.to_sym.eql? :interview
-      EmployeeFolder.candidates_root
-    else
-      obtain('Team', EmployeeFolder.candidates_root)
-    end
+                      EmployeeFolder.candidates_root
+                    else
+                      obtain('Team', EmployeeFolder.candidates_root)
+                    end
     result[:first] = obtain('First', person[:first] || 'Zaphod')
     result[:last] = obtain('Last', person[:last] || 'Beeblebrox')
     result

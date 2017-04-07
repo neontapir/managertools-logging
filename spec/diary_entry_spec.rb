@@ -1,3 +1,4 @@
+require 'timecop'
 require './lib/diary_entry.rb'
 require './lib/feedback_entry.rb'
 require './lib/observation_entry.rb'
@@ -8,6 +9,22 @@ describe DiaryEntry do
   end
 
   context 'with a default content' do
+    before do
+      Timecop.freeze(Time.local(1999))
+    end
+
+    after do
+      Timecop.return
+    end
+
+    subject { ObservationEntry.new.render('Test', ObservationEntry) }
+
+    it 'renders correctly' do
+      is_expected.to eq("=== Test (January  1, 1999, 12:00 AM)\nContent::\n  none\n")
+    end
+  end
+
+  context 'with a time' do
     subject { ObservationEntry.new({:datetime => Time.new(2002)}).render('Test', ObservationEntry) }
 
     it 'renders correctly' do
@@ -15,7 +32,7 @@ describe DiaryEntry do
     end
   end
 
-  context 'with given content' do
+  context 'with a time and context' do
     subject { ObservationEntry.new({:datetime => Time.new(2002), :content => 'blah'}).render('Test', ObservationEntry) }
 
     it 'renders correctly' do
