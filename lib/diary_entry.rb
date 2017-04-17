@@ -1,5 +1,3 @@
-require 'highline/import'
-
 # Base class for diary entries
 # @!attribute [rw] record
 #   @return [Hash] the entry's data dictionary of elements

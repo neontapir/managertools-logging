@@ -5,6 +5,7 @@ require_relative 'employee_folder'
 require_relative 'log_file'
 require_relative 'mt_data_formatter'
 require_relative 'path_splitter'
+require_relative 'settings'
 
 # Represents a team member, a person assigned to a team
 # @attr_reader [String] team the name of the team the person belongs to
@@ -89,7 +90,7 @@ class Employee
 
   # Display the prompt, and get the element's value from the user
   def self.obtain(prompt, default = '')
-    ask "#{prompt}: " do |answer|
+    Settings.console.ask "#{prompt}: " do |answer|
       answer.default = default
     end
   end

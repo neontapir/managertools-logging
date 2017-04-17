@@ -1,4 +1,4 @@
-require 'highline/import'
+require_relative 'settings'
 
 # A single item in a diary entry, like "Location"
 # @!attribute [r] key
@@ -27,7 +27,7 @@ class DiaryElement
 
   # Display the prompt, and get the element's value from the user
   def obtain
-    ask "#{prompt}: " do |answer|
+    Settings.console.ask "#{prompt}: " do |answer|
       answer.default = default
     end
   end
