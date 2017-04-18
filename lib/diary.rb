@@ -1,5 +1,6 @@
 require_relative 'employee'
-Dir["#{File.dirname(__FILE__)}/*_entry.rb"].each { |f| require_relative(f) }
+require_relative 'settings'
+Dir["#{__dir__}/*_entry.rb"].each { |f| require_relative(f) }
 
 # Base functionality for all entry types
 module Diary

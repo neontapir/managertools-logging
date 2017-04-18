@@ -1,7 +1,14 @@
 require 'ostruct'
+require 'stringio'
 require './lib/employee.rb'
+require './lib/settings.rb'
+require_relative 'captured_io'
+require_relative 'settings_helper'
 
 describe Employee do
+  include CapturedIO
+  include SettingsHelper
+
   def is_correct?(employee, team, first, last)
     expect(employee).not_to be_nil
     employee_team = employee.instance_of?(Employee) ? employee.team : employee.fetch(:team)
@@ -23,6 +30,48 @@ describe Employee do
       cap = { team: 'avengers', first: 'steve', last: 'rogers' }
       captain_america = Employee.new cap
       expect(captain_america.to_s).to eq 'Steve Rogers'
+    end
+
+    it 'is available as a canoncial name' do
+      cap = { team: 'Avengers', first: 'Steve', last: 'Rogers' }
+      captain_america = Employee.new cap
+      expect(captain_america.canonical_name).to eq 'steve-rogers'
+    end
+  end
+
+  context 'with a non-existing employee (Red Panda)' do
+    it 'will prompt the user for a spec if the employee is not found' do
+      input = StringIO.new("Terrific Twosome of Toronto\n\Kit\nBaxter\n")
+      with_captured(input) do |_|
+        flying_squirrel = Employee.get('Kit', :superhero)
+        expect(flying_squirrel.team).to eq('Terrific Twosome of Toronto')
+        expect(flying_squirrel.first).to eq('Kit')
+        expect(flying_squirrel.last).to eq('Baxter')        
+      end
+    end
+
+    it 'can create a spec with no input' do
+      defaults = { first: 'Zaphod', last: 'Beeblebrox', team: Settings.candidates_root }
+      input = StringIO.new("\n\n\n")
+      with_captured(input) do |_|
+        expect(Employee.create_spec(:superhero, {})).to eq(defaults)
+      end
+    end
+
+    it 'can create a spec with give input' do
+      red_panda = {first: 'August', last: 'Fenwick', team: 'Terrific Twosome of Toronto'}
+      input = StringIO.new("Terrific Twosome of Toronto\nAugust\nFenwick\n")
+      with_captured(input) do |_|
+        expect(Employee.create_spec(:superhero, {})).to eq(red_panda)
+      end
+    end
+
+    it 'will not prompt for an interview candidate' do
+      flying_squirrel = { first: 'Kit', last: 'Baxter', team: Settings.candidates_root }
+      input = StringIO.new("Kit\nBaxter\n")
+      with_captured(input) do |_|
+        expect(Employee.create_spec(:interview, {})).to eq(flying_squirrel)
+      end
     end
   end
 

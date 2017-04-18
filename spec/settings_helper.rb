@@ -25,6 +25,7 @@ module SettingsHelper
     FileUtils.mkdir_p(Settings.root)
     IO.write(config_file, doc)
     raise IOError, "Missing settings file #{config_file}" unless File.exist? config_file
+    Settings.reload!
   end
 
   def remove_test_settings_file

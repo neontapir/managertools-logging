@@ -15,7 +15,7 @@ class Settings < Settingslogic
   def self.set_console(input = STDIN, output = STDOUT)
     @console = HighLine.new(input, output)
   end
-  
+
   source "#{Settings.root}/config.yml"
   namespace 'production' # Rails.env
 end

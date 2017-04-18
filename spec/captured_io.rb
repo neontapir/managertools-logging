@@ -1,4 +1,7 @@
 require 'stringio'
+require_relative 'settings_helper'
+
+include SettingsHelper
 
 # Boilerplate for captured I/O
 module CapturedIO
