@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'trollop'
+Dir["#{__dir__}/lib/*_command.rb"].each { |f| require_relative(f) }
 
 def record_diary_entry(entry_type, person)
   require_relative 'lib/diary'
@@ -11,7 +12,7 @@ end
 ALIASES = {
   'fb' => 'feedback',
   'feed' => 'feedback',
-  'gen' => 'gen-overview-files',
+  'gen' => 'generate-overview-files',
   'meeting' => 'team-meeting',
   'ob' => 'observation',
   'obs' => 'observation',
@@ -33,19 +34,31 @@ def add_entry(subcommand, arguments)
     opt :template, 'Create blank template entry', short: '-t'
   end
   record_diary_entry subcommand.to_sym, arguments.first
-  exit
+end
+
+def parameter_to_command_class(parameter)
+  require 'facets/string/titlecase'
+  command_class_name = parameter.tr('-', ' ').titlecase.tr(' ', '')
+  Kernel.const_get("#{command_class_name}Command")
+end
+
+def execute_subcommand(subcommand, arguments)
+  subcommand_class = parameter_to_command_class(subcommand)
+  subcommand_class.send(:command, arguments)
 end
 
 def parse(script, subcommand, arguments)
-  # in cases where a command alias is given, call this with the canonical name
+  # in cases where a command alias is given, re-parse using the canonical name
   if ALIASES.key?(subcommand)
     script = parse(script, ALIASES[subcommand], arguments)
   # in cases where we're just adding an entry, invoke module directly
   elsif %w(feedback interview o3 observation).include?(subcommand)
     add_entry(subcommand, arguments)
-  # in cases where we will invoke an external script (spelled out if no alias defined)
-  elsif %w(new-hire report report-team).include?(subcommand) || ALIASES.values.include?(subcommand)
-    script = File.join(script, subcommand)
+    exit
+  # in cases where we will invoke a command class
+  elsif %w(generate-overview-files new-hire open-file report report-team team-meeting).include?(subcommand)
+    execute_subcommand(subcommand, arguments)
+    exit
   else
     Trollop.die "unknown subcommand #{subcommand.inspect}"
   end

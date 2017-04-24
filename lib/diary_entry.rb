@@ -4,15 +4,17 @@
 class DiaryEntry
   attr_accessor :record
 
-  # Create a new diary entry
+  # @!method initialize(**record)
+  #   Create a new diary entry
   def initialize(**record)
     record[:datetime] = Time.now unless record.key? :datetime
     @record = record
   end
 
-  # Get the Ruby type of entry base on its name
-  # @param [String] name the name of the entry class
-  # @return [Class] the class referred to by the name
+  # @!method get(name)
+  #   Get the Ruby type of entry base on its name
+  #   @param [String] name the name of the entry class
+  #   @return [Class] the class referred to by the name
   def self.get(name)
     entry_type_name = name.to_s.tr('_', ' ').split(' ').map(&:capitalize).join
     Kernel.const_get("#{entry_type_name}Entry")
