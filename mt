@@ -42,9 +42,10 @@ def parameter_to_command_class(parameter)
   Kernel.const_get("#{command_class_name}Command")
 end
 
-def execute_subcommand(subcommand, arguments)
-  subcommand_class = parameter_to_command_class(subcommand)
-  subcommand_class.send(:command, arguments)
+def execute_subcommand(subcommand_name, arguments)
+  subcommand_class = parameter_to_command_class(subcommand_name)
+  subcommand = subcommand_class.new
+  subcommand.command arguments
 end
 
 def parse(script, subcommand, arguments)

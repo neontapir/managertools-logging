@@ -14,8 +14,8 @@ extend PathSplitter
 #   opt :force, 'generate even if file exists', default: false
 # end
 class GenerateOverviewFilesCommand
-
-  def self.command(arguments)
+  # Generate the files needed to create a team overview
+  def command(arguments)
     force = false
     if arguments.first == '--force'
       force = true

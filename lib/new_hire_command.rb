@@ -5,8 +5,7 @@ require_relative 'employee_file'
 
 # Create a new entry for a person
 class NewHireCommand
-
-  def self.generate_file(folder, overview_file)
+  def generate_file(folder, overview_file)
     contents = <<EOF
 :imagesdir: #{folder.path}
 
@@ -30,7 +29,7 @@ EOF
   #   opt :first, 'person\'s first name (in quotes, like "Tony Stark")', type: :string
   #   opt :last, 'person\'s last name (in quotes, like "Tony Stark")', type: :string
   # end
-  def self.command(arguments)
+  def command(arguments)
     force = false
     if arguments.first == '--force'
       force = true

@@ -7,7 +7,7 @@ include Diary
 class TeamMeetingCommand
   # @!method command(arguments)
   #   Create an entry in each team member's file
-  def self.command(arguments)
+  def command(arguments)
     team_name = arguments.first
     team = Team.find team_name
     members = team.members

@@ -10,7 +10,7 @@ extend MtDataFormatter
 class ReportTeamCommand
 
   # Append a member's report to the team file
-  def self.append_file(destination, contents)
+  def append_file(destination, contents)
     open(destination, 'a') do |f|
       f.puts contents
       f.puts "\n"
@@ -20,7 +20,7 @@ class ReportTeamCommand
   HORIZONTAL_RULE = "'''".freeze
 
   # Create a report of a team, using each member\'s files
-  def self.command(arguments)
+  def command(arguments)
     team_name = arguments.first
     team = Team.find team_name
 

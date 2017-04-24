@@ -4,7 +4,7 @@ include Diary
 
 # Open a person's log file
 class OpenFileCommand
-  def self.command(arguments)
+  def command(arguments)
     person = arguments.first
     employee = Employee.get person
     log_file = employee.file

@@ -5,8 +5,9 @@ require_relative 'employee'
 
 include Diary
 
+# Create a report from a person's files
 class ReportCommand
-  def self.append_file(destination, input)
+  def append_file(destination, input)
     contents = IO.read(input)
     open(destination, 'a') do |f|
       f.puts contents
@@ -14,8 +15,8 @@ class ReportCommand
     end
   end
 
-  # 'Create a report from a person\'s files'
-  def self.command(arguments)
+  # Create a report from a person's files
+  def command(arguments)
     person = arguments.first
     employee = Employee.get person
     employee_name = employee.canonical_name
