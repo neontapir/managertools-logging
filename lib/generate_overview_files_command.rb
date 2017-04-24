@@ -22,12 +22,13 @@ class GenerateOverviewFilesCommand
       arguments.shift
     end
 
+    new_hire = NewHireCommand.new
     Dir.glob("#{EmployeeFolder.root}/*/*") do |folder|
       next unless Dir.exist? folder
       employee = Employee.find(folder)
       nhc_args = [employee.team, employee.first, employee.last]
       nhc_args.unshift('--force') if force
-      NewHireCommand.command(nhc_args)
+      new_hire.command(nhc_args)
     end
   end
 end
