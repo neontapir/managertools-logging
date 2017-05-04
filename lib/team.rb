@@ -1,6 +1,7 @@
 require 'facets/string/titlecase'
 
 require_relative 'employee'
+require_relative 'employee_finder'
 require_relative 'employee_folder'
 require_relative 'path_splitter'
 
@@ -10,27 +11,13 @@ require_relative 'path_splitter'
 class Team
   attr_reader :team
 
+  extend EmployeeFinder
   extend PathSplitter
 
   # Create a new Team object
   # @param [Hash] params a Hash with a :team entry
   def initialize(**params)
     @team = Team.to_path_string(params.fetch(:team))
-  end
-
-  # Extract the team section of a path
-  def self.parse_dir(dir)
-    paths = split_path dir
-    _root, team = paths
-    { team: team }
-  end
-
-  # Find the first matching folder and return a corresponding team object
-  def self.find(key)
-    folder = Dir.glob("#{EmployeeFolder.root}/*").find { |path| matches?(path, key) }
-    return if folder.nil?
-    team = parse_dir folder
-    new team
   end
 
   # Convert a path string to a titlecased name
@@ -50,7 +37,10 @@ class Team
 
   # Get an array of team members, based on folder location
   def members
-    members_by_folder.map { |folder| Employee.new(Employee.parse_dir(folder)) }
+    members_by_folder.map do |folder|
+      member_spec = Team.parse_dir folder
+      Employee.new(member_spec)
+    end
   end
 
   # Represent a Team by its titlecased name

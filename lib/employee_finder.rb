@@ -48,7 +48,7 @@ module EmployeeFinder
   # @param [Symbol] type of employee, in practice generic or candidate
   # @return [Hash] a specification of the employee
   def get(person, type = :generic)
-    employee_spec = Employee.find person
+    employee_spec = find person
     if employee_spec.nil?
       Employee.new(create_spec(type, parse_name(person)))
     else
