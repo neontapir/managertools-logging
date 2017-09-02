@@ -1,14 +1,17 @@
+require_relative 'diary_element'
+require_relative 'diary_entry'
 require_relative 'mt_data_formatter'
 
 include MtDataFormatter
 
 # Template for a phone screening interview
 class InterviewEntry < DiaryEntry
-  def self.prompt(name)
+  def prompt(name)
     "For your interview with #{name}, enter the following:"
   end
 
-  def self.elements_array
+  # rubocop:disable Metrics/MethodLength
+  def elements_array
     [
       DiaryElement.new(:location, 'Location', 'Skype'),
       DiaryElement.new(:why_new_job, 'Why new job'),
@@ -26,6 +29,7 @@ class InterviewEntry < DiaryEntry
       DiaryElement.new(:actions, 'Actions')
     ]
   end
+  # rubocop:enable Metrics/MethodLength
 
   def to_s
     render('Interview')

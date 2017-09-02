@@ -3,18 +3,26 @@ require './lib/employee_folder.rb'
 
 describe EmployeeFile do
   before(:all) do
-    Dir.mkdir('data') unless Dir.exist? 'data'
-    Dir.mkdir('data/normal') unless Dir.exist? 'data/normal'
+    FileUtils.mkdir_p('data/normal')
   end
 
   after(:all) do
-    Dir.rmdir('data/normal/john-smith') if Dir.exist? 'data/normal/john-smith'
-    Dir.rmdir('data/normal') if Dir.exist? 'data/normal'
+    FileUtils.rm_r('data/normal')
   end
 
-  it 'should join paths correctly' do
+  it 'raises if no folder given' do
+    expect{EmployeeFile.new(nil, nil)}.to raise_error ArgumentError, 'Folder cannot be empty'
+  end
+
+  it 'raises if no file given' do
     employee = Employee.new(team: 'normal', first: 'John', last: 'Smith')
     folder = EmployeeFolder.new employee
-    expect(EmployeeFile.new(folder ,'file').path).to eq('data/normal/john-smith/file')
+    expect{EmployeeFile.new(folder, nil)}.to raise_error ArgumentError, 'Filename cannot be empty'
+  end
+
+  it 'joins paths correctly' do
+    employee = Employee.new(team: 'normal', first: 'John', last: 'Smith')
+    folder = EmployeeFolder.new employee
+    expect(EmployeeFile.new(folder, 'file').path).to eq('data/normal/john-smith/file')
   end
 end

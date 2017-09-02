@@ -1,4 +1,28 @@
-.idea/
-coverage/
-data/
-test
+*.gem
+*.rbc
+/.config
+/.idea/
+/coverage/
+/InstalledFiles
+/pkg/
+/spec/reports/
+/spec/examples.txt
+/test/tmp/
+/test/version_tmp/
+/tmp/
+
+## Documentation cache and generated files:
+/.yardoc/
+/_yardoc/
+/doc/
+/rdoc/
+
+## Environment normalization:
+/.bundle/
+/vendor/bundle
+/lib/bundler/man/
+
+## mt-specific
+/data/
+team-directory.*
+logic

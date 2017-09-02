@@ -76,9 +76,9 @@ direct report.
 
 Other entry options not covered here are:
 
-  - `interview` (which uses a team called `zzz_candidates`)
-  - `team meeting`, which propagates the content to the logs of all members of
-  the team
+-   `interview` (which uses a team called `zzz_candidates`)
+-   `team meeting`, which propagates the content to the logs of all members of
+    the team
 
 After our examples, this is what data/avengers/tony-stark/log.adoc contains:
 
@@ -137,7 +137,7 @@ test suite assumes that it can create and destroy Avengers data at will.)
 
 The script finds people by looking at a string containing the team name and the
 individual's name, then finding the first match in alphabetical order. This is
-the reason that the candidates folder is prefaced with "zzz_", in order to make
+the reason that the candidates folder is prefaced with "zzz\_", in order to make
 it last in the search order.
 
 This algorithm can be problematic in some edge cases. For example, I have a
@@ -152,31 +152,70 @@ fix.
 
 # Extensibility
 
+## Changing where data is stored
+
 In `lib/employee_folder.rb`, there is a variable called `root` which defines
 where your data is stored. The variable `candidates_root` determines in which
 folder interviews are recorded.
-
-If you want to add a new diary entry type, you will need to:
-
-- create a new entry class in `lib`, using the naming convention `type + Entry`,
-for example ObservationEntry for an observation
-
-- in `lib\diary.rb`, add a `require_relative` entry in `lib\diary.rb` for the
-new entry class
-
-- create a new script in the root that utilizes that entry class
-
-# Usage Hints
 
 I manually move the folders of people who no longer report to me to a team
 folder called "zzz_departed". The script will still find them as normal. You can
 also use the same approach when people change teams. It happens infrequently
 enough for me that I didn't automate it.
 
+## Adding a new entry type
+
+If you want to add a new diary entry type, you will need to create a new entry
+class in `lib`, using the naming convention `type + Entry`, for example
+ObservationEntry for an observation.
+
+After creating a new entry type according to the subsection, you need to update
+the main `mt` script to parse your new entry type. Use the existing types as a
+guide. For simple cases, "invoke module directly" is the right option.
+
+### Creating the new entry type
+
+Looking at ObservationEntry as an example, you will see there are three methods
+to customize:
+
+    class ObservationEntry < DiaryEntry
+      def self.prompt(name)
+        "Enter your observation for #{name}:"
+      end
+
+      def self.elements_array
+        [
+          DiaryElement.new(:location, 'Location', 'unspecified'),
+          DiaryElement.new(:content)
+        ]
+      end
+
+      def to_s
+        render('Observation')
+      end
+    end
+
+The `prompt` text is displayed at the beginning of the recording.
+
+Each element in the `elements_array` becomes a question that is asked of the
+user. This example shows two entries. In the `location` entry, the prompt is
+specified in the second argument, and the default value is the third. The
+`content` entry shows that the last two arguments are optional.
+
+The `to_s` method is what gets written to the log file, and in most cases should
+be the results of the `render` method. The argument to `render` is the entry
+header.
+
+# Usage Hints
+
+In cases where I want to quote material, I will often use the script to fill in
+values. I then use a text editor like Atom to add the quoted material, like a
+chat room transcript or email.
+
 # Contributing
 
-- Fork this repository
-- Create your feature branch (`git checkout -b my-new-feature`)
-- Commit your changes (`git commit -am 'Add some feature'`)
-- Push to the branch (`git push origin my-new-feature`)
-- Create a new pull request
+-   Fork this repository
+-   Create your feature branch (`git checkout -b my-new-feature`)
+-   Commit your changes (`git commit -am 'Add some feature'`)
+-   Push to the branch (`git push origin my-new-feature`)
+-   Create a new pull request
