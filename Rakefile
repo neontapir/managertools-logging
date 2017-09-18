@@ -35,5 +35,10 @@ task :build do
   puts 'Success, try `open team-directory.html` to view'
 end
 
+desc 'Mutation test example using DiaryEntry'
+task :mutant do
+  system('bundle exec mutant --use rspec -I lib/ -r diary_entry DiaryEntry') || exit!(1)
+end
+
 task test: :spec
 task default: :build
