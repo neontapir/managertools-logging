@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'settings'
 
 # A single item in a diary entry, like "Location"
@@ -11,7 +13,7 @@ class DiaryElement
   attr_reader :key, :prompt, :default
 
   # The value used if the element's default value is not specified during object construction
-  DEFAULT_VALUE = 'none'.freeze
+  DEFAULT_VALUE = 'none'
 
   # @!method initialize(key, prompt = key.to_s.capitalize, default = DEFAULT_VALUE)
   #   Create a new diary element
@@ -28,6 +30,7 @@ class DiaryElement
   # @!method obtain()
   #   Display the prompt, and get the element's value from the user
   def obtain
+    return default if prompt.nil?
     Settings.console.ask "#{prompt}: " do |answer|
       answer.default = default
     end

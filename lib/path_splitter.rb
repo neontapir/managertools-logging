@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Splits path into team and member name components
 module PathSplitter
   # Turn a relative path into an array of folders and the filename
@@ -13,6 +15,4 @@ module PathSplitter
     raise ArgumentError, 'Nil path' if path.nil?
     (Dir.exist? path) && (/#{key}/ =~ path)
   end
-
-  module_function
 end

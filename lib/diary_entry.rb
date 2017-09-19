@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Base class for diary entries
 # @!attribute [rw] record
 #   @return [Hash] the entry's data dictionary of elements
@@ -29,7 +31,9 @@ class DiaryEntry
   def render(title, entry_type = self.class)
     raise NotImplementedError, 'DiaryElement#elements_array must be overriden' unless entry_type.instance_methods(false).include?(:elements_array)
     raise ArgumentError, "#{entry_type}#elements_array must return an enumerable" unless elements_array.is_a?(Enumerable)
-    initial = "=== #{title} (#{format_date(@record.fetch(:datetime))})\n"
+    entry_date = @record.fetch(:datetime)
+    raise ArgumentError, "record[:database] must be a Time, not a #{entry_date.class}" unless entry_date.is_a?(Time)
+    initial = "=== #{title} (#{format_date(entry_date)})\n"
     populate(elements_array, initial)
   end
 
@@ -52,9 +56,11 @@ class DiaryEntry
 
   private
 
+  HEADER_ONLY = [:datetime].freeze
+
   def populate(elements_array, initial)
-    elements_array.inject(initial) do |output, entry|
-      output << "#{entry.prompt}::\n  #{wrap(@record.fetch(entry.key, entry.default))}\n"
+    elements_array.reject { |e| HEADER_ONLY.include? e.key }.inject(initial) do |output, entry|
+      output + "#{entry.prompt}::\n  #{wrap(@record.fetch(entry.key, entry.default))}\n"
     end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'employee'
 require_relative 'settings'
 Dir["#{__dir__}/*_entry.rb"].each { |f| require_relative(f) }
@@ -7,7 +9,7 @@ module Diary
   # @!method template?
   #   Returns true if a command line option requests a template instead of an interactive session
   def template?
-    (@global_opts && @global_opts.template) || (@cmd_opts && @cmd_opts.template)
+    (@global_opts&.template) || (@cmd_opts&.template)
   end
 
   # @!method record_to_file(type, person)

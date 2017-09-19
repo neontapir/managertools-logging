@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'fileutils'
 require_relative 'employee_folder'
 require_relative 'mt_file'

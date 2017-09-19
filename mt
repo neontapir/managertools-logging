@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require 'trollop'
 Dir["#{__dir__}/lib/*_command.rb"].each { |f| require_relative(f) }
@@ -53,11 +54,11 @@ def parse(script, subcommand, arguments)
   if ALIASES.key?(subcommand)
     script = parse(script, ALIASES[subcommand], arguments)
   # in cases where we're just adding an entry, invoke module directly
-  elsif %w(feedback interview o3 observation).include?(subcommand)
+  elsif %w[feedback interview o3 observation].include?(subcommand)
     add_entry(subcommand, arguments)
     exit
   # in cases where we will invoke a command class
-  elsif %w(generate-overview-files new-hire open-file report report-team team-meeting).include?(subcommand)
+  elsif %w[generate-overview-files new-hire open-file report report-team team-meeting].include?(subcommand)
     execute_subcommand(subcommand, arguments)
     exit
   else
@@ -72,10 +73,10 @@ def display(hash)
   hash.map { |k, v| "#{k} -> #{v}" }.join(CSV_DELIMITER)
 end
 
-if __FILE__ == $PROGRAM_NAME
-  script = File.dirname(File.realpath(__FILE__))
-  SUB_COMMANDS = %w(feedback gen-overview-files interview team-meeting new-hire
-                    o3 observation report report-team).freeze
+if $PROGRAM_NAME == __FILE__
+  # script = __dir__
+  SUB_COMMANDS = %w[feedback gen-overview-files interview team-meeting new-hire
+                    o3 observation report report-team].freeze
 
   # capture options given before subcommand
   # TODO: there's a bug here in the way arguments to subcommands are parsed
@@ -90,6 +91,6 @@ if __FILE__ == $PROGRAM_NAME
   end
 
   subcommand = ARGV.shift
-  script = parse(script, subcommand, ARGV)
+  script = parse(__dir__, subcommand, ARGV)
   exec("#{script} #{ARGV.join(' ')}")
 end

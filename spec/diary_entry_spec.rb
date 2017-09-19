@@ -63,7 +63,7 @@ describe DiaryEntry do
     end
   end
 
-  context 'in improper implementation context' do
+  context 'in improper elements_array implementation context' do
     class BadElementsArrayDiaryEntry < DiaryEntry
       def prompt(preamble)
         # do nothing
@@ -81,6 +81,27 @@ describe DiaryEntry do
     it 'raises if enumerable not returned by elements_array' do
       entry = BadElementsArrayDiaryEntry.new({:datetime => Time.new(2002)})
       expect{entry.render('Test')}.to raise_error(ArgumentError, 'BadElementsArrayDiaryEntry#elements_array must return an enumerable')
+    end
+  end
+
+  context 'in improper Time value context' do
+    class BadTimeDiaryEntry < DiaryEntry
+      def prompt(preamble)
+        # do nothing
+      end
+
+      def elements_array
+        []
+      end
+
+      def to_s
+        # do nothing
+      end
+    end
+
+    it 'raises if record[:database] is not a Time' do
+      entry = BadTimeDiaryEntry.new({:datetime => 'Nowhen'})
+      expect{entry.render('Test')}.to raise_error(ArgumentError, 'record[:database] must be a Time, not a String')
     end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'facets/string/titlecase'
 
 require_relative 'employee_finder'

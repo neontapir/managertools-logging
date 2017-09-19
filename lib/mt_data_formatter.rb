@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'unicode'
 
 # Commodity data formatting functions
@@ -24,7 +26,7 @@ module MtDataFormatter
   end
 
   # The standard indentation (two spaces)
-  INDENT = '  '.freeze # this should match what's in the templates
+  INDENT = '  ' # this should match what's in the templates
 
   # @!method wrap(input, width = 78)
   #   Wrap input text on word boundaries, indenting all lines by INDENT
@@ -36,6 +38,4 @@ module MtDataFormatter
       .chomp(INDENT)
       .chomp
   end
-
-  module_function
 end

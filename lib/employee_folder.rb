@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'fileutils'
 require_relative 'mt_data_formatter'
 require_relative 'settings'

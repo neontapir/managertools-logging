@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'configatron'
 require 'fileutils'
 require_relative 'employee'
@@ -6,16 +8,16 @@ require_relative 'employee_file'
 # Create a new entry for a person
 class NewHireCommand
   def generate_file(folder, overview_file)
-    contents = <<EOF
-:imagesdir: #{folder.path}
+    contents = <<~FILE_HEADER
+      :imagesdir: #{folder.path}
 
-== #{folder.employee}
+      == #{folder.employee}
 
-  image::headshot.jpg[#{folder.employee}, width="200", align="right", float="right"]
+        image::headshot.jpg[#{folder.employee}, width="200", align="right", float="right"]
 
-  Team: #{folder.employee.team.capitalize}
+        Team: #{folder.employee.team.capitalize}
 
-EOF
+FILE_HEADER
     print "generating\n"
     File.open(overview_file.path, 'w') do |f|
       f.write(contents)
@@ -54,4 +56,3 @@ EOF
     log_file.ensure_exists
   end
 end
-

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'diary'
 
 include Diary
@@ -9,6 +11,6 @@ class OpenFileCommand
     employee = Employee.get person
     log_file = employee.file
     log_file.ensure_exists
-    exec("open #{log_file}")
+    exec("open '#{log_file}'")
   end
 end

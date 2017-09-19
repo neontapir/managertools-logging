@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'highline/import'
 require 'shell'
 require_relative 'diary'

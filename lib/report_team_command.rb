@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'facets/string/titlecase'
 require 'highline/import'
 require 'shell'
@@ -8,7 +10,6 @@ extend MtDataFormatter
 
 # Create a report of a team, using each member's files
 class ReportTeamCommand
-
   # Append a member's report to the team file
   def append_file(destination, contents)
     open(destination, 'a') do |f|
@@ -17,7 +18,7 @@ class ReportTeamCommand
     end
   end
 
-  HORIZONTAL_RULE = "'''".freeze
+  HORIZONTAL_RULE = "'''"
 
   # Create a report of a team, using each member\'s files
   def command(arguments)
