@@ -18,6 +18,7 @@ gem 'reek', require: false, group: :quality
 
 gem 'mutant-rspec', '0.8.11', require: false, group: :test
 gem 'rspec', '~> 3.5', require: false, group: :test
+gem 'rubocop', '~> 0.50', require: false, group: :test
 gem 'should_not', '~> 1.1', require: false, group: :test
 gem 'simplecov', '~> 0.14', require: false, group: :test
 gem 'timecop', '~> 0.8', require: false, group: :test
