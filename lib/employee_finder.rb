@@ -78,6 +78,4 @@ module EmployeeFinder
       answer.default = default
     end
   end
-
-  module_function
 end
