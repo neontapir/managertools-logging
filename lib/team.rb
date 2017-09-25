@@ -3,9 +3,9 @@
 require 'facets/string/titlecase'
 
 require_relative 'employee'
-require_relative 'employee_finder'
 require_relative 'employee_folder'
 require_relative 'path_splitter'
+require_relative 'team_finder'
 
 # Represents a delivery team
 # @!attribute [r] team
@@ -13,7 +13,7 @@ require_relative 'path_splitter'
 class Team
   attr_reader :team
 
-  extend EmployeeFinder
+  extend TeamFinder
   extend PathSplitter
 
   # Create a new Team object
@@ -40,7 +40,7 @@ class Team
   # Get an array of team members, based on folder location
   def members
     members_by_folder.map do |folder|
-      member_spec = Team.parse_dir folder
+      member_spec = Employee.parse_dir folder
       Employee.new(member_spec)
     end
   end

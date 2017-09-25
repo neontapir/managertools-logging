@@ -15,14 +15,20 @@ class TeamMeetingCommand
     entry = get_entry :team_meeting, any_team_member
 
     members.each do |employee|
-      log_file = employee.file
-      log_file.ensure_exists
-      log_file.append entry
+      write_log(employee, entry)
     end
   end
+
+  private
 
   def get_members(team_name)
     team = Team.find team_name
     team.members
+  end
+
+  def write_log(employee, entry)
+    log_file = employee.file
+    log_file.ensure_exists
+    log_file.append entry
   end
 end

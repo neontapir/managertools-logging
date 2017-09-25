@@ -22,7 +22,7 @@ describe Team do
     end
 
     it 'gets the same results with the equals operator' do
-      expect(avengers == avengers).to be true
+      expect(justice_league == avengers).to be false
       expect(avengers == justice_league).to be false
     end
 

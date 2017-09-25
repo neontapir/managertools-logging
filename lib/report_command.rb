@@ -9,26 +9,27 @@ include Diary
 
 # Create a report from a person's files
 class ReportCommand
-  def append_file(destination, input)
-    contents = IO.read(input)
-    open(destination, 'a') do |f|
-      f.puts contents
-      f.puts "\n"
-    end
-  end
-
   # Create a report from a person's files
   def command(arguments)
     person = arguments.first
     employee = Employee.get person
-    employee_name = employee.canonical_name
+    output = generate_report_for employee
+    system('open', output) # for Mac, use 'cmd /c' for Windows
+  end
 
+  private
+
+  def generate_report_for(employee)
     folder = EmployeeFolder.new employee
     folder.ensure_exists
 
     overview_file = File.join(folder.path, 'overview.adoc')
     log_file = (LogFile.new folder).to_s
+    employee_name = employee.canonical_name
+    create_report(employee_name, overview_file, log_file)
+  end
 
+  def create_report(employee_name, overview_file, log_file)
     report_source = "report-#{employee_name}.adoc"
     output = "report-#{employee_name}.html"
     [report_source, output].each do |file|
@@ -39,6 +40,14 @@ class ReportCommand
     append_file(report_source, log_file)
 
     system('asciidoctor', "-o#{output}", report_source)
-    system('open', output) # for Mac, use 'cmd /c' for Windows
+    output
+  end
+
+  def append_file(destination, input)
+    contents = IO.read(input)
+    open(destination, 'a') do |file|
+      file.puts contents
+      file.puts "\n"
+    end
   end
 end
