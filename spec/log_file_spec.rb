@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require './lib/log_file.rb'
 
-describe LogFile, :order => :defined do
+describe LogFile, order: :defined do
   context 'with an employee' do
     before(:all) do
       FileUtils.mkdir_p('data/avengers/tony-stark')
@@ -12,7 +14,7 @@ describe LogFile, :order => :defined do
 
     subject do
       tony = Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark')
-      LogFile.new(EmployeeFolder.new tony)
+      LogFile.new(EmployeeFolder.new(tony))
     end
 
     it 'knows the file path' do
@@ -21,17 +23,17 @@ describe LogFile, :order => :defined do
 
     it 'creates a new file if none exists' do
       subject.append 'foobar'
-      expect(File.readlines(subject.path)).to eq ["\n", "foobar\n"]
+      expect(File.readlines(subject.path)).to eq %W[\n foobar\n]
     end
 
     it 'appends an entry' do
       subject.append 'baz'
-      expect(File.readlines(subject.path)).to eq ["\n", "foobar\n", "\n", "baz\n"]
+      expect(File.readlines(subject.path)).to eq %W[\n foobar\n \n baz\n]
     end
 
     it 'does not add an extra leading carriage return if one provided' do
       subject.append "\nqux"
-      expect(File.readlines(subject.path)).to eq ["\n", "foobar\n", "\n", "baz\n", "\n", "qux\n"]
+      expect(File.readlines(subject.path)).to eq %W[\n foobar\n \n baz\n \n qux\n]
     end
   end
 end

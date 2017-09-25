@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './lib/path_splitter.rb'
 
 describe PathSplitter do
@@ -30,15 +32,15 @@ describe PathSplitter do
     end
 
     it 'raises on a nil string' do
-      expect{subject.matches?(nil, 'x')}.to raise_error ArgumentError, 'Nil path'
+      expect { subject.matches?(nil, 'x') }.to raise_error ArgumentError, 'Nil path'
     end
   end
 
   it 'splits a path string' do
-    expect(subject.split_path('a/b/c')).to eq(%w(a b c))
+    expect(subject.split_path('a/b/c')).to eq(%w[a b c])
   end
 
   it 'raises splitting a nil string' do
-    expect{subject.split_path(nil)}.to raise_error ArgumentError, 'Nil path'
+    expect { subject.split_path(nil) }.to raise_error ArgumentError, 'Nil path'
   end
 end

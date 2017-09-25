@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'ostruct'
 require 'stringio'
 require './lib/employee.rb'
@@ -11,11 +13,11 @@ describe Employee do
 
   def is_correct?(employee, team, first, last)
     expect(employee).not_to be_nil
-    employee_team = employee.(:team)
+    employee_team = employee.call(:team)
     expect(employee_team).to eq team
-    employee_first = employee.(:first)
+    employee_first = employee.call(:first)
     expect(employee_first).to eq first
-    employee_last = employee.(:last)
+    employee_last = employee.call(:last)
     expect(employee_last).to eq last
   end
 
@@ -38,7 +40,7 @@ describe Employee do
       expect(captain_america.canonical_name).to eq 'steve-rogers'
     end
   end
-  
+
   context 'with equality for a single employee (Iron Man)' do
     before(:all) do
       FileUtils.mkdir_p('data/avengers/tony-stark')

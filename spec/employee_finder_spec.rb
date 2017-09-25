@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'ostruct'
 require 'stringio'
 require './lib/employee.rb'
@@ -18,7 +20,7 @@ describe EmployeeFinder do
         flying_squirrel = subject.get('Kit', :superhero)
         expect(flying_squirrel.team).to eq('Terrific Twosome of Toronto')
         expect(flying_squirrel.first).to eq('Kit')
-        expect(flying_squirrel.last).to eq('Baxter')        
+        expect(flying_squirrel.last).to eq('Baxter')
       end
     end
 
@@ -31,7 +33,7 @@ describe EmployeeFinder do
     end
 
     it 'can create a spec with give input' do
-      red_panda = {first: 'August', last: 'Fenwick', team: 'Terrific Twosome of Toronto'}
+      red_panda = { first: 'August', last: 'Fenwick', team: 'Terrific Twosome of Toronto' }
       input = StringIO.new("Terrific Twosome of Toronto\nAugust\nFenwick\n")
       with_captured(input) do |_|
         expect(subject.create_spec(:superhero, {})).to eq(red_panda)
@@ -69,7 +71,7 @@ describe EmployeeFinder do
     it 'extracts the data correctly' do
       dir = Dir.new('data/avengers/tony-stark')
       iron_man = subject.parse_dir(dir)
-      expect(is_correct? iron_man, 'avengers', 'Tony', 'Stark').to be_truthy
+      expect(is_correct?(iron_man, 'avengers', 'Tony', 'Stark')).to be_truthy
     end
   end
 
@@ -82,10 +84,10 @@ describe EmployeeFinder do
       FileUtils.rm_r('data/avengers')
     end
 
-    subject { 
+    subject do
       finder = (Class.new { include EmployeeFinder }).new
-      finder.find('tony') 
-    }
+      finder.find('tony')
+    end
 
     it 'does not find a different employee' do
       employee = Employee.find('steve')

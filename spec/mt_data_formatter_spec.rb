@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './lib/mt_data_formatter.rb'
 
 describe MtDataFormatter do
@@ -40,7 +42,8 @@ describe MtDataFormatter do
       '  me')
     end
 
-    LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc egestas imperdiet aliquet. Morbi posuere convallis risus, vitae iaculis felis tincidunt sit amet.'.freeze
+    LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc egestas imperdiet ' \
+      'aliquet. Morbi posuere convallis risus, vitae iaculis felis tincidunt sit amet.'
     it 'wraps a long string of default length' do
       expected = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc egestas\n" \
       "  imperdiet aliquet. Morbi posuere convallis risus, vitae iaculis felis\n" \

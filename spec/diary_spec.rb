@@ -1,5 +1,6 @@
-require 'trollop'
+# frozen_string_literal: true
 
+require 'trollop'
 require './lib/diary.rb'
 Dir.glob('./lib/*_entry.rb', &method(:require))
 require_relative 'captured_io'
@@ -29,7 +30,7 @@ describe Diary do
     end
   end
 
-  context 'with interaction', :order => :defined do
+  context 'with interaction', order: :defined do
     include CapturedIO
 
     subject = (Class.new do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './lib/settings.rb'
 
 module SettingsHelper
@@ -6,7 +8,7 @@ module SettingsHelper
   end
 
   def create_test_settings_file
-    doc = <<-EOF
+    doc = <<-FILE
       defaults: &defaults
         # root is set in lib/settings.rb
         candidates_root: zzz_candidates
@@ -20,7 +22,7 @@ module SettingsHelper
 
       production:
         <<: *defaults
-    EOF
+    FILE
 
     FileUtils.mkdir_p(Settings.root)
     IO.write(config_file, doc)

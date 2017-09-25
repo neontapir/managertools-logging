@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './lib/employee.rb'
 require './lib/employee_folder.rb'
 require_relative 'settings_helper'

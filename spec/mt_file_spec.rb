@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './lib/mt_file.rb'
 
 describe MtFile do

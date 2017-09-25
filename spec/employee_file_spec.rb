@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './lib/employee_file.rb'
 require './lib/employee_folder.rb'
 
@@ -11,13 +13,13 @@ describe EmployeeFile do
   end
 
   it 'raises if no folder given' do
-    expect{EmployeeFile.new(nil, nil)}.to raise_error ArgumentError, 'Folder cannot be empty'
+    expect { EmployeeFile.new(nil, nil) }.to raise_error ArgumentError, 'Folder cannot be empty'
   end
 
   it 'raises if no file given' do
     employee = Employee.new(team: 'normal', first: 'John', last: 'Smith')
     folder = EmployeeFolder.new employee
-    expect{EmployeeFile.new(folder, nil)}.to raise_error ArgumentError, 'Filename cannot be empty'
+    expect { EmployeeFile.new(folder, nil) }.to raise_error ArgumentError, 'Filename cannot be empty'
   end
 
   it 'joins paths correctly' do

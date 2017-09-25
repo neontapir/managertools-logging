@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'timecop'
 require './lib/diary_entry.rb'
 require './lib/feedback_entry.rb'
@@ -25,15 +27,15 @@ describe DiaryEntry do
   end
 
   context 'with a time' do
-    subject { ObservationEntry.new({:datetime => Time.new(2002)}).render('Test', ObservationEntry) }
+    subject { ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6)).render('Test', ObservationEntry) }
 
     it 'renders correctly' do
-      is_expected.to eq("=== Test (January  1, 2002, 12:00 AM)\nContent::\n  none\n")
+      is_expected.to eq("=== Test (February  3, 2001,  4:05 AM)\nContent::\n  none\n")
     end
   end
 
   context 'with a time and context' do
-    subject { ObservationEntry.new({:datetime => Time.new(2002), :content => 'blah'}).render('Test', ObservationEntry) }
+    subject { ObservationEntry.new(datetime: Time.new(2002), content: 'blah').render('Test', ObservationEntry) }
 
     it 'renders correctly' do
       is_expected.to eq("=== Test (January  1, 2002, 12:00 AM)\nContent::\n  blah\n")
@@ -44,22 +46,22 @@ describe DiaryEntry do
     class UnimplementedDiaryEntry < DiaryEntry
     end
 
-    subject { UnimplementedDiaryEntry.new({:datetime => Time.new(2002)}) }
+    subject { UnimplementedDiaryEntry.new(datetime: Time.new(2003)) }
 
     it 'raises if the template class is not inherited' do
-      expect{subject.render('Test')}.to raise_error(NotImplementedError, 'DiaryElement#elements_array must be overriden')
+      expect { subject.render('Test') }.to raise_error(NotImplementedError, 'DiaryEntry#elements_array must be overriden')
     end
 
     it 'raises if elements_array is not overriden' do
-      expect{subject.elements_array}.to raise_error(NotImplementedError, 'DiaryElement#elements_array must be overriden')
+      expect { subject.elements_array }.to raise_error(NotImplementedError, 'DiaryEntry#elements_array must be overriden')
     end
 
     it 'raises if prompt is not overriden' do
-      expect{subject.prompt(nil)}.to raise_error(NotImplementedError, 'DiaryElement#prompt must be overriden')
+      expect { subject.prompt(nil) }.to raise_error(NotImplementedError, 'DiaryEntry#prompt must be overriden')
     end
 
     it 'raises if to_s is not overriden' do
-      expect{subject.to_s}.to raise_error(NotImplementedError, 'DiaryElement#to_s must be overriden')
+      expect { subject.to_s }.to raise_error(NotImplementedError, 'DiaryEntry#to_s must be overriden')
     end
   end
 
@@ -79,8 +81,8 @@ describe DiaryEntry do
     end
 
     it 'raises if enumerable not returned by elements_array' do
-      entry = BadElementsArrayDiaryEntry.new({:datetime => Time.new(2002)})
-      expect{entry.render('Test')}.to raise_error(ArgumentError, 'BadElementsArrayDiaryEntry#elements_array must return an enumerable')
+      entry = BadElementsArrayDiaryEntry.new(datetime: Time.new(2004))
+      expect { entry.render('Test') }.to raise_error(ArgumentError, 'BadElementsArrayDiaryEntry#elements_array must return an enumerable')
     end
   end
 
@@ -100,8 +102,8 @@ describe DiaryEntry do
     end
 
     it 'raises if record[:database] is not a Time' do
-      entry = BadTimeDiaryEntry.new({:datetime => 'Nowhen'})
-      expect{entry.render('Test')}.to raise_error(ArgumentError, 'record[:database] must be a Time, not a String')
+      entry = BadTimeDiaryEntry.new(datetime: 'Nowhen')
+      expect { entry.render('Test') }.to raise_error(ArgumentError, 'record[:database] must be a Time, not a String')
     end
   end
 end

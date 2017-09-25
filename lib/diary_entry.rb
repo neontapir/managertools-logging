@@ -29,7 +29,7 @@ class DiaryEntry
   #   @raise [ArgumentError] when entry_type is not a kind of DiaryEntry
   #   @return [String] an Asciidoc fragment suitable for appending to a log file
   def render(title, entry_type = self.class)
-    raise NotImplementedError, 'DiaryElement#elements_array must be overriden' unless entry_type.instance_methods(false).include?(:elements_array)
+    raise NotImplementedError, 'DiaryEntry#elements_array must be overriden' unless entry_type.instance_methods(false).include?(:elements_array)
     raise ArgumentError, "#{entry_type}#elements_array must return an enumerable" unless elements_array.is_a?(Enumerable)
     entry_date = @record.fetch(:datetime)
     raise ArgumentError, "record[:database] must be a Time, not a #{entry_date.class}" unless entry_date.is_a?(Time)
@@ -40,18 +40,18 @@ class DiaryEntry
   # @abstract Gives the text shown at the beginning of an interactive session to provide the user context
   #   @param [String] preamble the string to display
   def prompt(_preamble)
-    raise NotImplementedError, 'DiaryElement#prompt must be overriden'
+    raise NotImplementedError, 'DiaryEntry#prompt must be overriden'
   end
 
   # @abstract Gives an array of DiaryElement objects that the user will be prompted to fill out
   #   @return [Array] the elements to prompt on
   def elements_array
-    raise NotImplementedError, 'DiaryElement#elements_array must be overriden'
+    raise NotImplementedError, 'DiaryEntry#elements_array must be overriden'
   end
 
   # @abstract Gives the string representation of the class, written to the person's log file
   def to_s
-    raise NotImplementedError, 'DiaryElement#to_s must be overriden'
+    raise NotImplementedError, 'DiaryEntry#to_s must be overriden'
   end
 
   private

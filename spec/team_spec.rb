@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require './lib/team.rb'
 
 describe Team do
   context 'in initializer context' do
     it 'raises if params hash does not contain a team entry' do
-      expect{Team.new({})}.to raise_error KeyError
+      expect { Team.new({}) }.to raise_error KeyError
     end
   end
 
