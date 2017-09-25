@@ -8,19 +8,20 @@ require_relative 'employee_file'
 # Create a new entry for a person
 class NewHireCommand
   def generate_file(folder, overview_file)
+    employee = folder.employee
     contents = <<~FILE_HEADER
       :imagesdir: #{folder.path}
 
-      == #{folder.employee}
+      == #{employee}
 
-        image::headshot.jpg[#{folder.employee}, width="200", align="right", float="right"]
+        image::headshot.jpg[#{employee}, width="200", align="right", float="right"]
 
-        Team: #{folder.employee.team.capitalize}
+        Team: #{employee.team.capitalize}
 
-FILE_HEADER
+    FILE_HEADER
     print "generating\n"
-    File.open(overview_file.path, 'w') do |f|
-      f.write(contents)
+    File.open(overview_file.path, 'w') do |file|
+      file.write(contents)
     end
   end
 

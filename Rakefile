@@ -8,7 +8,7 @@ end
 desc 'Rebuild the overview and team directory documents'
 task :rebuild do
   system('rm -f */*/*/overview.adoc') || exit!(1)
-  system('./mt gen-overview-files') || exit!(1)
+  system('./mt generate-overview-files') || exit!(1)
   task(:build).invoke
 end
 
@@ -18,14 +18,26 @@ task :document do
   puts 'Success, try `open doc/index.html` to view'
 end
 
-desc 'Run flog against the solution'
+desc 'Run flay against the solution to detect code duplication'
+task :flay do
+  system('flay .') || exit!(1)
+end
+
+desc 'Run flog against the solution to detect code complexity'
 task :flog do
   system('flog . -spec') || exit!(1)
 end
 
+desc 'Run reek against the solution to detect code smells'
+task :reek do
+  system('reek .') || exit!(1)
+end
+
 desc 'Inspect the quality of the code'
 task :quality do
+  task(:flay).invoke
   task(:flog).invoke
+  task(:reek).invoke
 end
 
 desc 'Build the team directory document'
@@ -37,7 +49,7 @@ task :build do
   puts 'Success, try `open team-directory.html` to view'
 end
 
-desc 'Mutation test example using DiaryEntry'
+desc 'Mutation test example using Diary, to detect test suite gaps'
 task :mutant do
   system('bundle exec mutant --use rspec -I lib/ -r diary_entry DiaryEntry') || exit!(1)
 end

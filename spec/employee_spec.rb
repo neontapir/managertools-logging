@@ -11,30 +11,30 @@ describe Employee do
 
   def is_correct?(employee, team, first, last)
     expect(employee).not_to be_nil
-    employee_team = employee.instance_of?(Employee) ? employee.team : employee.fetch(:team)
+    employee_team = employee.(:team)
     expect(employee_team).to eq team
-    employee_first = employee.instance_of?(Employee) ? employee.first : employee.fetch(:first)
+    employee_first = employee.(:first)
     expect(employee_first).to eq first
-    employee_last = employee.instance_of?(Employee) ? employee.last : employee.fetch(:last)
+    employee_last = employee.(:last)
     expect(employee_last).to eq last
   end
 
   context 'when getting the name' do
+    subject { { team: 'Avengers', first: 'Steve', last: 'Rogers' } }
+
     it 'is capitalized if input is capitalized' do
-      cap = { team: 'Avengers', first: 'Steve', last: 'Rogers' }
-      captain_america = Employee.new cap
+      captain_america = Employee.new subject
       expect(captain_america.to_s).to eq 'Steve Rogers'
     end
 
     it 'is capitalized name even if input is not capitalized' do
-      cap = { team: 'avengers', first: 'steve', last: 'rogers' }
-      captain_america = Employee.new cap
+      captain_lowercase = { team: 'avengers', first: 'steve', last: 'rogers' }
+      captain_america = Employee.new captain_lowercase
       expect(captain_america.to_s).to eq 'Steve Rogers'
     end
 
     it 'is available as a canonical name' do
-      cap = { team: 'Avengers', first: 'Steve', last: 'Rogers' }
-      captain_america = Employee.new cap
+      captain_america = Employee.new subject
       expect(captain_america.canonical_name).to eq 'steve-rogers'
     end
   end

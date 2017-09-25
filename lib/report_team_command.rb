@@ -12,13 +12,20 @@ extend MtDataFormatter
 class ReportTeamCommand
   # Append a member's report to the team file
   def append_file(destination, contents)
-    open(destination, 'a') do |f|
-      f.puts contents
-      f.puts "\n"
+    open(destination, 'a') do |file|
+      file.puts contents
+      file.puts "\n"
     end
   end
 
   HORIZONTAL_RULE = "'''"
+
+  def write_report(team, report_source)
+    append_file(report_source, "= Team #{team_name.titlecase}\n\n")
+    team.members_by_folder.each do |tm|
+      append_file(report_source, "include::#{tm}/overview.adoc[]\n\n#{HORIZONTAL_RULE}\n\n")
+    end
+  end
 
   # Create a report of a team, using each member\'s files
   def command(arguments)
@@ -32,11 +39,7 @@ class ReportTeamCommand
     [output, report_source].each do |file|
       File.delete file if File.exist? file
     end
-
-    append_file(report_source, "= Team #{team_name.titlecase}\n\n")
-    team.members_by_folder.each do |tm|
-      append_file(report_source, "include::#{tm}/overview.adoc[]\n\n#{HORIZONTAL_RULE}\n\n")
-    end
+    write_report(team, report_source)
 
     system('asciidoctor', "-o#{output}", report_source)
     system('open', output) # for Mac, use "cmd /c" for Windows

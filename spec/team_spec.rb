@@ -40,15 +40,15 @@ describe Team do
     expect(Team.find('xyzzy')).to be nil
   end
 
+  it 'uses the name as its string representation' do
+    avengers = Team.new(team: 'Avengers')
+    expect(avengers.to_s).to eq(Team.to_name('avengers'))
+  end
+
   it 'creates the name correctly' do
     expect(Team.to_name('avengers')).to eq('Avengers')
     expect(Team.to_name('justice-league')).to eq('Justice League')
     expect(Team.to_name('Justice League')).to eq('Justice League')
-  end
-
-  it 'uses the name as its string representation' do
-    avengers = Team.new(team: 'Avengers')
-    expect(avengers.to_s).to eq(Team.to_name('avengers'))
   end
 
   it 'creates the path string correctly' do

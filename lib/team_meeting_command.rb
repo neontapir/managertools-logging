@@ -10,11 +10,8 @@ class TeamMeetingCommand
   # @!method command(arguments)
   #   Create an entry in each team member's file
   def command(arguments)
-    team_name = arguments.first
-    team = Team.find team_name
-    members = team.members
+    members = get_members(arguments.first)
     any_team_member = members.first
-
     entry = get_entry :team_meeting, any_team_member
 
     members.each do |employee|
@@ -22,5 +19,10 @@ class TeamMeetingCommand
       log_file.ensure_exists
       log_file.append entry
     end
+  end
+
+  def get_members(team_name)
+    team = Team.find team_name
+    team.members
   end
 end

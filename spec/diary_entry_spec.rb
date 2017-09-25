@@ -70,7 +70,7 @@ describe DiaryEntry do
       end
 
       def elements_array
-        # do nothing
+        42 # not enumerable
       end
 
       def to_s

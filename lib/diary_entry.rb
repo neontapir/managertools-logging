@@ -38,13 +38,13 @@ class DiaryEntry
   end
 
   # @abstract Gives the text shown at the beginning of an interactive session to provide the user context
-  # @param [String] preamble the string to display
+  #   @param [String] preamble the string to display
   def prompt(_preamble)
     raise NotImplementedError, 'DiaryElement#prompt must be overriden'
   end
 
   # @abstract Gives an array of DiaryElement objects that the user will be prompted to fill out
-  # @return [Array] the elements to prompt on
+  #   @return [Array] the elements to prompt on
   def elements_array
     raise NotImplementedError, 'DiaryElement#elements_array must be overriden'
   end
@@ -56,6 +56,7 @@ class DiaryEntry
 
   private
 
+  # items in this array will not be included in the body of the entry, just the header
   HEADER_ONLY = [:datetime].freeze
 
   def populate(elements_array, initial)
