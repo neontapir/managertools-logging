@@ -10,7 +10,10 @@ class TeamMeetingCommand
   # @!method command(arguments)
   #   Create an entry in each team member's file
   def command(arguments)
-    members = get_members(arguments.first)
+    team_name = arguments.first
+    raise "missing team name argument" unless team_name
+
+    members = get_members(team_name)
     any_team_member = members.first
     entry = get_entry :team_meeting, any_team_member
 
