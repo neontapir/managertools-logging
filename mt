@@ -74,7 +74,6 @@ def display(hash)
 end
 
 if $PROGRAM_NAME == __FILE__
-  # script = __dir__
   SUB_COMMANDS = %w[feedback gen-overview-files interview team-meeting new-hire
                     o3 observation report report-team].freeze
 

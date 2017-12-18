@@ -25,13 +25,6 @@ class NewHireCommand
     end
   end
 
-  # opts = Trollop.options do
-  #   banner 'Create a new entry for a person'
-  #   opt :force, 'generate even if file exists'
-  #   opt :team, 'team name (like avengers)', type: :string, required: true
-  #   opt :first, 'person\'s first name (in quotes, like "Tony Stark")', type: :string
-  #   opt :last, 'person\'s last name (in quotes, like "Tony Stark")', type: :string
-  # end
   def command(arguments)
     force = false
     if arguments.first == '--force'
