@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 require 'timecop'
-require './lib/diary_entry.rb'
-require './lib/feedback_entry.rb'
-require './lib/observation_entry.rb'
+Dir.glob('./lib/*_entry.rb', &method(:require))
+# require './lib/diary_entry.rb'
+# require './lib/feedback_entry.rb'
+# require './lib/observation_entry.rb'
 
 describe DiaryEntry do
   it 'gets an entry by identifier' do

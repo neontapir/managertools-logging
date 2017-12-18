@@ -39,7 +39,7 @@ describe Team do
   end
 
   it 'does not find a non-existant team' do
-    expect(Team.find('xyzzy')).to be nil
+    expect(Team.find('xyzzy')).to be_nil
   end
 
   it 'uses the name as its string representation' do

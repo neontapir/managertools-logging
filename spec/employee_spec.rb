@@ -4,21 +4,14 @@ require 'ostruct'
 require 'stringio'
 require './lib/employee.rb'
 require './lib/settings.rb'
-require_relative 'captured_io'
 require_relative 'settings_helper'
 
 describe Employee do
-  include CapturedIO
   include SettingsHelper
 
   def is_correct?(employee, team, first, last)
-    expect(employee).not_to be_nil
-    employee_team = employee.call(:team)
-    expect(employee_team).to eq team
-    employee_first = employee.call(:first)
-    expect(employee_first).to eq first
-    employee_last = employee.call(:last)
-    expect(employee_last).to eq last
+    Struct.new("EmployeeSpec", :team, :first, :last)
+    expect(employee <=> EmployeeSpec.new(team, first, last)).to eq 0
   end
 
   context 'when getting the name' do
