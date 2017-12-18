@@ -19,7 +19,7 @@ class DiaryElement
   #   Create a new diary element
   #   @raise [ArgumentError] when prompt contains characters not allowed in Asciidoc definition lists
   def initialize(key, prompt = key.to_s.capitalize, default = DEFAULT_VALUE)
-    # TODO: Research, this assertion may not actually be_true
+    # TODO: Research, this assertion may not actually be correct
     raise ArgumentError, 'Asciidoc labeled lists cannot contain special characters' unless prompt =~ /\A['\-A-Za-z ]+\z/
 
     @key = key

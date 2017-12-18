@@ -13,7 +13,7 @@ describe EmployeeFile do
   end
 
   it 'raises if no folder given' do
-    expect { EmployeeFile.new(nil, nil) }.to raise_error ArgumentError, 'Folder cannot be empty'
+    expect { EmployeeFile.new(nil, anything) }.to raise_error ArgumentError, 'Folder cannot be empty'
   end
 
   it 'raises if no file given' do
