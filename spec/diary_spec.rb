@@ -75,8 +75,8 @@ describe Diary do
       log = LogFile.new(Dir.new('data/avengers/tony-stark')).path
       old_length = File.size?(log) ? File.size(log) : 0
 
-      input = StringIO.new("plough\n")
-      with_captured(input) do |_|
+      lorem = StringIO.new("Lorem ipsum dolor sit amet, ea sea integre aliquando cotidieque, est dicta dolores concludaturque ne, his in dolorem volutpat.\nPro in iudico deseruisse, vix feugait accommodare ut, ne iisque appetere delicatissimi nec.")
+      with_captured(lorem) do |_|
         _ = subject.record_to_file(:test, 'tony-stark')
         expect(File.size(log)).to be > old_length
       end
