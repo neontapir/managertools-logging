@@ -14,27 +14,27 @@ describe Team do
     let(:justice_league) { Team.new(team: 'JusticeLeague') }
 
     it 'finds the same team equal to itself' do
-      expect(avengers.eql?(avengers)).to be true
-      expect(justice_league.eql?(justice_league)).to be true
+      expect(avengers.eql?(avengers)).to be_true
+      expect(justice_league.eql?(justice_league)).to be_true
     end
 
     it 'does not find different teams equal to each other' do
-      expect(avengers.eql?(justice_league)).to be false
-      expect(justice_league.eql?(avengers)).to be false
+      expect(avengers.eql?(justice_league)).to be_false
+      expect(justice_league.eql?(avengers)).to be_false
     end
 
     it 'gets the same results with the equals operator' do
-      expect(justice_league == avengers).to be false
-      expect(avengers == justice_league).to be false
+      expect(justice_league == avengers).to be_false
+      expect(avengers == justice_league).to be_false
     end
 
     it 'finds teams with different casing in names the same' do
       avengers_miniscule = Team.new(team: 'avengers')
-      expect(avengers.eql?(avengers_miniscule)).to be true
+      expect(avengers.eql?(avengers_miniscule)).to be_true
     end
 
     it 'does not find a team equal to a non-team' do
-      expect(avengers.eql?('Avengers')).to be false
+      expect(avengers.eql?('Avengers')).to be_false
     end
   end
 
