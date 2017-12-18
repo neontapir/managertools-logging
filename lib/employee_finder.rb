@@ -35,13 +35,15 @@ module EmployeeFinder
   # @return [Employee] an Employee object
   def find(key)
     root = EmployeeFolder.root
+    result = []
     Dir.glob("#{root}/*/*") do |d|
       next unless Dir.exist? d
       if /#{key}/ =~ d.to_s
         employee = parse_dir d
-        return Employee.new employee
+        result << Employee.new(employee)
       end
     end
+    result.sort.first
   end
 
   # Description of method

@@ -106,13 +106,16 @@ describe EmployeeFinder do
     end
 
     it 'returns the first one by alphabetical order if multiples match' do
-      beast = Employee.find('hank')
-      is_correct?(beast, 'avengers', 'Hank', 'Mccoy')
+      hanks = Employee.find('hank')
+      is_correct?(hanks, 'avengers', 'Hank', 'Mccoy')
     end
 
     it 'finds the expected employee when given a unique key' do
       ant_man = Employee.find('hank-p')
       is_correct?(ant_man, 'avengers', 'Hank', 'Pym')
+
+      beast = Employee.find('hank-m')
+      is_correct?(beast, 'avengers', 'Hank', 'Mccoy')
     end
   end
 end

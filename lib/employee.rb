@@ -12,6 +12,7 @@ require_relative 'path_splitter'
 # @attr_reader [String] first the first name of the team member
 # @attr_reader [String] last the last name of the team member
 class Employee
+  include Comparable
   extend EmployeeFinder
   extend MtDataFormatter
   extend PathSplitter
@@ -41,7 +42,7 @@ class Employee
   # @return [Boolean] whether the object is equivalent
   def eql?(other)
     return unless other.respond_to?(:team) && other.respond_to?(:first) && other.respond_to?(:last)
-    team.eql?(other.team) && first.eql?(other.first) && last.eql?(other.last)
+    (self <=> other) == 0
   end
 
   # Object equality
@@ -49,12 +50,29 @@ class Employee
     eql?(other)
   end
 
+  # Object comparison by its fields
+  #
+  # @param [Type] other the object to compare
+  # @return [Integer] -1 (other less than), 0 (equal), or 1 (greater than)
+  def <=>(other)
+    comparison = team <=> other.team
+    if (comparison == 0)
+      comparison = first <=> other.first
+      if (comparison == 0)
+        comparison = last <=> other.last
+      end
+    end
+    comparison
+  end
+
   # The name used in folder creation
+  # @return [String] the folder name
   def canonical_name
     unidown "#{first}-#{last}"
   end
 
-  # The display name
+  # The display name, in title case
+  # @return [String] the display name
   def to_s
     "#{first.capitalize} #{last.capitalize}"
   end
