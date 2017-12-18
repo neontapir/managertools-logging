@@ -15,6 +15,8 @@ class ReportTeamCommand
   # Create a report of a team, using each member\'s files
   def command(arguments)
     team_name = arguments.first
+    raise "missing team name argument" unless team_name
+
     team = Team.find team_name
 
     report_name = "team-#{team}-report"
