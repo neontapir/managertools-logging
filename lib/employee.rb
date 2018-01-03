@@ -5,7 +5,6 @@ require 'facets/string/titlecase'
 require_relative 'employee_finder'
 require_relative 'employee_folder'
 require_relative 'mt_data_formatter'
-require_relative 'path_splitter'
 
 # Represents a team member, a person assigned to a team
 # @attr_reader [String] team the name of the team the person belongs to
@@ -14,8 +13,7 @@ require_relative 'path_splitter'
 class Employee
   include Comparable
   extend EmployeeFinder
-  extend MtDataFormatter
-  extend PathSplitter
+  include MtDataFormatter
 
   attr_reader :team, :first, :last
 
@@ -42,7 +40,7 @@ class Employee
   # @return [Boolean] whether the object is equivalent
   def eql?(other)
     return unless other.respond_to?(:team) && other.respond_to?(:first) && other.respond_to?(:last)
-    (self <=> other) == 0
+    (self <=> other).zero?
   end
 
   # Object equality
@@ -56,12 +54,8 @@ class Employee
   # @return [Integer] -1 (other less than), 0 (equal), or 1 (greater than)
   def <=>(other)
     comparison = team <=> other.team
-    if (comparison == 0)
-      comparison = first <=> other.first
-      if (comparison == 0)
-        comparison = last <=> other.last
-      end
-    end
+    comparison = first <=> other.first if comparison.zero?
+    comparison = last <=> other.last if comparison.zero?
     comparison
   end
 

@@ -4,10 +4,10 @@ require_relative 'diary_element'
 require_relative 'diary_entry'
 require_relative 'mt_data_formatter'
 
-include MtDataFormatter
-
 # Template for a phone screening interview
 class InterviewEntry < DiaryEntry
+  include MtDataFormatter
+
   def prompt(name)
     "For your interview with #{name}, enter the following:"
   end

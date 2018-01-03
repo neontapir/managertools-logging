@@ -4,10 +4,10 @@ require_relative 'diary_element'
 require_relative 'diary_entry'
 require_relative 'mt_data_formatter'
 
-include MtDataFormatter
-
 # Template for a one-on-one meeting
 class O3Entry < DiaryEntry
+  include MtDataFormatter
+
   def prompt(name)
     "For your 1:1 with #{name}, enter the following:"
   end

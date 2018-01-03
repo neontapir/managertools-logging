@@ -3,15 +3,15 @@
 require_relative 'diary'
 require_relative 'team'
 
-include Diary
-
 # A team meeting
 class TeamMeetingCommand
+  include Diary
+
   # @!method command(arguments)
   #   Create an entry in each team member's file
   def command(arguments)
     team_name = arguments.first
-    raise "missing team name argument" unless team_name
+    raise 'missing team name argument' unless team_name
 
     members = get_members(team_name)
     any_team_member = members.first

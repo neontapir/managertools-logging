@@ -16,7 +16,7 @@ class GenerateOverviewFilesCommand
   # Generate the files needed to create a team overview
   def command(arguments)
     force = false
-    if arguments.first == '--force'
+    if Array(arguments).first == '--force'
       force = true
       arguments.shift
     end

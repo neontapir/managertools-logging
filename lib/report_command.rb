@@ -5,14 +5,14 @@ require 'shell'
 require_relative 'diary'
 require_relative 'employee'
 
-include Diary
-
 # Create a report from a person's files
 class ReportCommand
+  include Diary
+
   # Create a report from a person's files
   def command(arguments)
-    person = arguments.first
-    raise "missing person argument" unless person
+    person = Array(arguments).first
+    raise 'missing person argument' unless person
     
     employee = Employee.get person
     output = generate_report_for employee

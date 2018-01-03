@@ -2,13 +2,13 @@
 
 require_relative 'diary'
 
-include Diary
-
 # Open a person's log file
 class OpenFileCommand
+  include Diary
+
   def command(arguments)
-    person = arguments.first
-    raise "missing person argument" unless person
+    person = Array(arguments).first
+    raise 'missing person argument' unless person
 
     employee = Employee.get person
     log_file = employee.file

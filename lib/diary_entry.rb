@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
+require_relative 'mt_data_formatter'
+
 # Base class for diary entries
 # @!attribute [rw] record
 #   @return [Hash] the entry's data dictionary of elements
 class DiaryEntry
   attr_accessor :record
+  include MtDataFormatter
 
   # @!method initialize(**record)
   #   Create a new diary entry

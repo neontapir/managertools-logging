@@ -27,7 +27,7 @@ class NewHireCommand
 
   def command(arguments)
     force = false
-    if arguments.first == '--force'
+    if Array(arguments).first == '--force'
       force = true
       arguments.shift
     end

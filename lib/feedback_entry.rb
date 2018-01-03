@@ -4,10 +4,10 @@ require_relative 'diary_element'
 require_relative 'diary_entry'
 require_relative 'mt_data_formatter'
 
-include MtDataFormatter
-
 # Template for documenting feedback given
 class FeedbackEntry < DiaryEntry
+  include MtDataFormatter
+
   def prompt(name)
     "With feedback for #{name}, enter the following:"
   end
