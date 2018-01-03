@@ -149,11 +149,7 @@ DEPENDENCIES
   timecop (~> 0.9)
   trollop (~> 2.1)
   unicode (>= 0.4.4)
-<<<<<<< HEAD
-  yard (>= 0.9.9)
-=======
   yard (~> 0.9.11)
->>>>>>> 919b296c768406abf8b5c80a95792fa62b5961b6
 
 BUNDLED WITH
    1.16.0
