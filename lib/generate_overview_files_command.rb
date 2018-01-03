@@ -8,14 +8,11 @@ require_relative 'mt_data_formatter'
 require_relative 'new_hire_command'
 require_relative 'path_splitter'
 
-extend MtDataFormatter
-extend PathSplitter
-
-# opts = Trollop.options do
-#   banner 'Generate the files needed to create a team overview'
-#   opt :force, 'generate even if file exists', default: false
-# end
+# Generate overview files recrusively for entries in the data folder
 class GenerateOverviewFilesCommand
+  extend MtDataFormatter
+  extend PathSplitter
+
   # Generate the files needed to create a team overview
   def command(arguments)
     force = false
@@ -39,7 +36,6 @@ class GenerateOverviewFilesCommand
   def get_nhc_args(folder)
     employee = Employee.find(folder)
     nhc_args = [employee.team, employee.first, employee.last]
-    nhc_args.unshift('--force') if force
     nhc_args
   end
 end

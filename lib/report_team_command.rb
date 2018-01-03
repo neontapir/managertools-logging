@@ -6,16 +6,15 @@ require 'shell'
 require_relative 'mt_data_formatter'
 require_relative 'team'
 
-extend MtDataFormatter
-
 # Create a report of a team, using each member's files
 class ReportTeamCommand
+  extend MtDataFormatter
   HORIZONTAL_RULE = "'''"
 
   # Create a report of a team, using each member\'s files
   def command(arguments)
     team_name = arguments.first
-    raise "missing team name argument" unless team_name
+    raise 'missing team name argument' unless team_name
 
     team = Team.find team_name
 
