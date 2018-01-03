@@ -33,9 +33,9 @@ class NewHireCommand
     end
 
     team, first, last = arguments
-    raise "missing team argument" unless team
-    raise "missing first name argument" unless first
-    raise "missing last name argument" unless last
+    raise 'missing team argument' unless team
+    raise 'missing first name argument' unless first
+    raise 'missing last name argument' unless last
     employee = Employee.new(team: team, first: first, last: last)
     folder = EmployeeFolder.new employee
     folder.ensure_exists
