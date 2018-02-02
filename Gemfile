@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 gem 'asciidoctor', '~> 1.5.6'
@@ -15,6 +17,9 @@ gem 'yard', '~> 0.9.11', require: false, group: :docs
 gem 'flay', require: false, group: :quality
 gem 'flog', require: false, group: :quality
 gem 'reek', require: false, group: :quality
+gem 'rubocop', require: false, group: :quality
+
+gem 'solargraph', require: false, group: :ide
 
 gem 'mutant-rspec', '0.8.11', require: false, group: :test
 gem 'rspec', '~> 3.5', require: false, group: :test

@@ -14,6 +14,7 @@ class O3Entry < DiaryEntry
 
   def elements_array
     [
+      DiaryElement.new(:datetime, 'Effective date', Time.now),
       DiaryElement.new(:location, 'Location', 'unspecified'),
       DiaryElement.new(:notes),
       DiaryElement.new(:actions)
