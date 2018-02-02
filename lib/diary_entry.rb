@@ -12,7 +12,7 @@ class DiaryEntry
   # @!method initialize(**record)
   #   Create a new diary entry
   def initialize(**record)
-    record[:datetime] = Time.now unless record.key? :datetime
+    record[:datetime] = Time.now.to_s unless record.key? :datetime
     @record = record
   end
 
@@ -34,7 +34,7 @@ class DiaryEntry
   def render(title, entry_type = self.class)
     raise NotImplementedError, 'DiaryEntry#elements_array must be overriden' unless entry_type.instance_methods(false).include?(:elements_array)
     raise ArgumentError, "#{entry_type}#elements_array must return an enumerable" unless elements_array.is_a?(Enumerable)
-    entry_date = @record.fetch(:datetime)
+    entry_date = Time.parse(@record.fetch(:datetime))
     raise ArgumentError, "record[:database] must be a Time, not a #{entry_date.class}" unless entry_date.is_a?(Time)
     initial = "=== #{title} (#{format_date(entry_date)})\n"
     populate(elements_array, initial)

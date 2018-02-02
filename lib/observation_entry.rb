@@ -14,7 +14,7 @@ class ObservationEntry < DiaryEntry
 
   def elements_array
     [
-      DiaryElement.new(:datetime, 'Effective date |today|', Date.today.to_time),
+      DiaryElement.new(:datetime, 'Effective date', Time.now.to_s),
       DiaryElement.new(:content)
     ]
   end
