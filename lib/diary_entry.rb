@@ -34,9 +34,8 @@ class DiaryEntry
   def render(title, entry_type = self.class)
     raise NotImplementedError, 'DiaryEntry#elements_array must be overriden' unless entry_type.instance_methods(false).include?(:elements_array)
     raise ArgumentError, "#{entry_type}#elements_array must return an enumerable" unless elements_array.is_a?(Enumerable)
-    entry_date = Time.parse(@record.fetch(:datetime))
-    raise ArgumentError, "record[:database] must be a Time, not a #{entry_date.class}" unless entry_date.is_a?(Time)
-    initial = "=== #{title} (#{format_date(entry_date)})\n"
+    raise ArgumentError, "record[:datetime] must be a Time, not a #{date.class}" unless date.is_a?(Time)
+    initial = "=== #{title} (#{format_date(date)})\n"
     populate(elements_array, initial)
   end
 
@@ -50,6 +49,12 @@ class DiaryEntry
   #   @return [Array] the elements to prompt on
   def elements_array
     raise NotImplementedError, 'DiaryEntry#elements_array must be overriden'
+  end
+
+  # @abstract Gives the effective date of the entry
+  #   @return [Time] the date
+  def date
+    Time.parse(@record.fetch(:datetime))
   end
 
   # @abstract Gives the string representation of the class, written to the person's log file

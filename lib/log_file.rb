@@ -15,48 +15,71 @@ class LogFile
   # Append a DiaryEntry to the file
   # @param [DiaryEntry] entry the entry to append
   def append(entry)
-    ensure_exists
-    # open(@log_file.path, 'w') do |file|
-    open(@log_file.path, 'a') do |file|
-      # file.seek(-5, :END)
-      # position = get_position(entry)
-      file.write "\n" unless entry.to_s[0, 1] == "\n" # ensure leading CR for Asciidoc
-      file.write entry
-    end
+    make_backup
+    lines = IO.readlines(path)
+    write_entry_to(lines, entry, [])
+    remove_backup
   end
-
-  # def get_position(entry)
-  #   entry_date = Time.parse(entry.elements_array.find{ |e| e.key == :datetime }.default)
-
-  #   datelines = {}
-  #   File.foreach(@log_file.path).with_index do |line, line_num|
-  #     matches = /^===.*\((.*)\)/.match(line)
-  #     unless matches.to_a.empty?
-  #       line_date = Time.parse(matches[1])
-  #       datelines[line_date] = line_num
-  #       # puts "#{line_num}: #{entry_date}"
-  #     end
-  #   end
-
-  #   dates = datelines.keys
-  #   dates << entry_date
-  #   dates.sort!
-  #   position = dates.index(entry_date)
-  #   line = if position <= 0
-  #            0
-  #          elsif position == dates.size - 1
-  #            -1
-  #          else
-  #            ### TODO: this is garbage
-  #            datelines[datelines[position+1]]-1
-  #          end
-
-  #   puts "Dates: #{dates}, Entry position: #{line}"
-  #   datelines[entry_date]
-  # end
 
   # Get the file system path to the file
   def path
     @log_file.path
+  end
+
+  # Insert a DiaryEntry to the file in chronological order
+  # @param [DiaryEntry] entry the entry to insert
+  def insert(entry)
+    make_backup
+    before, after = get_position(entry)
+    write_entry_to(before, entry, after)
+    remove_backup
+  end
+
+  # Split the contents of the file into the part before the entry and the part after
+  # @param [DiaryEntry] entry the entry to insert
+  def divide_file(entry)
+    lines = IO.readlines(path)
+    datelines = get_datelines(lines)
+    dates = datelines.keys
+    dates << entry.date
+    dates.sort!
+    
+    position = dates.index(entry.date)
+    result = if position == 0
+      [[], lines]
+    elsif position == dates.size - 1
+      [lines, []]
+    else
+      line_no = datelines[dates[position+1]]-1
+      [lines[0...line_no], lines[line_no..-1]]
+    end
+    result
+  end
+
+  # Extract the lines in the file containing dates
+  # @param [Array] lines the contents of the file
+  def get_datelines(lines)
+    datelines = {}
+    lines.each_with_index do |line, line_num|
+      matches = /^===.*\((.*)\)/.match line
+      unless matches.to_a.empty?
+        line_date = Time.parse(matches[1])
+        datelines[line_date] = line_num
+      end
+    end
+    datelines
+  end
+
+  # Write the entry into the file at the correct point
+  # @param [Array] before the contents of the file before the entry
+  # @param [Array] entry the entry to insert
+  # @param [Array] after the contents of the file after the entry
+  def write_entry_to(before, entry, after)
+    open(path, 'w') do |file|
+      file.puts before
+      file.puts "\n" unless entry.to_s[0, 1] == "\n" # ensure leading CR for Asciidoc
+      file.puts entry
+      file.puts after
+    end
   end
 end
