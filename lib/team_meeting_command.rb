@@ -32,6 +32,6 @@ class TeamMeetingCommand
   def write_log(employee, entry)
     log_file = employee.file
     log_file.ensure_exists
-    log_file.append entry
+    log_file.insert entry
   end
 end

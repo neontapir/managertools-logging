@@ -19,7 +19,7 @@ module Diary
   def record_to_file(type, person)
     employee = Employee.get(person, type)
     entry = get_entry(type, employee)
-    employee.file.append entry
+    employee.file.insert entry
   end
 
   # @!method get_entry(type, employee)

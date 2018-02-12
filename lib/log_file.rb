@@ -30,7 +30,7 @@ class LogFile
   # @param [DiaryEntry] entry the entry to insert
   def insert(entry)
     make_backup
-    before, after = get_position(entry)
+    before, after = divide_file(entry)
     write_entry_to(before, entry, after)
     remove_backup
   end
