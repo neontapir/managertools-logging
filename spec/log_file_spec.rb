@@ -62,10 +62,10 @@ describe LogFile, order: :defined do
 
     it 'gets date lines correctly' do
       lines = File.readlines(subject.path)
-      expect(subject.get_datelines(lines)).to eq({
+      expect(subject.get_datelines(lines)).to eq(
         Time.new(2001, 2, 3, 4, 5, 0) => 1,
         Time.new(2001, 2, 4, 5, 6, 0) => 5
-      })
+      )
     end
 
     context 'when entry is before first in file' do
