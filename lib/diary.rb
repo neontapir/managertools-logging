@@ -4,7 +4,7 @@ require_relative 'employee'
 require_relative 'settings'
 Dir["#{__dir__}/*_entry.rb"].each { |f| require_relative(f) }
 
-# Base functionality for all entry types
+# Base functionality for all entry types. Extends the diary entry with I/O.
 module Diary
   # @!method template?
   #   Returns true if a command line option requests a template instead of an interactive session

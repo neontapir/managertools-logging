@@ -94,7 +94,6 @@ describe LogFile, order: :defined do
       let(:new_entry) { ObservationEntry.new(datetime: Time.new(2001, 2, 4, 0, 0).to_s, content: 'Observation C') }
 
       it 'calculates the position correctly' do
-        lines = File.readlines(subject.path) 
         expected_before = ["\n", "=== Observation (February  3, 2001,  4:05 AM)\n", "Content::\n", "  Observation A\n"]
         expected_after =  ["\n", "=== Observation (February  4, 2001,  5:06 AM)\n", "Content::\n", "  Observation B\n"]
         before, after = subject.divide_file(new_entry)

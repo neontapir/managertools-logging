@@ -30,7 +30,7 @@ class DiaryElement
   # @!method obtain()
   #   Display the prompt, and get the element's value from the user
   def obtain
-    return default if prompt.nil?
+    return default unless prompt
     Settings.console.ask "#{prompt}: " do |answer|
       answer.default = default
     end

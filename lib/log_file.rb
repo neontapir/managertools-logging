@@ -38,12 +38,13 @@ class LogFile
   # Split the contents of the file into the part before the entry and the part after
   # @param [DiaryEntry] entry the entry to insert
   def divide_file(entry)
+    entry_date = entry.date
     lines = IO.readlines(path)
     datelines = get_datelines(lines)
     dates = datelines.keys
-    dates << entry.date
+    dates << entry_date
     dates.sort!
-    position = dates.index(entry.date)
+    position = dates.index(entry_date)
     if position.zero?
       [[], lines]
     elsif position == dates.size - 1

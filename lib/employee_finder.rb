@@ -36,10 +36,10 @@ module EmployeeFinder
   def find(key)
     root = EmployeeFolder.root
     result = []
-    Dir.glob("#{root}/*/*") do |d|
-      next unless Dir.exist? d
-      if /#{key}/ =~ d.to_s
-        employee = parse_dir d
+    Dir.glob("#{root}/*/*") do |folder|
+      next unless Dir.exist? folder
+      if /#{key}/ =~ folder.to_s
+        employee = parse_dir folder
         result << Employee.new(employee)
       end
     end
@@ -53,11 +53,7 @@ module EmployeeFinder
   # @return [Hash] a specification of the employee
   def get(person, type = :generic)
     employee_spec = find person
-    if employee_spec.nil?
-      Employee.new(create_spec(type, parse_name(person)))
-    else
-      employee_spec
-    end
+    employee_spec || Employee.new(create_spec(type, parse_name(person)))
   end
 
   # Create a specification describing a person
@@ -66,10 +62,11 @@ module EmployeeFinder
   # @return [Hash] a specification of the employee
   def create_spec(type, person)
     result = {}
+    root = EmployeeFolder.candidates_root
     result[:team] = if type.to_sym.eql? :interview
-                      EmployeeFolder.candidates_root
+                      root
                     else
-                      obtain('Team', EmployeeFolder.candidates_root)
+                      obtain('Team', root)
                     end
     result[:first] = obtain('First', person[:first] || 'Zaphod')
     result[:last] = obtain('Last', person[:last] || 'Beeblebrox')

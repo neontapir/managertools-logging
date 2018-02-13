@@ -68,7 +68,7 @@ class DiaryEntry
   HEADER_ONLY = [:datetime].freeze
 
   def populate(elements_array, initial)
-    elements_array.reject { |e| HEADER_ONLY.include? e.key }.inject(initial) do |output, entry|
+    elements_array.reject { |element| HEADER_ONLY.include? element.key }.inject(initial) do |output, entry|
       output + "#{entry.prompt}::\n  #{wrap(@record.fetch(entry.key, entry.default))}\n"
     end
   end
