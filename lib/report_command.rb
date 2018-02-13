@@ -13,7 +13,6 @@ class ReportCommand
   def command(arguments)
     person = Array(arguments).first
     raise 'missing person argument' unless person
-    
     employee = Employee.get person
     output = generate_report_for employee
     system('open', output) # for Mac, use 'cmd /c' for Windows

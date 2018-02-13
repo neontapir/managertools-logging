@@ -67,7 +67,7 @@ def parse(script, subcommand, arguments)
   script
 end
 
-CSV_DELIMITER = ', '.freeze
+CSV_DELIMITER = ', '
 
 def display(hash)
   hash.map { |k, v| "#{k} -> #{v}" }.join(CSV_DELIMITER)
