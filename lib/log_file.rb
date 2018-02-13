@@ -68,7 +68,7 @@ class LogFile
     datelines
   end
 
-  # Write the entry into the file at the correct point
+  # Rewrite the file, inserting the entry into the file at the correct point
   # @param [Array] before the contents of the file before the entry
   # @param [Array] entry the entry to insert
   # @param [Array] after the contents of the file after the entry
