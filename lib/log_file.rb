@@ -43,17 +43,15 @@ class LogFile
     dates = datelines.keys
     dates << entry.date
     dates.sort!
-    
     position = dates.index(entry.date)
-    result = if position == 0
+    if position.zero?
       [[], lines]
     elsif position == dates.size - 1
       [lines, []]
     else
-      line_no = datelines[dates[position+1]]-1
+      line_no = datelines[dates[position + 1]] - 1
       [lines[0...line_no], lines[line_no..-1]]
     end
-    result
   end
 
   # Extract the lines in the file containing dates
