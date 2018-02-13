@@ -41,8 +41,7 @@ class LogFile
     entry_date = entry.date
     lines = IO.readlines(path)
     datelines = get_datelines(lines)
-    dates = datelines.keys
-    dates << entry_date
+    dates = datelines.keys + [entry_date]
     dates.sort!
     position = dates.index(entry_date)
     if position.zero?

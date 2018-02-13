@@ -28,7 +28,7 @@ class ReportTeamCommand
   private
 
   def generate_report(team, report_source, output)
-    [output, report_source].each do |file|
+    [report_source, output].each do |file|
       File.delete file if File.exist? file
     end
 

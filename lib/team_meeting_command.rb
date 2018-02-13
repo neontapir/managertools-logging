@@ -13,7 +13,7 @@ class TeamMeetingCommand
     team_name = arguments.first
     raise 'missing team name argument' unless team_name
 
-    members = get_members(team_name)
+    members = Team.find(team_name).members
     any_team_member = members.first
     entry = get_entry :team_meeting, any_team_member
 
@@ -23,12 +23,7 @@ class TeamMeetingCommand
   end
 
   private
-
-  def get_members(team_name)
-    team = Team.find team_name
-    team.members
-  end
-
+  
   def write_log(employee, entry)
     log_file = employee.file
     log_file.ensure_exists
