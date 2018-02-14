@@ -7,8 +7,13 @@ end
 
 desc 'Rebuild the overview and team directory documents'
 task :rebuild do
+<<<<<<< HEAD
   system *%w[rm -f */*/*/overview.adoc] || exit!(1)
   system *%w[./mt generate-overview-files] || exit!(1)
+=======
+  system(*%w[rm -f */*/*/overview.adoc]) || exit!(1)
+  system(*%w[./mt generate-overview-files]) || exit!(1)
+>>>>>>> 8ddb1b875ee9bdf1278c3c2d0352863f220df9d4
   task(:build).invoke
 end
 
