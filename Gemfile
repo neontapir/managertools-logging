@@ -19,6 +19,7 @@ gem 'flog', require: false, group: :quality
 gem 'reek', require: false, group: :quality
 gem 'rubocop', require: false, group: :quality
 
+gem 'rcodetools', require: false, group: :ide
 gem 'solargraph', require: false, group: :ide
 
 gem 'mutant-rspec', '0.8.11', require: false, group: :test
