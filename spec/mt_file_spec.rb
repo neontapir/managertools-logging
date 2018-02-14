@@ -31,7 +31,11 @@ describe MtFile do
     subject { MtFileClass.new }
 
     def foo_exists
-      File.exist?('data/mtfile/foo')
+      File.exist?(subject.path)
+    end
+
+    def backup_exists
+      File.exist?(subject.backup)
     end
 
     it 'knows the file path' do
@@ -60,20 +64,20 @@ describe MtFile do
 
     context 'when making a backup' do
       it 'creates a backup file if none exists' do
-        expect(File.exist?('data/mtfile/foo')).to be_falsey
-        expect(File.exist?('data/mtfile/foo.bak')).to be_falsey
+        expect(foo_exists).to be_falsey
+        expect(backup_exists).to be_falsey
         subject.make_backup
-        expect(File.exist?('data/mtfile/foo')).to be_truthy
-        expect(File.exist?('data/mtfile/foo.bak')).to be_truthy
+        expect(foo_exists).to be_truthy
+        expect(backup_exists).to be_truthy
       end
 
       it 'removes a backup file' do
         subject.make_backup
-        expect(File.exist?('data/mtfile/foo')).to be_truthy
-        expect(File.exist?('data/mtfile/foo.bak')).to be_truthy
+        expect(foo_exists).to be_truthy
+        expect(backup_exists).to be_truthy
         subject.remove_backup
-        expect(File.exist?('data/mtfile/foo')).to be_truthy
-        expect(File.exist?('data/mtfile/foo.bak')).to be_falsey
+        expect(foo_exists).to be_truthy
+        expect(backup_exists).to be_falsey
       end
     end
   end
