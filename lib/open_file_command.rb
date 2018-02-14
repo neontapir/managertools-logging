@@ -13,6 +13,6 @@ class OpenFileCommand
     employee = Employee.get person
     log_file = employee.file
     log_file.ensure_exists
-    exec("open '#{log_file}'")
+    system 'open', log_file.to_s
   end
 end

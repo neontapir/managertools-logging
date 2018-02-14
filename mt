@@ -91,5 +91,5 @@ if $PROGRAM_NAME == __FILE__
 
   subcommand = ARGV.shift
   script = parse(__dir__, subcommand, ARGV)
-  exec("#{script} #{ARGV.join(' ')}")
+  system %W["#{script} #{ARGV.join(' ')}"]
 end
