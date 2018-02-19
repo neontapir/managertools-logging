@@ -18,15 +18,7 @@ class TeamMeetingCommand
     entry = get_entry :team_meeting, any_team_member
 
     members.each do |employee|
-      write_log(employee, entry)
+      employee.file.insert entry
     end
-  end
-
-  private
-  
-  def write_log(employee, entry)
-    log_file = employee.file
-    log_file.ensure_exists
-    log_file.insert entry
   end
 end
