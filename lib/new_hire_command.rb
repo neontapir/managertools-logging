@@ -14,9 +14,9 @@ class NewHireCommand
 
       == #{employee}
 
-        image::headshot.jpg[#{employee}, width="200", align="right", float="right"]
+      image::headshot.jpg[#{employee}, width="200", align="right", float="right"]
 
-        Team: #{employee.team.capitalize}
+      Team: #{employee.team.capitalize}
 
     FILE_HEADER
     print "generating\n"
