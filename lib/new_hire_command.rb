@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'configatron'
 require 'fileutils'
 require_relative 'employee'
 require_relative 'employee_file'

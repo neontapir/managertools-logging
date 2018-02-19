@@ -4,7 +4,6 @@ source 'https://rubygems.org'
 
 gem 'asciidoctor', '~> 1.5.6'
 gem 'command', '~> 1.0'
-gem 'configatron', '~> 4.5'
 gem 'facets', '~> 3.1'
 gem 'highline', '~> 1.7'
 gem 'rake', '~> 10.5'
