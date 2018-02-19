@@ -22,8 +22,6 @@ class ReportCommand
 
   def generate_report_for(employee)
     folder = EmployeeFolder.new employee
-    # folder.ensure_exists
-
     overview_file = File.join(folder.path, 'overview.adoc')
     log_file = (LogFile.new folder).to_s
     employee_name = employee.canonical_name
