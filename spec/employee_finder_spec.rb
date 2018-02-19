@@ -49,7 +49,7 @@ describe EmployeeFinder do
     end
   end
 
-  def is_correct?(employee, team, first, last)
+  def proper?(employee, team, first, last)
     expect(employee).not_to be_nil
     employee_team = employee.instance_of?(Employee) ? employee.team : employee.fetch(:team)
     expect(employee_team).to eq team
@@ -71,7 +71,7 @@ describe EmployeeFinder do
     it 'extracts the data correctly' do
       dir = Dir.new('data/avengers/tony-stark')
       iron_man = subject.parse_dir(dir)
-      expect(is_correct?(iron_man, 'avengers', 'Tony', 'Stark')).to be_truthy
+      expect(proper?(iron_man, 'avengers', 'Tony', 'Stark')).to be_truthy
     end
   end
 
@@ -107,15 +107,15 @@ describe EmployeeFinder do
 
     it 'returns the first one by alphabetical order if multiples match' do
       hanks = Employee.find('hank')
-      is_correct?(hanks, 'avengers', 'Hank', 'Mccoy')
+      proper?(hanks, 'avengers', 'Hank', 'Mccoy')
     end
 
     it 'finds the expected employee when given a unique key' do
       ant_man = Employee.find('hank-p')
-      is_correct?(ant_man, 'avengers', 'Hank', 'Pym')
+      proper?(ant_man, 'avengers', 'Hank', 'Pym')
 
       beast = Employee.find('hank-m')
-      is_correct?(beast, 'avengers', 'Hank', 'Mccoy')
+      proper?(beast, 'avengers', 'Hank', 'Mccoy')
     end
   end
 end

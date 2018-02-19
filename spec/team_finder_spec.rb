@@ -9,7 +9,7 @@ describe TeamFinder do
 
   subject { (Class.new { include TeamFinder }).new }
 
-  def is_correct?(team)
+  def proper?(team)
     expect(team).not_to be_nil
   end
 

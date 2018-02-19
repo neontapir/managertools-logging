@@ -16,7 +16,7 @@ describe MtDataFormatter do
   end
 
   it 'formats a date' do
-    test_date = DateTime.strptime('03-02-2001 04:05:06 PM', '%d-%m-%Y %I:%M:%S %p')
+    test_date = Time.strptime('03-02-2001 04:05:06 PM', '%d-%m-%Y %I:%M:%S %p')
     expect(subject.format_date(test_date)).to eq('February  3, 2001,  4:05 PM')
   end
 

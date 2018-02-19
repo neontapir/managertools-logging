@@ -22,7 +22,7 @@ class ReportCommand
 
   def generate_report_for(employee)
     folder = EmployeeFolder.new employee
-    folder.ensure_exists
+    # folder.ensure_exists
 
     overview_file = File.join(folder.path, 'overview.adoc')
     log_file = (LogFile.new folder).to_s
@@ -37,8 +37,9 @@ class ReportCommand
       File.delete file if File.exist? file
     end
 
-    append_file(report_source, overview_file)
-    append_file(report_source, log_file)
+    [overview_file, log_file].each do |file|
+      append_file(report_source, file)
+    end
 
     system('asciidoctor', "-o#{output}", report_source)
     output

@@ -9,7 +9,7 @@ require_relative 'settings_helper'
 describe Employee do
   include SettingsHelper
 
-  def is_correct?(employee, team, first, last)
+  def proper?(employee, team, first, last)
     Struct.new("EmployeeSpec", :team, :first, :last)
     expect(employee <=> EmployeeSpec.new(team, first, last)).to eq 0
   end
