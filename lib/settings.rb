@@ -3,6 +3,22 @@
 require 'highline/import'
 require 'settingslogic'
 
+# Default file:
+# defaults: &defaults
+#   # root is set in lib/settings.rb
+#   candidates_root: zzz_candidates
+#   departed_root: zzz_departed # not used yet
+#
+# development:
+#   <<: *defaults
+#
+# test:
+#   <<: *defaults
+#
+# production:
+#   <<: *defaults
+#
+
 # Application-wide settings
 class Settings < Settingslogic
   def self.root
