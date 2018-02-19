@@ -58,7 +58,7 @@ def parse(script, subcommand, arguments)
     add_entry(subcommand, arguments)
     exit
   # in cases where we will invoke a command class
-  elsif %w[generate-overview-files new-hire open-file report report-team team-meeting].include?(subcommand)
+  elsif %w[depart generate-overview-files new-hire open-file report report-team team-meeting].include?(subcommand)
     execute_subcommand(subcommand, arguments)
     exit
   else
