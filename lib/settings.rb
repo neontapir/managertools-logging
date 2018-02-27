@@ -20,7 +20,7 @@ class Settings < Settingslogic
 
   config_file = "#{Settings.root}/config.yml"
   unless File.exist? config_file
-    raise "No file at #{config_file}, either MT not set up or executing from wrong folder"
+    raise "File not found at #{config_file}, either MT not set up or executing from wrong folder"
   end
   source config_file
   namespace 'production' # Rails.env
