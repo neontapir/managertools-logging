@@ -14,8 +14,12 @@ class Settings < Settingslogic
   end
 
   def self.console
-    @console ||= HighLine.new(STDIN, STDOUT)
+    @console ||= set_console
     @console
+  end
+
+  def self.set_console(input = STDIN, output = STDOUT)
+    @console = HighLine.new(input, output)
   end
 
   def self.default_config
@@ -35,10 +39,6 @@ class Settings < Settingslogic
       production:
         <<: *defaults
     CONFIG
-  end
-
-  def self.set_console(input = STDIN, output = STDOUT)
-    @console = HighLine.new(input, output)
   end
 
   unless File.exist? config_file
