@@ -2,30 +2,17 @@
 
 require './lib/settings.rb'
 
+# Help with Settings during tests by creating a default configuration file
 module SettingsHelper
+  
   def config_file
-    File.join(Settings.root, 'config.yml')
+    Settings.config_file
   end
-
+  
   def create_test_settings_file
-    doc = <<-FILE
-      defaults: &defaults
-        # root is set in lib/settings.rb
-        candidates_root: zzz_candidates
-        departed_root: zzz_departed # not used yet
-
-      development:
-        <<: *defaults
-
-      test:
-        <<: *defaults
-
-      production:
-        <<: *defaults
-    FILE
-
+    config_file = Settings.config_file
     FileUtils.mkdir_p(Settings.root)
-    IO.write(config_file, doc)
+    IO.write(config_file, Settings.default_config)
     raise IOError, "Missing settings file #{config_file}" unless File.exist? config_file
     Settings.reload!
   end
