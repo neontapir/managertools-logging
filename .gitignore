@@ -26,5 +26,6 @@ Gemfile.lock
 
 ## mt-specific
 /data/
+/data
 team-directory.*
 logic
