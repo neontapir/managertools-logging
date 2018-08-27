@@ -58,7 +58,7 @@ class NewHireCommand
     end
   end
 
-  def generate_log_file_by(folder)
+  def generate_log_file_by(folder, force)
     log_file = EmployeeFile.new folder, 'log.adoc'
     print "\Generating #{log_file}... "
     if !force && File.exist?(log_file.path)
