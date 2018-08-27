@@ -7,7 +7,7 @@ gem 'command', '~> 1.0'
 gem 'facets', '~> 3.1'
 gem 'highline', '~> 1.7'
 gem 'settingslogic', '~> 2.0', '>= 2.0.9'
-gem 'trollop', '~> 2.1'
+gem 'optimist', '~> 3'
 gem 'unicode', '>= 0.4.4'
 
 gem 'yard', '~> 0.9.11', require: false, group: :docs

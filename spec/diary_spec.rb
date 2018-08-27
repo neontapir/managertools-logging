@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'trollop'
+require 'optimist'
 require './lib/diary.rb'
 Dir.glob('./lib/*_entry.rb', &method(:require))
 require_relative 'captured_io'

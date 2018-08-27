@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require 'trollop'
+require 'optimist'
 Dir["#{__dir__}/lib/*_command.rb"].each { |f| require_relative(f) }
 
 def record_diary_entry(entry_type, person)
@@ -30,7 +30,7 @@ BANNERS = {
 
 def add_entry(subcommand, arguments)
   # capture options given after subcommand
-  @cmd_opts = Trollop.options do
+  @cmd_opts = Optimist.options do
     banner BANNERS[subcommand]
     opt :template, 'Create blank template entry', short: '-t'
   end
@@ -62,7 +62,7 @@ def parse(script, subcommand, arguments)
     execute_subcommand(subcommand, arguments)
     exit
   else
-    Trollop.die "unknown subcommand #{subcommand.inspect}"
+    Optimist.die "unknown subcommand #{subcommand.inspect}"
   end
   script
 end
@@ -80,7 +80,7 @@ if $PROGRAM_NAME == __FILE__
   # capture options given before subcommand
   # TODO: there's a bug here in the way arguments to subcommands are parsed
   #   for example, './mt gen --force' returns an error
-  @global_opts = Trollop.options do
+  @global_opts = Optimist.options do
     banner 'Command-line note-taking system based on Manager Tools practices'
     banner "Subcommands are: #{SUB_COMMANDS.sort * CSV_DELIMITER}"
     banner "Aliases are: #{display ALIASES.sort}"

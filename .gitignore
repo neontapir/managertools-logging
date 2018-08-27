@@ -22,6 +22,8 @@
 /vendor/bundle
 /lib/bundler/man/
 
+Gemfile.lock
+
 ## mt-specific
 /data/
 team-directory.*

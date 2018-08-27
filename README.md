@@ -18,6 +18,8 @@ time, it replaced some standalone scripts.
 
     $ bundle install # ... installs all the gems required
 
+    [ look at lib/settings.rb and create a data/config.yml file ]
+
     $ ./mt new-hire -t avengers -n "Tony Stark"
     Creating data/avengers/tony-stark
 
