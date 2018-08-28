@@ -11,8 +11,7 @@ The tool requires Ruby 2.0+ and the Asciidoctor and Bundler gems, among others.
 
 ## The 'mt' script
 
-I created an omnibus script to call the various functions from one script. Over
-time, it replaced some standalone scripts.
+I created an omnibus script in Ruby to call the various functions from one script. Over time, it replaced some standalone scripts.
 
 # Usage
 
@@ -130,7 +129,7 @@ combines the overview and log files into a nice HTML file. The overview template
 assumes that there is a file called "headshot.jpg" in each person's folder, and
 displays it at the top right corner of the file.
 
-Of course, who would want to do that manually? There's also a Rakefile that
+Of course, who would want to do that manually? There's also a `Rakefile` that
 contains some of these commands. (If you followed along and now try to run
 `rake`, you'll have problems because the test data uses the Avengers too. The
 test suite assumes that it can create and destroy Avengers data at will.)
@@ -148,10 +147,6 @@ This algorithm can be problematic in some edge cases. For example, I have a
 order. In order to reference Tom, I have to say, "tom-". So far, this has not
 been enough of an issue for me to correct.
 
-Another issue I've discovered is that the lookup logic fails if there is a dash
-in the team name. Again, this has not been a high enough priority for me to
-fix.
-
 # Extensibility
 
 ## Changing where data is stored
@@ -161,7 +156,7 @@ where your data is stored. The variable `candidates_root` determines in which
 folder interviews are recorded.
 
 I manually move the folders of people who no longer report to me to a team
-folder called "zzz_departed". The script will still find them as normal. You can
+folder called "`zzz_departed`". The script will still find them as normal. You can
 also use the same approach when people change teams. It happens infrequently
 enough for me that I didn't automate it.
 
@@ -169,7 +164,7 @@ enough for me that I didn't automate it.
 
 If you want to add a new diary entry type, you will need to create a new entry
 class in `lib`, using the naming convention `type + Entry`, for example
-ObservationEntry for an observation.
+`ObservationEntry` for an observation.
 
 After creating a new entry type according to the subsection, you need to update
 the main `mt` script to parse your new entry type. Use the existing types as a

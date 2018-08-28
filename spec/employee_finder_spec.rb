@@ -32,7 +32,7 @@ describe EmployeeFinder do
       end
     end
 
-    it 'can create a spec with give input' do
+    it 'can create a spec with given input' do
       red_panda = { first: 'August', last: 'Fenwick', team: 'Terrific Twosome of Toronto' }
       input = StringIO.new("Terrific Twosome of Toronto\nAugust\nFenwick\n")
       with_captured(input) do |_|
@@ -72,6 +72,22 @@ describe EmployeeFinder do
       dir = Dir.new('data/avengers/tony-stark')
       iron_man = subject.parse_dir(dir)
       expect(proper?(iron_man, 'avengers', 'Tony', 'Stark')).to be_truthy
+    end
+  end
+
+  context 'when parsing an employee folder with a hyphen (Rescue)' do
+    before(:all) do
+      FileUtils.mkdir_p('data/avengers/pepper-potts-stark')
+    end
+
+    after(:all) do
+      FileUtils.rm_r('data/avengers')
+    end
+
+    it 'extracts the data correctly' do
+      dir = Dir.new('data/avengers/pepper-potts-stark')
+      avenger_rescue = subject.parse_dir(dir)
+      expect(proper?(avenger_rescue, 'avengers', 'Pepper', 'Potts-Stark')).to be_truthy
     end
   end
 
