@@ -130,6 +130,9 @@ describe EmployeeFinder do
       ant_man = Employee.find('hank-p')
       proper?(ant_man, 'avengers', 'Hank', 'Pym')
 
+      ant_man_by_last_name = Employee.find('pym')
+      proper?(ant_man_by_last_name, 'avengers', 'Hank', 'Pym')
+
       beast = Employee.find('hank-m')
       proper?(beast, 'avengers', 'Hank', 'Mccoy')
     end
