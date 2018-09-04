@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require 'facets/string/titlecase'
 require 'optimist'
 Dir["#{__dir__}/lib/*_command.rb"].each { |f| require_relative(f) }
 
@@ -15,6 +16,7 @@ ALIASES = {
   'feed' => 'feedback',
   'gen' => 'generate-overview-files',
   'meeting' => 'team-meeting',
+  'multi' => 'multiple-member',
   'ob' => 'observation',
   'obs' => 'observation',
   'open' => 'open-file',
@@ -38,7 +40,6 @@ def add_entry(subcommand, arguments)
 end
 
 def parameter_to_command_class(parameter)
-  require 'facets/string/titlecase'
   command_class_name = parameter.tr('-', ' ').titlecase.tr(' ', '')
   Kernel.const_get("#{command_class_name}Command")
 end
@@ -58,7 +59,8 @@ def parse(script, subcommand, arguments)
     add_entry(subcommand, arguments)
     exit
   # in cases where we will invoke a command class
-  elsif %w[depart generate-overview-files new-hire open-file report report-team team-meeting].include?(subcommand)
+  elsif %w[depart generate-overview-files multiple-member new-hire open-file report 
+           report-team team-meeting].include?(subcommand)
     execute_subcommand(subcommand, arguments)
     exit
   else
@@ -75,7 +77,7 @@ end
 
 if $PROGRAM_NAME == __FILE__
   SUB_COMMANDS = %w[feedback gen-overview-files interview team-meeting new-hire
-                    o3 observation report report-team].freeze
+                    multiple-member o3 observation report report-team].freeze
 
   # capture options given before subcommand
   # TODO: there's a bug here in the way arguments to subcommands are parsed
