@@ -34,14 +34,14 @@ describe MultipleMemberCommand do
         LogFile.new(EmployeeFolder.new(m))
       end
 
-      input = StringIO.new("\nSpoke about important things\n")
+      input = StringIO.new("\n\nSpoke about important things\n")
 
       command = MultipleMemberCommand.new
       with_captured(input) do |_|
         command.command ['stark', 'rogers']
       end
 
-      expected = ["  Spoke about important things\n"]
+      expected = ["  Tony Stark, Steve Rogers\n", "  Spoke about important things\n"]
       expected.each do |answer|
         members.each do |member|
           expect(File.readlines(member.file.path)).to include(answer)

@@ -12,6 +12,7 @@ def record_diary_entry(entry_type, person)
 end
 
 ALIASES = {
+  'bulk' => 'multiple-member',
   'fb' => 'feedback',
   'feed' => 'feedback',
   'gen' => 'generate-overview-files',

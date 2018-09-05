@@ -7,7 +7,6 @@ require_relative 'mt_data_formatter'
 # Tempate used for team meetings, propagated to all team members' files
 class MultipleMemberEntry < DiaryEntry
   include MtDataFormatter
-  attr_reader :folks
 
   def prompt(*)
     "For your note for multiple members, enter the following:"
@@ -16,6 +15,7 @@ class MultipleMemberEntry < DiaryEntry
   def elements_array
     [
       DiaryElement.new(:datetime, 'Effective date', Time.now.to_s),
+      DiaryElement.new(:applies_to, 'Applies to', @record.fetch(:applies_to)),
       DiaryElement.new(:note),
     ]
   end

@@ -81,5 +81,24 @@ describe Diary do
         expect(File.size(log)).to be > old_length
       end
     end
+
+    it 'gets an entry' do
+      input = StringIO.new("anything\n")
+      with_captured(input) do |output|
+        entry = subject.get_entry "Test", "Tony Stark"
+        output.rewind
+        expect(entry.record).to include(xyzzy: "anything")
+      end
+    end
+
+    it 'gets an entry with initial values' do
+      input = StringIO.new("anything\n")
+      with_captured(input) do |output|
+        entry = subject.get_entry "Test", "Tony Stark", { plover: 'zork' }
+        output.rewind
+        expect(entry.record).to include(xyzzy: "anything")
+        expect(entry.record).to include(plover: 'zork')
+      end
+    end
   end
 end

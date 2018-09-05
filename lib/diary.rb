@@ -22,25 +22,32 @@ module Diary
     employee.file.insert entry
   end
 
-  # @!method get_entry(type, employee)
+  # @!method get_entry(type, employee, initial_value)
   #   Gets a diary entry, whether as a template or as a filled-out entry
   #   @param [String] type The name of the template entry type
   #   @param [String] employee The name of the employee
-  def get_entry(type, employee)
-    data = template? ? {} : create_entry(type, employee.to_s)
+  #   @param [Hash] initial_value The initial hash of entry values
+  def get_entry(type, employee, initial_value = {})
+    data = template? ? {} : create_entry(type, employee.to_s, initial_value)
+    # TODO: For Multiple member, I want to show the injected value in the
+    #   template. That creates a chicken and the egg problem. During
+    #   create_entry, the contents of initial_value aren't retained.
+    #   This kludge forces them back in. Fix this.
+    data.merge! initial_value 
     entry_type = DiaryEntry.get type
     entry_type.new data
   end
 
-  # @!method create_entry(type, header)
+  # @!method create_entry(type, header, initial_value)
   #   Creates a diary entry, getting responses from the user
   #   @param [String] type The name of the template entry type
   #   @param [String] header The entry header
+  #   @param [Hash] initial_value The initial hash of values
   #   @raise [ArgumentError] when type is not a kind of DiaryEntry
-  def create_entry(type, header)
+  def create_entry(type, header, initial_value)
     entry_type = DiaryEntry.get type
     raise ArgumentError unless entry_type < DiaryEntry
-    new_entry = entry_type.new
+    new_entry = entry_type.new initial_value
     Settings.console.say new_entry.send(:prompt, header)
     new_entry.send(:elements_array).each_with_object({}) do |item, memo|
       memo[item.key] = item.obtain
