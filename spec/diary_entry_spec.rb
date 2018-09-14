@@ -8,7 +8,11 @@ describe DiaryEntry do
     expect(DiaryEntry.get('feedback')).to be(FeedbackEntry)
   end
 
-  context 'with a default content' do
+  it 'gets an entry with a space in the name by identifier' do
+    expect(DiaryEntry.get('performance-checkpoint')).to be(PerformanceCheckpointEntry)
+  end
+
+  context 'with default content' do
     entry_date = Time.local(1999)
 
     before do

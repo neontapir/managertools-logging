@@ -13,6 +13,7 @@ end
 
 ALIASES = {
   'bulk' => 'multiple-member',
+  'check' => 'performance-checkpoint',
   'fb' => 'feedback',
   'feed' => 'feedback',
   'gen' => 'generate-overview-files',
@@ -21,6 +22,7 @@ ALIASES = {
   'ob' => 'observation',
   'obs' => 'observation',
   'open' => 'open-file',
+  'perf' => 'performance-checkpoint',
   'team' => 'team-meeting'
 }.freeze
 
@@ -56,7 +58,7 @@ def parse(script, subcommand, arguments)
   if ALIASES.key?(subcommand)
     script = parse(script, ALIASES[subcommand], arguments)
   # in cases where we're just adding an entry, invoke module directly
-  elsif %w[feedback interview o3 observation].include?(subcommand)
+  elsif %w[feedback interview o3 observation performance-checkpoint].include?(subcommand)
     add_entry(subcommand, arguments)
     exit
   # in cases where we will invoke a command class
@@ -78,7 +80,8 @@ end
 
 if $PROGRAM_NAME == __FILE__
   SUB_COMMANDS = %w[feedback gen-overview-files interview team-meeting new-hire
-                    multiple-member o3 observation report report-team].freeze
+                    multiple-member o3 observation performace-checkpoint
+                    report report-team].freeze
 
   # capture options given before subcommand
   # TODO: there's a bug here in the way arguments to subcommands are parsed
