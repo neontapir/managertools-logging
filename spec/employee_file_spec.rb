@@ -27,4 +27,10 @@ describe EmployeeFile do
     folder = EmployeeFolder.new employee
     expect(EmployeeFile.new(folder, 'file').path).to eq('data/normal/john-smith/file')
   end
+
+  it 'joins paths correctly for hyphenated names' do
+    employee = Employee.new(team: 'normal', first: 'John', last: 'Smith-Jones')
+    folder = EmployeeFolder.new employee
+    expect(EmployeeFile.new(folder, 'file').path).to eq('data/normal/john-smith-jones/file')
+  end
 end
