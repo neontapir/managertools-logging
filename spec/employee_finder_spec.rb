@@ -4,48 +4,59 @@ require 'ostruct'
 require 'stringio'
 require './lib/employee.rb'
 require './lib/settings.rb'
-require_relative 'captured_io'
 require_relative 'settings_helper'
 
 describe EmployeeFinder do
-  include CapturedIO
   include SettingsHelper
 
   subject { (Class.new { include EmployeeFinder }).new }
 
   context 'with a non-existing employee (Red Panda)' do
     it 'will prompt the user for a spec if the employee is not found' do
-      input = StringIO.new("Terrific Twosome of Toronto\n\Kit\nBaxter\n")
-      with_captured(input) do |_|
-        flying_squirrel = subject.get('Kit', :superhero)
-        expect(flying_squirrel.team).to eq('Terrific Twosome of Toronto')
-        expect(flying_squirrel.first).to eq('Kit')
-        expect(flying_squirrel.last).to eq('Baxter')
+      allow(Settings.console).to receive(:ask) do |prompt|
+        case prompt
+          when /Team/ then 'Terrific Twosome of Toronto'
+          when /First/ then 'Kit'
+          when /Last/ then 'Baxter'
+        end
       end
+      flying_squirrel = subject.get('Kit', :superhero)
+      expect(flying_squirrel.team).to eq('Terrific Twosome of Toronto')
+      expect(flying_squirrel.first).to eq('Kit')
+      expect(flying_squirrel.last).to eq('Baxter')
     end
 
     it 'can create a spec with no input' do
       defaults = { first: 'Zaphod', last: 'Beeblebrox', team: Settings.candidates_root }
-      input = StringIO.new("\n\n\n")
-      with_captured(input) do |_|
+      begin
+        Settings.set_console(StringIO.new("\n\n\n"), StringIO.new)
         expect(subject.create_spec(:superhero, {})).to eq(defaults)
+      ensure
+        Settings.set_console(STDIN, STDOUT)
       end
     end
 
     it 'can create a spec with given input' do
       red_panda = { first: 'August', last: 'Fenwick', team: 'Terrific Twosome of Toronto' }
-      input = StringIO.new("Terrific Twosome of Toronto\nAugust\nFenwick\n")
-      with_captured(input) do |_|
-        expect(subject.create_spec(:superhero, {})).to eq(red_panda)
+      allow(Settings.console).to receive(:ask) do |prompt|
+        case prompt
+          when /Team/ then 'Terrific Twosome of Toronto'
+          when /First/ then 'August'
+          when /Last/ then 'Fenwick'
+        end
       end
+      expect(subject.create_spec(:superhero, {})).to eq(red_panda)
     end
 
-    it 'will not prompt for an interview candidate' do
+    it 'will not prompt for team for an interview candidate' do
       flying_squirrel = { first: 'Kit', last: 'Baxter', team: Settings.candidates_root }
-      input = StringIO.new("Kit\nBaxter\n")
-      with_captured(input) do |_|
-        expect(subject.create_spec(:interview, {})).to eq(flying_squirrel)
+      allow(Settings.console).to receive(:ask) do |prompt|
+        case prompt
+          when /First/ then 'Kit'
+          when /Last/ then 'Baxter'
+        end
       end
+      expect(subject.create_spec(:interview, {})).to eq(flying_squirrel)
     end
   end
 

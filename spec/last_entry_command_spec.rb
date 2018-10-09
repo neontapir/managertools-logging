@@ -6,8 +6,6 @@ require './lib/observation_entry.rb'
 
 describe LogFile, order: :defined do
   context 'with diary entries' do
-    # include CapturedIO
-
     before(:all) do
       FileUtils.mkdir_p('data/avengers/tony-stark')
       tony = Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark')
@@ -20,14 +18,13 @@ describe LogFile, order: :defined do
       FileUtils.rm_r('data/avengers')
     end
 
+    subject do
+      LastEntryCommand.new
+    end
+
     it 'displays the last entry correctly' do
-      # input = StringIO.new
-      # with_captured(input) do |output|
-        last_entry = LastEntryCommand.new.command 'stark'
-        expect(last_entry).to eq "=== Observation (February  4, 2001,  5:06 AM)\nContent::\n  Observation B\n"
-        # output.rewind
-        # expect(output.read).to eq "=== Observation (February  4, 2001,  5:06 AM)\nContent::\n  Observation B\n"
-      # end
+      expect(STDOUT).to receive(:puts).with("=== Observation (February  4, 2001,  5:06 AM)\nContent::\n  Observation B\n")
+      subject.command 'stark'
     end
   end
 end

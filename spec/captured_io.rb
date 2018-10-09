@@ -7,7 +7,7 @@ require_relative 'settings_helper'
 module CapturedIO
   include SettingsHelper
 
-  def with_captured(input)
+  def with_captured(input = StringIO.new)
     input.rewind
     output = StringIO.new
     Settings.set_console(input, output)

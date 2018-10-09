@@ -23,6 +23,5 @@ class LastEntryCommand
       last << line
     end
     puts last.join
-    last.join # TODO: used for unit tests, fix test and remove
   end
 end

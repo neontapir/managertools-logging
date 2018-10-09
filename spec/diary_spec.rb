@@ -3,7 +3,6 @@
 require 'optimist'
 require './lib/diary.rb'
 Dir.glob('./lib/*_entry.rb', &method(:require))
-require_relative 'captured_io'
 
 describe Diary do
   context 'with template' do
@@ -31,8 +30,6 @@ describe Diary do
   end
 
   context 'with interaction', order: :defined do
-    include CapturedIO
-
     subject = (Class.new do
       include Diary
       def template?
@@ -63,42 +60,34 @@ describe Diary do
     end
 
     it 'displays a prompt' do
-      input = StringIO.new("anything\n")
-      with_captured(input) do |output|
-        _ = subject.record_to_file(:test, 'tony-stark')
-        output.rewind
-        expect(output.read).to include("Enter your test for Tony Stark:\n")
-      end
+      expect(STDOUT).to receive(:puts).with("Enter your test for Tony Stark:")
+      allow(Settings.console).to receive(:ask) { "anything" }
+      subject.record_to_file(:test, 'tony-stark')
     end
 
     it 'appends an entry' do
       log = LogFile.new(Dir.new('data/avengers/tony-stark')).path
       old_length = File.size?(log) ? File.size(log) : 0
 
-      lorem = StringIO.new("Lorem ipsum dolor sit amet, ea sea integre aliquando cotidieque, est dicta dolores concludaturque ne, his in dolorem volutpat.\nPro in iudico deseruisse, vix feugait accommodare ut, ne iisque appetere delicatissimi nec.")
-      with_captured(lorem) do |_|
-        _ = subject.record_to_file(:test, 'tony-stark')
-        expect(File.size(log)).to be > old_length
-      end
+      expect(STDOUT).to receive(:puts)
+      allow(Settings.console).to receive(:ask) { "Lorem ipsum dolor sit amet, ea sea integre aliquando cotidieque, est dicta dolores concludaturque ne, his in dolorem volutpat.\nPro in iudico deseruisse, vix feugait accommodare ut, ne iisque appetere delicatissimi nec." }
+      subject.record_to_file(:test, 'tony-stark')
+      expect(File.size(log)).to be > old_length
     end
 
     it 'gets an entry' do
-      input = StringIO.new("anything\n")
-      with_captured(input) do |output|
-        entry = subject.get_entry "Test", "Tony Stark"
-        output.rewind
-        expect(entry.record).to include(xyzzy: "anything")
-      end
+      expect(STDOUT).to receive(:puts)
+      allow(Settings.console).to receive(:ask) { "anything" }
+      entry = subject.get_entry "Test", "Tony Stark"
+      expect(entry.record).to include(xyzzy: "anything")
     end
 
     it 'gets an entry with initial values' do
-      input = StringIO.new("anything\n")
-      with_captured(input) do |output|
-        entry = subject.get_entry "Test", "Tony Stark", { plover: 'zork' }
-        output.rewind
-        expect(entry.record).to include(xyzzy: "anything")
-        expect(entry.record).to include(plover: 'zork')
-      end
+      expect(STDOUT).to receive(:puts)
+      allow(Settings.console).to receive(:ask) { "anything" }
+      entry = subject.get_entry "Test", "Tony Stark", { plover: 'zork' }
+      expect(entry.record).to include(xyzzy: "anything")
+      expect(entry.record).to include(plover: 'zork')
     end
   end
 end

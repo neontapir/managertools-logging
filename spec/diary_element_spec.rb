@@ -1,9 +1,6 @@
 require './lib/diary_element.rb'
-require_relative 'captured_io'
 
 describe DiaryElement do
-  include CapturedIO
-
   def proper?(element, key, prompt, default)
     expect(element.key).to be(key)
     expect(element.prompt).to eq(prompt)
@@ -16,12 +13,10 @@ describe DiaryElement do
   end
 
   it 'obtains the specified values' do
-    input = StringIO.new("plough\n")
-    with_captured(input) do |_|
-      element = DiaryElement.new(:xyzzy)
-      proper?(element, :xyzzy, 'Xyzzy', DiaryElement::DEFAULT_VALUE)
-      expect(element.obtain).to eq('plough')
-    end
+    allow(Settings.console).to receive(:ask) { 'plough' }
+    element = DiaryElement.new(:xyzzy)
+    proper?(element, :xyzzy, 'Xyzzy', DiaryElement::DEFAULT_VALUE)
+    expect(element.obtain).to eq('plough')
   end
 
   it 'creates an element with specified values' do

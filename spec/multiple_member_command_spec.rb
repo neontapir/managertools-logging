@@ -6,8 +6,6 @@ require './lib/multiple_member_command.rb'
 require_relative 'captured_io'
 
 describe MultipleMemberCommand do
-  include CapturedIO
-
   module Diary
     undef :template? if method_defined? :template?
     def template?
