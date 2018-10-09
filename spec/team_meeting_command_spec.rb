@@ -3,11 +3,7 @@
 require './lib/log_file.rb'
 require './lib/team_meeting_command.rb'
 
-require_relative 'captured_io'
-
 describe TeamMeetingCommand do
-  include CapturedIO
-
   module Diary
     undef :template? if method_defined? :template?
     def template?
@@ -24,6 +20,10 @@ describe TeamMeetingCommand do
     FileUtils.rm_r('data/avengers')
   end
 
+  subject do
+    TeamMeetingCommand.new
+  end
+
   context 'with the Avengers team' do
     it 'will append the entry to all team members' do
       tony = Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark')
@@ -34,11 +34,8 @@ describe TeamMeetingCommand do
         LogFile.new(EmployeeFolder.new(m))
       end
 
-      input = StringIO.new("\nall\n\nWe met about stuff\n\n")
-
-      command = TeamMeetingCommand.new
-      with_captured(input) do |_|
-        command.command ['avengers']
+      Settings.with_mock_input "\nall\n\nWe met about stuff\n\n" do
+        subject.command ['avengers']
       end
 
       expected = ["  all\n", "  unspecified\n", "  We met about stuff\n", "  none\n"]

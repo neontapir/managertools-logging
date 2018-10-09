@@ -3,8 +3,6 @@
 require './lib/log_file.rb'
 require './lib/multiple_member_command.rb'
 
-require_relative 'captured_io'
-
 describe MultipleMemberCommand do
   module Diary
     undef :template? if method_defined? :template?
@@ -22,21 +20,23 @@ describe MultipleMemberCommand do
     FileUtils.rm_r('data/avengers')
   end
 
+  subject do
+    MultipleMemberCommand.new
+  end
+
   context 'with multiple people' do
     it 'will append the entry to all their logs' do
       tony = Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark')
       steve = Employee.new(team: 'Avengers', first: 'Steve', last: 'Rogers')
       members = [tony, steve]
-
+      
       members.each do |m|
         LogFile.new(EmployeeFolder.new(m))
       end
 
-      input = StringIO.new("\n\nSpoke about important things\n")
-
-      command = MultipleMemberCommand.new
-      with_captured(input) do |_|
-        command.command ['stark', 'rogers']
+      input = StringIO.new "\n\nSpoke about important things\n"
+      Settings.with_mock_input "\n\nSpoke about important things\n" do
+        subject.command ['stark', 'rogers']
       end
 
       expected = ["  Tony Stark, Steve Rogers\n", "  Spoke about important things\n"]
@@ -56,11 +56,8 @@ describe MultipleMemberCommand do
       LogFile.new(EmployeeFolder.new(m))
     end
 
-    input = StringIO.new("\n\nDummy\n")
-
-    command = MultipleMemberCommand.new
-    with_captured(input) do |_|
-      expect { command.command ['BAD_NAME'] }.to raise_error "unable to find employee 'BAD_NAME'"
+    Settings.with_mock_input "\n\nDummy\n" do
+      expect { subject.command ['BAD_NAME'] }.to raise_error "unable to find employee 'BAD_NAME'"
     end
   end
 end

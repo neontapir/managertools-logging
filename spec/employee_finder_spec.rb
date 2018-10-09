@@ -28,11 +28,8 @@ describe EmployeeFinder do
 
     it 'can create a spec with no input' do
       defaults = { first: 'Zaphod', last: 'Beeblebrox', team: Settings.candidates_root }
-      begin
-        Settings.set_console(StringIO.new("\n\n\n"), StringIO.new)
+      Settings.with_mock_input("\n\n\n") do
         expect(subject.create_spec(:superhero, {})).to eq(defaults)
-      ensure
-        Settings.set_console(STDIN, STDOUT)
       end
     end
 

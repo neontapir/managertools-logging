@@ -22,6 +22,16 @@ class Settings < Settingslogic
     @console = HighLine.new(input, output)
   end
 
+  def self.with_mock_input(input = '')
+    begin
+      input_stream = input.empty? ? StringIO.new : StringIO.new(input)
+      @console = HighLine.new(input_stream, StringIO.new)
+      yield
+    ensure
+      @console = HighLine.new(STDIN, STDOUT)
+    end
+  end
+
   def self.default_config
     <<~CONFIG
       defaults: &defaults
