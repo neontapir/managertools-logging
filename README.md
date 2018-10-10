@@ -41,8 +41,8 @@ I created an omnibus script in Ruby to call the various functions from one scrip
     Notes: |none| Steve was upset by Tony trying to provoke him in the team room.
     Actions: |none|
 
-Notice a couple of things here. I used the `new-hire` script to create some
-infrastructure for Tony. However, when I didn't do that with Steve, the script
+Notice a couple of things here. I used the `new-hire` command to create some
+infrastructure for Tony. However, when I didn't do that with Steve, the command
 prompted me for the data it needed. Here are the files that were created:
 
     $ tree data
@@ -54,8 +54,9 @@ prompted me for the data it needed. Here are the files that were created:
             ├── log.adoc
             └── overview.adoc
 
-These scripts store their data as Asciidoc files. Notice that Tony has an
-overview file, which was created by the new hire script.
+These commands store their data as Asciidoc files. Notice that Tony has an
+overview file, which was created by the `new-hire` command. I can generate 
+missing team files using `gen-overview-files`.
 
 You can also provide `feedback`:
 
@@ -78,7 +79,9 @@ direct report.
 Other entry options not covered here are:
 
 -   `interview` (which uses a team called `zzz_candidates`)
--   `team meeting`, which propagates the content to the logs of all members of
+-   `multi`, which propagates the content to the logs of the specified members
+-   `perf`, which uses a performance checkpoint template
+-   `team`, which propagates the content to the logs of all members of
     the team
 
 After our examples, this is what data/avengers/tony-stark/log.adoc contains:
@@ -99,15 +102,9 @@ After our examples, this is what data/avengers/tony-stark/log.adoc contains:
       When you try to provoke people in the team room, it makes bystanders
       uncomfortable. Can you do that differently next time?
 
-Notice that the script did some word-wrapping for you.
+Notice that the command did some word-wrapping for you.
 
-I can generate missing team files using `gen-overview-files`.
-
-    $ ./mt gen-overview-files
-    Generating avengers Steve Rogers...
-    Generating avengers Tony Stark...
-
-I manually created a team-directory.adoc file:
+I manually created a `team-directory.adoc` file:
 
     = Team Directory
 
@@ -124,10 +121,17 @@ it:
     $ ls team-directory.html
     team-directory.html
 
-If you want a report on a particular team member, use the `report` script, which
+If you want a report on a particular team member, use the `report` command, which
 combines the overview and log files into a nice HTML file. The overview template
 assumes that there is a file called "headshot.jpg" in each person's folder, and
-displays it at the top right corner of the file.
+displays it at the top right corner of the file. The `report-team` command will
+combine all members of the team into a single web page.
+
+Other commands include:
+
+- `depart`, for moving people to the `zzz_departed` folder
+- `last`, for displaying the person's last diary entry
+- `open`, for loading the diary log file into the default text editor
 
 Of course, who would want to do that manually? There's also a `Rakefile` that
 contains some of these commands. (If you followed along and now try to run
