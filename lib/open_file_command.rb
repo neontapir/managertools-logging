@@ -13,6 +13,7 @@ class OpenFileCommand
     employee = Employee.get person
     log_file = employee.file
     log_file.ensure_exists
-    system Settings.editor, log_file.to_s
+    raise ArgumentError, 'Settings.editor launch failed, is it configured?' \
+      unless system Settings.editor, log_file.to_s
   end
 end
