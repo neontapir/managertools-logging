@@ -22,7 +22,8 @@ class ReportTeamCommand
     report_source = "#{report_name}.adoc"
     output = "#{report_name}.html"
     generate_report(team, report_source, output)
-    system('open', output) # for Mac, use "cmd /c" for Windows
+    raise ArgumentError, 'Report launch failed' \
+      unless system('open', output) # for Mac, use "cmd /c" for Windows
   end
 
   private
@@ -37,7 +38,8 @@ class ReportTeamCommand
       append_file(report_source, "include::#{tm}/overview.adoc[]\n\n#{HORIZONTAL_RULE}\n\n")
     end
 
-    system('asciidoctor', "-o#{output}", report_source)
+    raise ArgumentError, 'Asciidoctor launch failed' \
+      unless system('asciidoctor', "-o#{output}", report_source)
   end
 
   # Append a member's report to the team file

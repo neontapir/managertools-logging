@@ -15,7 +15,8 @@ class ReportCommand
     raise 'missing person argument' unless person
     employee = Employee.get person
     output = generate_report_for employee
-    system('open', output) # for Mac, use 'cmd /c' for Windows
+    raise ArgumentError, 'Report launch failed' \
+      unless system('open', output) # for Mac, use 'cmd /c' for Windows
   end
 
   private
@@ -39,7 +40,8 @@ class ReportCommand
       append_file(report_source, file)
     end
 
-    system('asciidoctor', "-o#{output}", report_source)
+    raise ArgumentError, 'Report launch failed' \
+      unless system('asciidoctor', "-o#{output}", report_source)
     output
   end
 
