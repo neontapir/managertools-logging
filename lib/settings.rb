@@ -39,10 +39,11 @@ class Settings < Settingslogic
   def self.default_config
     <<~CONFIG
       defaults: &defaults
-        # root is set in lib/settings.rb
+        # TODO: root is set in lib/settings.rb
         root: data
         candidates_root: zzz_candidates
         departed_root: zzz_departed
+        editor: atom
 
       development:
         <<: *defaults

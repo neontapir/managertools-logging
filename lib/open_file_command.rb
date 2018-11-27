@@ -2,7 +2,7 @@
 
 require_relative 'diary'
 
-# Open a person's log file
+# Open a person's log file.
 class OpenFileCommand
   include Diary
 
@@ -13,6 +13,6 @@ class OpenFileCommand
     employee = Employee.get person
     log_file = employee.file
     log_file.ensure_exists
-    system 'open', log_file.to_s
+    system Settings.editor, log_file.to_s
   end
 end
