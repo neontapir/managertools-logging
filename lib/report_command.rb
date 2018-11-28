@@ -4,10 +4,12 @@ require 'highline/import'
 require 'shell'
 require_relative 'diary'
 require_relative 'employee'
+require_relative 'os_adapter'
 
 # Create a report from a person's files
 class ReportCommand
   include Diary
+  include OSAdapter
 
   # Create a report from a person's files
   def command(arguments)
@@ -16,7 +18,7 @@ class ReportCommand
     employee = Employee.get person
     output = generate_report_for employee
     raise ArgumentError, 'Report launch failed' \
-      unless system('open', output) # for Mac, use 'cmd /c' for Windows
+      unless system(OSAdapter.open, output)
   end
 
   private

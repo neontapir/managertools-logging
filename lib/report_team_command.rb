@@ -4,11 +4,13 @@ require 'facets/string/titlecase'
 require 'highline/import'
 require 'shell'
 require_relative 'mt_data_formatter'
+require_relative 'os_adapter'
 require_relative 'team'
 
 # Create a report of a team, using each member's files
 class ReportTeamCommand
   extend MtDataFormatter
+  include OSAdapter
   HORIZONTAL_RULE = "'''"
 
   # Create a report of a team, using each member\'s files
@@ -23,7 +25,7 @@ class ReportTeamCommand
     output = "#{report_name}.html"
     generate_report(team, report_source, output)
     raise ArgumentError, 'Report launch failed' \
-      unless system('open', output) # for Mac, use "cmd /c" for Windows
+      unless system(OSAdapter.open, output) # for Mac, use "cmd /c" for Windows
   end
 
   private
