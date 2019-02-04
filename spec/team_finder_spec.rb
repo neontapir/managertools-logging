@@ -61,4 +61,30 @@ describe TeamFinder do
       expect(team).to be_nil
     end
   end
+
+  context 'when finding a team with spaces in the name (League of Extraordinary Gentlemen)' do
+    before(:all) do
+      FileUtils.mkdir_p('data/league-of-extraordinary-gentlemen')
+    end
+
+    after(:all) do
+      FileUtils.rm_r('data/league-of-extraordinary-gentlemen')
+    end
+
+    let(:expected) { Team.new(team: 'league-of-extraordinary-gentlemen') }
+
+    subject do
+      (Class.new { include TeamFinder }).new
+    end
+
+    it 'does find an existing team by full name' do
+      team = subject.find('League of Extraordinary Gentlemen')
+      expect(team).to eq(expected)
+    end
+
+    it 'does find an existing team by partial name' do
+      team = subject.find('leagu')
+      expect(team).to eq(expected)
+    end
+  end
 end

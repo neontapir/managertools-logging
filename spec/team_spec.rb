@@ -56,7 +56,7 @@ describe Team do
   it 'creates the path string correctly' do
     expect(Team.to_path_string('avengers')).to eq('avengers')
     expect(Team.to_path_string('justice-league')).to eq('justice-league')
-    expect(Team.to_path_string('Justice League')).to eq('justice-league')
+    expect(Team.to_path_string('League of Extraordinary Gentlemen')).to eq('league-of-extraordinary-gentlemen')
   end
 
   context 'with a typical team (Avengers)' do
