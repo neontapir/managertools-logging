@@ -29,14 +29,13 @@ describe MultipleMemberCommand do
       tony = Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark')
       steve = Employee.new(team: 'Avengers', first: 'Steve', last: 'Rogers')
       members = [tony, steve]
-      
+
       members.each do |m|
         LogFile.new(EmployeeFolder.new(m))
       end
 
-      input = StringIO.new "\n\nSpoke about important things\n"
       Settings.with_mock_input "\n\nSpoke about important things\n" do
-        subject.command ['stark', 'rogers']
+        subject.command %w[stark rogers]
       end
 
       expected = ["  Tony Stark, Steve Rogers\n", "  Spoke about important things\n"]

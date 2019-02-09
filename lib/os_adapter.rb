@@ -5,7 +5,7 @@ require 'os'
 module OSAdapter
   def self.open
     if OS.windows?
-      "cmd /c"
+      'cmd /c'
     else
       'open'
     end

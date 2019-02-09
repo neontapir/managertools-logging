@@ -37,9 +37,9 @@ describe EmployeeFinder do
       red_panda = { first: 'August', last: 'Fenwick', team: 'Terrific Twosome of Toronto' }
       allow(Settings.console).to receive(:ask) do |prompt|
         case prompt
-          when /Team/ then 'Terrific Twosome of Toronto'
-          when /First/ then 'August'
-          when /Last/ then 'Fenwick'
+        when /Team/ then 'Terrific Twosome of Toronto'
+        when /First/ then 'August'
+        when /Last/ then 'Fenwick'
         end
       end
       expect(subject.create_spec(:superhero, {})).to eq(red_panda)

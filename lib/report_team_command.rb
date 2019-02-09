@@ -24,8 +24,7 @@ class ReportTeamCommand
     report_source = "#{report_name}.adoc"
     output = "#{report_name}.html"
     generate_report(team, report_source, output)
-    raise ArgumentError, 'Report launch failed' \
-      unless system(OSAdapter.open, output) # for Mac, use "cmd /c" for Windows
+    raise ArgumentError, 'Report launch failed' unless system(OSAdapter.open, output)
   end
 
   private

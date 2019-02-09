@@ -15,8 +15,6 @@ class OpenFileCommand
     employee = Employee.get person
     log_file = employee.file
     log_file.ensure_exists
-    # raise ArgumentError, 'Settings.editor launch failed, is it configured?' \
-    #   unless 
-        system OSAdapter.open, log_file.to_s
+    system OSAdapter.open, log_file.to_s
   end
 end

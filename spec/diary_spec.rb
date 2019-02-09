@@ -60,8 +60,8 @@ describe Diary do
     end
 
     it 'displays a prompt' do
-      expect(STDOUT).to receive(:puts).with("Enter your test for Tony Stark:")
-      allow(Settings.console).to receive(:ask) { "anything" }
+      expect(STDOUT).to receive(:puts).with('Enter your test for Tony Stark:')
+      allow(Settings.console).to receive(:ask) { 'anything' }
       subject.record_to_file(:test, 'tony-stark')
     end
 
@@ -77,16 +77,16 @@ describe Diary do
 
     it 'gets an entry' do
       expect(STDOUT).to receive(:puts)
-      allow(Settings.console).to receive(:ask) { "anything" }
-      entry = subject.get_entry "Test", "Tony Stark"
-      expect(entry.record).to include(xyzzy: "anything")
+      allow(Settings.console).to receive(:ask) { 'anything' }
+      entry = subject.get_entry 'Test', 'Tony Stark'
+      expect(entry.record).to include(xyzzy: 'anything')
     end
 
     it 'gets an entry with initial values' do
       expect(STDOUT).to receive(:puts)
-      allow(Settings.console).to receive(:ask) { "anything" }
-      entry = subject.get_entry "Test", "Tony Stark", { plover: 'zork' }
-      expect(entry.record).to include(xyzzy: "anything")
+      allow(Settings.console).to receive(:ask) { 'anything' }
+      entry = subject.get_entry 'Test', 'Tony Stark', plover: 'zork'
+      expect(entry.record).to include(xyzzy: 'anything')
       expect(entry.record).to include(plover: 'zork')
     end
   end

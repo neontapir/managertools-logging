@@ -4,11 +4,10 @@ require './lib/settings.rb'
 
 # Help with Settings during tests by creating a default configuration file
 module SettingsHelper
-  
   def config_file
     Settings.config_file
   end
-  
+
   def create_test_settings_file
     config_file = Settings.config_file
     FileUtils.mkdir_p(Settings.root)
