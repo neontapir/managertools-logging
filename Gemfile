@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 gem 'asciidoctor'
 gem 'command', '~> 1.0'
 gem 'facets', '~> 3.1'
-gem 'highline', '~> 1.7'
+gem 'highline', '~> 2.0'
 gem 'os', '~> 1.0'
 gem 'settingslogic', '~> 2.0', '>= 2.0.9'
 gem 'optimist', '~> 3'
@@ -18,6 +18,7 @@ gem 'flog', require: false, group: :quality
 gem 'reek', require: false, group: :quality
 gem 'rubocop', require: false, group: :quality
 
+gem 'bundler-stats', require: false, group: :ide
 gem 'rake', require: false, group: :ide
 gem 'rcodetools', require: false, group: :ide
 gem 'solargraph', require: false, group: :ide
