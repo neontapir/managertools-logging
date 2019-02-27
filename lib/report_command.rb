@@ -17,8 +17,8 @@ class ReportCommand
     raise 'missing person argument' unless person
     employee = Employee.get person
     output = generate_report_for employee
-    raise ArgumentError, 'Report launch failed' \
-      unless system(OSAdapter.open, output)
+    raise ArgumentError, "Report launch failed using '#{OSAdapter.open} #{output}'" \
+      unless system "#{OSAdapter.open} #{output}"
   end
 
   private
