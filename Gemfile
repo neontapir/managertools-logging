@@ -18,7 +18,7 @@ gem 'flog', require: false, group: :quality
 gem 'reek', require: false, group: :quality
 gem 'rubocop', require: false, group: :quality
 
-gem 'bundler-stats', require: false, group: :ide
+# gem 'bundler-stats', require: false, group: :ide
 gem 'rake', require: false, group: :ide
 gem 'rcodetools', require: false, group: :ide
 gem 'solargraph', require: false, group: :ide
