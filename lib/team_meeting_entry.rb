@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'diary_date_element'
 require_relative 'diary_element'
 require_relative 'diary_entry'
 require_relative 'mt_data_formatter'
@@ -14,7 +15,7 @@ class TeamMeetingEntry < DiaryEntry
 
   def elements_array
     [
-      DiaryElement.new(:datetime, 'Effective date', Time.now.to_s),
+      DiaryDateElement.new(:datetime, 'Effective date', Time.now.to_s),
       DiaryElement.new(:attendees),
       DiaryElement.new(:location, 'Location', 'unspecified'),
       DiaryElement.new(:notes),

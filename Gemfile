@@ -3,6 +3,7 @@
 source 'https://rubygems.org'
 
 gem 'asciidoctor'
+gem 'chronic'
 gem 'command', '~> 1.0'
 gem 'facets', '~> 3.1'
 gem 'highline', '~> 2.0'
