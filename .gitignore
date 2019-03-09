@@ -29,3 +29,4 @@ Gemfile.lock
 /data
 team-directory.*
 logic
+/.vscode/
