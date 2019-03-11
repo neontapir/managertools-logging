@@ -13,6 +13,11 @@ describe DiaryDateElement do
     proper?(element, :datetime, 'Datetime', Time.now)
   end
 
+  it 'creates an element with prompt specified' do
+    element = DiaryDateElement.new(:the_time, 'My date')
+    proper?(element, :the_time, 'My date', Time.now)
+  end
+
   context 'with 1/1/2000 content' do
     entry_date = Time.local(2000, 1, 1)
 
