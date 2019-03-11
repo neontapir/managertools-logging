@@ -15,7 +15,7 @@ class TeamMeetingEntry < DiaryEntry
 
   def elements_array
     [
-      DiaryDateElement.new(:datetime, 'Effective date', Time.now.to_s),
+      DiaryDateElement.new(:datetime, 'Effective date'),
       DiaryElement.new(:attendees),
       DiaryElement.new(:location, 'Location', 'unspecified'),
       DiaryElement.new(:notes),

@@ -15,7 +15,7 @@ class MultipleMemberEntry < DiaryEntry
 
   def elements_array
     [
-      DiaryDateElement.new(:datetime, 'Effective date', Time.now.to_s),
+      DiaryDateElement.new(:datetime, 'Effective date'),
       DiaryElement.new(:applies_to, 'Applies to', @record.fetch(:applies_to)),
       DiaryElement.new(:note),
     ]
