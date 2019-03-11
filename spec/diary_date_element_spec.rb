@@ -69,7 +69,7 @@ describe DiaryDateElement do
       Timecop.return
     end
 
-    it "obtains last year's date if the year isn't specified" do
+    it "obtains date in past if the year isn't specified" do
       allow(Settings.console).to receive(:ask) { '2/20' }
       element = DiaryDateElement.new(:datetime)
       proper?(element, :datetime, 'Datetime', entry_date)
