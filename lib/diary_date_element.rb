@@ -17,7 +17,6 @@ class DiaryDateElement
 
     @key = key
     @prompt = prompt
-    @default = default
   end
 
   def default
@@ -30,7 +29,7 @@ class DiaryDateElement
     time = default
     if prompt
       value = Settings.console.ask "#{prompt}: " do |answer|
-        answer.default = default
+        answer.default = default.to_s
       end
       time = Chronic.parse(value.to_s, context: :past)
       time = default if time.nil?
