@@ -57,7 +57,7 @@ class Settings < Settingslogic
   end
 
   unless File.exist? config_file
-    warn "File not found at #{config_file}, either MT not set up or executing from wrong folder"
+    warn "File not found at #{config_file}, either you're running tests, MT not set up, or it's executing from the wrong folder"
   end
   source config_file
   namespace 'production' # Rails.env

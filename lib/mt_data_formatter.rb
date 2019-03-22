@@ -22,7 +22,7 @@ module MtDataFormatter
   # @example Format a date
   #   strip_nonalnum('f,o;o') #=> 'foo'
   def strip_nonalnum(input)
-    input.gsub /[^-\p{Alnum}]/, ''
+    input.gsub(/[^-\p{Alnum}]/, '')
   end
 
   # The standard indentation (two spaces)

@@ -31,7 +31,7 @@ class NewHireCommand
   def generate_overview_file_by(folder, force)
     overview_file = EmployeeFile.new folder, 'overview.adoc'
     print "\nReviewing #{overview_file}... "
-    if !force && File.exist? overview_file.path
+    if !force && File.exist?(overview_file.path)
       print 'exists'
     else
       generate_overview_file folder, overview_file
@@ -61,7 +61,7 @@ class NewHireCommand
   def generate_log_file_by(folder, force)
     log_file = EmployeeFile.new folder, 'log.adoc'
     print "\Generating #{log_file}... "
-    if !force && File.exist? log_file.path
+    if !force && File.exist?(log_file.path)
       print 'exists'
     else
       log_file.ensure_exists
