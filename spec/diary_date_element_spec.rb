@@ -4,7 +4,7 @@ require './lib/diary_date_element.rb'
 describe DiaryDateElement do
   def proper?(element, key, prompt, default)
     expect(element.key).to be(key)
-    expect(element.prompt).to eq(prompt)
+    expect(element.prompt).to eq prompt
     expect(element.default).to be_within(2).of(default)
   end
 
@@ -22,7 +22,7 @@ describe DiaryDateElement do
     entry_date = Time.local(2000, 1, 1)
 
     before do
-      Timecop.freeze(entry_date)
+      Timecop.freeze entry_date
     end
 
     after do
@@ -62,7 +62,7 @@ describe DiaryDateElement do
     entry_date = Time.local(2000, 3, 1)
 
     before do
-      Timecop.freeze(entry_date)
+      Timecop.freeze entry_date
     end
 
     after do

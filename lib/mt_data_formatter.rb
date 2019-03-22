@@ -8,21 +8,21 @@ module MtDataFormatter
   # @example
   #   unidown('Äpple') #=> 'äpple'
   def unidown(input)
-    Unicode.downcase(input)
+    Unicode.downcase input
   end
 
   # Format a date in our specific format
   # @example Format a date
   #   format_date(Time.new(2002)) #=> 'January  1, 2002, 12:00 AM'
   def format_date(date)
-    date.strftime('%B %e, %Y, %l:%M %p')
+    date.strftime '%B %e, %Y, %l:%M %p'
   end
 
   # Remove non-alphanumeric characters from a string
   # @example Format a date
   #   strip_nonalnum('f,o;o') #=> 'foo'
   def strip_nonalnum(input)
-    input.gsub(/[^-\p{Alnum}]/, '')
+    input.gsub /[^-\p{Alnum}]/, ''
   end
 
   # The standard indentation (two spaces)

@@ -21,15 +21,15 @@ describe EmployeeFinder do
         end
       end
       flying_squirrel = subject.get('Kit', :superhero)
-      expect(flying_squirrel.team).to eq('Terrific Twosome of Toronto')
-      expect(flying_squirrel.first).to eq('Kit')
-      expect(flying_squirrel.last).to eq('Baxter')
+      expect(flying_squirrel.team).to eq 'Terrific Twosome of Toronto'
+      expect(flying_squirrel.first).to eq 'Kit'
+      expect(flying_squirrel.last).to eq 'Baxter'
     end
 
     it 'can create a spec with no input' do
       defaults = { first: 'Zaphod', last: 'Beeblebrox', team: Settings.candidates_root }
       Settings.with_mock_input("\n\n\n") do
-        expect(subject.create_spec(:superhero, {})).to eq(defaults)
+        expect(subject.create_spec(:superhero, {})).to eq defaults
       end
     end
 
@@ -42,7 +42,7 @@ describe EmployeeFinder do
         when /Last/ then 'Fenwick'
         end
       end
-      expect(subject.create_spec(:superhero, {})).to eq(red_panda)
+      expect(subject.create_spec(:superhero, {})).to eq red_panda
     end
 
     it 'will not prompt for team for an interview candidate' do
@@ -53,7 +53,7 @@ describe EmployeeFinder do
           when /Last/ then 'Baxter'
         end
       end
-      expect(subject.create_spec(:interview, {})).to eq(flying_squirrel)
+      expect(subject.create_spec(:interview, {})).to eq flying_squirrel
     end
   end
 
@@ -69,11 +69,11 @@ describe EmployeeFinder do
 
   context 'when parsing an employee folder (Iron Man)' do
     before(:all) do
-      FileUtils.mkdir_p('data/avengers/tony-stark')
+      FileUtils.mkdir_p 'data/avengers/tony-stark'
     end
 
     after(:all) do
-      FileUtils.rm_r('data/avengers')
+      FileUtils.rm_r 'data/avengers'
     end
 
     it 'extracts the data correctly' do
@@ -85,11 +85,11 @@ describe EmployeeFinder do
 
   context 'when parsing an employee folder with a hyphen (Rescue)' do
     before(:all) do
-      FileUtils.mkdir_p('data/avengers/pepper-potts-stark')
+      FileUtils.mkdir_p 'data/avengers/pepper-potts-stark'
     end
 
     after(:all) do
-      FileUtils.rm_r('data/avengers')
+      FileUtils.rm_r 'data/avengers'
     end
 
     it 'extracts the data correctly' do
@@ -101,11 +101,11 @@ describe EmployeeFinder do
 
   context 'when finding an employee (Iron Man)' do
     before(:all) do
-      FileUtils.mkdir_p('data/avengers/tony-stark')
+      FileUtils.mkdir_p 'data/avengers/tony-stark'
     end
 
     after(:all) do
-      FileUtils.rm_r('data/avengers')
+      FileUtils.rm_r 'data/avengers'
     end
 
     subject do
@@ -121,12 +121,12 @@ describe EmployeeFinder do
 
   context 'with two employees with same first name (Ant Man and Beast)' do
     before(:all) do
-      FileUtils.mkdir_p('data/avengers/hank-pym')   # Ant Man
-      FileUtils.mkdir_p('data/avengers/hank-mccoy') # Beast
+      FileUtils.mkdir_p 'data/avengers/hank-pym'   # Ant Man
+      FileUtils.mkdir_p 'data/avengers/hank-mccoy' # Beast
     end
 
     after(:all) do
-      FileUtils.rm_r('data/avengers')
+      FileUtils.rm_r 'data/avengers'
     end
 
     it 'returns the first one by alphabetical order if multiples match' do

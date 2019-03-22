@@ -22,6 +22,6 @@ class O3Entry < DiaryEntry
   end
 
   def to_s
-    render('One-on-One')
+    render 'One-on-One'
   end
 end

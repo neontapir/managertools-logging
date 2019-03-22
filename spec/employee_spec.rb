@@ -36,11 +36,11 @@ describe Employee do
 
   context 'with equality for a single employee (Iron Man)' do
     before(:all) do
-      FileUtils.mkdir_p('data/avengers/tony-stark')
+      FileUtils.mkdir_p 'data/avengers/tony-stark'
     end
 
     after(:all) do
-      FileUtils.rm_r('data/avengers')
+      FileUtils.rm_r 'data/avengers'
     end
 
     subject { Employee.new(team: 'avengers', first: 'Tony', last: 'Stark') }
@@ -72,11 +72,11 @@ describe Employee do
 
   context 'with equality for a single employee with a hyphenated team name (Wonder Woman)' do
     before(:all) do
-      FileUtils.mkdir_p('data/justice-league/diana-prince')
+      FileUtils.mkdir_p 'data/justice-league/diana-prince'
     end
 
     after(:all) do
-      FileUtils.rm_r('data/justice-league')
+      FileUtils.rm_r 'data/justice-league'
     end
 
     subject { Employee.new(team: 'Justice League', first: 'Diana', last: 'Prince') }

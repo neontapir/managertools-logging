@@ -35,6 +35,6 @@ class InterviewEntry < DiaryEntry
   # rubocop:enable Metrics/MethodLength
 
   def to_s
-    render('Interview')
+    render 'Interview'
   end
 end

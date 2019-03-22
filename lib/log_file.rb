@@ -16,7 +16,7 @@ class LogFile
   # @param [DiaryEntry] entry the entry to append
   def append(entry)
     make_backup
-    lines = IO.readlines(path)
+    lines = IO.readlines path
     write_entry_to(lines, entry, [])
     remove_backup
   end
@@ -30,7 +30,7 @@ class LogFile
   # @param [DiaryEntry] entry the entry to insert
   def insert(entry)
     make_backup
-    before, after = divide_file(entry)
+    before, after = divide_file entry
     write_entry_to(before, entry, after)
     remove_backup
   end
@@ -39,11 +39,11 @@ class LogFile
   # @param [DiaryEntry] entry the entry to insert
   def divide_file(entry)
     entry_date = entry.date
-    lines = IO.readlines(path)
-    datelines = get_datelines(lines)
+    lines = IO.readlines path
+    datelines = get_datelines lines
     dates = datelines.keys + [entry_date]
     dates.sort!
-    position = dates.index(entry_date)
+    position = dates.index entry_date
     if position.zero?
       [[], lines]
     elsif position == dates.size - 1
@@ -61,7 +61,7 @@ class LogFile
     lines.each_with_index do |line, line_num|
       matches = /^===.*\((.*)\)/.match line
       unless matches.to_a.empty?
-        line_date = Time.parse(matches[1])
+        line_date = Time.parse matches[1]
         datelines[line_date] = line_num
       end
     end

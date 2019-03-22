@@ -17,12 +17,12 @@ describe TeamMeetingCommand do
 
   context 'with the Avengers team' do
     before(:all) do
-      FileUtils.mkdir_p('data/avengers/tony-stark')
-      FileUtils.mkdir_p('data/avengers/steve-rogers')
+      FileUtils.mkdir_p 'data/avengers/tony-stark'
+      FileUtils.mkdir_p 'data/avengers/steve-rogers'
     end
 
     after(:all) do
-      FileUtils.rm_r('data/avengers')
+      FileUtils.rm_r 'data/avengers'
     end
 
     it 'will append the entry to all team members' do
@@ -49,14 +49,14 @@ describe TeamMeetingCommand do
 
   context 'with multiple teams' do
     before(:all) do
-      FileUtils.mkdir_p('data/avengers/tony-stark')
-      FileUtils.mkdir_p('data/avengers/steve-rogers')
-      FileUtils.mkdir_p('data/justice-league/diana-prince')
+      FileUtils.mkdir_p 'data/avengers/tony-stark'
+      FileUtils.mkdir_p 'data/avengers/steve-rogers'
+      FileUtils.mkdir_p 'data/justice-league/diana-prince'
     end
 
     after(:all) do
-      FileUtils.rm_r('data/avengers')
-      FileUtils.rm_r('data/justice-league')
+      FileUtils.rm_r 'data/avengers'
+      FileUtils.rm_r 'data/justice-league'
     end
 
     it 'will append the entry to all team members' do

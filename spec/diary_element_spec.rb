@@ -3,8 +3,8 @@ require './lib/diary_element.rb'
 describe DiaryElement do
   def proper?(element, key, prompt, default)
     expect(element.key).to be(key)
-    expect(element.prompt).to eq(prompt)
-    expect(element.default).to eq(default)
+    expect(element.prompt).to eq prompt
+    expect(element.default).to eq default
   end
 
   it 'creates an element with default values' do
@@ -16,7 +16,7 @@ describe DiaryElement do
     allow(Settings.console).to receive(:ask) { 'plough' }
     element = DiaryElement.new(:xyzzy)
     proper?(element, :xyzzy, 'Xyzzy', DiaryElement::DEFAULT_VALUE)
-    expect(element.obtain).to eq('plough')
+    expect(element.obtain).to eq 'plough'
   end
 
   it 'creates an element with specified values' do

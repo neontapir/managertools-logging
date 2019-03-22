@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
+require './lib/path_formatter.rb'
 require './lib/team.rb'
 
 describe Team do
+  include PathFormatter
+
   context 'in initializer context' do
     it 'raises if params hash does not contain a team entry' do
       expect { Team.new({}) }.to raise_error KeyError
@@ -44,19 +47,7 @@ describe Team do
 
   it 'uses the name as its string representation' do
     avengers = Team.new(team: 'Avengers')
-    expect(avengers.to_s).to eq(Team.to_name('avengers'))
-  end
-
-  it 'creates the name correctly' do
-    expect(Team.to_name('avengers')).to eq('Avengers')
-    expect(Team.to_name('justice-league')).to eq('Justice League')
-    expect(Team.to_name('Justice League')).to eq('Justice League')
-  end
-
-  it 'creates the path string correctly' do
-    expect(Team.to_path_string('avengers')).to eq('avengers')
-    expect(Team.to_path_string('justice-league')).to eq('justice-league')
-    expect(Team.to_path_string('League of Extraordinary Gentlemen')).to eq('league-of-extraordinary-gentlemen')
+    expect(avengers.to_s).to eq path_to_name('avengers')
   end
 
   context 'with a typical team (Avengers)' do
@@ -68,18 +59,14 @@ describe Team do
     end
 
     after(:all) do
-      FileUtils.remove_dir('data/avengers')
+      FileUtils.remove_dir 'data/avengers'
     end
 
     subject { Team.new(team: 'Avengers') }
 
     it 'finds the team' do
       team = Team.find('avengers')
-      expect(subject).to eq(team)
-    end
-
-    it 'uses the name as the string representation' do
-      expect(subject.to_s).to eq(Team.to_name('avengers'))
+      expect(subject).to eq team
     end
 
     it 'lists its team members' do
@@ -99,18 +86,18 @@ describe Team do
 
   context 'with a team name with a space (Justice League)' do
     before(:all) do
-      FileUtils.mkdir_p('data/justice-league/bruce-wayne') # Batman
-      FileUtils.mkdir_p('data/justice-league/clark-kent') # Superman
+      FileUtils.mkdir_p 'data/justice-league/bruce-wayne' # Batman
+      FileUtils.mkdir_p 'data/justice-league/clark-kent' # Superman
     end
 
     after(:all) do
-      FileUtils.remove_dir('data/justice-league')
+      FileUtils.remove_dir 'data/justice-league'
     end
 
     subject { Team.new(team: 'Justice League') }
 
     it 'displays the team as capitalized' do
-      expect(subject.to_s).to eq('Justice League')
+      expect(subject.to_s).to eq 'Justice League'
     end
 
     it 'lists its team members by folder' do

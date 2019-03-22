@@ -29,7 +29,7 @@ require 'should_not/rspec'
 
 RSpec.configure do |config|
   config.before(:suite) do
-    FileUtils.mkdir_p('data')
+    FileUtils.mkdir_p 'data'
     create_test_settings_file
   end
 

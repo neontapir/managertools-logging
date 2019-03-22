@@ -20,6 +20,6 @@ class FeedbackEntry < DiaryEntry
   end
 
   def to_s
-    render('Feedback')
+    render 'Feedback'
   end
 end

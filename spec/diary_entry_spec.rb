@@ -16,7 +16,7 @@ describe DiaryEntry do
     entry_date = Time.local(1999)
 
     before do
-      Timecop.freeze(entry_date)
+      Timecop.freeze entry_date
     end
 
     after do
@@ -26,11 +26,11 @@ describe DiaryEntry do
     subject { ObservationEntry.new }
 
     it 'renders correctly' do
-      expect(subject.render('Test', ObservationEntry)).to eq("=== Test (January  1, 1999, 12:00 AM)\nContent::\n  none\n")
+      expect(subject.render('Test', ObservationEntry)).to eq "=== Test (January  1, 1999, 12:00 AM)\nContent::\n  none\n"
     end
 
     it 'yields the correct date' do
-      expect(subject.date).to eq(entry_date)
+      expect(subject.date).to eq entry_date
     end
   end
 
@@ -40,11 +40,11 @@ describe DiaryEntry do
     subject { ObservationEntry.new(datetime: entry_date.to_s) }
 
     it 'renders correctly' do
-      expect(subject.render('Test', ObservationEntry)).to eq("=== Test (February  3, 2001,  4:05 AM)\nContent::\n  none\n")
+      expect(subject.render('Test', ObservationEntry)).to eq "=== Test (February  3, 2001,  4:05 AM)\nContent::\n  none\n"
     end
 
     it 'yields the correct date' do
-      expect(subject.date).to eq(entry_date)
+      expect(subject.date).to eq entry_date
     end
   end
 
@@ -52,7 +52,7 @@ describe DiaryEntry do
     subject { ObservationEntry.new(datetime: Time.new(2002).to_s, content: 'blah').render('Test', ObservationEntry) }
 
     it 'renders correctly' do
-      is_expected.to eq("=== Test (January  1, 2002, 12:00 AM)\nContent::\n  blah\n")
+      is_expected.to eq "=== Test (January  1, 2002, 12:00 AM)\nContent::\n  blah\n"
     end
   end
 

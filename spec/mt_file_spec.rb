@@ -21,11 +21,11 @@ describe MtFile do
     end
 
     before(:each) do
-      FileUtils.mkdir_p('data/mtfile')
+      FileUtils.mkdir_p 'data/mtfile'
     end
 
     after(:each) do
-      FileUtils.rm_r('data/mtfile')
+      FileUtils.rm_r 'data/mtfile'
     end
 
     subject { MtFileClass.new }
@@ -39,11 +39,11 @@ describe MtFile do
     end
 
     it 'knows the file path' do
-      expect(subject.path).to eq('data/mtfile/foo')
+      expect(subject.path).to eq 'data/mtfile/foo'
     end
 
     it 'is represented as a string by its path' do
-      expect(subject.to_s).to eq(subject.path)
+      expect(subject.to_s).to eq subject.path
     end
 
     context 'when ensuring existance' do

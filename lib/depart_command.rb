@@ -11,7 +11,7 @@ class DepartCommand
 
   def command(arguments)
     search_term = Array(arguments).first
-    employee = find(search_term)
+    employee = find search_term
     raise ArgumentError, "No employee matching '#{search_term}' found, aborting" unless employee
 
     if employee.team == Settings.departed_root

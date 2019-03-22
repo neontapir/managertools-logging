@@ -6,7 +6,7 @@ require 'fileutils'
 module MtFile
   # @abstract Ensure a file exists
   def ensure_exists
-    FileUtils.mkdir_p(File.dirname(path))
+    FileUtils.mkdir_p File.dirname(path)
     FileUtils.touch path
   end
 
@@ -18,7 +18,7 @@ module MtFile
 
   # @abstract remove the temporary write location of the file
   def remove_backup
-    FileUtils.rm_r(backup) if File.exist?(backup)
+    FileUtils.rm_r backup if File.exist? backup
   end
 
   # @abstract returns the temporary write location of the file

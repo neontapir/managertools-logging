@@ -2,14 +2,15 @@
 
 require 'fileutils'
 require_relative 'mt_data_formatter'
+require_relative 'path_formatter'
 require_relative 'settings'
-require_relative 'team'
 
 # Reparesents a folder that contains files about a direct report
 # @attr_reader [Employee] employee the employee whose data resides in the folder
 class EmployeeFolder
   attr_reader :employee
   include MtDataFormatter
+  include PathFormatter
 
   # Create a new EmployeeFolder object
   def initialize(employee)
@@ -18,9 +19,9 @@ class EmployeeFolder
 
   # The canonical name of the folder
   def folder_name
-    first_name = strip_nonalnum(employee.first)
-    last_name = strip_nonalnum(employee.last)
-    unidown("#{first_name}-#{last_name}")
+    first_name = strip_nonalnum employee.first
+    last_name = strip_nonalnum employee.last
+    unidown "#{first_name}-#{last_name}"
   end
 
   # The root folder where data is stored, taken from Settings
@@ -35,7 +36,7 @@ class EmployeeFolder
 
   # The path to the file, relative to the parent folder of the root
   def path
-    File.join(EmployeeFolder.root, Team.to_path_string(employee.team), folder_name)
+    File.join(EmployeeFolder.root, to_path_string(employee.team), folder_name)
   end
 
   # Create a file system folder at path

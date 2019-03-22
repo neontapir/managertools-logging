@@ -14,11 +14,11 @@ describe Diary do
     end).new
 
     before(:all) do
-      FileUtils.mkdir_p('data/avengers/tony-stark')
+      FileUtils.mkdir_p 'data/avengers/tony-stark'
     end
 
     after(:all) do
-      FileUtils.rm_r('data/avengers')
+      FileUtils.rm_r 'data/avengers'
     end
 
     it 'appends an entry to the correct file' do
@@ -52,11 +52,11 @@ describe Diary do
     end
 
     before(:all) do
-      FileUtils.mkdir_p('data/avengers/tony-stark')
+      FileUtils.mkdir_p 'data/avengers/tony-stark'
     end
 
     after(:all) do
-      FileUtils.rm_r('data/avengers')
+      FileUtils.rm_r 'data/avengers'
     end
 
     it 'displays a prompt' do

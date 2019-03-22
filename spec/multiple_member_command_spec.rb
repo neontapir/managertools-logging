@@ -12,12 +12,12 @@ describe MultipleMemberCommand do
   end
 
   before(:all) do
-    FileUtils.mkdir_p('data/avengers/tony-stark')
-    FileUtils.mkdir_p('data/avengers/steve-rogers')
+    FileUtils.mkdir_p 'data/avengers/tony-stark'
+    FileUtils.mkdir_p 'data/avengers/steve-rogers'
   end
 
   after(:all) do
-    FileUtils.rm_r('data/avengers')
+    FileUtils.rm_r 'data/avengers'
   end
 
   subject do

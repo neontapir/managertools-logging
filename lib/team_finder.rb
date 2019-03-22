@@ -6,12 +6,12 @@ require 'facets/string/titlecase'
 require_relative 'employee_folder'
 require_relative 'log_file'
 require_relative 'mt_data_formatter'
-require_relative 'path_splitter'
+require_relative 'path_formatter'
 require_relative 'settings'
 
 # Represents a team search provider
 module TeamFinder
-  include PathSplitter
+  include PathFormatter
 
   # Parse the path as though it is an team spec and return the result
   #
@@ -29,7 +29,7 @@ module TeamFinder
   # @return [Team] a Team object
   def find(key)
     root = EmployeeFolder.root
-    target = Team.to_path_string(key)
+    target = to_path_string key
     Dir.glob("#{root}/*") do |d|
       next unless Dir.exist? d
       if /#{target}/ =~ d.to_s

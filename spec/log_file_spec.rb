@@ -6,11 +6,11 @@ require './lib/observation_entry.rb'
 describe LogFile, order: :defined do
   context 'with an employee' do
     before(:all) do
-      FileUtils.mkdir_p('data/avengers/tony-stark')
+      FileUtils.mkdir_p 'data/avengers/tony-stark'
     end
 
     after(:all) do
-      FileUtils.rm_r('data/avengers')
+      FileUtils.rm_r 'data/avengers'
     end
 
     subject do
@@ -19,7 +19,7 @@ describe LogFile, order: :defined do
     end
 
     it 'knows the file path' do
-      expect(subject.path).to eq('data/avengers/tony-stark/log.adoc')
+      expect(subject.path).to eq 'data/avengers/tony-stark/log.adoc'
     end
 
     it 'creates a new file if none exists' do
@@ -40,11 +40,11 @@ describe LogFile, order: :defined do
 
   context 'with diary entries' do
     before(:all) do
-      FileUtils.mkdir_p('data/avengers/tony-stark')
+      FileUtils.mkdir_p 'data/avengers/tony-stark'
     end
 
     after(:all) do
-      FileUtils.rm_r('data/avengers')
+      FileUtils.rm_r 'data/avengers'
     end
 
     subject do
@@ -74,8 +74,8 @@ describe LogFile, order: :defined do
       it 'calculates the position correctly' do
         lines = File.readlines(subject.path)
         before, after = subject.divide_file(new_entry)
-        expect(before).to eq([])
-        expect(after).to eq(lines)
+        expect(before).to eq []
+        expect(after).to eq lines
       end
 
       it 'inserts entry correctly' do
@@ -97,8 +97,8 @@ describe LogFile, order: :defined do
         expected_before = ["\n", "=== Observation (February  3, 2001,  4:05 AM)\n", "Content::\n", "  Observation A\n"]
         expected_after =  ["\n", "=== Observation (February  4, 2001,  5:06 AM)\n", "Content::\n", "  Observation B\n"]
         before, after = subject.divide_file(new_entry)
-        expect(before).to eq(expected_before)
-        expect(after).to eq(expected_after)
+        expect(before).to eq expected_before
+        expect(after).to eq expected_after
       end
 
       it 'inserts entry correctly' do
@@ -119,8 +119,8 @@ describe LogFile, order: :defined do
       it 'calculates the position correctly' do
         lines = File.readlines(subject.path)
         before, after = subject.divide_file(new_entry)
-        expect(before).to eq(lines)
-        expect(after).to eq([])
+        expect(before).to eq lines
+        expect(after).to eq []
       end
 
       it 'inserts entry correctly' do

@@ -21,6 +21,6 @@ class ObservationEntry < DiaryEntry
   end
 
   def to_s
-    render('Observation')
+    render 'Observation'
   end
 end

@@ -22,6 +22,6 @@ class MultipleMemberEntry < DiaryEntry
   end
 
   def to_s
-    render('Multiple Member Note')
+    render 'Multiple Member Note'
   end
 end

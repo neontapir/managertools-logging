@@ -7,32 +7,32 @@ describe MtDataFormatter do
 
   context 'when downcasing strings' do
     it 'downcases regular strings' do
-      expect(subject.unidown('Apple')).to eq('apple')
+      expect(subject.unidown('Apple')).to eq 'apple'
     end
 
     it 'downcases Unicode strings' do
-      expect(subject.unidown('Äpple')).to eq('äpple')
+      expect(subject.unidown('Äpple')).to eq 'äpple'
     end
   end
 
   it 'formats a date' do
     test_date = Time.strptime('03-02-2001 04:05:06 PM', '%d-%m-%Y %I:%M:%S %p')
-    expect(subject.format_date(test_date)).to eq('February  3, 2001,  4:05 PM')
+    expect(subject.format_date(test_date)).to eq 'February  3, 2001,  4:05 PM'
   end
 
   context 'when stripping out characters' do
     it 'returns the same string if none are present' do
-      expect(subject.strip_nonalnum('foo')).to eq('foo')
+      expect(subject.strip_nonalnum('foo')).to eq 'foo'
     end
 
     it 'returns just alphanumeric characters' do
-      expect(subject.strip_nonalnum('f,o;o')).to eq('foo')
+      expect(subject.strip_nonalnum('f,o;o')).to eq 'foo'
     end
   end
 
   context 'when wrapping a string' do
     it 'wraps a short string' do
-      expect(subject.wrap('foo')).to eq('foo')
+      expect(subject.wrap('foo')).to eq 'foo'
     end
 
     it 'wraps a multiline string' do
@@ -48,7 +48,7 @@ describe MtDataFormatter do
       expected = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc egestas\n" \
       "  imperdiet aliquet. Morbi posuere convallis risus, vitae iaculis felis\n" \
       '  tincidunt sit amet.'
-      expect(subject.wrap(LOREM)).to eq(expected)
+      expect(subject.wrap(LOREM)).to eq expected
     end
   end
 end

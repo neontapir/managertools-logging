@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
-require './lib/path_splitter.rb'
+require './lib/path_formatter.rb'
 
-describe PathSplitter do
-  subject { (Class.new { include PathSplitter }).new }
+describe PathFormatter do
+  subject { (Class.new { include PathFormatter }).new }
 
   context 'matching a path' do
     before(:all) do
-      FileUtils.mkdir_p('data/justice-league/bruce-wayne')
-      FileUtils.mkdir_p('data/justice-league/clark-kent')
+      FileUtils.mkdir_p 'data/justice-league/bruce-wayne'
+      FileUtils.mkdir_p 'data/justice-league/clark-kent'
     end
 
     after(:all) do
-      FileUtils.remove_dir('data/justice-league')
+      FileUtils.remove_dir 'data/justice-league'
     end
 
     it 'does not match an invalid path string and invalid key' do
@@ -37,10 +37,22 @@ describe PathSplitter do
   end
 
   it 'splits a path string' do
-    expect(subject.split_path('a/b/c')).to eq(%w[a b c])
+    expect(subject.split_path('a/b/c')).to eq %w[a b c]
   end
 
   it 'raises splitting a nil string' do
     expect { subject.split_path(nil) }.to raise_error ArgumentError, 'Nil path'
+  end
+
+  it 'creates the path string correctly' do
+    expect(subject.to_path_string('avengers')).to eq 'avengers'
+    expect(subject.to_path_string('justice-league')).to eq 'justice-league'
+    expect(subject.to_path_string('League of Extraordinary Gentlemen')).to eq 'league-of-extraordinary-gentlemen'
+  end
+
+  it 'creates the name correctly' do
+    expect(subject.path_to_name('avengers')).to eq 'Avengers'
+    expect(subject.path_to_name('justice-league')).to eq 'Justice League'
+    expect(subject.path_to_name('Justice League')).to eq 'Justice League'
   end
 end

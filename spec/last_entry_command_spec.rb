@@ -7,7 +7,7 @@ require './lib/observation_entry.rb'
 describe LogFile, order: :defined do
   context 'with diary entries' do
     before(:all) do
-      FileUtils.mkdir_p('data/avengers/tony-stark')
+      FileUtils.mkdir_p 'data/avengers/tony-stark'
       tony = Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark')
       log_file = LogFile.new(EmployeeFolder.new(tony))
       log_file.append ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Observation A')
@@ -15,7 +15,7 @@ describe LogFile, order: :defined do
     end
 
     after(:all) do
-      FileUtils.rm_r('data/avengers')
+      FileUtils.rm_r 'data/avengers'
     end
 
     subject do

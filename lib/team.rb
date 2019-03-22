@@ -4,32 +4,22 @@ require 'facets/string/titlecase'
 
 require_relative 'employee'
 require_relative 'employee_folder'
-require_relative 'path_splitter'
+require_relative 'path_formatter'
 require_relative 'team_finder'
 
 # Represents a delivery team
-# @!attribute [r] team
+#   @!attribute [r] team
 #   @return [String] the path name of the team
 class Team
   attr_reader :team
 
+  include PathFormatter
   extend TeamFinder
-  extend PathSplitter
 
   # Create a new Team object
   # @param [Hash] params a Hash with a :team entry
   def initialize(**params)
-    @team = Team.to_path_string(params.fetch(:team))
-  end
-
-  # Convert a path string to a titlecased name
-  def self.to_name(input)
-    input.tr('-', ' ').titlecase
-  end
-
-  # Convert a titlecased string to a path name
-  def self.to_path_string(input)
-    input.tr(' ', '-').downcase
+    @team = to_path_string params.fetch(:team)
   end
 
   # Get an array of team members folders located in this folder
@@ -41,23 +31,23 @@ class Team
   def members
     members_by_folder.map do |folder|
       member_spec = Employee.parse_dir folder
-      Employee.new(member_spec)
+      Employee.new member_spec
     end
   end
 
   # Represent a Team by its titlecased name
   def to_s
-    Team.to_name(team)
+    path_to_name(team)
   end
 
   # Teams are equal if the have the same #team value
   def eql?(other)
-    return false unless other.respond_to?(:team)
-    team.eql?(other.team)
+    return false unless other.respond_to? :team
+    team.eql? other.team
   end
 
   # Equality operator overload
   def ==(other)
-    eql?(other)
+    eql? other
   end
 end

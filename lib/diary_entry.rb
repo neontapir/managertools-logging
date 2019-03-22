@@ -22,7 +22,7 @@ class DiaryEntry
   #   @return [Class] the class referred to by the name
   def self.get(name)
     entry_type_name = name.to_s.tr('_-', '  ').split(' ').map(&:capitalize).join
-    Kernel.const_get("#{entry_type_name}Entry")
+    Kernel.const_get "#{entry_type_name}Entry"
   end
 
   # @!method render(title, entry_type = self.class)
@@ -54,7 +54,7 @@ class DiaryEntry
   # @abstract Gives the effective date of the entry
   #   @return [Time] the date
   def date
-    Time.parse(@record.fetch(:datetime))
+    Time.parse @record.fetch(:datetime)
   end
 
   # @abstract Gives the string representation of the class, written to the person's log file

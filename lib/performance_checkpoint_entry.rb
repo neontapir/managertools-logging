@@ -21,6 +21,6 @@ class PerformanceCheckpointEntry < DiaryEntry
   end
 
   def to_s
-    render('Performance Checkpoint')
+    render 'Performance Checkpoint'
   end
 end
