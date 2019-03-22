@@ -40,6 +40,7 @@ class Employee
   # @return [Boolean] whether the object is equivalent
   def eql?(other)
     return unless other.respond_to?(:team) && other.respond_to?(:first) && other.respond_to?(:last)
+
     (self <=> other).zero?
   end
 

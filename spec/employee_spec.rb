@@ -69,4 +69,22 @@ describe Employee do
       is_expected.not_to eq OpenStruct.new(team: 'avengers', first: 'Tony') # no last
     end
   end
+
+  context 'with equality for a single employee with a hyphenated team name (Wonder Woman)' do
+    before(:all) do
+      FileUtils.mkdir_p('data/justice-league/diana-prince')
+    end
+
+    after(:all) do
+      FileUtils.rm_r('data/justice-league')
+    end
+
+    subject { Employee.new(team: 'Justice League', first: 'Diana', last: 'Prince') }
+
+    it 'gives the correct log file location' do
+      file = subject.file
+      expect(file).not_to be_nil
+      expect(file.path).to eq 'data/justice-league/diana-prince/log.adoc'
+    end
+  end
 end

@@ -10,10 +10,16 @@ class TeamMeetingCommand
   # @!method command(arguments)
   #   Create an entry in each team member's file
   def command(arguments)
-    team_name = arguments.first
-    raise 'missing team name argument' unless team_name
+    arguments.each do |team_name|
+      team = Team.find(team_name)
+      raise "no such team #{team_name}" if team.nil?
 
-    members = Team.find(team_name).members
+      log_message_for team
+    end
+  end
+
+  def log_message_for(team)
+    members = team.members
     any_team_member = members.first
     entry = get_entry :team_meeting, any_team_member
 
