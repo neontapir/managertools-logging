@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# require 'facets/string/titlecase'
 require 'titleize'
 require 'unicode'
 
