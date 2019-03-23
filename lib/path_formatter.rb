@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
+require_relative 'mt_data_formatter'
+
 # Splits path into team and member name components
 module PathFormatter
+
+  include MtDataFormatter
   # Turn a relative path into an array of folders and the filename
   # @example Parsing a path
   #  split_path('foo/bar/baz.txt') #=> ['foo', 'bar', 'baz.txt']

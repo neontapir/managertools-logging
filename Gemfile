@@ -6,10 +6,11 @@ gem 'asciidoctor'
 gem 'chronic'
 gem 'command'
 gem 'facets'
-gem 'highline'
+# gem 'highline'
+gem 'optimist'
 gem 'os'
 gem 'settingslogic'
-gem 'optimist'
+gem 'titleize'
 gem 'unicode'
 
 gem 'yard', require: false, group: :docs

@@ -1,14 +1,18 @@
 # frozen_string_literal: true
 
+# require 'facets/string/titlecase'
+require 'titleize'
 require 'unicode'
 
 # Commodity data formatting functions
 module MtDataFormatter
-  # Downcase a Unicode string
-  # @example
-  #   unidown('Äpple') #=> 'äpple'
-  def unidown(input)
-    Unicode.downcase input
+
+  refine String do 
+    # Convert a string to title case
+    #   @param [String] input the string to convert
+    def titlecase(input)
+      input.titleize
+    end
   end
 
   # Format a date in our specific format
@@ -23,6 +27,13 @@ module MtDataFormatter
   #   strip_nonalnum('f,o;o') #=> 'foo'
   def strip_nonalnum(input)
     input.gsub(/[^-\p{Alnum}]/, '')
+  end
+
+  # Downcase a Unicode string
+  # @example
+  #   unidown('Äpple') #=> 'äpple'
+  def unidown(input)
+    Unicode.downcase input
   end
 
   # The standard indentation (two spaces)

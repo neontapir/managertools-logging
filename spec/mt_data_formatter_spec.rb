@@ -51,4 +51,11 @@ describe MtDataFormatter do
       expect(subject.wrap(LOREM)).to eq expected
     end
   end
+
+  # Originally, I used Facets for this, but titleize handles prepositions better
+  context 'when turning strings to title case' do
+    it 'capitalizes the right words' do
+      expect('cats in panda suits'.titlecase).to eq 'Cats in Panda Suits'
+    end
+  end
 end

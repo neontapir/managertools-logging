@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'facets/string/titlecase'
-
 require_relative 'employee'
 require_relative 'employee_folder'
 require_relative 'path_formatter'

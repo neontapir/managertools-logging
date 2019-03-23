@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require 'facets/string/titlecase'
 require 'optimist'
 Dir["#{__dir__}/lib/*_command.rb"].each { |f| require_relative(f) }
 
@@ -44,6 +43,8 @@ def add_entry(subcommand, arguments)
 end
 
 def parameter_to_command_class(parameter)
+  require_relative 'mt_data_formatter'
+  include MtDataFormatter
   command_class_name = parameter.tr('-', ' ').titlecase.tr(' ', '')
   Kernel.const_get("#{command_class_name}Command")
 end

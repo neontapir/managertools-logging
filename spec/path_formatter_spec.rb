@@ -50,9 +50,10 @@ describe PathFormatter do
     expect(subject.to_path_string('League of Extraordinary Gentlemen')).to eq 'league-of-extraordinary-gentlemen'
   end
 
-  it 'creates the name correctly' do
+  it 'reconsitutes the name correctly' do
     expect(subject.path_to_name('avengers')).to eq 'Avengers'
     expect(subject.path_to_name('justice-league')).to eq 'Justice League'
     expect(subject.path_to_name('Justice League')).to eq 'Justice League'
+    expect(subject.path_to_name('league-of-extraordinary-gentlemen')).to eq 'League of Extraordinary Gentlemen'
   end
 end

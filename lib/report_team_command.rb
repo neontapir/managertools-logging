@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'facets/string/titlecase'
-require 'highline/import'
 require 'shell'
 require_relative 'mt_data_formatter'
 require_relative 'os_adapter'
