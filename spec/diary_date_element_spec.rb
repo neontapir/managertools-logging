@@ -76,4 +76,28 @@ describe DiaryDateElement do
       expect(element.obtain.to_s).to include('2000-02-20')
     end
   end
+
+  context 'using formatting' do
+    let (:entry_date) { Time.local(2000, 1, 1) }
+
+    before do
+      Timecop.freeze entry_date
+    end
+
+    after do
+      Timecop.return
+    end
+
+    it 'obtains the date with the default format' do
+      allow(Settings.console).to receive(:ask) { 'yesterday' }
+      element = DiaryDateElement.new(:datetime)
+      expect(element.obtain.to_s).to include('1999-12-31')
+    end
+
+    it 'obtains the date with a specified format' do
+      allow(Settings.console).to receive(:ask) { 'yesterday' }
+      element = DiaryDateElement.new(:datetime, 'Datetime', ->(x) { x.strftime '%B %e, %Y' })
+      expect(element.obtain.to_s).to include('December 31, 1999')
+    end
+  end
 end

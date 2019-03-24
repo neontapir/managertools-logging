@@ -28,6 +28,7 @@ ALIASES = {
 
 BANNERS = {
   'feedback' => 'Add a feedback entry for a direct report',
+  'goal' => 'Add a development goal for one or more direct reports',
   'interview' => 'Add an interview entry for a candidate',
   'o3' => 'Add a one-on-one entry for a direct report',
   'observation' => 'Make an observation about a person'
@@ -64,8 +65,8 @@ def parse(script, subcommand, arguments)
     add_entry(subcommand, arguments)
     exit
   # in cases where we will invoke a command class
-  elsif %w[depart generate-overview-files last-entry multiple-member new-hire open-file report 
-           report-team team-meeting].include?(subcommand)
+  elsif %w[depart generate-overview-files goal last-entry multiple-member new-hire  
+           open-file report report-team team-meeting].include?(subcommand)
     execute_subcommand(subcommand, arguments)
     exit
   else

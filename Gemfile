@@ -6,7 +6,7 @@ gem 'asciidoctor'
 gem 'chronic'
 gem 'command'
 gem 'facets'
-# gem 'highline'
+gem 'highline'
 gem 'optimist'
 gem 'os'
 gem 'settingslogic'
@@ -30,9 +30,11 @@ group :ide, optional: true do
 end
 
 group :test do
+  gem 'guard-rspec'
   gem 'mutant-rspec'
   gem 'rspec'
   gem 'should_not'
   gem 'simplecov'
   gem 'timecop'
+  gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 end

@@ -21,6 +21,13 @@ module MtDataFormatter
     date.strftime '%B %e, %Y, %l:%M %p'
   end
 
+  # Format a date in our specific format
+  # @example Format a date
+  #   format_short_date(Time.new(2002)) #=> 'January  1, 2002'
+  def format_short_date(date)
+    date.strftime '%B %e, %Y'
+  end
+
   # Remove non-alphanumeric characters from a string
   # @example Format a date
   #   strip_nonalnum('f,o;o') #=> 'foo'
