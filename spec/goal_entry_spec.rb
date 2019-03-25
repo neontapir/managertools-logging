@@ -9,7 +9,7 @@ describe GoalEntry do
   end
 
   context 'with multiple people' do
-    let (:entry_date) { Time.new(2001, 2, 3, 4, 5, 6) }
+    let (:entry_date) { Time.new(2001, 2, 3, 4, 5, 6).to_s }
 
     before do
       Timecop.freeze entry_date
@@ -20,9 +20,16 @@ describe GoalEntry do
     end
 
     let (:due_date) { Time.new(2001, 3, 2, 5, 6, 7).to_s }
-    subject { GoalEntry.new(datetime: entry_date.to_s, applies_to: "Clark Kent, Bruce Wayne", due_date: due_date, goal: "Do better") }
+    subject { GoalEntry.new(applies_to: 'Clark Kent, Bruce Wayne') }
 
     it 'renders correctly' do
+      allow(Settings.console).to receive(:ask) do |prompt|
+        case prompt
+        when /Effective/ then 'today'
+        when /Due/ then due_date
+        when /Goal/ then 'Do better'
+        end
+      end
       expect(subject.render('Test', GoalEntry)).to include("Applies to::\n  Clark Kent, Bruce Wayne")
     end
   end
@@ -38,12 +45,18 @@ describe GoalEntry do
       Timecop.return 
     end
 
-    subject { GoalEntry.new } 
+    let (:due_date) { Time.new(2001, 3, 2, 5, 6, 7) }
+    subject { GoalEntry.new(applies_to: 'Bruce Wayne') }
 
     it 'renders correctly' do
-      allow(Settings.console).to receive(:ask) { 'yesterday' }
-      element = subject.elements_array.select { |x| x.key == :due_date }.first
-      expect(element.obtain.to_s).to include('December 31, 1999')
+      allow(Settings.console).to receive(:ask) do |prompt|
+        case prompt
+        when /Effective/ then 'yesterday'
+        when /Due/ then due_date
+        when /Goal/ then 'Do better'
+        end
+      end
+      expect(subject.render('Test', GoalEntry)).not_to include("Applies to::")
     end
   end
 end

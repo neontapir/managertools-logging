@@ -13,12 +13,12 @@ describe DiaryEntry do
   end
 
   context 'with default content' do
-    entry_date = Time.local(1999)
+    let (:entry_date) { Time.local(1999) }
 
     before do
       Timecop.freeze entry_date
     end
-
+  
     after do
       Timecop.return
     end
@@ -35,8 +35,16 @@ describe DiaryEntry do
   end
 
   context 'with a time' do
-    entry_date = Time.new(2001, 2, 3, 4, 5, 6)
+    let (:entry_date) { Time.new(2001, 2, 3, 4, 5, 6) }
 
+    before do
+      Timecop.freeze entry_date
+    end
+  
+    after do
+      Timecop.return
+    end
+    
     subject { ObservationEntry.new(datetime: entry_date.to_s) }
 
     it 'renders correctly' do

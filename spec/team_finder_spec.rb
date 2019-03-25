@@ -42,10 +42,6 @@ describe TeamFinder do
 
     let(:expected) { Team.new(team: 'avengers') }
 
-    subject do
-      (Class.new { include TeamFinder }).new
-    end
-
     it 'does find an existing team by full name' do
       team = subject.find('avengers')
       expect(team).to eq expected
@@ -72,10 +68,6 @@ describe TeamFinder do
     end
 
     let(:expected) { Team.new(team: 'league-of-extraordinary-gentlemen') }
-
-    subject do
-      (Class.new { include TeamFinder }).new
-    end
 
     it 'does find an existing team by full name' do
       team = subject.find('League of Extraordinary Gentlemen')

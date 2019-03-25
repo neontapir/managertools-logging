@@ -51,6 +51,7 @@ module MtDataFormatter
   #   @param [Integer] width the maximum number of characters in a line
   def wrap(input, width = 78)
     input
+      .to_s
       .gsub(/(.{1,#{width - INDENT.length}})(\s+|\Z)/, "\\1\n#{INDENT}") \
       .chomp(INDENT)
       .chomp

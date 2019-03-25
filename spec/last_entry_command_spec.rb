@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
+require './lib/employee.rb'
 require './lib/log_file.rb'
 require './lib/last_entry_command.rb'
 require './lib/observation_entry.rb'
 
-describe LogFile, order: :defined do
+describe LogFile do
   context 'with diary entries' do
     before(:all) do
       FileUtils.mkdir_p 'data/avengers/tony-stark'

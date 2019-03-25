@@ -16,7 +16,7 @@ class GoalEntry < DiaryEntry
   def elements_array
     result = [
       DiaryDateElement.new(:datetime, 'Effective date'),
-      DiaryDateElement.new(:due_date, 'Due date', ->(x) { format_short_date(x) }),
+      DiaryDateElement.new(:due_date, 'Due date', -> x { format_short_date(x) }),
       DiaryElement.new(:goal),
     ]
 

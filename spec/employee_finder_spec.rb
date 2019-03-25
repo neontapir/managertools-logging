@@ -3,6 +3,7 @@
 require 'ostruct'
 require 'stringio'
 require './lib/employee.rb'
+require './lib/employee_finder.rb'
 require './lib/settings.rb'
 require_relative 'settings_helper'
 
@@ -108,14 +109,12 @@ describe EmployeeFinder do
       FileUtils.rm_r 'data/avengers'
     end
 
-    subject do
-      finder = (Class.new { include EmployeeFinder }).new
-      finder.find('tony')
+    it 'does find the expected employee' do
+      expect(subject.find('tony')).not_to be_nil
     end
 
     it 'does not find a different employee' do
-      employee = Employee.find('steve')
-      expect(employee).to be_nil
+      expect(subject.find('steve')).to be_nil
     end
   end
 
@@ -130,18 +129,18 @@ describe EmployeeFinder do
     end
 
     it 'returns the first one by alphabetical order if multiples match' do
-      hanks = Employee.find('hank')
+      hanks = subject.find('hank')
       proper?(hanks, 'avengers', 'Hank', 'Mccoy')
     end
 
     it 'finds the expected employee when given a unique key' do
-      ant_man = Employee.find('hank-p')
+      ant_man = subject.find('hank-p')
       proper?(ant_man, 'avengers', 'Hank', 'Pym')
 
-      ant_man_by_last_name = Employee.find('pym')
+      ant_man_by_last_name = subject.find('pym')
       proper?(ant_man_by_last_name, 'avengers', 'Hank', 'Pym')
 
-      beast = Employee.find('hank-m')
+      beast = subject.find('hank-m')
       proper?(beast, 'avengers', 'Hank', 'Mccoy')
     end
   end

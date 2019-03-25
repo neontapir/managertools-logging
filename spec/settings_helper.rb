@@ -9,6 +9,7 @@ module SettingsHelper
   end
 
   def create_test_settings_file
+    remove_test_settings_file
     config_file = Settings.config_file
     FileUtils.mkdir_p Settings.root
     IO.write(config_file, Settings.default_config)
@@ -16,7 +17,11 @@ module SettingsHelper
     Settings.reload!
   end
 
+  # TODO: When running partial test suites, this can fail due to a permissions issue
   def remove_test_settings_file
-    File.delete config_file if File.exist? config_file
+    begin
+      File.delete config_file if File.exist? config_file
+    rescue Exception
+    end
   end
 end

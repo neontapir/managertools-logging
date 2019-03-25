@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require './lib/employee.rb'
+require './lib/employee_folder.rb'
 require './lib/log_file.rb'
 require './lib/multiple_member_command.rb'
 
