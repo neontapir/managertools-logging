@@ -6,6 +6,7 @@ require_relative 'diary_element'
 require_relative 'mt_data_formatter'
 require_relative 'settings'
 
+# Represents a date in a diary entry
 class DiaryDateElement
   attr_reader :key, :prompt
   include MtDataFormatter
@@ -22,6 +23,8 @@ class DiaryDateElement
     @formatter = formatter
   end
 
+  # @!method default()
+  #   The default value of this element
   def default
     Time.now
   end
@@ -35,7 +38,7 @@ class DiaryDateElement
         answer.default = default.to_s
       end
       time = Chronic.parse(value.to_s, context: :past)
-      time = default if time.nil?
+      time = default unless time
     end
     @formatter.call time
   end

@@ -29,10 +29,10 @@ module TeamFinder
   def find(key)
     root = EmployeeFolder.root
     target = to_path_string key
-    Dir.glob("#{root}/*") do |d|
-      next unless Dir.exist? d
-      if /#{target}/ =~ d.to_s
-        team_spec = parse_dir d
+    Dir.glob("#{root}/*") do |dir|
+      next unless Dir.exist? dir
+      if /#{target}/ =~ dir.to_s
+        team_spec = parse_dir dir
         return Team.new team_spec
       end
     end

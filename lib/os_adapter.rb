@@ -2,6 +2,7 @@
 
 require 'os'
 
+# Handle OS-specific calls
 module OSAdapter
   def self.open
     if OS.windows?

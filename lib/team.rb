@@ -20,12 +20,12 @@ class Team
     @team = to_path_string params.fetch(:team)
   end
 
-  # Get an array of team members folders located in this folder
+  # @!method Get an array of team members folders located in this folder
   def members_by_folder
     Dir.glob("#{EmployeeFolder.root}/#{team}/*")
   end
 
-  # Get an array of team members, based on folder location
+  # @!method Get an array of team members, based on folder location
   def members
     members_by_folder.map do |folder|
       member_spec = Employee.parse_dir folder
@@ -33,18 +33,18 @@ class Team
     end
   end
 
-  # Represent a Team by its titlecased name
+  # @!method Represent a Team by its titlecased name
   def to_s
     path_to_name(team)
   end
 
-  # Teams are equal if the have the same #team value
+  # @!method Teams are equal if the have the same #team value
   def eql?(other)
     return false unless other.respond_to? :team
     team.eql? other.team
   end
 
-  # Equality operator overload
+  # @!method Equality operator overload
   def ==(other)
     eql? other
   end

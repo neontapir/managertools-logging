@@ -7,7 +7,7 @@ require_relative 'mt_data_formatter'
 # @!attribute [rw] record
 #   @return [Hash] the entry's data dictionary of elements
 class DiaryEntry
-  attr_accessor :record
+  attr_reader :record
   include MtDataFormatter
 
   # @!method initialize(**record)

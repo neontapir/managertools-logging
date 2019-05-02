@@ -12,7 +12,7 @@ class TeamMeetingCommand
   def command(arguments)
     arguments.each do |team_name|
       team = Team.find team_name
-      raise "no such team #{team_name}" if team.nil?
+      raise "no such team #{team_name}" unless team
 
       log_message_for team
     end
