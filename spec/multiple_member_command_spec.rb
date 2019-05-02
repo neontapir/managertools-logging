@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'multiple_member_spec_helper.rb'
+require_relative 'multiple_member_spec_helper'
 require './lib/employee.rb'
 require './lib/employee_folder.rb'
 require './lib/log_file.rb'

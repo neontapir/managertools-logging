@@ -4,7 +4,7 @@ require 'chronic'
 require_relative 'mt_data_formatter'
 
 # Base class for diary entries
-# @!attribute [rw] record
+# @!attribute [r] record
 #   @return [Hash] the entry's data dictionary of elements
 class DiaryEntry
   attr_reader :record
