@@ -62,9 +62,9 @@ describe LogFile, order: :defined do
         "Content::\n", "  Observation B\n"]
     end
 
-    it 'gets date lines correctly' do
+    it 'gets lines containing a date correctly' do
       lines = File.readlines(subject.path)
-      expect(subject.get_datelines(lines)).to eq(
+      expect(subject.get_dateline_locations(lines)).to eq(
         Time.new(2001, 2, 3, 4, 5, 0) => 1,
         Time.new(2001, 2, 4, 5, 6, 0) => 5
       )
