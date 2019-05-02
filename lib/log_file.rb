@@ -16,8 +16,8 @@ class LogFile
   # @param [DiaryEntry] entry the entry to append
   def append(entry)
     make_backup
-    lines = IO.readlines path
-    write_entry_to(lines, entry, [])
+    existing_lines = IO.readlines path
+    write_entry_to(existing_lines, entry, [])
     remove_backup
   end
 
@@ -37,26 +37,32 @@ class LogFile
 
   # Split the contents of the file into the part before the entry and the part after
   # @param [DiaryEntry] entry the entry to insert
+  # @return [Array] an array with two entries: the chunk before where the entry belongs, and the chunk that belongs after
+  # @example How to consume this method
+  #   before, after = divide_file entry
   def divide_file(entry)
-    entry_date = entry.date
     lines = IO.readlines path
-    datelines = get_datelines lines
-    dates = datelines.keys + [entry_date]
+    dateline_locations = get_dateline_locations lines
+    
+    entry_date = entry.date
+    dates = dateline_locations.keys + [entry_date]
     dates.sort!
-    position = dates.index entry_date
-    if position.zero?
+
+    insertion_position = dates.index entry_date
+    if insertion_position.zero?
       [[], lines]
-    elsif position == dates.size - 1
+    elsif insertion_position == dates.size - 1
       [lines, []]
     else
-      line_no = datelines[dates[position + 1]] - 1
-      [lines[0...line_no], lines[line_no..-1]]
+      demarcation = dateline_locations[dates[insertion_position + 1]] - 1
+      [lines[0...demarcation], lines[demarcation..-1]]
     end
   end
 
   # Extract the lines in the file containing dates
   # @param [Array] lines the contents of the file
-  def get_datelines(lines)
+  # @return [Hash] a dictionary of date lines and their locations in the file
+  def get_dateline_locations(lines)
     datelines = {}
     lines.each_with_index do |line, line_num|
       matches = /^===.*\((.*)\)/.match line
@@ -72,6 +78,8 @@ class LogFile
   # @param [Array] before the contents of the file before the entry
   # @param [Array] entry the entry to insert
   # @param [Array] after the contents of the file after the entry
+  # @example Writing an entry in the middle of a file
+  #   write_entry_to(before, entry, after)
   def write_entry_to(before, entry, after)
     open(path, 'w') do |file|
       file.puts before

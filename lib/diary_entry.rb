@@ -55,7 +55,7 @@ class DiaryEntry
   # @abstract Gives the effective date of the entry
   #   @return [Time] the date
   def date
-    Time.parse @record.fetch(:datetime)
+    Time.parse record.fetch(:datetime)
   end
 
   # @abstract Gives the string representation of the class, written to the person's log file

@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
+require 'multiple_member_spec_helper.rb'
 require './lib/employee.rb'
 require './lib/employee_folder.rb'
 require './lib/log_file.rb'
 require './lib/multiple_member_command.rb'
 
 describe MultipleMemberCommand do
+  include MultipleMemberSpecHelper
+
   module Diary
     undef :template? if method_defined? :template?
     def template?
@@ -41,11 +44,7 @@ describe MultipleMemberCommand do
       end
 
       expected = ["  Tony Stark, Steve Rogers\n", "  Spoke about important things\n"]
-      expected.each do |answer|
-        members.each do |member|
-          expect(File.readlines(member.file.path)).to include(answer)
-        end
-      end
+      verify_answers_propagated(expected, members)
     end
   end
 

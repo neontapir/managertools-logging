@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
+require 'multiple_member_spec_helper.rb'
 require './lib/employee.rb'
 require './lib/employee_folder.rb'
 require './lib/log_file.rb'
 require './lib/team_meeting_command.rb'
 
 describe TeamMeetingCommand do
+  include MultipleMemberSpecHelper
+
   module Diary
     undef :template? if method_defined? :template?
     def template?
@@ -41,11 +44,7 @@ describe TeamMeetingCommand do
       end
 
       expected = ["  all\n", "  unspecified\n", "  We met about stuff\n", "  none\n"]
-      expected.each do |answer|
-        members.each do |member|
-          expect(File.readlines(member.file.path)).to include(answer)
-        end
-      end
+      verify_answers_propagated(expected, members)
     end
   end
 
@@ -76,11 +75,7 @@ describe TeamMeetingCommand do
       end
 
       expected = ["  all\n", "  unspecified\n", "  We met about stuff\n", "  none\n"]
-      expected.each do |answer|
-        members.each do |member|
-          expect(File.readlines(member.file.path)).to include(answer)
-        end
-      end
+      verify_answers_propagated(expected, members)
     end
   end
 end

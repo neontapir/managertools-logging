@@ -8,6 +8,13 @@ describe DiaryDateElement do
     expect(element.default).to be_within(2).of(default)
   end
 
+  def verify_date_correct(request, expected)
+    allow(Settings.console).to receive(:ask) { request }
+    element = DiaryDateElement.new(:datetime)
+    proper?(element, :datetime, 'Datetime', entry_date)
+    expect(element.obtain.to_s).to include(expected)
+  end
+
   it 'creates an element with default values' do
     element = DiaryDateElement.new(:datetime)
     proper?(element, :datetime, 'Datetime', Time.now)
@@ -30,31 +37,19 @@ describe DiaryDateElement do
     end
 
     it 'obtains the relative date' do
-      allow(Settings.console).to receive(:ask) { 'yesterday' }
-      element = DiaryDateElement.new(:datetime)
-      proper?(element, :datetime, 'Datetime', entry_date)
-      expect(element.obtain.to_s).to include('1999-12-31')
+      verify_date_correct('yesterday', '1999-12-31')
     end
 
     it 'obtains the absolute date' do
-      allow(Settings.console).to receive(:ask) { '1999-12-01' }
-      element = DiaryDateElement.new(:datetime)
-      proper?(element, :datetime, 'Datetime', entry_date)
-      expect(element.obtain.to_s).to include('1999-12-01')
+      verify_date_correct('1999-12-01', '1999-12-01')
     end
 
     it 'obtains now if no date specified' do
-      allow(Settings.console).to receive(:ask) { '' }
-      element = DiaryDateElement.new(:datetime)
-      proper?(element, :datetime, 'Datetime', entry_date)
-      expect(element.obtain.to_s).to include('2000-01-01')
+      verify_date_correct('', '2000-01-01')
     end
 
     it 'obtains now if an invalid date specified' do
-      allow(Settings.console).to receive(:ask) { 'xyzzy' }
-      element = DiaryDateElement.new(:datetime)
-      proper?(element, :datetime, 'Datetime', entry_date)
-      expect(element.obtain.to_s).to include('2000-01-01')
+      verify_date_correct('xyzzy', '2000-01-01')
     end
   end
 
@@ -70,10 +65,7 @@ describe DiaryDateElement do
     end
 
     it "obtains date in past if the year isn't specified" do
-      allow(Settings.console).to receive(:ask) { '2/20' }
-      element = DiaryDateElement.new(:datetime)
-      proper?(element, :datetime, 'Datetime', entry_date)
-      expect(element.obtain.to_s).to include('2000-02-20')
+      verify_date_correct('2/20', '2000-02-20')
     end
   end
 
@@ -91,7 +83,11 @@ describe DiaryDateElement do
     it 'obtains the date with the default format' do
       allow(Settings.console).to receive(:ask) { 'yesterday' }
       element = DiaryDateElement.new(:datetime)
-      expect(element.obtain.to_s).to include('1999-12-31')
+      expected = element.obtain.to_s
+      expect(expected).to include('1999-12-31 12:00:00')
+      
+      gmt_offset = Time.now.strftime('%z') # '-0700'
+      expect(expected).to include(gmt_offset) 
     end
 
     it 'obtains the date with a specified format' do
