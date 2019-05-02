@@ -16,6 +16,7 @@ class InterviewEntry < DiaryEntry
   # rubocop:disable Metrics/MethodLength
   def elements_array
     [
+      DiaryDateElement.new(:datetime, 'Effective date'),
       DiaryElement.new(:location, 'Location', 'Skype'),
       DiaryElement.new(:why_new_job, 'Why new job'),
       DiaryElement.new(:why_hybris, 'Why hybris'),
