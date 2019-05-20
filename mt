@@ -11,6 +11,7 @@ def record_diary_entry(entry_type, person)
 end
 
 ALIASES = {
+  '3o' => 'o3',
   'bulk' => 'multiple-member',
   'check' => 'performance-checkpoint',
   'fb' => 'feedback',
@@ -21,6 +22,7 @@ ALIASES = {
   'multi' => 'multiple-member',
   'ob' => 'observation',
   'obs' => 'observation',
+  'ooo' => 'o3',
   'open' => 'open-file',
   'perf' => 'performance-checkpoint',
   'team' => 'team-meeting'
@@ -65,7 +67,7 @@ def parse(script, subcommand, arguments)
     add_entry(subcommand, arguments)
     exit
   # in cases where we will invoke a command class
-  elsif %w[depart generate-overview-files goal last-entry multiple-member new-hire  
+  elsif %w[depart generate-overview-files goal last-entry move multiple-member new-hire  
            open-file report report-team team-meeting].include?(subcommand)
     execute_subcommand(subcommand, arguments)
     exit
@@ -82,8 +84,8 @@ def display(hash)
 end
 
 if $PROGRAM_NAME == __FILE__
-  SUB_COMMANDS = %w[feedback gen-overview-files interview last-entry 
-                    new-hire multiple-member o3 observation performace-checkpoint
+  SUB_COMMANDS = %w[feedback gen-overview-files interview last-entry move
+                    multiple-member new-hire o3 observation performace-checkpoint
                     report report-team team-meeting].freeze
 
   # capture options given before subcommand

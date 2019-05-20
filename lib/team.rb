@@ -33,6 +33,10 @@ class Team
     end
   end
 
+  def path
+    team
+  end
+
   # @!method Represent a Team by its titlecased name
   def to_s
     path_to_name(team)
