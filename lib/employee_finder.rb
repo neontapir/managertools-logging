@@ -31,14 +31,15 @@ module EmployeeFinder
 
   # Given a part of employee data, find the first matching employee
   #
-  # @param [String] key the lookup data needed to find the employee
+  # @param [String] search_string the lookup data needed to find the employee
   # @return [Employee] an Employee object
-  def find(key)
+  def find(search_string)
     root = EmployeeFolder.root
     result = []
+    key = search_string.downcase
     Dir.glob("#{root}/*/*") do |folder|
       next unless Dir.exist? folder
-      if /#{key.downcase}/ =~ folder.to_s
+      if /#{key}/ =~ folder.to_s
         employee = parse_dir folder
         result << Employee.new(employee)
       end
