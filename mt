@@ -19,6 +19,7 @@ ALIASES = {
   'gen' => 'generate-overview-files',
   'last' => 'last-entry',
   'meeting' => 'team-meeting',
+  'move' => 'move-team',
   'multi' => 'multiple-member',
   'ob' => 'observation',
   'obs' => 'observation',
@@ -67,7 +68,7 @@ def parse(script, subcommand, arguments)
     add_entry(subcommand, arguments)
     exit
   # in cases where we will invoke a command class
-  elsif %w[depart generate-overview-files goal last-entry move multiple-member new-hire  
+  elsif %w[depart generate-overview-files goal last-entry move-team multiple-member new-hire  
            open-file report report-team team-meeting].include?(subcommand)
     execute_subcommand(subcommand, arguments)
     exit
@@ -84,7 +85,7 @@ def display(hash)
 end
 
 if $PROGRAM_NAME == __FILE__
-  SUB_COMMANDS = %w[feedback gen-overview-files interview last-entry move
+  SUB_COMMANDS = %w[feedback gen-overview-files interview last-entry move-team
                     multiple-member new-hire o3 observation performace-checkpoint
                     report report-team team-meeting].freeze
 

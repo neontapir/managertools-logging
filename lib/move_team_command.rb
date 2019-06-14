@@ -7,7 +7,7 @@ require_relative 'team'
 require_relative 'settings'
 
 # Move a person's data to a new folder
-class MoveCommand
+class MoveTeamCommand
   def command(arguments)
     employee_spec, target_team_spec = Array(arguments)
     employee = Employee.find employee_spec
@@ -19,7 +19,11 @@ class MoveCommand
     if employee.team == target_team
       puts "#{employee} is already in the expected folder"
     else
-      puts "Move #{employee} to team #{target_team.path}"
+      puts "Moving #{employee} to team #{target_team}"
+
+      move_entry = ObservationEntry.new(content: "Moving #{employee} to team #{target_team}")
+      employee.file.insert move_entry 
+
       current_folder = File.dirname employee.file.path
       FileUtils.move(current_folder, "#{Settings.root}/#{target_team.path}/#{employee.canonical_name}")
     end

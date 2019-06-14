@@ -113,6 +113,10 @@ describe EmployeeFinder do
       expect(subject.find('tony')).not_to be_nil
     end
 
+    it 'does find the expected employee with capitalized case' do
+      expect(subject.find('Tony')).not_to be_nil
+    end
+
     it 'does not find a different employee' do
       expect(subject.find('steve')).to be_nil
     end

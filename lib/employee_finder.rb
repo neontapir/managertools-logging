@@ -38,7 +38,7 @@ module EmployeeFinder
     result = []
     Dir.glob("#{root}/*/*") do |folder|
       next unless Dir.exist? folder
-      if /#{key}/ =~ folder.to_s
+      if /#{key.downcase}/ =~ folder.to_s
         employee = parse_dir folder
         result << Employee.new(employee)
       end
