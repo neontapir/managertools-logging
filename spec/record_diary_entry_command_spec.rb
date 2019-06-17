@@ -23,7 +23,7 @@ describe RecordDiaryEntryCommand do
     RecordDiaryEntryCommand.new
   end
 
-  it 'can send an O3 command' do
+  it 'can write an arbitrary entry try (one-on-one)' do
     Settings.with_mock_input "\nhere\nMet about goals\n\n\n" do
       subject.command :o3, ['tony']
     end
@@ -34,7 +34,7 @@ describe RecordDiaryEntryCommand do
     verify_answers_propagated(expected, [tony])
   end
 
-  it 'can send an feedback command' do
+  it 'can write a second entry type with the same method (feedback entry)' do
     Settings.with_mock_input "\nnegative\nDid a bad thing\n" do
       subject.command :feedback, ['tony']
     end
