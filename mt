@@ -4,12 +4,6 @@
 require 'optimist'
 Dir["#{__dir__}/lib/*_command.rb"].each { |f| require_relative(f) }
 
-def record_diary_entry(entry_type, person)
-  require_relative 'lib/diary'
-  include Diary
-  record_to_file entry_type, person
-end
-
 ALIASES = {
   '3o' => 'o3',
   'bulk' => 'multiple-member',
@@ -37,15 +31,6 @@ BANNERS = {
   'observation' => 'Make an observation about a person'
 }.freeze
 
-def add_entry(subcommand, arguments)
-  # capture options given after subcommand
-  @cmd_opts = Optimist.options do
-    banner BANNERS[subcommand]
-    opt :template, 'Create blank template entry', short: '-t'
-  end
-  record_diary_entry subcommand.to_sym, arguments.first
-end
-
 def parameter_to_command_class(parameter)
   require_relative 'lib/mt_data_formatter'
   include MtDataFormatter
@@ -59,13 +44,22 @@ def execute_subcommand(subcommand_name, arguments)
   subcommand.command arguments
 end
 
+def record_diary_entry(subcommand, arguments)
+  # capture options given after subcommand
+  @cmd_opts = Optimist.options do
+    banner BANNERS[subcommand]
+    opt :template, 'Create blank template entry', short: '-t'
+  end
+  RecordDiaryEntryCommand.new.command subcommand.to_sym, arguments
+end
+
 def parse(script, subcommand, arguments)
   # in cases where a command alias is given, re-parse using the canonical name
   if ALIASES.key?(subcommand)
     script = parse(script, ALIASES[subcommand], arguments)
   # in cases where we're just adding an entry, invoke module directly
   elsif %w[feedback interview o3 observation performance-checkpoint].include?(subcommand)
-    add_entry(subcommand, arguments)
+    record_diary_entry(subcommand, arguments)
     exit
   # in cases where we will invoke a command class
   elsif %w[depart generate-overview-files goal last-entry move-team multiple-member new-hire  

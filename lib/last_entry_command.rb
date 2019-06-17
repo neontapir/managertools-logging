@@ -5,7 +5,6 @@ require 'fileutils'
 require_relative 'employee_finder'
 require_relative 'settings'
 
-# Mark a person departed by moving their data to the departed records folder
 class LastEntryCommand
   include EmployeeFinder
 
