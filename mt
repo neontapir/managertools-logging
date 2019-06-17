@@ -50,7 +50,8 @@ def record_diary_entry(subcommand, arguments)
     banner BANNERS[subcommand]
     opt :template, 'Create blank template entry', short: '-t'
   end
-  RecordDiaryEntryCommand.new.command subcommand.to_sym, arguments
+  diary = RecordDiaryEntryCommand.new @global_opts, @cmd_opts
+  diary.command subcommand.to_sym, arguments
 end
 
 def parse(script, subcommand, arguments)
