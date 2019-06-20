@@ -12,7 +12,7 @@ describe MoveTeamCommand do
       FileUtils.mkdir_p 'data/teen-titans'
 
       # use new hire command to generate expected files
-      expect { NewHireCommand.new.command ['Teen Titans', 'Princess', "Koriand'r"] }.to output(/princess-koriandr/).to_stdout
+      expect { NewHireCommand.new.command %w[Teen\ Titans Princess Koriand'r] }.to output(/princess-koriandr/).to_stdout
     end
 
     after(:each) do
@@ -23,14 +23,14 @@ describe MoveTeamCommand do
     subject { MoveTeamCommand.new }
 
     it 'relocates their files' do
-      expect { subject.command ['Princess', 'justice-league'] }.to output(/Princess Koriandr/).to_stdout
+      expect { subject.command %w[Princess justice-league] }.to output(/Princess Koriandr/).to_stdout
 
       expect(Dir.exist? 'data/justice-league/princess-koriandr').to be_truthy
       expect(Dir.exist? 'data/teen-titans/princess-koriandr').to be_falsey
     end
 
     it 'writes a log entry' do
-      expect { subject.command ['Princess', 'justice-league'] }.to output(/Princess Koriandr/).to_stdout
+      expect { subject.command %w[Princess justice-league] }.to output(/Princess Koriandr/).to_stdout
       
       starfire = Employee.find('Princess')
       expect(starfire.file.path).to eq 'data/justice-league/princess-koriandr/log.adoc'
@@ -38,12 +38,12 @@ describe MoveTeamCommand do
     end
   end
 
-  context 'trying to move a team member to the same folder' do
+  context 'refuses to move a team member to the same folder' do
     before(:each) do
       FileUtils.mkdir_p 'data/teen-titans'
 
       # use new hire command to generate expected files
-      expect { NewHireCommand.new.command ['Teen Titans', 'Princess', "Koriand'r"] }.to output(/princess-koriandr/).to_stdout
+      expect { NewHireCommand.new.command %w[Teen\ Titans Princess Koriand'r] }.to output(/princess-koriandr/).to_stdout
     end
 
     after(:each) do
@@ -53,7 +53,7 @@ describe MoveTeamCommand do
     subject { MoveTeamCommand.new }
 
     it 'prints a message' do
-      expect { subject.command ['Princess', 'Teen Titans'] }.to output(/is already in the expected folder/).to_stdout
+      expect { subject.command %w[Princess Teen\ Titans] }.to output(/is already in the expected folder/).to_stdout
 
       expect(Dir.exist? 'data/teen-titans/princess-koriandr').to be_truthy
     end

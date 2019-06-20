@@ -60,7 +60,7 @@ describe Diary do
     end
 
     it 'displays a prompt' do
-      expect(STDOUT).to receive(:puts).with('Enter your test for Tony Stark:')
+      expect($stdout).to receive(:puts).with('Enter your test for Tony Stark:')
       allow(Settings.console).to receive(:ask) { 'anything' }
       subject.record_to_file(:test, 'tony-stark')
     end
@@ -69,21 +69,21 @@ describe Diary do
       log = LogFile.new(Dir.new('data/avengers/tony-stark')).path
       old_length = File.size?(log) ? File.size(log) : 0
 
-      expect(STDOUT).to receive(:puts)
+      expect($stdout).to receive(:puts)
       allow(Settings.console).to receive(:ask) { "Lorem ipsum dolor sit amet, ea sea integre aliquando cotidieque, est dicta dolores concludaturque ne, his in dolorem volutpat.\nPro in iudico deseruisse, vix feugait accommodare ut, ne iisque appetere delicatissimi nec." }
       subject.record_to_file(:test, 'tony-stark')
       expect(File.size(log)).to be > old_length
     end
 
     it 'gets an entry' do
-      expect(STDOUT).to receive(:puts)
+      expect($stdout).to receive(:puts)
       allow(Settings.console).to receive(:ask) { 'anything' }
       entry = subject.get_entry 'Test', 'Tony Stark'
       expect(entry.record).to include(xyzzy: 'anything')
     end
 
     it 'gets an entry with initial values' do
-      expect(STDOUT).to receive(:puts)
+      expect($stdout).to receive(:puts)
       allow(Settings.console).to receive(:ask) { 'anything' }
       entry = subject.get_entry 'Test', 'Tony Stark', plover: 'zork'
       expect(entry.record).to include(xyzzy: 'anything')

@@ -13,11 +13,13 @@ describe NewHireCommand do
       FileUtils.rm_r 'data/teen-titans'
     end
 
+    subject { NewHireCommand.new }
+
     it 'moves an existing team member' do
       expect(File.exist? 'data/teen-titans/princess-koriandr/log.adoc').to be_falsey
       expect(File.exist? 'data/teen-titans/princess-koriandr/overview.adoc').to be_falsey
 
-      expect { NewHireCommand.new.command(['Teen Titans', 'Princess', "Koriand'r"]) }.to output(/princess-koriandr/).to_stdout
+      expect { subject.command(%w[Teen\ Titans Princess Koriand'r]) }.to output(/princess-koriandr/).to_stdout
       
       starfire = Employee.find('Princess')
       expect(starfire).not_to be_nil

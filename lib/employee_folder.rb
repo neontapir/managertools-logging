@@ -8,9 +8,22 @@ require_relative 'settings'
 # Reparesents a folder that contains files about a direct report
 # @attr_reader [Employee] employee the employee whose data resides in the folder
 class EmployeeFolder
-  attr_reader :employee
   include MtDataFormatter
   include PathFormatter
+
+  attr_reader :employee
+
+  class << self
+    # The root folder where data is stored, taken from Settings
+    def root
+      Settings.root
+    end
+
+    # The folder where data is stored for candidates, taken from Settings
+    def candidates_root
+      Settings.candidates_root
+    end
+  end
 
   # Create a new EmployeeFolder object
   def initialize(employee)
@@ -22,16 +35,6 @@ class EmployeeFolder
     first_name = strip_nonalnum employee.first
     last_name = strip_nonalnum employee.last
     unidown "#{first_name}-#{last_name}"
-  end
-
-  # The root folder where data is stored, taken from Settings
-  def self.root
-    Settings.root
-  end
-
-  # The folder where data is stored for candidates, taken from Settings
-  def self.candidates_root
-    Settings.candidates_root
   end
 
   # The path to the file, relative to the parent folder of the root

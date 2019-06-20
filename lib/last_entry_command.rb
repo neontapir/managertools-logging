@@ -16,7 +16,7 @@ class LastEntryCommand
     log_file = employee.file.path
     last = []
     File.readlines(log_file).each do |line|
-      last.clear if line =~ /===\s/
+      last.clear if line['=== ']
       last << line
     end
     puts last.join

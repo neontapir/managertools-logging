@@ -39,7 +39,7 @@ class NewHireCommand
     print "\n"
   end
 
-  # TODO: reduce duplication between this and log file generation
+  # OPTIMIZE: reduce duplication between this and log file generation
   def create_overview_file(folder, overview_file)
     employee = folder.employee
     contents = <<~FILE_HEADER

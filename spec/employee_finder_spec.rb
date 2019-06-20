@@ -16,9 +16,9 @@ describe EmployeeFinder do
     it 'will prompt the user for a spec if the employee is not found' do
       allow(Settings.console).to receive(:ask) do |prompt|
         case prompt
-          when /Team/ then 'Terrific Twosome of Toronto'
-          when /First/ then 'Kit'
-          when /Last/ then 'Baxter'
+        when /Team/ then 'Terrific Twosome of Toronto'
+        when /First/ then 'Kit'
+        when /Last/ then 'Baxter'
         end
       end
       flying_squirrel = subject.get('Kit', :superhero)

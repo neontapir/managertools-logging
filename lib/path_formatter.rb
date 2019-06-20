@@ -17,7 +17,7 @@ module PathFormatter
   # Determine if a path matches the given string
   def matches?(path, key)
     raise ArgumentError, 'Nil path' unless path
-    (Dir.exist? path) && (/#{key}/ =~ path)
+    Dir.exist?(path) && path["#{key}"]
   end
 
   # Convert a titlecased string to a path name

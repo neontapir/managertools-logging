@@ -29,7 +29,7 @@ module Diary
   #   @param [Hash] initial_value The initial hash of entry values
   def get_entry(type, employee, initial_value = {})
     data = template? ? {} : create_entry(type, employee.to_s, initial_value)
-    # TODO: For Multiple member, I want to show the injected value in the
+    # HACK: For Multiple member, I want to show the injected value in the
     #   template. That creates a chicken and the egg problem. During
     #   create_entry, the contents of initial_value aren't retained.
     #   This kludge forces them back in. Fix this.
@@ -48,8 +48,8 @@ module Diary
     entry_type = DiaryEntry.get type
     raise ArgumentError unless entry_type < DiaryEntry
     new_entry = entry_type.new initial_value
-    Settings.console.say new_entry.send(:prompt, header)
-    new_entry.send(:elements_array).each_with_object({}) do |item, memo|
+    Settings.console.say new_entry.public_send(:prompt, header)
+    new_entry.public_send(:elements_array).each_with_object({}) do |item, memo|
       memo[item.key] = item.obtain
     end
   end

@@ -85,7 +85,7 @@ if $PROGRAM_NAME == __FILE__
                     report report-team team-meeting].freeze
 
   # capture options given before subcommand
-  # TODO: there's a bug here in the way arguments to subcommands are parsed
+  # FIXME: there's a bug here in the way arguments to subcommands are parsed
   #   for example, './mt gen --force' returns an error
   @global_opts = Optimist.options do
     banner 'Command-line note-taking system based on Manager Tools practices'

@@ -9,6 +9,7 @@ require_relative 'team'
 class ReportTeamCommand
   extend MtDataFormatter
   include OSAdapter
+  
   HORIZONTAL_RULE = "'''"
 
   # Create a report of a team, using each member\'s files

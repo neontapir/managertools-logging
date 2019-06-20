@@ -5,55 +5,57 @@ require 'settingslogic'
 
 # Application-wide settings
 class Settings < Settingslogic
-  def self.root
-    'data'
-  end
-
-  def self.config_file
-    File.join(root, 'config.yml')
-  end
-
-  def self.console
-    @console ||= set_console
-    @console
-  end
-
-  def self.set_console(input = STDIN, output = STDOUT)
-    @console = HighLine.new(input, output)
-  end
-
-  # TODO: regular RSpec mocking with allow() works in cases where
-  #   input is needed, but doesn't when hitting return is desired.
-  #   Figure out how to mock Highline to just hit return and this
-  #   method is no longer necessary.
-  def self.with_mock_input(input = '')
-    begin
-      input_stream = input.empty? ? StringIO.new : StringIO.new(input)
-      @console = HighLine.new(input_stream, StringIO.new)
-      yield
-    ensure
-      @console = HighLine.new(STDIN, STDOUT)
+  class << self
+    def root
+      'data'
     end
-  end
 
-  def self.default_config
-    <<~CONFIG
-      defaults: &defaults
-        # TODO: root is set in lib/settings.rb
-        root: data
-        candidates_root: zzz_candidates
-        departed_root: zzz_departed
-        editor: atom
+    def config_file
+      File.join(root, 'config.yml')
+    end
 
-      development:
-        <<: *defaults
+    def console
+      @console ||= set_console
+      @console
+    end
 
-      test:
-        <<: *defaults
+    def set_console(input = $stdin, output = $stdout)
+      @console = HighLine.new(input, output)
+    end
 
-      production:
-        <<: *defaults
-    CONFIG
+    # HACK: regular RSpec mocking with allow() works in cases where
+    #   input is needed, but doesn't when hitting return is desired.
+    #   Figure out how to mock Highline to just hit return and this
+    #   method is no longer necessary.
+    def with_mock_input(input = '')
+      begin
+        input_stream = input.empty? ? StringIO.new : StringIO.new(input)
+        @console = HighLine.new(input_stream, StringIO.new)
+        yield
+      ensure
+        @console = HighLine.new($stdin, $stdout)
+      end
+    end
+
+    def default_config
+      <<~CONFIG
+        defaults: &defaults
+          # TODO: root is set in lib/settings.rb
+          root: data
+          candidates_root: zzz_candidates
+          departed_root: zzz_departed
+          editor: atom
+
+        development:
+          <<: *defaults
+
+        test:
+          <<: *defaults
+
+        production:
+          <<: *defaults
+      CONFIG
+    end
   end
 
   unless File.exist? config_file

@@ -5,6 +5,8 @@ require 'unicode'
 
 # Commodity data formatting functions
 module MtDataFormatter
+  # The standard indentation (two spaces)
+  INDENT = '  ' # this should match what's in the templates
 
   refine String do 
     # Convert a string to title case
@@ -41,9 +43,6 @@ module MtDataFormatter
   def unidown(input)
     Unicode.downcase input
   end
-
-  # The standard indentation (two spaces)
-  INDENT = '  ' # this should match what's in the templates
 
   # @!method wrap(input, width = 78)
   #   Wrap input text on word boundaries, indenting all lines by INDENT

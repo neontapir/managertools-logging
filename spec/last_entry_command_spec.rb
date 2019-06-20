@@ -24,7 +24,7 @@ describe LogFile do
     end
 
     it 'displays the last entry correctly' do
-      expect(STDOUT).to receive(:puts).with("=== Observation (February  4, 2001,  5:06 AM)\nContent::\n  Observation B\n")
+      expect($stdout).to receive(:puts).with("=== Observation (February  4, 2001,  5:06 AM)\nContent::\n  Observation B\n")
       subject.command 'stark'
     end
   end

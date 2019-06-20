@@ -22,9 +22,7 @@ class GoalEntry < DiaryEntry
 
     if (record.key? :applies_to)
       applies_to = record.fetch(:applies_to)
-      if (applies_to.include? ',')
-        result.insert(1, DiaryElement.new(:applies_to, 'Applies to', applies_to))
-      end
+      result.insert(1, DiaryElement.new(:applies_to, 'Applies to', applies_to)) if (applies_to.include? ',')
     end
 
     result
