@@ -16,7 +16,7 @@ class MoveTeamCommand
     target_team = Team.find target_team_spec
     raise ArgumentError, "No team matching '#{target_team_spec}' found, aborting" unless target_team
 
-    if employee.team == target_team
+    if employee.team == target_team.path
       puts "#{employee} is already in the expected folder"
     else
       puts "Moving #{employee} to team #{target_team}"
