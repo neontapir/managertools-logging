@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'namecase'
 require_relative 'employee_finder'
 require_relative 'employee_folder'
 require_relative 'mt_data_formatter'
@@ -67,6 +68,6 @@ class Employee
   # The display name, in title case
   # @return [String] the display name
   def to_s
-    "#{first.titlecase} #{last.titlecase}"
+    "#{NameCase(first)} #{NameCase(last)}"
   end
 end

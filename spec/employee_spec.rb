@@ -34,6 +34,33 @@ describe Employee do
     end
   end
 
+  context 'when getting names with unusual casing' do
+    before(:all) do
+      FileUtils.mkdir_p 'data/people/baron-du-vallon-de-bracieux-de-pierrefonds'
+      FileUtils.mkdir_p 'data/people/old-mcdonald'
+      FileUtils.mkdir_p 'data/people/jj-ginger-oconnell'
+    end
+
+    after(:all) do
+      FileUtils.rm_r 'data/people'
+    end
+
+    it 'is handles French names' do
+      porthos = Employee.new({ team: 'people', first: 'Baron'.downcase, last: 'du Vallon de Bracieux de Pierrefonds'.downcase })
+      expect(porthos.to_s).to eq 'Baron du Vallon de Bracieux de Pierrefonds'
+    end
+
+    it 'it handles Irish Mac names' do
+      old_mcdonald = Employee.new({ team: 'people', first: 'Old'.upcase, last: 'McDonald'.upcase })
+      expect(old_mcdonald.to_s).to eq 'Old McDonald'
+    end
+
+    it 'it handles Irish O names' do
+      oconnell = Employee.new({ team: 'people', first: 'J.J. "Ginger"'.upcase, last: "O'Connell".upcase })
+      expect(oconnell.to_s).to eq "J.J. \"Ginger\" O'Connell"
+    end
+  end
+
   context 'with equality for a single employee (Iron Man)' do
     before(:all) do
       FileUtils.mkdir_p 'data/avengers/tony-stark'
