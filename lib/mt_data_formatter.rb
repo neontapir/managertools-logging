@@ -8,14 +8,6 @@ module MtDataFormatter
   # The standard indentation (two spaces)
   INDENT = '  ' # this should match what's in the templates
 
-  # refine String do 
-  #   # Convert a string to title case
-  #   #   @param [String] input the string to convert
-  #   def titlecase(input)
-  #     input.titleize
-  #   end
-  # end
-
   # Format a date in our specific format
   # @example Format a date
   #   format_date(Time.new(2002)) #=> 'January  1, 2002, 12:00 AM'

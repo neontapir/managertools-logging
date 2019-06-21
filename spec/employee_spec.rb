@@ -9,11 +9,6 @@ require_relative 'settings_helper'
 describe Employee do
   include SettingsHelper
 
-  def proper?(employee, team, first, last)
-    Struct.new("EmployeeSpec", :team, :first, :last)
-    expect(employee <=> EmployeeSpec.new(team, first, last)).to eq 0
-  end
-
   context 'when getting the name' do
     subject { { team: 'Avengers', first: 'Steve', last: 'Rogers' } }
 

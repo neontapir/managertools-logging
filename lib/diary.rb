@@ -8,6 +8,7 @@ Dir["#{__dir__}/*_entry.rb"].each { |f| require_relative(f) }
 module Diary
   # @!method template?
   #   Returns true if a command line option requests a template instead of an interactive session
+  #   This is used by the MT top-level script, but not in unit-tested code
   def template?
     (@global_opts&.template) || (@cmd_opts&.template)
   end

@@ -9,10 +9,6 @@ describe TeamFinder do
 
   subject { (Class.new { include TeamFinder }).new }
 
-  def proper?(team)
-    expect(team).not_to be_nil
-  end
-
   context 'when parsing a team folder (Avengers)' do
     before(:all) do
       FileUtils.mkdir_p 'data/avengers'
