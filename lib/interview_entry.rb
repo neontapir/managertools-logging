@@ -19,7 +19,7 @@ class InterviewEntry < DiaryEntry
       DiaryDateElement.new(:datetime, 'Effective date'),
       DiaryElement.new(:location, 'Location', 'Skype'),
       DiaryElement.new(:why_new_job, 'Why new job'),
-      DiaryElement.new(:why_hybris, 'Why hybris'),
+      DiaryElement.new(:why_us, 'Why us'),
       DiaryElement.new(:goal, 'Career goal'),
       DiaryElement.new(:motivation, 'What motivates you'),
       DiaryElement.new(:challenge, 'What do you find challenging'),
