@@ -52,6 +52,15 @@ class DiaryEntry
     raise NotImplementedError, 'DiaryEntry#elements_array must be overriden'
   end
 
+  # @abstract Gives an array of DiaryElement objects that the user will be prompted to fill out
+  #   @return [Array] the elements to prompt on
+  def with_applies_to(result)
+    return result unless (record.key? :applies_to)
+    applies_to = record.fetch(:applies_to)
+    result.insert(1, DiaryElement.new(:applies_to, 'Applies to', applies_to)) if (applies_to.include? ',')
+    result
+  end
+
   # @abstract Gives the effective date of the entry
   #   @return [Time] the date
   def date

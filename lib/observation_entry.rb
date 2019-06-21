@@ -10,14 +10,16 @@ class ObservationEntry < DiaryEntry
   include MtDataFormatter
 
   def prompt(name)
-    "Enter your observation for #{name}:"
+    personalized = name[','] ? "" : "for #{name}"
+    "Enter your observation #{personalized}:"
   end
 
   def elements_array
-    [
+    result = [
       DiaryDateElement.new(:datetime, 'Effective date'),
       DiaryElement.new(:content)
     ]
+    with_applies_to(result)
   end
 
   def to_s

@@ -9,8 +9,9 @@ require_relative 'mt_data_formatter'
 class GoalEntry < DiaryEntry
   include MtDataFormatter
 
-  def prompt(*)
-    "To record the goal, enter the following:"
+  def prompt(name)
+    personalized = name[','] ? "" : "for #{name}"
+    "To record the goal #{personalized}, enter the following:"
   end
 
   def elements_array

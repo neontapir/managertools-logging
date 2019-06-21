@@ -10,15 +10,18 @@ class FeedbackEntry < DiaryEntry
   include MtDataFormatter
 
   def prompt(name)
-    "With feedback for #{name}, enter the following:"
+    personalized = name[','] ? "" : "to #{name}"
+    "To give feedback #{personalized}, enter the following:"
   end
 
   def elements_array
-    [
+    result = [
       DiaryDateElement.new(:datetime, 'Effective date'),
       DiaryElement.new(:polarity, 'Polarity', 'positive'),
       DiaryElement.new(:content)
     ]
+
+    with_applies_to(result)
   end
 
   def to_s
