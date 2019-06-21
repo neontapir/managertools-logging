@@ -23,13 +23,6 @@ describe GoalEntry do
     subject { GoalEntry.new(applies_to: 'Clark Kent, Bruce Wayne') }
 
     it 'renders correctly' do
-      allow(Settings.console).to receive(:ask) do |prompt|
-        case prompt
-        when /Effective/ then 'today'
-        when /Due/ then due_date
-        when /Goal/ then 'Do better'
-        end
-      end
       expect(subject.render('Test', GoalEntry)).to include("Applies to::\n  Clark Kent, Bruce Wayne")
     end
   end
@@ -49,14 +42,7 @@ describe GoalEntry do
     subject { GoalEntry.new(applies_to: 'Bruce Wayne') }
 
     it 'renders correctly' do
-      allow(Settings.console).to receive(:ask) do |prompt|
-        case prompt
-        when /Effective/ then 'yesterday'
-        when /Due/ then due_date
-        when /Goal/ then 'Do better'
-        end
-      end
-      expect(subject.render('Test', GoalEntry)).not_to include("Applies to::")
+      expect(subject.render('Test', GoalEntry)).not_to include('Applies to::')
     end
   end
 end

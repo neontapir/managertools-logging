@@ -10,11 +10,11 @@ describe RecordDiaryEntryCommand do
   include MultipleMemberSpecHelper
 
   context 'with a single person' do
-    before(:all) do
+    before(:each) do
       FileUtils.mkdir_p 'data/avengers/tony-stark'
     end
 
-    after(:all) do
+    after(:each) do
       FileUtils.rm_r 'data/avengers'
     end
 
@@ -29,8 +29,6 @@ describe RecordDiaryEntryCommand do
         subject.command :o3, ['tony']
       end
 
-      log_file = LogFile.new(EmployeeFolder.new(tony))
-
       expected = ["  here\n", "  Met about goals\n", "  none\n"]
       verify_answers_propagated(expected, [tony])
     end
@@ -40,9 +38,25 @@ describe RecordDiaryEntryCommand do
         subject.command(:feedback, ['tony'])
       end
 
-      log_file = LogFile.new(EmployeeFolder.new(tony))
-
       expected = ["  negative\n", "  Did a bad thing\n"]
+      verify_answers_propagated(expected, [tony])
+    end
+
+    it 'can write a goal entry' do
+      Settings.with_mock_input "\ntoday\nBe a good citizen\n" do
+        subject.command(:goal, ['tony'])
+      end
+
+      expected = ["  Be a good citizen\n"]
+      verify_answers_propagated(expected, [tony])
+    end
+
+    it 'can write a performance checkpoint entry' do
+      Settings.with_mock_input "\nOn track\n" do
+        subject.command(:performance_checkpoint, ['tony'])
+      end
+
+      expected = ["  On track\n"]
       verify_answers_propagated(expected, [tony])
     end
   end

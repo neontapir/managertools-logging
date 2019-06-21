@@ -28,21 +28,32 @@ class NewHireCommand
 
   private
 
-  def generate_overview_file_by(folder, force)
-    overview_file = EmployeeFile.new folder, 'overview.adoc'
-    print "\nReviewing #{overview_file}... "
-    if !force && File.exist?(overview_file.path)
+  def generate_file_by(folder, force, filename)
+    content_file = EmployeeFile.new folder, filename
+    print "\nReviewing #{content_file}... "
+    if !force && File.exist?(content_file.path)
       print 'exists'
     else
-      create_overview_file folder, overview_file
+      yield(content_file)
     end
     print "\n"
   end
 
-  # OPTIMIZE: reduce duplication between this and log file generation
+  def generate_overview_file_by(folder, force)
+    generate_file_by(folder, force, 'overview.adoc') do |content_file|
+      create_overview_file folder, content_file
+    end
+  end
+
+  def generate_log_file_by(folder, force)
+    generate_file_by(folder, force, 'log.adoc') do |content_file|
+      create_log_file content_file
+    end
+  end
+
   def create_overview_file(folder, overview_file)
     employee = folder.employee
-    contents = <<~FILE_HEADER
+    contents = <<~OVERVIEW
       :imagesdir: #{folder.path}
 
       == #{employee}
@@ -51,22 +62,9 @@ class NewHireCommand
 
       Team: #{employee.team.capitalize}
 
-    FILE_HEADER
+    OVERVIEW
+    File.open(overview_file.path, 'w') { |file| file.write contents }
     print 'created'
-    File.open(overview_file.path, 'w') do |file|
-      file.write contents
-    end
-  end
-
-  def generate_log_file_by(folder, force)
-    log_file = EmployeeFile.new folder, 'log.adoc'
-    print "Generating #{log_file}... "
-    if !force && File.exist?(log_file.path)
-      print 'exists'
-    else
-      create_log_file log_file
-    end
-    print "\n"
   end
 
   def create_log_file(log_file)

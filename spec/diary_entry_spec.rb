@@ -24,10 +24,10 @@ describe DiaryEntry do
       Timecop.return
     end
 
-    subject { ObservationEntry.new }
+    subject { PerformanceCheckpointEntry.new }
 
     it 'renders correctly' do
-      expect(subject.render('Test', ObservationEntry)).to eq "=== Test (January  1, 1999, 12:00 AM)\nContent::\n  none\n"
+      expect(subject.render('Test', PerformanceCheckpointEntry)).to eq "=== Test (January  1, 1999, 12:00 AM)\nContent::\n  none\n"
     end
 
     it 'yields the correct date' do
