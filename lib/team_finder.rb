@@ -31,7 +31,8 @@ module TeamFinder
     target = to_path_string key
     Dir.glob("#{root}/*") do |dir|
       next unless Dir.exist? dir
-      next unless dir["#{target}"]
+      next unless dir[target]
+
       team_spec = parse_dir dir
       return Team.new team_spec
     end

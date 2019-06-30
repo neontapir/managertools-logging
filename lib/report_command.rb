@@ -4,17 +4,20 @@ require 'highline/import'
 require 'shell'
 require_relative 'diary'
 require_relative 'employee'
+require_relative 'file_writer'
 require_relative 'os_adapter'
 
 # Create a report from a person's files
 class ReportCommand
   include Diary
+  include FileWriter
   include OSAdapter
 
   # Create a report from a person's files
   def command(arguments)
     person = Array(arguments).first
     raise 'missing person argument' unless person
+    
     employee = Employee.get person
     output = generate_report_for employee
     cmd = "#{OSAdapter.open} #{output}"
@@ -44,14 +47,7 @@ class ReportCommand
 
     raise ArgumentError, 'Report launch failed' \
       unless system('asciidoctor', "-o#{output}", report_source)
-    output
-  end
 
-  def append_file(destination, input)
-    contents = IO.read(input)
-    open(destination, 'a') do |file|
-      file.puts contents
-      file.puts "\n"
-    end
+    output
   end
 end

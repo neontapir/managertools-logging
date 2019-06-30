@@ -36,6 +36,7 @@ class DiaryEntry
     raise NotImplementedError, 'DiaryEntry#elements_array must be overriden' unless entry_type.instance_methods(false).include?(:elements_array)
     raise ArgumentError, "#{entry_type}#elements_array must return an enumerable" unless elements_array.is_a?(Enumerable)
     raise ArgumentError, "record[:datetime] must be a Time, not a #{date.class}" unless date.is_a?(Time)
+
     initial = "=== #{title} (#{format_date(date)})\n"
     populate(elements_array, initial)
   end
@@ -55,9 +56,10 @@ class DiaryEntry
   # @abstract Gives an array of DiaryElement objects that the user will be prompted to fill out
   #   @return [Array] the elements to prompt on
   def with_applies_to(result)
-    return result unless (record.key? :applies_to)
+    return result unless record.key?(:applies_to)
+
     applies_to = record.fetch(:applies_to)
-    result.insert(1, DiaryElement.new(:applies_to, 'Applies to', applies_to)) if (applies_to.include? ',')
+    result.insert(1, DiaryElement.new(:applies_to, 'Applies to', applies_to)) if applies_to.include?(',')
     result
   end
 
@@ -78,8 +80,8 @@ class DiaryEntry
   HEADER_ONLY = [:datetime].freeze
 
   def populate(elements_array, initial)
-    elements_array.reject { |element| HEADER_ONLY.include? element.key }.inject(initial) do |output, entry|
+    elements_array.reject { |element| HEADER_ONLY.include? element.key }.inject(initial) do |output, entry| # rubocop:disable CollectionMethods
       output + "#{entry.prompt}::\n  #{wrap(@record.fetch(entry.key, entry.default))}\n"
-    end
+    end 
   end
 end

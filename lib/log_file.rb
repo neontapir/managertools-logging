@@ -43,7 +43,7 @@ class LogFile
   def divide_file(entry)
     lines = IO.readlines path
     dateline_locations = get_dateline_locations lines
-    
+
     entry_date = entry.date
     dates = dateline_locations.keys + [entry_date]
     dates.sort!
@@ -81,7 +81,7 @@ class LogFile
   # @example Writing an entry in the middle of a file
   #   write_entry_to(before, entry, after)
   def write_entry_to(before, entry, after)
-    open(path, 'w') do |file|
+    File.open(path, 'w') do |file|
       file.puts before
       file.puts "\n" unless entry.to_s[0, 1] == "\n" # ensure leading CR for Asciidoc
       file.puts entry

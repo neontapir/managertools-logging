@@ -2,9 +2,11 @@
 
 require_relative 'diary'
 
+# Create a new RecordDiaryEntryCommand object
 class RecordDiaryEntryCommand
   include Diary
 
+  # these parameters are used by the diary module commands
   def initialize(global_options = {}, command_options = {})
     @global_opts ||= global_options
     @cmd_opts ||= command_options
@@ -17,6 +19,7 @@ class RecordDiaryEntryCommand
     members = arguments.map do |person|
       employee = Employee.find(person)
       raise "unable to find employee '#{person}'" unless employee
+
       employee
     end
 

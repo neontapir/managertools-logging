@@ -4,20 +4,25 @@ require_relative 'mt_data_formatter'
 
 # Splits path into team and member name components
 module PathFormatter
-
   include MtDataFormatter
   # Turn a relative path into an array of folders and the filename
+  #
   # @example Parsing a path
   #  split_path('foo/bar/baz.txt') #=> ['foo', 'bar', 'baz.txt']
   def split_path(path)
     raise ArgumentError, 'Nil path' unless path
+
     Pathname.new(path).each_filename.to_a
   end
 
   # Determine if a path matches the given string
+  #
+  # @param [string] path the folder to search
+  # @param [string] key the substring to search for
   def matches?(path, key)
     raise ArgumentError, 'Nil path' unless path
-    Dir.exist?(path) && path["#{key}"]
+
+    Dir.exist?(path) && path[key]
   end
 
   # Convert a titlecased string to a path name

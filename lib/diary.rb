@@ -34,7 +34,7 @@ module Diary
     #   template. That creates a chicken and the egg problem. During
     #   create_entry, the contents of initial_value aren't retained.
     #   This kludge forces them back in. Fix this.
-    data.merge! initial_value 
+    data.merge! initial_value
     entry_type = DiaryEntry.get type
     entry_type.new data
   end
@@ -48,6 +48,7 @@ module Diary
   def create_entry(type, header, initial_value)
     entry_type = DiaryEntry.get type
     raise ArgumentError unless entry_type < DiaryEntry
+
     new_entry = entry_type.new initial_value
     Settings.console.say new_entry.public_send(:prompt, header)
     new_entry.public_send(:elements_array).each_with_object({}) do |item, memo|

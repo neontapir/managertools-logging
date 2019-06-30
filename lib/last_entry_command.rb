@@ -5,6 +5,7 @@ require 'fileutils'
 require_relative 'employee_finder'
 require_relative 'settings'
 
+# Print the latest entry in the file
 class LastEntryCommand
   include EmployeeFinder
 

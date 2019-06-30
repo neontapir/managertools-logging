@@ -2,8 +2,9 @@
 # More info at https://github.com/guard/guard#readme
 
 ## Uncomment and set this to only include directories you want to watch
-directories %w(lib spec) \
- .select{|d| Dir.exist?(d) ? d : UI.warning("Directory #{d} does not exist")}
+directories(%w[lib spec]).select do |d| 
+  Dir.exist?(d) ? d : UI.warning("Directory #{d} does not exist") 
+end
 
 ## Note: if you are using the `directories` clause above and you are not
 ## watching the project directory ('.'), then you will want to move
@@ -24,13 +25,13 @@ directories %w(lib spec) \
 #  * zeus: 'zeus rspec' (requires the server to be started separately)
 #  * 'just' rspec: 'rspec'
 
-guard :rspec, cmd: "bundle exec rspec" do
+guard :rspec, cmd: 'bundle exec rspec' do
 
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch('spec/spec_helper.rb')  { "spec" }
 
-  require "guard/rspec/dsl"
+  require 'guard/rspec/dsl'
   dsl = Guard::RSpec::Dsl.new(self)
 
   # # Feel free to open issues for suggestions and improvements

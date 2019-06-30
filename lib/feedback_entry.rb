@@ -10,7 +10,7 @@ class FeedbackEntry < DiaryEntry
   include MtDataFormatter
 
   def prompt(name)
-    personalized = name[','] ? "" : "to #{name}"
+    personalized = name[','] ? '' : "to #{name}"
     "To give feedback #{personalized}, enter the following:"
   end
 

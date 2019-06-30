@@ -19,13 +19,15 @@ class MoveTeamCommand
     if employee.team == target_team.path
       puts "#{employee} is already in the expected folder"
     else
-      puts "Moving #{employee} to team #{target_team}"
-
-      move_entry = ObservationEntry.new(content: "Moving #{employee} to team #{target_team}")
-      employee.file.insert move_entry 
-
-      current_folder = File.dirname employee.file.path
-      FileUtils.move(current_folder, "#{Settings.root}/#{target_team.path}/#{employee.canonical_name}")
+      move(employee, target_team)
     end
+  end
+
+  def move(employee, target_team)
+    puts "Moving #{employee} to team #{target_team}"
+    move_entry = ObservationEntry.new(content: "Moving #{employee} to team #{target_team}")
+    employee.file.insert move_entry
+    current_folder = File.dirname employee.file.path
+    FileUtils.move(current_folder, "#{Settings.root}/#{target_team.path}/#{employee.canonical_name}")
   end
 end

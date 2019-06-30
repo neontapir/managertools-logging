@@ -38,7 +38,7 @@ class DiaryDateElement
         answer.default = default.to_s
       end
       time = Chronic.parse(value.to_s, context: :past)
-      time = default unless time
+      time ||= default
     end
     @formatter.call time
   end

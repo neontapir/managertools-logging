@@ -33,9 +33,14 @@ task :reek do
   system 'reek', '.' || exit!(1)
 end
 
+desc 'Run reek against the solution to detect code smells'
+task :rubocop do
+  system 'rubocop', '.' || exit!(1)
+end
+
 desc 'Inspect the quality of the code'
 task :quality do
-  %I[flay flog reek].each { |t| task(t).invoke }
+  %I[flay flog reek rubocop].each { |t| task(t).invoke }
 end
 
 desc 'Build the team directory document'

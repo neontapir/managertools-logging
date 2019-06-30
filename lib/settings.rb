@@ -28,13 +28,11 @@ class Settings < Settingslogic
     #   Figure out how to mock Highline to just hit return and this
     #   method is no longer necessary.
     def with_mock_input(input = '')
-      begin
-        input_stream = input.empty? ? StringIO.new : StringIO.new(input)
-        @console = HighLine.new(input_stream, StringIO.new)
-        yield
-      ensure
-        @console = HighLine.new($stdin, $stdout)
-      end
+      input_stream = input.empty? ? StringIO.new : StringIO.new(input)
+      @console = HighLine.new(input_stream, StringIO.new)
+      yield
+    ensure
+      @console = HighLine.new($stdin, $stdout)
     end
 
     def default_config

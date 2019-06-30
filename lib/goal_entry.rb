@@ -10,7 +10,7 @@ class GoalEntry < DiaryEntry
   include MtDataFormatter
 
   def prompt(name)
-    personalized = name[','] ? "" : "for #{name}"
+    personalized = name[','] ? '' : "for #{name}"
     "To record the goal #{personalized}, enter the following:"
   end
 
@@ -18,12 +18,12 @@ class GoalEntry < DiaryEntry
     result = [
       DiaryDateElement.new(:datetime, 'Effective date'),
       DiaryDateElement.new(:due_date, 'Due date', -> date { format_short_date(date) }),
-      DiaryElement.new(:goal),
+      DiaryElement.new(:goal)
     ]
 
-    if (record.key? :applies_to)
+    if record.key?(:applies_to)
       applies_to = record.fetch(:applies_to)
-      result.insert(1, DiaryElement.new(:applies_to, 'Applies to', applies_to)) if (applies_to.include? ',')
+      result.insert(1, DiaryElement.new(:applies_to, 'Applies to', applies_to)) if applies_to.include?(',')
     end
 
     result

@@ -45,6 +45,7 @@ class Team
   # @!method Teams are equal if the have the same #team value
   def eql?(other)
     return false unless other.respond_to? :team
+
     team.eql? other.team
   end
 

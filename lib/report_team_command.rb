@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'shell'
+require_relative 'file_writer'
 require_relative 'mt_data_formatter'
 require_relative 'os_adapter'
 require_relative 'team'
@@ -8,8 +9,9 @@ require_relative 'team'
 # Create a report of a team, using each member's files
 class ReportTeamCommand
   extend MtDataFormatter
+  include FileWriter
   include OSAdapter
-  
+
   HORIZONTAL_RULE = "'''"
 
   # Create a report of a team, using each member\'s files
@@ -40,13 +42,5 @@ class ReportTeamCommand
 
     raise ArgumentError, 'Asciidoctor launch failed' \
       unless system('asciidoctor', "-o#{output}", report_source)
-  end
-
-  # Append a member's report to the team file
-  def append_file(destination, contents)
-    open(destination, 'a') do |file|
-      file.puts contents
-      file.puts "\n"
-    end
   end
 end

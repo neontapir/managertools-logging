@@ -31,8 +31,10 @@ BANNERS = {
 }.freeze
 
 def parameter_to_command_class(parameter)
-  require_relative 'lib/mt_data_formatter'
-  include MtDataFormatter
+  self.class.class_eval do
+    require_relative 'lib/mt_data_formatter'
+    include MtDataFormatter
+  end
   command_class_name = parameter.tr('-', ' ').titlecase.tr(' ', '')
   Kernel.const_get("#{command_class_name}Command")
 end
@@ -62,7 +64,7 @@ def parse(script, subcommand, arguments)
     record_diary_entry(subcommand, arguments)
     exit
   # in cases where we will invoke a command class
-  elsif %w[depart generate-overview-files goal last-entry move-team new-hire  
+  elsif %w[depart generate-overview-files goal last-entry move-team new-hire
            open-file report report-team team-meeting].include?(subcommand)
     execute_subcommand(subcommand, arguments)
     exit
