@@ -25,7 +25,7 @@ class RecordDiaryEntryCommand
 
     entry = nil
     members.each do |employee|
-      entry ||= get_entry(entry_type, employee.to_s, applies_to: members.map(&:to_s).join(', '))
+      entry ||= get_entry(entry_type, members.join(','), applies_to: members.map(&:to_s).join(', '))
       employee.file.insert entry
     end
   end

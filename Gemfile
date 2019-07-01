@@ -34,6 +34,7 @@ group :test do
   gem 'guard-rspec'
   gem 'mutant-rspec'
   gem 'rspec'
+  gem 'rspec-pride'
   gem 'should_not'
   gem 'simplecov'
   gem 'timecop'

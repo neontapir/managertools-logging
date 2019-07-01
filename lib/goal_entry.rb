@@ -10,8 +10,8 @@ class GoalEntry < DiaryEntry
   include MtDataFormatter
 
   def prompt(name)
-    personalized = name[','] ? '' : "for #{name}"
-    "To record the goal #{personalized}, enter the following:"
+    personalized = name[','] ? '' : " for #{name}"
+    "To record the goal#{personalized}, enter the following:"
   end
 
   def elements_array

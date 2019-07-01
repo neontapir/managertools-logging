@@ -55,5 +55,10 @@ task :mutant do
   system *%w[bundle exec mutant --use rspec -I lib/ -r diary_entry DiaryEntry] || exit!(1)
 end
 
+desc 'Run guard, used during development'
+task :guard do
+  system *%w[bundle exec guard] || exit!(1)
+end
+
 task test: :spec
 task default: :build

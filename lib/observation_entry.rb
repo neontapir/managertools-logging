@@ -10,8 +10,8 @@ class ObservationEntry < DiaryEntry
   include MtDataFormatter
 
   def prompt(name)
-    personalized = name[','] ? '' : "for #{name}"
-    "Enter your observation #{personalized}:"
+    personalized = name[','] ? '' : " for #{name}"
+    "Enter your observation#{personalized}:"
   end
 
   def elements_array
