@@ -5,23 +5,31 @@ require './lib/employee_folder.rb'
 require './lib/log_file.rb'
 require './lib/observation_entry.rb'
 
-describe LogFile, order: :defined do
-  context 'with an employee' do
+describe LogFile do
+  before(:all) do
+    FileUtils.mkdir_p 'data/avengers'
+  end
+
+  after(:all) do
+    FileUtils.rm_r 'data/avengers'
+  end
+
+  context 'with an employee', order: :defined do
     before(:all) do
-      FileUtils.mkdir_p 'data/avengers/tony-stark'
+      FileUtils.mkdir_p 'data/avengers/thor-odinson'
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/avengers'
+      FileUtils.rm_r 'data/avengers/thor-odinson'
     end
 
     subject do
-      tony = Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark')
-      LogFile.new(EmployeeFolder.new(tony))
+      thor = Employee.new(team: 'Avengers', first: 'Thor', last: 'Odinson')
+      LogFile.new(EmployeeFolder.new(thor))
     end
 
     it 'knows the file path' do
-      expect(subject.path).to eq 'data/avengers/tony-stark/log.adoc'
+      expect(subject.path).to eq 'data/avengers/thor-odinson/log.adoc'
     end
 
     it 'creates a new file if none exists' do
@@ -40,18 +48,18 @@ describe LogFile, order: :defined do
     end
   end
 
-  context 'with diary entries' do
+  context 'with diary entries', order: :defined do
     before(:all) do
       FileUtils.mkdir_p 'data/avengers/tony-stark'
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/avengers'
+      FileUtils.rm_r 'data/avengers/tony-stark'
     end
 
     subject do
-      tony = Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark')
-      LogFile.new(EmployeeFolder.new(tony))
+      iron_man = Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark')
+      LogFile.new(EmployeeFolder.new(iron_man))
     end
 
     it 'appends multiple observations correctly' do
@@ -70,7 +78,23 @@ describe LogFile, order: :defined do
       )
     end
 
-    context 'when entry is before first in file' do
+    context 'when entry is before first in file', order: :defined do
+      before(:each) do
+        FileUtils.mkdir_p 'data/avengers/steve-rogers'
+      end
+  
+      after(:each) do
+        FileUtils.rm_r 'data/avengers/steve-rogers'
+      end
+  
+      subject do
+        captain_america = Employee.new(team: 'Avengers', first: 'Steve', last: 'Rogers')
+        file = LogFile.new(EmployeeFolder.new(captain_america))
+        file.append ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Observation A')
+        file.append ObservationEntry.new(datetime: Time.new(2001, 2, 4, 5, 6, 7).to_s, content: 'Observation B')
+        file
+      end
+
       let(:new_entry) { ObservationEntry.new(datetime: Time.new(1999, 1, 1, 0, 0, 0).to_s, content: 'Observation C') }
 
       it 'calculates the position correctly' do
@@ -92,7 +116,23 @@ describe LogFile, order: :defined do
       end
     end
 
-    context 'when entry is between first and last in file' do
+    context 'when entry is between first and last in file', order: :defined do
+      before(:each) do
+        FileUtils.mkdir_p 'data/avengers/natasha-romanoff'
+      end
+  
+      after(:each) do
+        FileUtils.rm_r 'data/avengers/natasha-romanoff'
+      end
+  
+      subject do
+        black_widow = Employee.new(team: 'Avengers', first: 'Natasha', last: 'Romanoff')
+        file = LogFile.new(EmployeeFolder.new(black_widow))
+        file.append ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Observation A')
+        file.append ObservationEntry.new(datetime: Time.new(2001, 2, 4, 5, 6, 7).to_s, content: 'Observation B')
+        file
+      end
+
       let(:new_entry) { ObservationEntry.new(datetime: Time.new(2001, 2, 4, 0, 0).to_s, content: 'Observation C') }
 
       it 'calculates the position correctly' do
@@ -115,7 +155,23 @@ describe LogFile, order: :defined do
       end
     end
 
-    context 'when entry is after last in file' do
+    context 'when entry is after last in file', order: :defined do
+      before(:each) do
+        FileUtils.mkdir_p 'data/avengers/janet-vandyne'
+      end
+  
+      after(:each) do
+        FileUtils.rm_r 'data/avengers/janet-vandyne'
+      end
+  
+      subject do
+        wasp = Employee.new(team: 'Avengers', first: 'Janet', last: 'Van Dyne')
+        file = LogFile.new(EmployeeFolder.new(wasp))
+        file.append ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Observation A')
+        file.append ObservationEntry.new(datetime: Time.new(2001, 2, 4, 5, 6, 7).to_s, content: 'Observation B')
+        file
+      end
+
       let(:new_entry) { ObservationEntry.new(datetime: Time.new(2018, 1, 1, 0, 0).to_s, content: 'Observation C') }
 
       it 'calculates the position correctly' do
