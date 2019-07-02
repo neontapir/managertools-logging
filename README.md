@@ -212,11 +212,3 @@ header.
 In cases where I want to quote material, I will often use the script to fill in
 values. I then use a text editor like Atom to add the quoted material, like a
 chat room transcript or email.
-
-# Contributing
-
--   Fork this repository
--   Create your feature branch (`git checkout -b my-new-feature`)
--   Commit your changes (`git commit -am 'Add some feature'`)
--   Push to the branch (`git push origin my-new-feature`)
--   Create a new pull request
