@@ -42,10 +42,10 @@ class LogFile
   #   before, after = divide_file entry
   def divide_file(entry)
     lines = IO.readlines path
-    dateline_locations = get_dateline_locations lines
+    header_locations = get_header_locations lines
 
     entry_date = entry.date
-    dates = dateline_locations.keys + [entry_date]
+    dates = header_locations.keys + [entry_date]
     dates.sort!
 
     insertion_position = dates.index entry_date
@@ -54,7 +54,7 @@ class LogFile
     elsif insertion_position == dates.size - 1
       [lines, []]
     else
-      demarcation = dateline_locations[dates[insertion_position + 1]] - 1
+      demarcation = header_locations[dates[insertion_position + 1]] - 1
       [lines[0...demarcation], lines[demarcation..-1]]
     end
   end
@@ -62,16 +62,21 @@ class LogFile
   # Extract the lines in the file containing dates
   # @param [Array] lines the contents of the file
   # @return [Hash] a dictionary of date lines and their locations in the file
-  def get_dateline_locations(lines)
-    datelines = {}
+  def get_header_locations(lines)
+    headers = {}
     lines.each_with_index do |line, line_num|
-      matches = /^===.*\((.*)\)/.match line
-      unless matches.to_a.empty?
-        line_date = Time.parse matches[1]
-        datelines[line_date] = line_num
+      dated_matches = /^===.*\((.*)\)/.match line
+      unless dated_matches.to_a.empty?
+        line_date = Time.parse dated_matches[1]
+        headers[line_date] = line_num
+        next
+      end
+      undated_header_matches = /^===(.*)/.match line
+      unless undated_header_matches.to_a.empty?
+        headers[Time.at(0)] = line_num
       end
     end
-    datelines
+    headers
   end
 
   # Rewrite the file, inserting the entry into the file at the correct point
