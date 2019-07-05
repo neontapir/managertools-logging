@@ -11,10 +11,12 @@ class ReportTeamCommand
   include FileWriter
   include OSAdapter
 
+  # A horizontal rule in Asciidoc
   HORIZONTAL_RULE = "'''"
 
-  # Create a report of a team, using each member\'s files
-  def command(arguments)
+  # @!method command(arguments, options)
+  #   Create a report of a team, using each member\'s files
+  def command(arguments, options = nil)
     team_name = arguments.first
     raise 'missing team name argument' unless team_name
 

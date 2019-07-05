@@ -3,10 +3,12 @@
 require_relative 'move_team_command'
 require_relative 'settings'
 
-# Mark a person departed by moving their data to the departed records folder
+# Allows admin to move a person's folder to the departed section
 class DepartCommand
-  def command(arguments)
+  # @!method command(arguments, options)
+  #   Mark a person departed by moving their data to the departed records folder
+  def command(arguments, options = nil)
     arguments << Settings.departed_root
-    MoveTeamCommand.new.command(arguments)
+    MoveTeamCommand.new.command(arguments, options)
   end
 end

@@ -3,13 +3,13 @@
 require_relative 'diary'
 require_relative 'team'
 
-# A team meeting
+# Implements team meeting functionality
 class TeamMeetingCommand
   include Diary
 
   # @!method command(arguments)
   #   Create an entry in each team member's file
-  def command(arguments)
+  def command(arguments, options = nil)
     arguments.each do |team_name|
       team = Team.find team_name
       raise "no such team #{team_name}" unless team

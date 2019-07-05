@@ -42,6 +42,15 @@ class ManagerTools
     alias_command :check, :performance_checkpoint
     alias_command :perf, :performance_checkpoint
 
+    command :depart do |c|
+      c.syntax = "mt depart [person]"
+      c.description = "Moves files for the person to the departed team, #{Settings.departed_root}"
+      c.action do |args, options|
+        execute_subcommand(:depart, args, options)
+      end
+    end
+    alias_command :move, :move_team
+
     command :generate_overview_files do |c|
       c.syntax = "mt gen"
       c.description = 'Generates overview files'

@@ -2,10 +2,12 @@
 
 require_relative 'diary'
 
-# Create a new RecordDiaryEntryCommand object
+# Implements diary recording functionality
 class RecordDiaryEntryCommand
   include Diary
 
+  # @!method command(arguments, options)
+  #   Record a new diary entry in the person's file
   def command(subcommand, arguments, options = nil)
     @command_opts ||= options
     entry_type = subcommand.to_sym

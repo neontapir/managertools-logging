@@ -4,14 +4,14 @@ require_relative 'diary'
 require_relative 'mt_data_formatter'
 require_relative 'team'
 
-# A team meeting
+# Implements personal goal functionality
 class GoalCommand
   include Diary
   include MtDataFormatter
 
-  # @!method command(arguments)
+  # @!method command(arguments, options)
   #   Create a goal in each team member's file
-  def command(arguments)
+  def command(arguments, options = nil)
     raise 'missing person name argument' unless arguments.first
 
     members = arguments.map do |person|

@@ -8,7 +8,9 @@ class OpenFileCommand
   include Diary
   include OSAdapter
 
-  def command(arguments)
+  # @!method command(arguments, options)
+  #   Open a person's log file in the default editor
+  def command(arguments, options = nil)
     person = Array(arguments).first
     raise 'missing person argument' unless person
 

@@ -5,11 +5,13 @@ require 'fileutils'
 require_relative 'employee_finder'
 require_relative 'settings'
 
-# Print the latest entry in the file
+# Allows printing of a log file's latest entry
 class LastEntryCommand
   include EmployeeFinder
 
-  def command(arguments)
+  # @!method command(arguments, options)
+  #   Print the latest entry in the file
+  def command(arguments, options = nil)
     search_term = Array(arguments).first
     employee = find search_term
     raise ArgumentError, "No employee matching '#{search_term}' found, aborting" unless employee

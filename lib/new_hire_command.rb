@@ -11,6 +11,8 @@ require_relative 'observation_entry'
 class NewHireCommand
   include FileWriter
 
+  # @!method command(arguments, options)
+  #   Create new overview and load files for a person
   def command(arguments, options = nil)
     force = (options&.force == true)
 
