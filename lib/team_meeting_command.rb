@@ -14,12 +14,13 @@ class TeamMeetingCommand
       team = Team.find team_name
       raise "no such team #{team_name}" unless team
 
-      log_message_for team
+      log_message_for team.members
     end
   end
 
-  def log_message_for(team)
-    members = team.members
+  private
+
+  def log_message_for(members)
     any_team_member = members.first
     entry = get_entry :team_meeting, any_team_member
 

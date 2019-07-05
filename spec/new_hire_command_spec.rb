@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'ostruct'
 require './lib/employee.rb'
 require './lib/new_hire_command.rb'
 
@@ -72,7 +73,7 @@ RSpec.describe NewHireCommand do
     it 'forces recreates an existing team member' do
       setup_new_hire_with_o3_entry
       expect(robin_log_contents).to include 'Met about goals'
-      expect { subject.command(%w[--force Teen\ Titans Dick Grayson]) }.to output(/log.adoc... created/).to_stdout
+      expect { subject.command(%w[Teen\ Titans Dick Grayson], OpenStruct.new(force: true)) }.to output(/log.adoc... created/).to_stdout
       expect(robin_log_contents).not_to include 'Met about goals'
     end
   end

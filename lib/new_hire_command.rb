@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'fileutils'
+require 'ostruct'
 require_relative 'employee'
 require_relative 'employee_file'
 require_relative 'file_writer'
@@ -10,12 +11,8 @@ require_relative 'observation_entry'
 class NewHireCommand
   include FileWriter
 
-  def command(arguments)
-    force = false
-    if Array(arguments).first == '--force'
-      force = true
-      arguments.shift
-    end
+  def command(arguments, options = nil)
+    force = (options&.force == true)
 
     team, first, last = arguments
     raise 'missing team argument' unless team
@@ -26,16 +23,17 @@ class NewHireCommand
     folder = EmployeeFolder.new employee
     folder.ensure_exists
 
-    generate_overview_file_by(folder, force)
-    generate_log_file_by(folder, force)
+    nhc_parameters = OpenStruct.new(folder: folder, force: force)
+    generate_overview_file_by(nhc_parameters)
+    generate_log_file_by(nhc_parameters)
   end
 
   private
 
-  def generate_file_by(folder, force, filename)
-    content_file = EmployeeFile.new folder, filename
+  def generate_file_by(nhc_parameters, filename)
+    content_file = EmployeeFile.new nhc_parameters.folder, filename
     print "\nReviewing #{content_file}... "
-    if !force && File.exist?(content_file.path)
+    if !nhc_parameters.force && File.exist?(content_file.path)
       print 'exists'
     else
       yield(content_file)
@@ -43,14 +41,14 @@ class NewHireCommand
     print "\n"
   end
 
-  def generate_overview_file_by(folder, force)
-    generate_file_by(folder, force, 'overview.adoc') do |content_file|
-      create_overview_file folder, content_file
+  def generate_overview_file_by(nhc_parameters)
+    generate_file_by(nhc_parameters, 'overview.adoc') do |content_file|
+      create_overview_file nhc_parameters.folder, content_file
     end
   end
 
-  def generate_log_file_by(folder, force)
-    generate_file_by(folder, force, 'log.adoc') do |content_file|
+  def generate_log_file_by(nhc_parameters)
+    generate_file_by(nhc_parameters, 'log.adoc') do |content_file|
       create_log_file content_file
     end
   end

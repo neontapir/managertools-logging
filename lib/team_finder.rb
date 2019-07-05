@@ -27,9 +27,8 @@ module TeamFinder
   # @param [String] key the lookup data needed to find the team
   # @return [Team] a Team object
   def find(key)
-    root = EmployeeFolder.root
     target = to_path_string key
-    Dir.glob("#{root}/*") do |dir|
+    Dir.glob("#{EmployeeFolder.root}/*") do |dir|
       next unless Dir.exist? dir
       next unless dir[target]
 

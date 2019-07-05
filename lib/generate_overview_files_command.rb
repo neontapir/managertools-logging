@@ -13,12 +13,8 @@ class GenerateOverviewFilesCommand
   extend PathFormatter
 
   # Generate the files needed to create a team overview
-  def command(arguments)
-    force = false
-    if Array(arguments).first == '--force'
-      force = true
-      arguments.shift
-    end
+  def command(arguments, options = nil)
+    force = (options&.force == true)
 
     new_hire = NewHireCommand.new
     Dir.glob("#{EmployeeFolder.root}/*/*") do |folder|

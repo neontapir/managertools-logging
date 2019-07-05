@@ -45,6 +45,7 @@ class ManagerTools
     command :generate_overview_files do |c|
       c.syntax = "mt gen"
       c.description = 'Generates overview files'
+      c.option '--force', 'Overwrite files if they exist'
       c.action do |args, options|
         execute_subcommand(:generate_overview_files, args, options)
       end
@@ -73,6 +74,7 @@ class ManagerTools
     command :new_hire do |c|
       c.syntax = "mt new [team] [first-name] [last-name]"
       c.description = 'Generates overview and log files for the new person'
+      c.option '--force', 'Overwrite files if they exist'
       c.action do |args, options|
         execute_subcommand(:new_hire, args, options)
       end
@@ -132,10 +134,10 @@ class ManagerTools
     Kernel.const_get("#{command_class_name}Command")
   end
   
-  def execute_subcommand(subcommand_name, arguments, _)
+  def execute_subcommand(subcommand_name, arguments, options)
     subcommand_class = parameter_to_command_class(subcommand_name)
     subcommand = subcommand_class.new
-    do_with_interrupt_handling { subcommand.command(arguments) }
+    do_with_interrupt_handling { subcommand.command(arguments, options) }
   end
 
   def record_diary_entry(subcommand, arguments, options)
