@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'optimist'
 require './lib/diary.rb'
 Dir.glob('./lib/*_entry.rb', &method(:require))
 

@@ -25,7 +25,8 @@ class ReportTeamCommand
     report_source = "#{report_name}.adoc"
     output = "#{report_name}.html"
     generate_report(team, report_source, output)
-    raise ArgumentError, 'Report launch failed' unless system(OSAdapter.open, output)
+    command_line = [OSAdapter.open, output].join(' ')
+    raise ArgumentError, "Report launch failed with '#{command_line}'" unless system(command_line)
   end
 
   private

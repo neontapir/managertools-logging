@@ -10,7 +10,7 @@ module Diary
   #   Returns true if a command line option requests a template instead of an interactive session
   #   This is used by the MT top-level script, but not in unit-tested code
   def template?
-    (@global_opts&.template) || (@cmd_opts&.template)
+    @command_opts&.template
   end
 
   # @!method record_to_file(type, person)

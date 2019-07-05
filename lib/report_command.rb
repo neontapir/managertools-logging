@@ -20,8 +20,8 @@ class ReportCommand
     
     employee = Employee.get person
     output = generate_report_for employee
-    cmd = "#{OSAdapter.open} #{output}"
-    raise ArgumentError, "Report launch failed using '#{cmd}'" unless system cmd
+    command_line = [OSAdapter.open, output].join(' ')
+    raise ArgumentError, "Report launch failed with '#{command_line}'" unless system(command_line)
   end
 
   private

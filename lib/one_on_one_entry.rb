@@ -6,7 +6,7 @@ require_relative 'diary_entry'
 require_relative 'mt_data_formatter'
 
 # Template for a one-on-one meeting
-class O3Entry < DiaryEntry
+class OneOnOneEntry < DiaryEntry
   include MtDataFormatter
 
   def prompt(name)

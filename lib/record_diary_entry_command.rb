@@ -6,13 +6,8 @@ require_relative 'diary'
 class RecordDiaryEntryCommand
   include Diary
 
-  # these parameters are used by the diary module commands
-  def initialize(global_options = {}, command_options = {})
-    @global_opts ||= global_options
-    @cmd_opts ||= command_options
-  end
-
-  def command(subcommand, arguments)
+  def command(subcommand, arguments, options = nil)
+    @command_opts ||= options
     entry_type = subcommand.to_sym
     raise 'missing person name argument' unless arguments.first
 

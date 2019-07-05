@@ -2,7 +2,6 @@
 
 require 'timecop'
 Dir.glob('./lib/*_entry.rb', &method(:require))
-require_relative 'multiple_member_spec_helper'
 
 describe DiaryEntry do
   it 'gets an entry by identifier' do

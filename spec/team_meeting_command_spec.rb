@@ -1,14 +1,11 @@
 # frozen_string_literal: true
 
-require_relative 'multiple_member_spec_helper'
 require './lib/employee.rb'
 require './lib/employee_folder.rb'
 require './lib/log_file.rb'
 require './lib/team_meeting_command.rb'
 
 describe TeamMeetingCommand do
-  include MultipleMemberSpecHelper
-
   module Diary
     undef :template? if method_defined? :template?
     def template?
@@ -19,6 +16,14 @@ describe TeamMeetingCommand do
   subject do
     TeamMeetingCommand.new
   end
+
+	def verify_answers_propagated(answers, members)
+		answers.each do |answer|
+			members.each do |member|
+				expect(File.readlines(member.file.path)).to include(answer)
+			end
+		end
+	end
 
   context 'with the Avengers team' do
     before(:all) do

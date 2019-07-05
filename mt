@@ -1,103 +1,147 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require 'optimist'
+require 'commander'
 Dir["#{__dir__}/lib/*_command.rb"].each { |f| require_relative(f) }
 
-ALIASES = {
-  '3o' => 'o3',
-  'bulk' => 'multiple-member',
-  'check' => 'performance-checkpoint',
-  'fb' => 'feedback',
-  'feed' => 'feedback',
-  'gen' => 'generate-overview-files',
-  'last' => 'last-entry',
-  'meeting' => 'team-meeting',
-  'move' => 'move-team',
-  'ob' => 'observation',
-  'obs' => 'observation',
-  'ooo' => 'o3',
-  'open' => 'open-file',
-  'perf' => 'performance-checkpoint',
-  'team' => 'team-meeting'
-}.freeze
+class ManagerTools
+  include Commander::Methods
 
-BANNERS = {
-  'feedback' => 'Add a feedback entry for a direct report',
-  'goal' => 'Add a development goal for one or more direct reports',
-  'interview' => 'Add an interview entry for a candidate',
-  'o3' => 'Add a one-on-one entry for a direct report',
-  'observation' => 'Make an observation about a person'
-}.freeze
-
-def parameter_to_command_class(parameter)
-  self.class.class_eval do
-    require_relative 'lib/mt_data_formatter'
-    include MtDataFormatter
+  def parameter_to_command_class(parameter)
+    self.class.class_eval do
+      require_relative 'lib/mt_data_formatter'
+      include MtDataFormatter
+    end
+    command_class_name = parameter.to_s.tr('_', ' ').titlecase.tr(' ', '')
+    Kernel.const_get("#{command_class_name}Command")
   end
-  command_class_name = parameter.tr('-', ' ').titlecase.tr(' ', '')
-  Kernel.const_get("#{command_class_name}Command")
-end
-
-def execute_subcommand(subcommand_name, arguments)
-  subcommand_class = parameter_to_command_class(subcommand_name)
-  subcommand = subcommand_class.new
-  subcommand.command arguments
-end
-
-def record_diary_entry(subcommand, arguments)
-  # capture options given after subcommand
-  @cmd_opts = Optimist.options do
-    banner BANNERS[subcommand]
-    opt :template, 'Create blank template entry', short: '-t'
+  
+  def execute_subcommand(subcommand_name, arguments, options)
+    subcommand_class = parameter_to_command_class(subcommand_name)
+    subcommand = subcommand_class.new
+    subcommand.command arguments #, options
   end
-  diary = RecordDiaryEntryCommand.new @global_opts, @cmd_opts
-  diary.command subcommand.to_sym, arguments
-end
-
-def parse(script, subcommand, arguments)
-  # in cases where a command alias is given, re-parse using the canonical name
-  if ALIASES.key?(subcommand)
-    script = parse(script, ALIASES[subcommand], arguments)
-  # in cases where we're just adding an entry, invoke module directly
-  elsif %w[feedback interview o3 observation performance-checkpoint].include?(subcommand)
-    record_diary_entry(subcommand, arguments)
-    exit
-  # in cases where we will invoke a command class
-  elsif %w[depart generate-overview-files goal last-entry move-team new-hire
-           open-file report report-team team-meeting].include?(subcommand)
-    execute_subcommand(subcommand, arguments)
-    exit
-  else
-    Optimist.die "unknown subcommand #{subcommand.inspect}"
-  end
-  script
-end
-
-CSV_DELIMITER = ', '
-
-def display(hash)
-  hash.map { |k, v| "#{k} -> #{v}" }.join(CSV_DELIMITER)
-end
-
-if $PROGRAM_NAME == __FILE__
-  SUB_COMMANDS = %w[feedback gen-overview-files interview last-entry move-team
-                    new-hire o3 observation performace-checkpoint
-                    report report-team team-meeting].freeze
-
-  # capture options given before subcommand
-  # FIXME: there's a bug here in the way arguments to subcommands are parsed
-  #   for example, './mt gen --force' returns an error
-  @global_opts = Optimist.options do
-    banner 'Command-line note-taking system based on Manager Tools practices'
-    banner "Subcommands are: #{SUB_COMMANDS.sort * CSV_DELIMITER}"
-    banner "Aliases are: #{display ALIASES.sort}"
-    # opt :dry_run, "Don't actually do anything", :short => "-n"
-    opt :template, 'Create blank template entry', short: '-t'
-    stop_on SUB_COMMANDS
+  
+  def record_diary_entry(subcommand, arguments, options)
+    diary = RecordDiaryEntryCommand.new
+    diary.command(subcommand.to_sym, arguments, options)
   end
 
-  subcommand = ARGV.shift
-  script = parse(__dir__, subcommand, ARGV)
-  system %W["#{script} #{ARGV.join(' ')}"]
+  def diary_entry_command(c, entry_type)
+    entry_type_string = entry_type.to_s.tr('_',' ')
+    c.syntax = "mt #{entry_type_string} [name-spec]"
+    c.description = "Adds a #{entry_type_string} entry for the first person found matching the name specification"
+    c.option '--template', 'Add a template to the log file, without entry data'
+    c.action do |args, options|
+      record_diary_entry(entry_type, args, options)
+    end
+  end
+
+  def run
+    program :name, 'Manager Tools'
+    program :version, '2019.07.05'
+    program :description, 'Command-line note-taking system based on Manager Tools practices'
+
+    command :feedback do |c|
+      diary_entry_command(c, :feedback)
+    end
+    alias_command :fb, :feedback
+    alias_command :feed, :feedback
+    
+    command :interview do |c|
+      diary_entry_command(c, :interview)
+    end
+    
+    command :observation do |c|
+      diary_entry_command(c, :observation)
+    end
+    alias_command :ob, :observation
+    alias_command :obs, :observation
+    
+    command :one_on_one do |c|
+      diary_entry_command(c, :one_on_one)
+    end
+    alias_command :'3o', :one_on_one
+    alias_command :o3, :one_on_one
+    alias_command :ooo, :one_on_one
+
+    command :performance_checkpoint do |c|
+      diary_entry_command(c, :performance_checkpoint)
+    end
+    alias_command :check, :performance_checkpoint
+    alias_command :perf, :performance_checkpoint
+
+    command :generate_overview_files do |c|
+      c.syntax = "mt gen"
+      c.description = 'Generates overview files'
+      c.action do |args, options|
+        execute_subcommand(:generate_overview_files, args, options)
+      end
+    end
+    alias_command :gen, :generate_overview_files
+
+    command :last_entry do |c|
+      c.syntax = "mt last [person]"
+      c.description = 'Displays the latest entry for the first person found matching the name specification'
+      c.action do |args, options|
+        execute_subcommand(:last_entry, args, options)
+      end
+    end
+    alias_command :last, :last_entry
+    alias_command :latest, :last_entry
+    
+    command :move_team do |c|
+      c.syntax = "mt move [person] [new-team]"
+      c.description = 'Moves files for the person to the specified team, both found by specification'
+      c.action do |args, options|
+        execute_subcommand(:move_team, args, options)
+      end
+    end
+    alias_command :move, :move_team
+    
+    command :new_hire do |c|
+      c.syntax = "mt new [team] [first-name] [last-name]"
+      c.description = 'Generates overview and log files for the new person'
+      c.action do |args, options|
+        execute_subcommand(:new_hire, args, options)
+      end
+    end
+    
+    command :open_file do |c|
+      c.syntax = "mt open [name-spec]"
+      c.description = 'Opens the log file for the first person found matching the name specification'
+      c.action do |args, options|
+        execute_subcommand(:open_file, args, options)
+      end
+    end
+    
+    command :report do |c|
+      c.syntax = "mt report [name-spec]"
+      c.description = 'Generates a HTML report for the first person found matching the name specification'
+      c.action do |args, options|
+        execute_subcommand(:report, args, options)
+      end
+    end
+    
+    command :report_team do |c|
+      c.syntax = "mt report_team [team-spec]"
+      c.description = 'Generates a HTML team report for the first team found matching the team name specification'
+      c.action do |args, options|
+        execute_subcommand(:report_team, args, options)
+      end
+    end
+    
+    command :team_meeting do |c|
+      c.syntax = "mt team_meeting [team-spec]"
+      c.description = 'Inserts the same diary entry for every person in the team found matching the team name specification'
+      c.action do |args, options|
+        execute_subcommand(:team_meeting, args, options)
+      end
+    end
+    alias_command :team, :team_meeting
+
+    run!
+  end
 end
+
+ManagerTools.new.run if $PROGRAM_NAME == __FILE__

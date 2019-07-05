@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require './lib/team.rb'
-require './lib/settings.rb'
 require_relative 'settings_helper'
 
 describe TeamFinder do

@@ -15,7 +15,7 @@ end
 desc 'Build the YARD documentation'
 task :document do
   system 'yard', 'doc' || exit!(1)
-  puts 'Success, try `open doc/index.html` to view'
+  puts 'YARD build successful, try `open doc/index.html` to view'
 end
 
 desc 'Run flay against the solution to detect code duplication'
@@ -46,8 +46,8 @@ end
 desc 'Build the team directory document'
 task :build do
   %I[test rebuild document].each { |t| task(t).invoke }
-  system 'asciidoctor', 'team-directory.adoc' || exit!(1)
-  puts 'Success, try `open team-directory.html` to view'
+  # system 'asciidoctor', 'team-directory.adoc' || exit!(1)
+  # puts 'Success, try `open team-directory.html` to view'
 end
 
 desc 'Mutation test example using DiaryEntry, to detect test suite gaps'

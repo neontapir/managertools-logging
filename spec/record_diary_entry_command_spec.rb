@@ -1,5 +1,4 @@
 Dir.glob('./lib/*_entry.rb', &method(:require))
-require_relative 'multiple_member_spec_helper'
 require './lib/employee.rb'
 require './lib/employee_folder.rb'
 require './lib/log_file.rb'
@@ -7,7 +6,13 @@ require './lib/record_diary_entry_command.rb'
 require './lib/settings.rb'
 
 describe RecordDiaryEntryCommand do
-  include MultipleMemberSpecHelper
+	def verify_answers_propagated(answers, members)
+		answers.each do |answer|
+			members.each do |member|
+				expect(File.readlines(member.file.path)).to include(answer)
+			end
+		end
+	end
 
   context 'with a single person' do
     before(:each) do
@@ -26,7 +31,7 @@ describe RecordDiaryEntryCommand do
 
     it 'can write an arbitrary entry try (one-on-one)' do
       Settings.with_mock_input "\nhere\nMet about goals\n\n\n" do
-        subject.command :o3, ['tony']
+        subject.command :one_on_one, ['tony']
       end
 
       expected = ["  here\n", "  Met about goals\n", "  none\n"]

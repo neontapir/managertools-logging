@@ -53,7 +53,7 @@ describe NewHireCommand do
       
       # create a diary entry to differentiate log from a newly created file
       Settings.with_mock_input "\nhere\nMet about goals\n\n\n" do
-        RecordDiaryEntryCommand.new.command :o3, ['grayson']
+        RecordDiaryEntryCommand.new.command :one_on_one, ['grayson']
       end
 
       expect(robin.file.path).to eq 'data/teen-titans/dick-grayson/log.adoc'

@@ -126,7 +126,6 @@ describe LogFile do
     let(:new_entry) { ObservationEntry.new(datetime: Time.new(1999, 1, 1, 0, 0, 0).to_s, content: 'Observation C') }
 
     it 'calculates the insertion position correctly' do
-      lines = File.readlines(subject.path)
       before, after = subject.divide_file(new_entry)
       expect(before).to eq ["\n", "=== Background Info\n"]
       expect(after).to eq ["\n", 
