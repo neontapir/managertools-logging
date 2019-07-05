@@ -26,8 +26,9 @@ class MoveTeamCommand
   def move(employee, target_team)
     puts "Moving #{employee} to team #{target_team}"
     move_entry = ObservationEntry.new(content: "Moving #{employee} to team #{target_team}")
-    employee.file.insert move_entry
-    current_folder = File.dirname employee.file.path
+    employee_file = employee.file
+    employee_file.insert move_entry
+    current_folder = File.dirname employee_file.path
     FileUtils.move(current_folder, "#{Settings.root}/#{target_team.path}/#{employee.canonical_name}")
   end
 end
