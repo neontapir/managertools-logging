@@ -1,7 +1,7 @@
 require 'timecop'
 require './lib/diary_date_element.rb'
 
-describe DiaryDateElement do
+RSpec.describe DiaryDateElement do
   def proper?(element, key, prompt, default)
     expect(element.key).to be(key)
     expect(element.prompt).to eq prompt

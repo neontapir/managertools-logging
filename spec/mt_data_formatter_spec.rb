@@ -2,7 +2,7 @@
 
 require './lib/mt_data_formatter.rb'
 
-describe MtDataFormatter do
+RSpec.describe MtDataFormatter do
   subject { (Class.new { include MtDataFormatter }).new }
 
   context 'when downcasing strings' do

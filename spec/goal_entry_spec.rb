@@ -3,7 +3,7 @@
 require 'timecop'
 Dir.glob('./lib/*_entry.rb', &method(:require))
 
-describe GoalEntry do
+RSpec.describe GoalEntry do
   it 'gets an entry by identifier' do
     expect(DiaryEntry.get('goal')).to be(GoalEntry)
   end

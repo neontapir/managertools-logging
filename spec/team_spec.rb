@@ -3,7 +3,7 @@
 require './lib/path_formatter.rb'
 require './lib/team.rb'
 
-describe Team do
+RSpec.describe Team do
   include PathFormatter
 
   context 'in initializer context' do

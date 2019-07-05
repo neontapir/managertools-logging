@@ -2,7 +2,7 @@
 
 require './lib/path_formatter.rb'
 
-describe PathFormatter do
+RSpec.describe PathFormatter do
   subject { (Class.new { include PathFormatter }).new }
 
   context 'matching a path' do

@@ -3,7 +3,7 @@
 require './lib/team.rb'
 require_relative 'settings_helper'
 
-describe TeamFinder do
+RSpec.describe TeamFinder do
   include SettingsHelper
 
   subject { (Class.new { include TeamFinder }).new }

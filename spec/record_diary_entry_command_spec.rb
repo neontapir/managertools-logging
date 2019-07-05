@@ -5,7 +5,7 @@ require './lib/log_file.rb'
 require './lib/record_diary_entry_command.rb'
 require './lib/settings.rb'
 
-describe RecordDiaryEntryCommand do
+RSpec.describe RecordDiaryEntryCommand do
 	def verify_answers_propagated(answers, members)
 		answers.each do |answer|
 			members.each do |member|

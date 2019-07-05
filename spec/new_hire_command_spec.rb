@@ -3,7 +3,7 @@
 require './lib/employee.rb'
 require './lib/new_hire_command.rb'
 
-describe NewHireCommand do
+RSpec.describe NewHireCommand do
   context 'existing team member' do
     before(:all) do
       FileUtils.mkdir_p 'data/teen-titans'

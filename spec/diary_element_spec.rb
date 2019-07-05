@@ -1,6 +1,6 @@
 require './lib/diary_element.rb'
 
-describe DiaryElement do
+RSpec.describe DiaryElement do
   def proper?(element, key, prompt, default)
     expect(element.key).to be(key)
     expect(element.prompt).to eq prompt

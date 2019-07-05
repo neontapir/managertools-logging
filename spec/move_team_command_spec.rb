@@ -5,7 +5,7 @@ require './lib/employee.rb'
 require './lib/move_team_command.rb'
 require './lib/new_hire_command.rb'
 
-describe MoveTeamCommand do
+RSpec.describe MoveTeamCommand do
   context 'moving a team member' do
     before(:each) do
       FileUtils.mkdir_p 'data/justice-league'

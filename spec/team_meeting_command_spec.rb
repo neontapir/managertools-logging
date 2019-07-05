@@ -5,7 +5,7 @@ require './lib/employee_folder.rb'
 require './lib/log_file.rb'
 require './lib/team_meeting_command.rb'
 
-describe TeamMeetingCommand do
+RSpec.describe TeamMeetingCommand do
   module Diary
     undef :template? if method_defined? :template?
     def template?

@@ -2,7 +2,7 @@
 
 require './lib/mt_file.rb'
 
-describe MtFile do
+RSpec.describe MtFile do
   context 'with a naive instance' do
     subject { (Class.new { include MtFile }).new }
 

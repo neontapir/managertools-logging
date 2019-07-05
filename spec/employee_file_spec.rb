@@ -3,7 +3,7 @@
 require './lib/employee_file.rb'
 require './lib/employee_folder.rb'
 
-describe EmployeeFile do
+RSpec.describe EmployeeFile do
   before(:all) do
     FileUtils.mkdir_p 'data/normal'
     FileUtils.mkdir_p 'data/muppets-in-space'

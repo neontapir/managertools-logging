@@ -6,7 +6,7 @@ require './lib/employee.rb'
 require './lib/settings.rb'
 require_relative 'settings_helper'
 
-describe Employee do
+RSpec.describe Employee do
   include SettingsHelper
 
   context 'when getting the name' do

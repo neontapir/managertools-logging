@@ -7,7 +7,7 @@ require './lib/employee_finder.rb'
 require './lib/settings.rb'
 require_relative 'settings_helper'
 
-describe EmployeeFinder do
+RSpec.describe EmployeeFinder do
   include SettingsHelper
 
   subject { (Class.new { include EmployeeFinder }).new }

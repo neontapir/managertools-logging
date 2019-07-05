@@ -3,7 +3,7 @@
 require './lib/diary.rb'
 Dir.glob('./lib/*_entry.rb', &method(:require))
 
-describe Diary do
+RSpec.describe Diary do
   context 'with template' do
     subject = (Class.new do
       include Diary

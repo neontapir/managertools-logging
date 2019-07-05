@@ -4,7 +4,7 @@ require './lib/employee.rb'
 require './lib/employee_folder.rb'
 require_relative 'settings_helper'
 
-describe EmployeeFolder do
+RSpec.describe EmployeeFolder do
   context 'with normal characters' do
     before(:all) do
       FileUtils.mkdir_p 'data/normal' unless Dir.exist? 'data/normal'

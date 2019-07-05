@@ -5,7 +5,7 @@ require './lib/employee_folder.rb'
 require './lib/log_file.rb'
 require './lib/observation_entry.rb'
 
-describe LogFile do
+RSpec.describe LogFile do
   before(:all) do
     FileUtils.mkdir_p 'data/avengers'
   end
