@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'shell'
 require_relative 'file_writer'
 require_relative 'mt_data_formatter'
 require_relative 'os_adapter'
@@ -21,7 +20,7 @@ class ReportTeamCommand
 
     team = Team.find team_name
 
-    report_name = "team-#{team}-report"
+    report_name = "team-#{team.to_s.downcase}-report"
     report_source = "#{report_name}.adoc"
     output = "#{report_name}.html"
     generate_report(team, report_source, output)

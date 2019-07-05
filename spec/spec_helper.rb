@@ -25,11 +25,9 @@ SimpleCov.start
 require './spec/settings_helper'
 include SettingsHelper
 
-require 'should_not/rspec'
-
 RSpec.configure do |config|
   config.before(:suite) do
-    FileUtils.mkdir_p 'data'
+    FileUtils.mkdir_p Settings.root
     create_test_settings_file
   end
 

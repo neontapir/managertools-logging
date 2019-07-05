@@ -2,40 +2,11 @@
 # frozen_string_literal: true
 
 require 'commander'
+require 'highline'
 Dir["#{__dir__}/lib/*_command.rb"].each { |f| require_relative(f) }
 
 class ManagerTools
   include Commander::Methods
-
-  def parameter_to_command_class(parameter)
-    self.class.class_eval do
-      require_relative 'lib/mt_data_formatter'
-      include MtDataFormatter
-    end
-    command_class_name = parameter.to_s.tr('_', ' ').titlecase.tr(' ', '')
-    Kernel.const_get("#{command_class_name}Command")
-  end
-  
-  def execute_subcommand(subcommand_name, arguments, options)
-    subcommand_class = parameter_to_command_class(subcommand_name)
-    subcommand = subcommand_class.new
-    subcommand.command arguments #, options
-  end
-  
-  def record_diary_entry(subcommand, arguments, options)
-    diary = RecordDiaryEntryCommand.new
-    diary.command(subcommand.to_sym, arguments, options)
-  end
-
-  def diary_entry_command(c, entry_type)
-    entry_type_string = entry_type.to_s.tr('_',' ')
-    c.syntax = "mt #{entry_type_string} [name-spec]"
-    c.description = "Adds a #{entry_type_string} entry for the first person found matching the name specification"
-    c.option '--template', 'Add a template to the log file, without entry data'
-    c.action do |args, options|
-      record_diary_entry(entry_type, args, options)
-    end
-  end
 
   def run
     program :name, 'Manager Tools'
@@ -141,6 +112,45 @@ class ManagerTools
     alias_command :team, :team_meeting
 
     run!
+  end
+
+  private
+
+  def do_with_interrupt_handling
+    yield
+    rescue Interrupt
+      warn HighLine.color("\nAborting, interrupt received", :red)
+      exit(-1)
+  end
+
+  def parameter_to_command_class(parameter)
+    self.class.class_eval do
+      require_relative 'lib/mt_data_formatter'
+      include MtDataFormatter
+    end
+    command_class_name = parameter.to_s.tr('_', ' ').titlecase.tr(' ', '')
+    Kernel.const_get("#{command_class_name}Command")
+  end
+  
+  def execute_subcommand(subcommand_name, arguments, _)
+    subcommand_class = parameter_to_command_class(subcommand_name)
+    subcommand = subcommand_class.new
+    do_with_interrupt_handling { subcommand.command(arguments) }
+  end
+
+  def record_diary_entry(subcommand, arguments, options)
+    diary = RecordDiaryEntryCommand.new
+    do_with_interrupt_handling { diary.command(subcommand.to_sym, arguments, options) }
+  end
+
+  def diary_entry_command(c, entry_type)
+    entry_type_string = entry_type.to_s.tr('_',' ')
+    c.syntax = "mt #{entry_type_string} [name-spec]"
+    c.description = "Adds a #{entry_type_string} entry for the first person found matching the name specification"
+    c.option '--template', 'Add a template to the log file, without entry data'
+    c.action do |args, options|
+      record_diary_entry(entry_type, args, options)
+    end
   end
 end
 

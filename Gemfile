@@ -4,7 +4,6 @@ source 'https://rubygems.org'
 
 gem 'asciidoctor'
 gem 'chronic'
-gem 'command'
 gem 'commander'
 gem 'facets'
 gem 'highline'
@@ -14,13 +13,8 @@ gem 'settingslogic'
 gem 'titleize'
 gem 'unicode'
 
-gem 'yard', require: false, group: :docs
-
-group :quality, optional: true do
-  gem 'flay'
-  gem 'flog'
-  gem 'reek'
-  gem 'rubocop'
+group :docs, optional: true do
+  gem 'yard'
 end
 
 group :ide, optional: true do
@@ -30,12 +24,18 @@ group :ide, optional: true do
   gem 'solargraph'
 end
 
+group :quality, optional: true do
+  gem 'flay'
+  gem 'flog'
+  gem 'reek'
+  gem 'rubocop'
+end
+
 group :test do
   gem 'guard-rspec'
   gem 'mutant-rspec'
   gem 'rspec'
   gem 'rspec-pride'
-  gem 'should_not'
   gem 'simplecov'
   gem 'timecop'
   gem 'wdm', '>= 0.1.0' if Gem.win_platform?

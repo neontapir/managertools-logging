@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'highline/import'
-require 'shell'
 require_relative 'diary'
 require_relative 'employee'
 require_relative 'file_writer'
@@ -42,7 +41,7 @@ class ReportCommand
     end
 
     [overview_file, log_file].each do |file|
-      append_file(report_source, file)
+      append_file(report_source, "include::#{file}[]")
     end
 
     raise ArgumentError, 'Report launch failed' \
