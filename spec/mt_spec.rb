@@ -29,18 +29,20 @@ RSpec.describe 'mt script', type: [:aruba, :slow] do
     it 'prints an error' do
       command
       expect(last_command_started).not_to be_successfully_executed
-      expect(last_command_started.stderr).to eq("invalid command. Use --help for more information\r\n")
+      expect(last_command_started.stderr).to match(/invalid command. Use --help for more information/)
     end
   end
 
   context 'with help flag' do
     let(:command) do 
-      run_command_and_stop("ruby #{MT} --help", fail_on_error: false)
+      run_command_and_stop("ruby #{MT} --help")
     end
 
     it 'prints help' do
       command
       expect(last_command_started).to be_successfully_executed
+      expect(last_command_started.stderr).to be_empty
+
       expect(last_command_started.stdout).to match(/NAME.*:/)
       expect(last_command_started.stdout).to match(/DESCRIPTION.*:/)
       expect(last_command_started.stdout).to match(/COMMANDS.*:/)

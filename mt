@@ -8,7 +8,11 @@ Dir["#{__dir__}/lib/*_command.rb"].each { |f| require_relative(f) }
 class ManagerTools
   include Commander::Methods
 
-  def run
+  def initialize(argv, stdin = STDIN, stdout = STDOUT, stderr = STDERR, kernel = Kernel)
+    @argv, @stdin, @stdout, @stderr, @kernel = argv, stdin, stdout, stderr, kernel
+  end
+
+  def setup
     program :name, 'Manager Tools'
     program :version, '2019.07.05'
     program :description, 'Command-line note-taking system based on Manager Tools practices'
@@ -121,7 +125,10 @@ class ManagerTools
       end
     end
     alias_command :team, :team_meeting
+  end
 
+  def execute!
+    setup
     run!
   end
 
@@ -131,7 +138,7 @@ class ManagerTools
     yield
     rescue Interrupt
       warn HighLine.color("\nAborting, interrupt received", :red)
-      exit(-1)
+      @kernel.exit(-1)
   end
 
   def parameter_to_command_class(parameter)
@@ -140,7 +147,7 @@ class ManagerTools
       include MtDataFormatter
     end
     command_class_name = parameter.to_s.tr('_', ' ').titlecase.tr(' ', '')
-    Kernel.const_get("#{command_class_name}Command")
+    @kernel.const_get("#{command_class_name}Command")
   end
   
   def execute_subcommand(subcommand_name, arguments, options)
@@ -165,4 +172,4 @@ class ManagerTools
   end
 end
 
-ManagerTools.new.run if $PROGRAM_NAME == __FILE__
+ManagerTools.new(ARGV.dup).execute! if $PROGRAM_NAME == __FILE__
