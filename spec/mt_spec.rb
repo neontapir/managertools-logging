@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
-MT = File.expand_path('../../mt', __FILE__)
-load MT
+unless defined? MT
+  MT = File.expand_path('../../../mt', __FILE__)
+  load MT
+end
 
 require 'spec_helper'
 require 'settings_helper'
