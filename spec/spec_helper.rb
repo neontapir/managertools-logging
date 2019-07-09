@@ -25,6 +25,8 @@ SimpleCov.start
 require './spec/settings_helper'
 include SettingsHelper
 
+require 'aruba/rspec'
+
 RSpec.configure do |config|
   config.before(:suite) do
     FileUtils.mkdir_p Settings.root
@@ -111,4 +113,15 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   # Kernel.srand config.seed
   # config.seed = 60733
+end
+
+# Aruba support
+$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+
+if RUBY_VERSION < '1.9.3'
+  ::Dir.glob(::File.expand_path('../support/*.rb', __FILE__)).each { |f| require File.join(File.dirname(f), File.basename(f, '.rb')) }
+  ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require File.join(File.dirname(f), File.basename(f, '.rb')) }
+else
+  ::Dir.glob(::File.expand_path('../support/*.rb', __FILE__)).each { |f| require_relative f }
+  ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require_relative f }
 end

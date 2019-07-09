@@ -32,6 +32,7 @@ group :quality, optional: true do
 end
 
 group :test do
+  gem 'aruba', '> 0.14.10'
   gem 'guard-rspec'
   gem 'mutant-rspec'
   gem 'rspec'
