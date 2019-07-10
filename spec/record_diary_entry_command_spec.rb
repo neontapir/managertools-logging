@@ -1,18 +1,15 @@
-Dir.glob('./lib/*_entry.rb', &method(:require))
-require './lib/employee.rb'
-require './lib/employee_folder.rb'
-require './lib/log_file.rb'
-require './lib/record_diary_entry_command.rb'
-require './lib/settings.rb'
+# frozen_string_literal: true
+
+Dir.glob('./lib/*_entry', &method(:require))
+require './lib/employee'
+require './lib/employee_folder'
+require './lib/log_file'
+require './lib/record_diary_entry_command'
+require './lib/settings'
+require_relative 'file_contents_validation_helper'
 
 RSpec.describe RecordDiaryEntryCommand do
-	def verify_answers_propagated(answers, members)
-		answers.each do |answer|
-			members.each do |member|
-				expect(File.readlines(member.file.path)).to include(answer)
-			end
-		end
-	end
+  include FileContentsValidationHelper
 
   context 'with a single person' do
     before(:each) do
@@ -25,9 +22,7 @@ RSpec.describe RecordDiaryEntryCommand do
 
     let (:tony) { Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark') }
 
-    subject do
-      RecordDiaryEntryCommand.new
-    end
+    subject { RecordDiaryEntryCommand.new }
 
     it 'can write an arbitrary entry try (one-on-one)' do
       Settings.with_mock_input "\nhere\nMet about goals\n\n\n" do
