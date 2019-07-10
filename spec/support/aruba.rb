@@ -5,5 +5,5 @@ unless defined? MT
   load MT
 end
 
-Aruba.config.command_launcher = :spawn # :in_process
-Aruba.config.main_class = ManagerTools
+Aruba.config.command_launcher = :in_process
+Aruba.config.main_class = ManagerTools::Runner

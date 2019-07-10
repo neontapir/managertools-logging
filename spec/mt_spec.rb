@@ -15,7 +15,7 @@ RSpec.describe 'mt script', type: [:aruba, :slow] do
 
   context 'without arguments' do
     let(:command) do 
-      run_command_and_stop("ruby #{MT}", fail_on_error: false)
+      run_command_and_stop("#{MT}")
     end
 
     it 'finds the script' do
@@ -28,28 +28,34 @@ RSpec.describe 'mt script', type: [:aruba, :slow] do
       expect(File.exist? "#{Aruba.config.working_directory}/data/config.yml").to be_truthy
     end
 
-    it 'prints an error' do
+    it 'prints a usage message' do
       command
-      expect(last_command_started).not_to be_successfully_executed
-      expect(last_command_started.stderr).to match(/invalid command. Use --help for more information/)
+      expect(last_command_started).to be_successfully_executed
+      expect(last_command_started.stdout).to match(/Manager Tools commands/)
     end
   end
 
-  context 'with help flag' do
+  context 'with help command' do
     let(:command) do 
-      run_command_and_stop("ruby #{MT} --help")
+      run_command_and_stop("#{MT} help")
     end
 
-    it 'prints help' do
+    it 'prints a usage message' do
       command
       expect(last_command_started).to be_successfully_executed
-      expect(last_command_started.stderr).to be_empty
+      expect(last_command_started.stdout).to match(/Manager Tools commands/)
+    end
+  end
 
-      expect(last_command_started.stdout).to match(/NAME.*:/)
-      expect(last_command_started.stdout).to match(/DESCRIPTION.*:/)
-      expect(last_command_started.stdout).to match(/COMMANDS.*:/)
-      expect(last_command_started.stdout).to match(/GLOBAL OPTIONS.*:/)
-      expect(last_command_started.stdout).to match(/ALIASES.*:/)
+  context 'with undefined subcommand' do
+    let(:command) do 
+      run_command_and_stop("#{MT} xyzzy", fail_on_error: false)
+    end
+
+    it 'prints an error' do
+      command
+      expect(last_command_started).not_to be_successfully_executed
+      expect(last_command_started.stderr).to match(/Could not find command "xyzzy"/)
     end
   end
 end

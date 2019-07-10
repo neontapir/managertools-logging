@@ -4,12 +4,12 @@ source 'https://rubygems.org'
 
 gem 'asciidoctor'
 gem 'chronic'
-gem 'commander'
 gem 'facets'
 gem 'highline'
 gem 'namecase'
 gem 'os'
 gem 'settingslogic'
+gem 'thor'
 gem 'titleize'
 gem 'unicode'
 
