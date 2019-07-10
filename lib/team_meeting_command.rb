@@ -10,7 +10,7 @@ class TeamMeetingCommand
   # @!method command(arguments)
   #   Create an entry in each team member's file
   def command(arguments, options = nil)
-    arguments.each do |team_name|
+    Array(arguments).each do |team_name|
       team = Team.find team_name
       raise "no such team #{team_name}" unless team
 

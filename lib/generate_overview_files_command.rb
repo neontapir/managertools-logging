@@ -12,8 +12,9 @@ class GenerateOverviewFilesCommand
   extend MtDataFormatter
   extend PathFormatter
 
-  # Generate the files needed to create a team overview
-  def command(arguments, options = nil)
+  # @!method command(arguments, options)
+  #   Generate the files needed to create a team overview
+  def command(_, options = nil)
     force = (options&.force == true)
 
     new_hire = NewHireCommand.new

@@ -7,14 +7,18 @@ Dir["#{__dir__}/*_command.rb"].each { |f| require_relative(f) }
 
 module ManagerTools
   class CLI < Thor
-    def self.diary_subcommand(entry_type, alias_for_help = entry_type.to_s)
+    def self.def_diary_subcommand(entry_type, modifiers = {})
+      alias_for_help = modifiers[:help_alias] || entry_type.to_s
       CLI.class_eval do
         entry_type_string = entry_type.to_s.tr('_',' ')
         n = 'aeiou'.include?(entry_type.to_s[0]) ? 'n' : ''
-        eval "desc \"#{alias_for_help} (name)\", \"Adds a#{n} #{entry_type_string} log entry for the named person.\""
+        eval "desc \"#{alias_for_help} NAME\", \"Add a#{n} #{entry_type_string} log entry for the named person.\""
         eval "method_option :template, type: :boolean, default: false, desc: 'Add a template to the log file, without entry data'"
         define_method entry_type do |name_spec|
           record_diary_entry(__method__, Array(name_spec), options)
+        end
+        Array(modifiers[:aliases]).each do |item|
+          eval "map '#{item}' => '#{entry_type}'"
         end
         yield if block_given?
       end
@@ -24,83 +28,68 @@ module ManagerTools
       true
     end
 
-    package_name "Manager Tools"
+    package_name 'Manager Tools'
 
-    diary_subcommand :feedback do
-      map 'fb' => 'feedback'
-      map 'feed' => 'feedback'
+    def_diary_subcommand :feedback, aliases: ['fb', 'feed']
+    def_diary_subcommand :goal
+    def_diary_subcommand :interview
+    def_diary_subcommand :observation, aliases: ['ob', 'obs']
+    def_diary_subcommand :one_on_one, help_alias: 'o3', aliases: ['3o', 'o3', 'ooo']
+    def_diary_subcommand :performance_checkpoint, help_alias: 'perf', aliases: ['check', 'perf'] 
+
+    desc 'depart NAME', "Move the person's files to the departed team, #{Settings.departed_root}"
+    def depart(name)
+      execute_subcommand(:depart, Array(name), options)
     end
 
-    diary_subcommand :interview
-
-    diary_subcommand :observation do
-      map 'ob' => 'observation'
-      map 'obs'=> 'observation'
-    end
-
-    diary_subcommand :one_on_one, 'o3' do
-      map '3o' => 'one_on_one'
-      map 'o3'=> 'one_on_one'
-      map 'ooo'=> 'one_on_one'
-    end
-
-    diary_subcommand :performance_checkpoint, 'perf' do
-      map 'check' => 'performance_checkpoint'
-      map 'perf'=> 'performance_checkpoint'
-    end
-
-    desc 'depart (name)', "Moves the person's files to the departed team, #{Settings.departed_root}"
-    def depart(args)
-      execute_subcommand(:depart, args, options)
-    end
-
-    desc 'gen', 'Generates overview files'
+    desc 'gen', 'Create overview files'
     method_option :force, type: :boolean, default: false, desc: 'Overwrite files if they exist'
     map 'gen' => 'generate_overview_files'
-    def generate_overview_files(args)
-      execute_subcommand(:generate_overview_files, args, options)
+    def generate_overview_files
+      execute_subcommand(:generate_overview_files, [], options)
     end
 
-    desc 'latest (name)', "Displays the person's latest log entry"
+    desc 'latest NAME', "Display the person's latest log entry"
     map 'last' => 'last_entry'
     map 'latest' => 'last_entry'
-    def last_entry(args)
-      execute_subcommand(:last_entry, args, options)
+    def last_entry(name)
+      execute_subcommand(:last_entry, Array(name), options)
     end
 
-    desc 'move (name) (team)', "Moves the person's files to the specified team"
+    desc 'move NAME TEAM', "Move the person's files to the specified team"
     map 'move' => 'move_team'
-    def move_team(args)
-      execute_subcommand(:move_team, args, options)
+    def move_team(name, team)
+      execute_subcommand(:move_team, [name, team], options)
     end
 
-    desc 'new (team) (first-name) (last-name)', "Generates the person's overview and log files in the given team folder"
+    desc 'new TEAM FIRST LAST', "Create the person's overview and log files in the given team folder"
     method_option :force, type: :boolean, default: false, desc: 'Overwrite files if they exist'
+    map 'create' => 'new_hire'
     map 'new' => 'new_hire'
-    def new_hire(args)
-      execute_subcommand(:new_hire, args, options)
+    def new_hire(team, first, last)
+      execute_subcommand(:new_hire, [team, first, last], options)
     end
     
-    desc 'open (name)', "Opens the person's log file"
+    desc 'open NAME', "Open the person's log file"
     map 'open' => 'open_file'
-    def open_file(args)
-      execute_subcommand(:open_file, args, options)
+    def open_file(name)
+      execute_subcommand(:open_file, name, options)
     end
 
-    desc 'report (name)', 'Generates a HTML report for the person'
-    def report(args)
-      execute_subcommand(:report, args, options)
+    desc 'report NAME', 'Create a HTML report for the person'
+    def report(name)
+      execute_subcommand(:report, name, options)
     end
 
-    desc 'report_team (team)', 'Generates a HTML report for the team'
-    def report_team(args)
-      execute_subcommand(:report_team, args, options)
+    desc 'report_team TEAM', 'Create a HTML report for the team'
+    def report_team(team)
+      execute_subcommand(:report_team, team, options)
     end
 
-    desc 'team_meeting (team)', 'Inserts the same diary entry for every person on the team'
+    desc 'team_meeting TEAM', 'Insert the same diary entry for every person on the team'
     map 'team' => 'team_meeting'
-    def team_meeting(args)
-      execute_subcommand(:team_meeting, args, options)
+    def team_meeting(team)
+      execute_subcommand(:team_meeting, team, options)
     end
 
     private

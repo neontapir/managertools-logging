@@ -12,9 +12,10 @@ class GoalCommand
   # @!method command(arguments, options)
   #   Create a goal in each team member's file
   def command(arguments, options = nil)
-    raise 'missing person name argument' unless arguments.first
+    args = Array(arguments)
+    raise 'missing person name argument' unless args.first
 
-    members = arguments.map do |person|
+    members = args.map do |person|
       employee = Employee.find(person)
       raise "unable to find employee '#{person}'" unless employee
       

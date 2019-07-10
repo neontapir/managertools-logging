@@ -8,7 +8,7 @@ class DepartCommand
   # @!method command(arguments, options)
   #   Mark a person departed by moving their data to the departed records folder
   def command(arguments, options = nil)
-    arguments << Settings.departed_root
-    MoveTeamCommand.new.command(arguments, options)
+    args = Array(arguments) << Settings.departed_root
+    MoveTeamCommand.new.command(args, options)
   end
 end

@@ -16,7 +16,7 @@ class NewHireCommand
   def command(arguments, options = nil)
     force = (options&.force == true)
 
-    team, first, last = arguments
+    team, first, last = Array(arguments)
     raise 'missing team argument' unless team
     raise 'missing first name argument' unless first
     raise 'missing last name argument' unless last
