@@ -7,11 +7,11 @@ Dir["#{__dir__}/*_command.rb"].each { |f| require_relative(f) }
 
 module ManagerTools
   class CLI < Thor
-    def self.diary_subcommand(entry_type)
+    def self.diary_subcommand(entry_type, alias_for_help = entry_type.to_s)
       CLI.class_eval do
         entry_type_string = entry_type.to_s.tr('_',' ')
         n = 'aeiou'.include?(entry_type.to_s[0]) ? 'n' : ''
-        eval "desc \"#{entry_type} (name)\", \"Adds a#{n} #{entry_type_string} log entry for the named person.\""
+        eval "desc \"#{alias_for_help} (name)\", \"Adds a#{n} #{entry_type_string} log entry for the named person.\""
         eval "method_option :template, type: :boolean, default: false, desc: 'Add a template to the log file, without entry data'"
         define_method entry_type do |name_spec|
           record_diary_entry(__method__, Array(name_spec), options)
@@ -27,26 +27,26 @@ module ManagerTools
     package_name "Manager Tools"
 
     diary_subcommand :feedback do
-      map 'fb': :feedback
-      map 'feed': :feedback
+      map 'fb' => 'feedback'
+      map 'feed' => 'feedback'
     end
 
     diary_subcommand :interview
 
     diary_subcommand :observation do
-      map 'ob': :observation
-      map 'obs': :observation
+      map 'ob' => 'observation'
+      map 'obs'=> 'observation'
     end
 
-    diary_subcommand :one_on_one do
-      map '3o': :one_on_one
-      map 'o3': :one_on_one
-      map 'ooo': :one_on_one
+    diary_subcommand :one_on_one, 'o3' do
+      map '3o' => 'one_on_one'
+      map 'o3'=> 'one_on_one'
+      map 'ooo'=> 'one_on_one'
     end
 
-    diary_subcommand :performance_checkpoint do
-      map 'check': :performance_checkpoint
-      map 'perf': :performance_checkpoint
+    diary_subcommand :performance_checkpoint, 'perf' do
+      map 'check' => 'performance_checkpoint'
+      map 'perf'=> 'performance_checkpoint'
     end
 
     desc 'depart (name)', "Moves the person's files to the departed team, #{Settings.departed_root}"
@@ -54,35 +54,35 @@ module ManagerTools
       execute_subcommand(:depart, args, options)
     end
 
-    desc 'generate_overview_files', 'Generates overview files'
+    desc 'gen', 'Generates overview files'
     method_option :force, type: :boolean, default: false, desc: 'Overwrite files if they exist'
-    map 'gen': :generate_overview_files
+    map 'gen' => 'generate_overview_files'
     def generate_overview_files(args)
       execute_subcommand(:generate_overview_files, args, options)
     end
 
-    desc 'last_entry (name)', "Displays the person's latest log entry"
-    map 'last': :last_entry
-    map 'latest': :last_entry
+    desc 'latest (name)', "Displays the person's latest log entry"
+    map 'last' => 'last_entry'
+    map 'latest' => 'last_entry'
     def last_entry(args)
       execute_subcommand(:last_entry, args, options)
     end
 
-    desc 'move_team (name) (team)', "Moves the person's files to the specified team"
+    desc 'move (name) (team)', "Moves the person's files to the specified team"
+    map 'move' => 'move_team'
     def move_team(args)
-      map 'move': :move_team
       execute_subcommand(:move_team, args, options)
     end
 
-    desc 'new_hire (team) (first-name) (last-name)', "Generates the person's overview and log files in the given team folder"
+    desc 'new (team) (first-name) (last-name)', "Generates the person's overview and log files in the given team folder"
     method_option :force, type: :boolean, default: false, desc: 'Overwrite files if they exist'
-    map 'new': :new_hire
+    map 'new' => 'new_hire'
     def new_hire(args)
       execute_subcommand(:new_hire, args, options)
     end
     
-    desc 'open_file (name)', "Opens the person's log file"
-    map 'open': :open_file
+    desc 'open (name)', "Opens the person's log file"
+    map 'open' => 'open_file'
     def open_file(args)
       execute_subcommand(:open_file, args, options)
     end
@@ -98,7 +98,7 @@ module ManagerTools
     end
 
     desc 'team_meeting (team)', 'Inserts the same diary entry for every person on the team'
-    map 'team': :team_meeting
+    map 'team' => 'team_meeting'
     def team_meeting(args)
       execute_subcommand(:team_meeting, args, options)
     end
@@ -109,16 +109,16 @@ module ManagerTools
       yield if block_given?
       rescue Interrupt
         warn HighLine.color("\nAborting, interrupt received", :red)
-        @kernel.exit(-1)
+        Kernel.exit(-1)
     end
 
     def parameter_to_command_class(parameter)
       self.class.class_eval do
-        require_relative 'lib/mt_data_formatter'
+        require_relative 'mt_data_formatter'
         include MtDataFormatter
       end
       command_class_name = parameter.to_s.tr('_', ' ').titlecase.tr(' ', '')
-      @kernel.const_get("#{command_class_name}Command")
+      Kernel.const_get("#{command_class_name}Command")
     end
     
     def execute_subcommand(subcommand_name, arguments, options)

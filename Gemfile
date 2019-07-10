@@ -13,6 +13,12 @@ gem 'thor'
 gem 'titleize'
 gem 'unicode'
 
+group :dev, optional: true do
+  gem 'pry'
+  gem 'pry-remote'
+  gem 'pry-nav'
+end
+
 group :docs, optional: true do
   gem 'yard'
 end

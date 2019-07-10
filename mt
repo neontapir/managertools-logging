@@ -1,6 +1,10 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require 'pry'
+require 'pry-remote'
+require 'pry-nav'
+
 require_relative './lib/manager_tools_cli'
 
 module ManagerTools
@@ -18,6 +22,7 @@ module ManagerTools
         $stdout = @stdout
 
         # Run our normal Thor app the way we know and love.
+        # binding.pry
         ManagerTools::CLI.start(@argv)
 
         # Thor::Base#start does not have a return value, assume success if no exception is raised.
