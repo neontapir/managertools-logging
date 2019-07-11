@@ -16,7 +16,7 @@ class ReportTeamCommand
 
   # @!method command(arguments, options)
   #   Create a report of a team, using each member\'s files
-  def command(arguments, options = nil)
+  def command(arguments, _ = nil)
     team_name = Array(arguments).first
     raise 'missing team name argument' unless team_name
 

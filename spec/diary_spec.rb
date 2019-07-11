@@ -36,6 +36,7 @@ RSpec.describe Diary do
       end
     end).new
 
+    # Create a plain type of diary entry
     class TestEntry < DiaryEntry
       def prompt(name)
         "Enter your test for #{name}:"

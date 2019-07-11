@@ -10,7 +10,7 @@ class OpenFileCommand
 
   # @!method command(arguments, options)
   #   Open a person's log file in the default editor
-  def command(arguments, options = nil)
+  def command(arguments, _ = nil)
     person = Array(arguments).first
     raise 'missing person argument' unless person
 

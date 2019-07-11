@@ -2,12 +2,14 @@
 
 require 'ostruct'
 require 'stringio'
-require './lib/employee.rb'
-require './lib/employee_finder.rb'
-require './lib/settings.rb'
+require './lib/employee'
+require './lib/employee_finder'
+require './lib/settings'
+require_relative 'employee_test_helper'
 require_relative 'settings_helper'
 
 RSpec.describe EmployeeFinder do
+  include EmployeeTestHelper
   include SettingsHelper
 
   subject { (Class.new { include EmployeeFinder }).new }
@@ -56,16 +58,6 @@ RSpec.describe EmployeeFinder do
       end
       expect(subject.create_spec(:interview, {})).to eq flying_squirrel
     end
-  end
-
-  def proper?(employee, team, first, last)
-    expect(employee).not_to be_nil
-    employee_team = employee.instance_of?(Employee) ? employee.team : employee.fetch(:team)
-    expect(employee_team).to eq team
-    employee_first = employee.instance_of?(Employee) ? employee.first : employee.fetch(:first)
-    expect(employee_first).to eq first
-    employee_last = employee.instance_of?(Employee) ? employee.last : employee.fetch(:last)
-    expect(employee_last).to eq last
   end
 
   context 'when parsing an employee folder (Iron Man)' do

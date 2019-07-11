@@ -65,6 +65,7 @@ RSpec.describe DiaryEntry do
   end
 
   context 'in unimplemented context' do
+    # A class that doesn't implement some required methods
     class UnimplementedDiaryEntry < DiaryEntry
     end
 
@@ -88,8 +89,9 @@ RSpec.describe DiaryEntry do
   end
 
   context 'in improper elements_array implementation context' do
+    # A class that has some unworkable implementations
     class BadElementsArrayDiaryEntry < DiaryEntry
-      def prompt(preamble)
+      def prompt(_)
         # do nothing
       end
 

@@ -11,7 +11,7 @@ class LastEntryCommand
 
   # @!method command(arguments, options)
   #   Print the latest entry in the file
-  def command(arguments, options = nil)
+  def command(arguments, _ = nil)
     search_term = Array(arguments).first
     employee = find search_term
     raise ArgumentError, "No employee matching '#{search_term}' found, aborting" unless employee

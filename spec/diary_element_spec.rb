@@ -1,11 +1,10 @@
-require './lib/diary_element.rb'
+# frozen_string_literal: true
+
+require './lib/diary_element'
+require_relative 'diary_element_test_helper'
 
 RSpec.describe DiaryElement do
-  def proper?(element, key, prompt, default)
-    expect(element.key).to be(key)
-    expect(element.prompt).to eq prompt
-    expect(element.default).to eq default
-  end
+  include DiaryElementTestHelper
 
   it 'creates an element with default values' do
     element = DiaryElement.new(:location)

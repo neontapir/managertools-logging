@@ -6,12 +6,14 @@ require_relative 'settings'
 Dir["#{__dir__}/*_command.rb"].each { |f| require_relative(f) }
 
 module ManagerTools
+  # Defines the command-line interface
   class CLI < Thor
     def self.def_diary_subcommand(entry_type, modifiers = {})
-      alias_for_help = modifiers[:help_alias] || entry_type.to_s
+      entry_string = entry_type.to_s
+      alias_for_help = modifiers[:help_alias] || entry_string
       CLI.class_eval do
-        entry_type_string = entry_type.to_s.tr('_',' ')
-        n = 'aeiou'.include?(entry_type.to_s[0]) ? 'n' : ''
+        entry_type_string = entry_string.tr('_',' ')
+        n = 'aeiou'.include?(entry_string[0]) ? 'n' : ''
         eval "desc \"#{alias_for_help} NAME\", \"Add a#{n} #{entry_type_string} log entry for the named person.\""
         eval "method_option :template, type: :boolean, default: false, desc: 'Add a template to the log file, without entry data'"
         define_method entry_type do |name_spec|

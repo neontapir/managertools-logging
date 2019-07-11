@@ -13,7 +13,7 @@ class ReportCommand
   include OSAdapter
 
   # Create a report from a person's files
-  def command(arguments, option = nil)
+  def command(arguments, _ = nil)
     person = Array(arguments).first
     raise 'missing person argument' unless person
     

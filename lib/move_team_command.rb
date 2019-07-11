@@ -10,7 +10,7 @@ require_relative 'settings'
 class MoveTeamCommand
   # @!method command(arguments, options)
   #   Move a person's data to a new folder
-  def command(arguments, options = nil)
+  def command(arguments, _ = nil)
     employee_spec, target_team_spec = Array(arguments)
     employee = Employee.find employee_spec
     raise ArgumentError, "No employee matching '#{employee_spec}' found, aborting" unless employee

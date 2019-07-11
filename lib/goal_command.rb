@@ -11,7 +11,7 @@ class GoalCommand
 
   # @!method command(arguments, options)
   #   Create a goal in each team member's file
-  def command(arguments, options = nil)
+  def command(arguments, _ = nil)
     args = Array(arguments)
     raise 'missing person name argument' unless args.first
 

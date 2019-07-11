@@ -9,10 +9,11 @@ require_relative 'file_contents_validation_helper'
 RSpec.describe TeamMeetingCommand do
   include FileContentsValidationHelper
  
+  # force interactive mode, avoid reading global variables
   module Diary
     undef :template? if method_defined? :template?
     def template?
-      false # force interactive mode, avoid reading global variables
+      false 
     end
   end
 

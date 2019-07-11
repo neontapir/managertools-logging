@@ -7,9 +7,9 @@ require_relative 'team'
 class TeamMeetingCommand
   include Diary
 
-  # @!method command(arguments)
+  # @!method command(arguments, options)
   #   Create an entry in each team member's file
-  def command(arguments, options = nil)
+  def command(arguments, _ = nil)
     Array(arguments).each do |team_name|
       team = Team.find team_name
       raise "no such team #{team_name}" unless team

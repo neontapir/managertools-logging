@@ -1,12 +1,11 @@
+# frozen_string_literal: true
+
 require 'timecop'
-require './lib/diary_date_element.rb'
+require './lib/diary_date_element'
+require_relative 'diary_element_test_helper'
 
 RSpec.describe DiaryDateElement do
-  def proper?(element, key, prompt, default)
-    expect(element.key).to be(key)
-    expect(element.prompt).to eq prompt
-    expect(element.default).to be_within(2).of(default)
-  end
+  include DiaryElementTestHelper
 
   def verify_date_correct(request, expected)
     allow(Settings.console).to receive(:ask) { request }
