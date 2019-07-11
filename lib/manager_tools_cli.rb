@@ -8,21 +8,21 @@ Dir["#{__dir__}/*_command.rb"].each { |f| require_relative(f) }
 module ManagerTools
   # Defines the command-line interface
   class CLI < Thor
-    # HACK: Consider converting this into subcommand classes that are registered,
+    # HACK: Consider converting this into command classes that are registered,
     #       so that we don't need to use `eval`
-    def self.def_diary_subcommand(entry_type, modifiers = {})
+    def self.def_diary_command(entry_type, modifiers = {})
       entry_string = entry_type.to_s
       alias_for_help = modifiers[:help_alias] || entry_string
       CLI.class_eval do
         entry_type_string = entry_string.tr('_', ' ')
         n = 'aeiou'.include?(entry_string[0]) ? 'n' : ''
-        eval "desc \"#{alias_for_help} NAME\", \"Add a#{n} #{entry_type_string} log entry for the named person.\""
-        eval "method_option :template, type: :boolean, default: false, desc: 'Add a template to the log file, without entry data'"
+        public_send(:desc, "#{alias_for_help} NAME", "Add a#{n} #{entry_type_string} log entry for the named person")
+        public_send(:method_option, :template, type: :boolean, default: false, desc: 'Add a template to the log file, without entry data')
         define_method entry_type do |name_spec|
           record_diary_entry(__method__, Array(name_spec), options)
         end
         Array(modifiers[:aliases]).each do |item|
-          eval "map '#{item}' => '#{entry_type}'"
+          public_send(:map, "'#{item}'" => "'#{entry_type}'")
         end
         yield if block_given?
       end
@@ -34,12 +34,12 @@ module ManagerTools
 
     package_name 'Manager Tools'
 
-    def_diary_subcommand :feedback, aliases: %w[fb feed]
-    def_diary_subcommand :goal
-    def_diary_subcommand :interview
-    def_diary_subcommand :observation, aliases: %w[ob obs]
-    def_diary_subcommand :one_on_one, help_alias: 'o3', aliases: %w[3o o3 ooo]
-    def_diary_subcommand :performance_checkpoint, help_alias: 'perf', aliases: %w[check perf]
+    def_diary_command :feedback, aliases: %w[fb feed]
+    def_diary_command :goal
+    def_diary_command :interview
+    def_diary_command :observation, aliases: %w[ob obs]
+    def_diary_command :one_on_one, help_alias: 'o3', aliases: %w[3o o3 ooo]
+    def_diary_command :performance_checkpoint, help_alias: 'perf', aliases: %w[check perf]
 
     desc 'depart NAME', "Move the person's files to the departed team, #{Settings.departed_root}"
     def depart(name)
