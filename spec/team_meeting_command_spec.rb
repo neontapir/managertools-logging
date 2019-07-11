@@ -44,7 +44,7 @@ RSpec.describe TeamMeetingCommand do
         subject.command ['avengers']
       end
 
-      expected = ["  all\n", "  unspecified\n", "  We met about stuff\n", "  none\n"]
+      expected = ["  all\n", "  alcove\n", "  We met about stuff\n", "  none\n"]
       verify_answers_propagated(expected, members)
     end
   end
@@ -75,7 +75,7 @@ RSpec.describe TeamMeetingCommand do
         subject.command %w[avengers justice]
       end
 
-      expected = ["  all\n", "  unspecified\n", "  We met about stuff\n", "  none\n"]
+      expected = ["  all\n", "  alcove\n", "  We met about stuff\n", "  none\n"]
       verify_answers_propagated(expected, members)
     end
   end

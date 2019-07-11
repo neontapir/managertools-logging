@@ -21,13 +21,14 @@ class ReportTeamCommand
     raise 'missing team name argument' unless team_name
 
     team = Team.find team_name
+    raise TeamNotFoundError unless team
 
     report_name = "team-#{team.to_s.downcase}-report"
     report_source = "#{report_name}.adoc"
     output = "#{report_name}.html"
     generate_report(team, report_source, output)
     command_line = [OSAdapter.open, output].join(' ')
-    raise ArgumentError, "Report launch failed with '#{command_line}'" unless system(command_line)
+    raise SystemCallError, "Report launch failed with '#{command_line}'" unless system(command_line)
   end
 
   private
@@ -42,7 +43,7 @@ class ReportTeamCommand
       append_file(report_source, "include::#{tm}/overview.adoc[]\n\n#{HORIZONTAL_RULE}\n\n")
     end
 
-    raise ArgumentError, 'Asciidoctor launch failed' \
+    raise SystemCallError, 'Asciidoctor launch failed' \
       unless system('asciidoctor', "-o#{output}", report_source)
   end
 end

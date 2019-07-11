@@ -8,7 +8,7 @@ end
 require 'spec_helper'
 require 'settings_helper'
 
-RSpec.describe 'mt script', type: [:aruba, :slow] do
+RSpec.describe 'mt script', type: :aruba do
   before(:each) do
     create_test_settings_file(Aruba.config.working_directory)
   end
