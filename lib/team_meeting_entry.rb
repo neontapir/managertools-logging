@@ -4,6 +4,7 @@ require_relative 'diary_date_element'
 require_relative 'diary_element'
 require_relative 'diary_entry'
 require_relative 'mt_data_formatter'
+require_relative 'settings'
 
 # Tempate used for team meetings, propagated to all team members' files
 class TeamMeetingEntry < DiaryEntry
@@ -17,7 +18,7 @@ class TeamMeetingEntry < DiaryEntry
     [
       DiaryDateElement.new(:datetime, 'Effective date'),
       DiaryElement.new(:attendees),
-      DiaryElement.new(:location, 'Location', 'unspecified'),
+      DiaryElement.new(:location, 'Location', Settings.location_default || 'unspecified'),
       DiaryElement.new(:notes),
       DiaryElement.new(:actions)
     ]

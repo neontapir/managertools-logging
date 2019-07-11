@@ -4,6 +4,7 @@ require_relative 'diary_date_element'
 require_relative 'diary_element'
 require_relative 'diary_entry'
 require_relative 'mt_data_formatter'
+require_relative 'settings'
 
 # Template for documenting feedback given
 class FeedbackEntry < DiaryEntry
@@ -17,7 +18,7 @@ class FeedbackEntry < DiaryEntry
   def elements_array
     result = [
       DiaryDateElement.new(:datetime, 'Effective date'),
-      DiaryElement.new(:polarity, 'Polarity', 'positive'),
+      DiaryElement.new(:polarity, 'Polarity', Settings.feedback_polarity_default || 'positive'),
       DiaryElement.new(:content)
     ]
 
