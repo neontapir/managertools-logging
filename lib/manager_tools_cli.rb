@@ -118,9 +118,13 @@ module ManagerTools
 
     def do_with_interrupt_handling
       yield if block_given?
+    rescue RuntimeError => e
+      project_root = File.expand_path("#{__dir__}/..")
+      warn HighLine.color("\nAborting, fatal error, #{e} at #{e.backtrace.first.gsub(project_root, '.')}", :red)
+      Kernel.exit(1)
     rescue Interrupt
       warn HighLine.color("\nAborting, interrupt received", :red)
-      Kernel.exit(-1)
+      Kernel.exit(2)
     end
 
     def parameter_to_command_class(parameter)
