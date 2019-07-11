@@ -8,11 +8,13 @@ Dir["#{__dir__}/*_command.rb"].each { |f| require_relative(f) }
 module ManagerTools
   # Defines the command-line interface
   class CLI < Thor
+    # HACK: Consider converting this into subcommand classes that are registered,
+    #       so that we don't need to use `eval`
     def self.def_diary_subcommand(entry_type, modifiers = {})
       entry_string = entry_type.to_s
       alias_for_help = modifiers[:help_alias] || entry_string
       CLI.class_eval do
-        entry_type_string = entry_string.tr('_',' ')
+        entry_type_string = entry_string.tr('_', ' ')
         n = 'aeiou'.include?(entry_string[0]) ? 'n' : ''
         eval "desc \"#{alias_for_help} NAME\", \"Add a#{n} #{entry_type_string} log entry for the named person.\""
         eval "method_option :template, type: :boolean, default: false, desc: 'Add a template to the log file, without entry data'"
@@ -32,12 +34,12 @@ module ManagerTools
 
     package_name 'Manager Tools'
 
-    def_diary_subcommand :feedback, aliases: ['fb', 'feed']
+    def_diary_subcommand :feedback, aliases: %w[fb feed]
     def_diary_subcommand :goal
     def_diary_subcommand :interview
-    def_diary_subcommand :observation, aliases: ['ob', 'obs']
-    def_diary_subcommand :one_on_one, help_alias: 'o3', aliases: ['3o', 'o3', 'ooo']
-    def_diary_subcommand :performance_checkpoint, help_alias: 'perf', aliases: ['check', 'perf'] 
+    def_diary_subcommand :observation, aliases: %w[ob obs]
+    def_diary_subcommand :one_on_one, help_alias: 'o3', aliases: %w[3o o3 ooo]
+    def_diary_subcommand :performance_checkpoint, help_alias: 'perf', aliases: %w[check perf]
 
     desc 'depart NAME', "Move the person's files to the departed team, #{Settings.departed_root}"
     def depart(name)
@@ -71,7 +73,7 @@ module ManagerTools
     def new_hire(team, first, last)
       execute_subcommand(:new_hire, [team, first, last], options)
     end
-    
+
     desc 'open NAME', "Open the person's log file"
     map 'open' => 'open_file'
     def open_file(name)
@@ -98,9 +100,9 @@ module ManagerTools
 
     def do_with_interrupt_handling
       yield if block_given?
-      rescue Interrupt
-        warn HighLine.color("\nAborting, interrupt received", :red)
-        Kernel.exit(-1)
+    rescue Interrupt
+      warn HighLine.color("\nAborting, interrupt received", :red)
+      Kernel.exit(-1)
     end
 
     def parameter_to_command_class(parameter)
@@ -111,7 +113,7 @@ module ManagerTools
       command_class_name = parameter.to_s.tr('_', ' ').titlecase.tr(' ', '')
       Kernel.const_get("#{command_class_name}Command")
     end
-    
+
     def execute_subcommand(subcommand_name, arguments, options)
       subcommand_class = parameter_to_command_class(subcommand_name)
       subcommand = subcommand_class.new

@@ -84,9 +84,9 @@ RSpec.describe DiaryDateElement do
       element = DiaryDateElement.new(:datetime)
       expected = element.obtain.to_s
       expect(expected).to include('1999-12-31 12:00:00')
-      
+
       gmt_offset = Time.now.strftime('%z') # '-0700'
-      expect(expected).to include(gmt_offset) 
+      expect(expected).to include(gmt_offset)
     end
 
     it 'obtains the date with a specified format' do

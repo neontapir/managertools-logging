@@ -72,9 +72,7 @@ class LogFile
         next
       end
       undated_header_matches = /^===(.*)/.match line
-      unless undated_header_matches.to_a.empty?
-        headers[Time.at(0)] = line_num
-      end
+      headers[Time.at(0)] = line_num unless undated_header_matches.to_a.empty?
     end
     headers
   end

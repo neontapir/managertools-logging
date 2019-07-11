@@ -31,7 +31,7 @@ RSpec.describe MoveTeamCommand do
 
     it 'writes a log entry' do
       expect { subject.command %w[Princess justice-league] }.to output(/Princess Koriandr/).to_stdout
-      
+
       starfire = Employee.find('Princess')
       expect(starfire.file.path).to eq 'data/justice-league/princess-koriandr/log.adoc'
       expect(File.read(starfire.file.path)).to include 'Moving Princess Koriandr to team Justice League'

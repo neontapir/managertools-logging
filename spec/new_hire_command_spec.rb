@@ -21,10 +21,10 @@ RSpec.describe NewHireCommand do
       expect(File.exist? 'data/teen-titans/princess-koriandr/overview.adoc').to be_falsey
 
       expect { subject.command(%w[Teen\ Titans Princess Koriand'r]) }.to output(/princess-koriandr/).to_stdout
-      
+
       starfire = Employee.find('Princess')
       expect(starfire).not_to be_nil
-      
+
       expect(starfire.file.path).to eq 'data/teen-titans/princess-koriandr/log.adoc'
       expect(File.exist? 'data/teen-titans/princess-koriandr/log.adoc').to be_truthy
       expect(File.exist? 'data/teen-titans/princess-koriandr/overview.adoc').to be_truthy
@@ -51,7 +51,7 @@ RSpec.describe NewHireCommand do
     def setup_new_hire_with_o3_entry
       expect { subject.command(%w[Teen\ Titans Dick Grayson]) }.to output(/dick-grayson/).to_stdout
       expect(robin).not_to be_nil
-      
+
       # create a diary entry to differentiate log from a newly created file
       Settings.with_mock_input "\nhere\nMet about goals\n\n\n" do
         RecordDiaryEntryCommand.new.command :one_on_one, ['grayson']

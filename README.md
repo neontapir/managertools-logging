@@ -55,7 +55,7 @@ prompted me for the data it needed. Here are the files that were created:
             └── overview.adoc
 
 These commands store their data as Asciidoc files. Notice that Tony has an
-overview file, which was created by the `new-hire` command. I can generate 
+overview file, which was created by the `new-hire` command. I can generate
 missing team files using `gen-overview-files`.
 
 You can also provide `feedback`:

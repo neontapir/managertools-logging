@@ -14,7 +14,7 @@ RSpec.describe 'mt script', type: [:aruba, :slow] do
   end
 
   context 'without arguments' do
-    let(:command) do 
+    let(:command) do
       run_command_and_stop("#{MT}")
     end
 
@@ -36,7 +36,7 @@ RSpec.describe 'mt script', type: [:aruba, :slow] do
   end
 
   context 'with help command' do
-    let(:command) do 
+    let(:command) do
       run_command_and_stop("#{MT} help")
     end
 
@@ -48,7 +48,7 @@ RSpec.describe 'mt script', type: [:aruba, :slow] do
   end
 
   context 'with undefined subcommand' do
-    let(:command) do 
+    let(:command) do
       run_command_and_stop("#{MT} xyzzy", fail_on_error: false)
     end
 

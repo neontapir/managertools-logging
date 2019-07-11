@@ -18,7 +18,7 @@ RSpec.describe DiaryEntry do
     before do
       Timecop.freeze entry_date
     end
-  
+
     after do
       Timecop.return
     end
@@ -40,11 +40,11 @@ RSpec.describe DiaryEntry do
     before do
       Timecop.freeze entry_date
     end
-  
+
     after do
       Timecop.return
     end
-    
+
     subject { ObservationEntry.new(datetime: entry_date.to_s) }
 
     it 'renders correctly' do

@@ -18,7 +18,7 @@ class GoalCommand
     members = args.map do |person|
       employee = Employee.find(person)
       raise "unable to find employee '#{person}'" unless employee
-      
+
       employee
     end
 

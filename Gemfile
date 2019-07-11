@@ -16,7 +16,7 @@ gem 'unicode'
 group :dev, optional: true do
   gem 'pry'
   gem 'pry-remote'
-  gem 'pry-nav'
+  gem 'pry-nav' # rubocop: disable Bundler/OrderedGems
 end
 
 group :docs, optional: true do
@@ -35,6 +35,7 @@ group :quality, optional: true do
   gem 'flog'
   gem 'reek'
   gem 'rubocop'
+  gem 'rubocop-performance'
 end
 
 group :test do

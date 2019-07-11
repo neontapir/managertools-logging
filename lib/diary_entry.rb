@@ -82,6 +82,6 @@ class DiaryEntry
   def populate(elements_array, initial)
     elements_array.reject { |element| HEADER_ONLY.include? element.key }.inject(initial) do |output, entry| # rubocop:disable CollectionMethods
       output + "#{entry.prompt}::\n  #{wrap(@record.fetch(entry.key, entry.default))}\n"
-    end 
+    end
   end
 end

@@ -35,7 +35,7 @@ RSpec.describe GoalEntry do
     end
 
     after do
-      Timecop.return 
+      Timecop.return
     end
 
     let (:due_date) { Time.new(2001, 3, 2, 5, 6, 7) }

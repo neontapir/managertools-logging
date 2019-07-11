@@ -1,7 +1,7 @@
 ---
 detectors:
   NestedIterators:
-    exclude: 
+    exclude:
       - "FileContentsValidationHelper#verify_answers_propagated"
   TooManyStatements:
     max_statements: 10

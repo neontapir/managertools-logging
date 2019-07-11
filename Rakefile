@@ -33,7 +33,7 @@ task :reek do
   system 'reek', '.' || exit!(1)
 end
 
-desc 'Run reek against the solution to detect code smells'
+desc 'Run rubocop against the solution to find code quality issues'
 task :rubocop do
   system 'rubocop', '.' || exit!(1)
 end

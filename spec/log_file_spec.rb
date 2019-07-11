@@ -65,8 +65,8 @@ RSpec.describe LogFile do
     it 'appends multiple observations correctly' do
       subject.append ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Observation A')
       subject.append ObservationEntry.new(datetime: Time.new(2001, 2, 4, 5, 6, 7).to_s, content: 'Observation B')
-      expect(File.readlines(subject.path)).to eq ["\n", "=== Observation (February  3, 2001,  4:05 AM)\n", 
-        "Content::\n", "  Observation A\n", "\n", "=== Observation (February  4, 2001,  5:06 AM)\n", 
+      expect(File.readlines(subject.path)).to eq ["\n", "=== Observation (February  3, 2001,  4:05 AM)\n",
+        "Content::\n", "  Observation A\n", "\n", "=== Observation (February  4, 2001,  5:06 AM)\n",
         "Content::\n", "  Observation B\n"]
     end
 
@@ -128,8 +128,8 @@ RSpec.describe LogFile do
     it 'calculates the insertion position correctly' do
       before, after = subject.divide_file(new_entry)
       expect(before).to eq ["\n", "=== Background Info\n"]
-      expect(after).to eq ["\n", 
-        "=== Observation (February  3, 2001,  4:05 AM)\n", "Content::\n", "  Observation A\n", "\n", 
+      expect(after).to eq ["\n",
+        "=== Observation (February  3, 2001,  4:05 AM)\n", "Content::\n", "  Observation A\n", "\n",
         "=== Observation (February  4, 2001,  5:06 AM)\n", "Content::\n", "  Observation B\n"
       ]
     end
@@ -138,10 +138,10 @@ RSpec.describe LogFile do
       subject.make_backup
       before, after = subject.divide_file(new_entry)
       subject.write_entry_to(before, new_entry, after)
-      expect(File.readlines(subject.path)).to eq ["\n", 
+      expect(File.readlines(subject.path)).to eq ["\n",
         "=== Background Info\n", "\n",
-        "=== Observation (January  1, 1999, 12:00 AM)\n", "Content::\n", "  Observation C\n", "\n", 
-        "=== Observation (February  3, 2001,  4:05 AM)\n", "Content::\n", "  Observation A\n", "\n", 
+        "=== Observation (January  1, 1999, 12:00 AM)\n", "Content::\n", "  Observation C\n", "\n",
+        "=== Observation (February  3, 2001,  4:05 AM)\n", "Content::\n", "  Observation A\n", "\n",
         "=== Observation (February  4, 2001,  5:06 AM)\n", "Content::\n", "  Observation B\n"]
       FileUtils.move(subject.backup, subject.path)
     end
@@ -180,8 +180,8 @@ RSpec.describe LogFile do
       subject.write_entry_to(before, new_entry, after)
       expect(File.readlines(subject.path)).to eq [
         "\n",
-        "=== Observation (February  3, 2001,  4:05 AM)\n", "Content::\n", "  Observation A\n", "\n", 
-        "=== Observation (February  4, 2001, 12:00 AM)\n", "Content::\n", "  Observation C\n", "\n", 
+        "=== Observation (February  3, 2001,  4:05 AM)\n", "Content::\n", "  Observation A\n", "\n",
+        "=== Observation (February  4, 2001, 12:00 AM)\n", "Content::\n", "  Observation C\n", "\n",
         "=== Observation (February  4, 2001,  5:06 AM)\n", "Content::\n", "  Observation B\n"
       ]
       FileUtils.move(subject.backup, subject.path)
@@ -218,9 +218,9 @@ RSpec.describe LogFile do
       subject.make_backup
       before, after = subject.divide_file(new_entry)
       subject.write_entry_to(before, new_entry, after)
-      expect(File.readlines(subject.path)).to eq ["\n", "=== Observation (February  3, 2001,  4:05 AM)\n", 
-      "Content::\n", "  Observation A\n", "\n", "=== Observation (February  4, 2001,  5:06 AM)\n", 
-      "Content::\n", "  Observation B\n", "\n", "=== Observation (January  1, 2018, 12:00 AM)\n", 
+      expect(File.readlines(subject.path)).to eq ["\n", "=== Observation (February  3, 2001,  4:05 AM)\n",
+      "Content::\n", "  Observation A\n", "\n", "=== Observation (February  4, 2001,  5:06 AM)\n",
+      "Content::\n", "  Observation B\n", "\n", "=== Observation (January  1, 2018, 12:00 AM)\n",
       "Content::\n", "  Observation C\n"]
       FileUtils.move(subject.backup, subject.path)
     end
