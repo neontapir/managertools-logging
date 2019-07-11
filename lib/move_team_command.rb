@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'fileutils'
+require 'highline'
 
 require_relative 'employee'
 require_relative 'team'
@@ -13,13 +14,13 @@ class MoveTeamCommand
   def command(arguments, _ = nil)
     employee_spec, target_team_spec = Array(arguments)
     employee = Employee.find employee_spec
-    raise ArgumentError, "No employee matching '#{employee_spec}' found, aborting" unless employee
+    raise EmployeeNotFoundError, "No employee matching '#{employee_spec}' found, aborting" unless employee
 
     target_team = Team.find target_team_spec
-    raise ArgumentError, "No team matching '#{target_team_spec}' found, aborting" unless target_team
+    raise TeamNotFoundError, "No team matching '#{target_team_spec}' found, aborting" unless target_team
 
     if employee.team == target_team.path
-      puts "#{employee} is already in the expected folder"
+      puts HighLine.color("#{employee} is already in the expected folder", :yellow)
     else
       move(employee, target_team)
     end

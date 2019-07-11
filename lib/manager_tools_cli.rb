@@ -116,15 +116,25 @@ module ManagerTools
 
     private
 
+    def project_root
+      File.expand_path("#{__dir__}/..")
+    end
+
+    def error_call_site(error)
+      error.backtrace.first.gsub(project_root, '.')
+    end
+
     def do_with_interrupt_handling
       yield if block_given?
-    rescue RuntimeError => e
-      project_root = File.expand_path("#{__dir__}/..")
-      warn HighLine.color("\nAborting, fatal error, #{e} at #{e.backtrace.first.gsub(project_root, '.')}", :red)
-      Kernel.exit(1)
     rescue Interrupt
       warn HighLine.color("\nAborting, interrupt received", :red)
+      Kernel.exit(3)
+    rescue StandardError => e
+      warn HighLine.color("\nAborting, fatal #{e.class}, #{e} at #{error_call_site(e)}", :red)
       Kernel.exit(2)
+    rescue RuntimeError => e
+      warn HighLine.color("\nAborting, fatal unhandled error, #{e} at #{error_call_site(e)}", :red)
+      Kernel.exit(1)
     end
 
     def parameter_to_command_class(parameter)

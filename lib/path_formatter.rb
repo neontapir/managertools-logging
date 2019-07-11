@@ -9,8 +9,9 @@ module PathFormatter
   #
   # @example Parsing a path
   #  split_path('foo/bar/baz.txt') #=> ['foo', 'bar', 'baz.txt']
+  # @raise [ArgumentError] if path empty
   def split_path(path)
-    raise ArgumentError, 'Nil path' unless path
+    raise ArgumentError, 'Empty path' unless path
 
     Pathname.new(path).each_filename.to_a
   end
@@ -19,8 +20,9 @@ module PathFormatter
   #
   # @param [string] path the folder to search
   # @param [string] key the substring to search for
+  # @raise [ArgumentError] if path empty
   def matches?(path, key)
-    raise ArgumentError, 'Nil path' unless path
+    raise ArgumentError, 'Empty path' unless path
 
     Dir.exist?(path) && path[key]
   end

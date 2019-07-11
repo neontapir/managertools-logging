@@ -44,7 +44,7 @@ class ReportCommand
       append_file(report_source, "include::#{file}[]")
     end
 
-    raise ArgumentError, 'Report launch failed' \
+    raise StandardError, 'Report launch failed' \
       unless system('asciidoctor', "-o#{output}", report_source)
 
     output

@@ -8,6 +8,9 @@ require_relative 'mt_data_formatter'
 require_relative 'path_formatter'
 require_relative 'settings'
 
+class TeamNotFoundError < StandardError
+end
+
 # Represents a team search provider
 module TeamFinder
   include PathFormatter

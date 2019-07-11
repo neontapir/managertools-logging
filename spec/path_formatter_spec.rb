@@ -32,7 +32,7 @@ RSpec.describe PathFormatter do
     end
 
     it 'raises on a nil string' do
-      expect { subject.matches?(nil, 'x') }.to raise_error ArgumentError, 'Nil path'
+      expect { subject.matches?(nil, 'x') }.to raise_error ArgumentError
     end
   end
 
@@ -41,7 +41,7 @@ RSpec.describe PathFormatter do
   end
 
   it 'raises splitting a nil string' do
-    expect { subject.split_path(nil) }.to raise_error ArgumentError, 'Nil path'
+    expect { subject.split_path(nil) }.to raise_error ArgumentError
   end
 
   it 'creates the path string correctly' do

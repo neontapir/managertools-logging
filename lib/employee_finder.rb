@@ -8,6 +8,9 @@ require_relative 'mt_data_formatter'
 require_relative 'path_formatter'
 require_relative 'settings'
 
+class EmployeeNotFoundError < StandardError
+end
+
 # Represents a employee search provider
 module EmployeeFinder
   include PathFormatter

@@ -10,6 +10,7 @@ class OpenFileCommand
 
   # @!method command(arguments, options)
   #   Open a person's log file in the default editor
+  #   @raise [IOError]
   def command(arguments, _ = nil)
     person = Array(arguments).first
     raise 'missing person argument' unless person
@@ -18,6 +19,6 @@ class OpenFileCommand
     log_file = employee.file
     log_file.ensure_exists
     command_line = [OSAdapter.open, log_file.to_s].join(' ')
-    raise ArgumentError, "Log file open failed with '#{command_line}'" unless system(command_line)
+    raise IOError, "Log file open failed with '#{command_line}'" unless system(command_line)
   end
 end

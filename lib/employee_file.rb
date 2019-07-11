@@ -14,6 +14,7 @@ class EmployeeFile
   # @!method initialize(folder, filename)
   #   @param [String] folder The folder containing the file
   #   @param [String] filename The name of the file
+  #   @raise [ArgumentError] when folder or file are empty
   #   Create an employee file object
   def initialize(folder, filename)
     raise ArgumentError, 'Folder cannot be empty' if folder.to_s.empty?

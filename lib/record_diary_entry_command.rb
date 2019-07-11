@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'diary'
+require_relative 'employee'
 
 # Implements diary recording functionality
 class RecordDiaryEntryCommand
@@ -15,7 +16,7 @@ class RecordDiaryEntryCommand
 
     members = arguments.map do |person|
       employee = Employee.find(person)
-      raise "unable to find employee '#{person}'" unless employee
+      raise EmployeeNotFoundError, "unable to find employee '#{person}'" unless employee
 
       employee
     end
