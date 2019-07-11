@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 unless defined? MT
-  MT = File.expand_path('../../../mt', __FILE__)
+  MT = File.expand_path('../mt', __FILE__)
   load MT
 end
 
