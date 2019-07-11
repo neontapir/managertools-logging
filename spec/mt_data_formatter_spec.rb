@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require './lib/mt_data_formatter.rb'
+require './lib/mt_data_formatter'
 
 RSpec.describe MtDataFormatter do
   subject { (Class.new { include MtDataFormatter }).new }

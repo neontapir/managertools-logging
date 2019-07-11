@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require './lib/diary.rb'
+require './lib/diary'
 Dir.glob('./lib/*_entry.rb', &method(:require))
 
 RSpec.describe Diary do

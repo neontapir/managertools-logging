@@ -2,8 +2,8 @@
 
 require 'ostruct'
 require 'stringio'
-require './lib/employee.rb'
-require './lib/settings.rb'
+require './lib/employee'
+require './lib/settings'
 require_relative 'settings_helper'
 
 RSpec.describe Employee do

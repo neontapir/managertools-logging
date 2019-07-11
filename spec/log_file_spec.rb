@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require './lib/employee.rb'
-require './lib/employee_folder.rb'
-require './lib/log_file.rb'
-require './lib/observation_entry.rb'
+require './lib/employee'
+require './lib/employee_folder'
+require './lib/log_file'
+require './lib/observation_entry'
 
 RSpec.describe LogFile do
   before(:all) do

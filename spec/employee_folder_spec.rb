@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require './lib/employee.rb'
-require './lib/employee_folder.rb'
+require './lib/employee'
+require './lib/employee_folder'
 require_relative 'settings_helper'
 
 RSpec.describe EmployeeFolder do

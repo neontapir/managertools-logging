@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require './lib/mt_file.rb'
+require './lib/mt_file'
 
 RSpec.describe MtFile do
   context 'with a naive instance' do

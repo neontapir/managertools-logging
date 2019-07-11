@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require './lib/team.rb'
+require './lib/team'
 require_relative 'settings_helper'
 
 RSpec.describe TeamFinder do

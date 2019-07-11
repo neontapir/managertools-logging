@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'ostruct'
-require './lib/employee.rb'
-require './lib/new_hire_command.rb'
+require './lib/employee'
+require './lib/new_hire_command'
 
 RSpec.describe NewHireCommand do
   context 'existing team member' do

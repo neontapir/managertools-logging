@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require './lib/path_formatter.rb'
-require './lib/team.rb'
+require './lib/path_formatter'
+require './lib/team'
 
 RSpec.describe Team do
   include PathFormatter

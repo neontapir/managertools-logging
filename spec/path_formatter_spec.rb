@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require './lib/path_formatter.rb'
+require './lib/path_formatter'
 
 RSpec.describe PathFormatter do
   subject { (Class.new { include PathFormatter }).new }

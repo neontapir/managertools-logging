@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require './lib/employee.rb'
-require './lib/log_file.rb'
-require './lib/last_entry_command.rb'
-require './lib/observation_entry.rb'
+require './lib/employee'
+require './lib/log_file'
+require './lib/last_entry_command'
+require './lib/observation_entry'
 
 RSpec.describe LogFile do
   context 'with diary entries' do

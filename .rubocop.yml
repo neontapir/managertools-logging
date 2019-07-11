@@ -7,8 +7,13 @@ AllCops:
     - 'spec/**/*'
 Layout/SpaceInLambdaLiteral:
    Enabled: false
+Lint/AmbiguousOperator:
+  Exclude:
+    - 'Rakefile'
 Metrics/LineLength:
   Max: 120
+Metrics/MethodLength:
+  Max: 15
 Style/CollectionMethods:
   Enabled: true
 Style/FormatString:

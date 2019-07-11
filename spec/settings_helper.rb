@@ -1,13 +1,9 @@
 # frozen_string_literal: true
 
-require './lib/settings.rb'
+require './lib/settings'
 
 # Help with Settings during tests by creating a default configuration file
 module SettingsHelper
-  # def config_file
-  #   File.join(parent, Settings.config_file)
-  # end
-
   attr_reader :config_file
 
   def create_test_settings_file(parent = '.')

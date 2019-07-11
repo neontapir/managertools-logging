@@ -29,12 +29,14 @@ module MtDataFormatter
     input.gsub(/[^-\p{Alnum}]/, '')
   end
 
+  # rubocop: disable Style/AsciiComments
   # Downcase a Unicode string
   # @example
-  #   unidown('Äpple') #=> 'äpple'
+  #   unidown('Äpple') #=> 'äpple'  
   def unidown(input)
     Unicode.downcase input
   end
+  # rubocop: enable Style/AsciiComments
 
   # @!method wrap(input, width = 78)
   #   Wrap input text on word boundaries, indenting all lines by INDENT

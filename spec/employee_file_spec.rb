@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require './lib/employee_file.rb'
-require './lib/employee_folder.rb'
+require './lib/employee_file'
+require './lib/employee_folder'
 
 RSpec.describe EmployeeFile do
   before(:all) do

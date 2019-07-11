@@ -1,19 +1,21 @@
-# Intro
+# Manager Tools Logging
+
+## Intro
 
 This Manager Tools Logging tool is designed for tech-savvy line managers who
 spend a lot of time on the command line and would like an easy way to record
 notes from Manager Tools practices. Today, the tool supports one-on-ones and
 feedback.
 
-# Requirements
+## Requirements
 
 The tool requires Ruby 2.0+ and the Asciidoctor and Bundler gems, among others.
 
-## The 'mt' script
+### The 'mt' script
 
 I created an omnibus script in Ruby to call the various functions from one script. Over time, it replaced some standalone scripts.
 
-# Usage
+## Usage
 
     $ bundle install # ... installs all the gems required
 
@@ -78,13 +80,11 @@ direct report.
 
 Other entry options not covered here are:
 
--   `interview` (which uses a team called `zzz_candidates`)
--   `multi`, which propagates the content to the logs of the specified members
--   `perf`, which uses a performance checkpoint template
--   `team`, which propagates the content to the logs of all members of
-    the team
+- `interview` (which uses a team called `zzz_candidates`)
+- `perf`, which uses a performance checkpoint template
+- `team`, which propagates the content to the logs of all members of the team
 
-After our examples, this is what data/avengers/tony-stark/log.adoc contains:
+After our examples, this is what `data/avengers/tony-stark/log.adoc` contains:
 
     == One-on-One (July 29, 2015,  2:49 PM)
     Location::
@@ -138,7 +138,7 @@ contains some of these commands. (If you followed along and now try to run
 `rake`, you'll have problems because the test data uses the Avengers too. The
 test suite assumes that it can create and destroy Avengers data at will.)
 
-## Lookups
+### Lookups
 
 The script finds people by looking at a string containing the team name and the
 individual's name, then finding the first match in alphabetical order. This is
@@ -151,9 +151,9 @@ This algorithm can be problematic in some edge cases. For example, I have a
 order. In order to reference Tom, I have to say, "tom-". So far, this has not
 been enough of an issue for me to correct.
 
-# Extensibility
+## Extensibility
 
-## Changing where data is stored
+### Changing where data is stored
 
 In `lib/employee_folder.rb`, there is a variable called `root` which defines
 where your data is stored. The variable `candidates_root` determines in which
@@ -164,7 +164,7 @@ folder called "`zzz_departed`". The script will still find them as normal. You c
 also use the same approach when people change teams. It happens infrequently
 enough for me that I didn't automate it.
 
-## Adding a new entry type
+### Adding a new entry type
 
 If you want to add a new diary entry type, you will need to create a new entry
 class in `lib`, using the naming convention `type + Entry`, for example
@@ -174,7 +174,7 @@ After creating a new entry type according to the subsection, you need to update
 the main `mt` script to parse your new entry type. Use the existing types as a
 guide. For simple cases, "invoke module directly" is the right option.
 
-### Creating the new entry type
+#### Creating the new entry type
 
 Looking at ObservationEntry as an example, you will see there are three methods
 to customize:
@@ -207,7 +207,7 @@ The `to_s` method is what gets written to the log file, and in most cases should
 be the results of the `render` method. The argument to `render` is the entry
 header.
 
-# Usage Hints
+## Usage Hints
 
 In cases where I want to quote material, I will often use the script to fill in
 values. I then use a text editor like Atom to add the quoted material, like a

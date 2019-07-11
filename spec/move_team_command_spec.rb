@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require './lib/employee.rb'
-require './lib/move_team_command.rb'
-require './lib/new_hire_command.rb'
+require './lib/employee'
+require './lib/move_team_command'
+require './lib/new_hire_command'
 
 RSpec.describe MoveTeamCommand do
   context 'moving a team member' do

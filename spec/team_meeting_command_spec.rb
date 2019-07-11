@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require './lib/employee.rb'
-require './lib/employee_folder.rb'
-require './lib/log_file.rb'
-require './lib/team_meeting_command.rb'
+require './lib/employee'
+require './lib/employee_folder'
+require './lib/log_file'
+require './lib/team_meeting_command'
 require_relative 'file_contents_validation_helper'
 
 RSpec.describe TeamMeetingCommand do
