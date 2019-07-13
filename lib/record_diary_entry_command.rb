@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'namecase'
 require_relative 'diary'
 require_relative 'employee'
 
@@ -23,7 +24,7 @@ class RecordDiaryEntryCommand
 
     entry = nil
     members.each do |employee|
-      entry ||= get_entry(entry_type, members.join(','), applies_to: members.map(&:to_s).join(', '))
+      entry ||= get_entry(entry_type, members.join(','), applies_to: members.map{|s| NameCase(s.to_s.upcase)}.join(', '))
       employee.file.insert entry
     end
   end

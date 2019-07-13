@@ -68,6 +68,6 @@ class Employee
   # The display name, in title case
   # @return [String] the display name
   def to_s
-    "#{NameCase(first)} #{NameCase(last)}"
+    "#{NameCase(first.upcase)} #{NameCase(last.upcase)}"
   end
 end

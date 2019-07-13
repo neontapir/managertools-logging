@@ -1,10 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require 'pry'
-require 'pry-remote'
-require 'pry-nav'
-
 require_relative './lib/manager_tools_cli'
 
 module ManagerTools
