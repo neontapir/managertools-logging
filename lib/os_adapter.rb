@@ -4,11 +4,9 @@ require 'os'
 
 # Handle OS-specific calls
 module OSAdapter
-  def self.open
-    if Settings.editor
-      Settings.editor
-    else
-      OS.windows? ? 'cmd /c' : 'open'
-    end
+  def self.open_command
+    editor = Settings.editor
+    editor ||= OS.windows? ? 'cmd /c' : 'open'
+    editor
   end
 end

@@ -5,8 +5,8 @@ unless defined? MT
   load MT
 end
 
-require 'spec_helper'
-require 'settings_helper'
+require_relative 'settings_helper'
+require_relative 'spec_helper'
 
 RSpec.describe 'mt script', type: :aruba do
   before(:each) do
@@ -22,16 +22,28 @@ RSpec.describe 'mt script', type: :aruba do
       expect(File.exist? MT).to be_truthy
     end
 
-    it 'finds the data file' do
+    it 'finds the data file created by the test suite' do
+      # admittedly, this is more a test of Aruba than of MT
       expect(Aruba.config.working_directory).to eq 'tmp/aruba'
       expect(Dir.exist? "#{Aruba.config.working_directory}/data").to be_truthy
       expect(File.exist? "#{Aruba.config.working_directory}/data/config.yml").to be_truthy
     end
 
-    it 'prints a usage message' do
-      command
-      expect(last_command_started).to be_successfully_executed
-      expect(last_command_started.stdout).to match(/Manager Tools commands/)
+    context 'after running the command' do
+      subject do
+        command
+        last_command_started.stdout
+      end
+
+      it 'prints a usage message' do
+        expect(subject).to match(/Manager Tools commands/)
+      end
+
+      it 'the usage message contains all known commands' do
+        %w[depart feedback gen goal interview latest move new o3 obs open perf report report_team team_meeting].each do |subcommand|
+          expect(subject).to match(/^\s*?\w+ #{subcommand}/)
+        end
+      end
     end
   end
 

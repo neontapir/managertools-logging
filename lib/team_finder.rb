@@ -8,6 +8,7 @@ require_relative 'mt_data_formatter'
 require_relative 'path_formatter'
 require_relative 'settings'
 
+# For reporting searches with no results
 class TeamNotFoundError < StandardError
 end
 

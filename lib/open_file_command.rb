@@ -18,7 +18,7 @@ class OpenFileCommand
     employee = Employee.get person
     log_file = employee.file
     log_file.ensure_exists
-    command_line = [OSAdapter.open, log_file.to_s].join(' ')
+    command_line = [OSAdapter.open_command, log_file.to_s].join(' ')
     raise IOError, "Log file open failed with '#{command_line}'" unless system(command_line)
   end
 end
