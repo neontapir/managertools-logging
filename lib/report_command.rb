@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'highline/import'
 require_relative 'diary'
 require_relative 'employee'
 require_relative 'file_writer'

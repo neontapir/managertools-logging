@@ -20,7 +20,7 @@ class MoveTeamCommand
     raise TeamNotFoundError, "No team matching '#{target_team_spec}' found, aborting" unless target_team
 
     if employee.team == target_team.path
-      puts HighLine.color("#{employee} is already in the expected folder", :yellow)
+      warn HighLine.color("Aborting, #{employee} is already in the expected folder", :red)
     else
       move(employee, target_team)
     end
