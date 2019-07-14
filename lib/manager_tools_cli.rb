@@ -12,6 +12,11 @@ module ManagerTools
       true
     end
 
+    config_file = Settings.config_file
+    unless File.exist? config_file
+      warn HighLine.color("Configuration not found at #{config_file}, run 'mt init' to create it", :red)
+    end
+
     package_name 'Manager Tools'
 
     desc 'feedback NAME', "Add a feedback log entry"
@@ -59,7 +64,7 @@ module ManagerTools
       record_diary_entry(:performance_checkpoint, Array(name), options)
     end
 
-    desc 'depart NAME', "Move the person's files to the departed team, #{Settings.departed_root}"
+    desc 'depart NAME', "Move the person's files to the departed team"
     def depart(name)
       execute_subcommand(:depart, Array(name), options)
     end
@@ -112,6 +117,11 @@ module ManagerTools
     map 'team' => 'team_meeting'
     def team_meeting(team)
       execute_subcommand(:team_meeting, team, options)
+    end
+
+    desc 'init', 'Create a new config file'
+    def init
+      execute_subcommand(:init, [], options)
     end
 
     private
