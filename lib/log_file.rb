@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'employee_file'
+require_relative 'entity_file'
 
 # Plumbing for log files
 class LogFile
@@ -9,7 +9,7 @@ class LogFile
   # Create a new log file
   # @param [EmployeeFolder] folder the containing folder
   def initialize(folder)
-    @log_file = EmployeeFile.new folder, 'log.adoc'
+    @log_file = EntityFile.new folder, 'log.adoc'
   end
 
   # Append a DiaryEntry to the file

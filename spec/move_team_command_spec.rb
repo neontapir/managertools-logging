@@ -53,7 +53,7 @@ RSpec.describe MoveTeamCommand do
     subject { MoveTeamCommand.new }
 
     it 'prints a message' do
-      expect { subject.command %w[Princess Teen\ Titans] }.to output(/is already in the expected folder/).to_stdout
+      expect { subject.command %w[Princess Teen\ Titans] }.to output(/is already in the expected folder/).to_stderr
 
       expect(Dir.exist? 'data/teen-titans/princess-koriandr').to be_truthy
     end

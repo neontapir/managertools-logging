@@ -3,7 +3,7 @@
 require 'fileutils'
 require 'ostruct'
 require_relative 'employee'
-require_relative 'employee_file'
+require_relative 'entity_file'
 require_relative 'file_writer'
 require_relative 'observation_entry'
 
@@ -33,7 +33,7 @@ class NewHireCommand
   private
 
   def generate_file_by(nhc_parameters, filename)
-    content_file = EmployeeFile.new nhc_parameters.folder, filename
+    content_file = EntityFile.new nhc_parameters.folder, filename
     print "\nReviewing #{content_file}... "
     if !nhc_parameters.force && File.exist?(content_file.path)
       print 'exists'
