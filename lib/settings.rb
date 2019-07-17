@@ -42,6 +42,7 @@ class Settings < Settingslogic
           root: data
           candidates_root: zzz_candidates
           departed_root: zzz_departed
+          project_root: projects
           editor: atom
           feedback_polarity_default: positive
           location_default: alcove
