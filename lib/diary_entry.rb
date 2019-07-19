@@ -53,8 +53,10 @@ class DiaryEntry
     raise NotImplementedError, 'DiaryEntry#elements_array must be overriden'
   end
 
-  # @abstract Gives an array of DiaryElement objects that the user will be prompted to fill out
-  #   @return [Array] the elements to prompt on
+  # @!method with_applies_to(result)
+  # Augments the array of DiaryElement objects with the list of affected people for user confirmation
+  #   @param [Array] the elements to prompt on
+  #   @return [Array] the elements to prompt on, including applies_to
   def with_applies_to(result)
     return result unless record.key?(:applies_to)
 
@@ -76,11 +78,13 @@ class DiaryEntry
 
   private
 
-  # items in this array will not be included in the body of the entry, just the header
-  HEADER_ONLY = [:datetime].freeze
+  # items in the no_promting array will not be included in the body of the entry, just the header
+  def no_prompting
+    [:datetime].freeze
+  end
 
   def populate(elements_array, initial)
-    elements_array.reject { |element| HEADER_ONLY.include? element.key }.inject(initial) do |output, entry| # rubocop:disable CollectionMethods
+    elements_array.reject { |element| no_prompting.include? element.key }.inject(initial) do |output, entry| # rubocop:disable CollectionMethods
       output + "#{entry.prompt}::\n  #{wrap(@record.fetch(entry.key, entry.default))}\n"
     end
   end
