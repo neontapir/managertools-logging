@@ -27,7 +27,7 @@ module MtDataFormatter
   # @example Format a date
   #   strip_nonalnum('f,o;o') #=> 'foo'
   def strip_nonalnum(input)
-    input.gsub(/[^-\p{Alnum}]/, '')
+    input.to_s.gsub(/[^-\p{Alnum}]/, '')
   end
 
   # rubocop: disable Style/AsciiComments
@@ -35,7 +35,7 @@ module MtDataFormatter
   # @example
   #   unidown('Äpple') #=> 'äpple'  
   def unidown(input)
-    Unicode.downcase input
+    Unicode.downcase input.to_s
   end
   # rubocop: enable Style/AsciiComments
 
