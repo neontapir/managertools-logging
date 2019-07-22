@@ -57,4 +57,10 @@ RSpec.describe MtDataFormatter do
       expect('cats in panda suits'.titlecase).to eq 'Cats in Panda Suits'
     end
   end
+
+  context 'when turning strings to name case' do
+    it 'capitalizes the right letters' do
+      expect(subject.to_name('goodwin mcdonald')).to eq 'Goodwin McDonald'
+    end
+  end
 end

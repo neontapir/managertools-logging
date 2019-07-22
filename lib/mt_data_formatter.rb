@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'namecase'
 require 'titleize'
 require 'unicode'
 
@@ -48,5 +49,12 @@ module MtDataFormatter
       .gsub(/(.{1,#{width - INDENT.length}})(\s+|\Z)/, "\\1\n#{INDENT}") \
       .chomp(INDENT)
       .chomp
+  end
+
+  # @!method to_name(input)
+  #   Put string in proper name casing
+  #   @param [String] input the string to transform
+  def to_name(input)
+    NameCase(input.to_s.upcase)
   end
 end

@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
-require 'namecase'
 require_relative 'diary'
 require_relative 'employee'
+require_relative 'mt_data_formatter'
 
 # Implements diary recording functionality
 class RecordDiaryEntryCommand
   include Diary
+  include MtDataFormatter
 
   # @!method command(arguments, options)
   #   Record a new diary entry in the person's file
@@ -24,7 +25,7 @@ class RecordDiaryEntryCommand
 
     entry = nil
     members.each do |employee|
-      entry ||= get_entry(entry_type, members.join(','), applies_to: members.map{|s| NameCase(s.to_s.upcase)}.join(', '))
+      entry ||= get_entry(entry_type, members.join(','), applies_to: members.map{|s| to_name(s)}.join(', '))
       employee.file.insert entry
     end
   end
