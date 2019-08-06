@@ -38,7 +38,9 @@ class DiaryEntry
     raise ArgumentError, "record[:datetime] must be a Time, not a #{date.class}" unless date.is_a?(Time)
 
     initial = "=== #{title} (#{format_date(date)})\n"
-    populate(elements_array, initial)
+    elements_array.reject { |element| header_items.include? element.key }.inject(initial) do |output, entry| # rubocop:disable CollectionMethods
+      output + "#{entry.prompt}::\n  #{wrap(@record.fetch(entry.key, entry.default))}\n"
+    end
   end
 
   # @abstract Gives the text shown at the beginning of an interactive session to provide the user context
@@ -55,7 +57,7 @@ class DiaryEntry
 
   # @!method with_applies_to(result)
   # Augments the array of DiaryElement objects with the list of affected people for user confirmation
-  #   @param [Array] the elements to prompt on
+  #   @param [Array] result the elements to prompt on
   #   @return [Array] the elements to prompt on, including applies_to
   def with_applies_to(result)
     return result unless record.key?(:applies_to)
@@ -63,6 +65,24 @@ class DiaryEntry
     applies_to = record.fetch(:applies_to)
     result.insert(1, DiaryElement.new(:applies_to, 'Applies to', applies_to)) if applies_to.include?(',')
     result
+  end
+
+  # fill in the template with the given record entries
+  #   @param [String] prompt the banner to display before gathering template values
+  def populate(header_prompt)
+    Settings.console.say prompt(header_prompt)
+    data = elements_array.each_with_object({}) do |item, entry_record|
+      entry_record[item.key] = item.obtain
+    end
+    data = post_create(data)
+    data
+  end
+
+  # A hook to modify data after prompting for responses
+  #   @param data [Hash] the data gathered for this entry
+  #   @return [Hash] the modified data
+  def post_create(data)
+    data
   end
 
   # @abstract Gives the effective date of the entry
@@ -78,14 +98,8 @@ class DiaryEntry
 
   private
 
-  # items in the no_promting array will not be included in the body of the entry, just the header
-  def no_prompting
-    [:datetime].freeze
-  end
-
-  def populate(elements_array, initial)
-    elements_array.reject { |element| no_prompting.include? element.key }.inject(initial) do |output, entry| # rubocop:disable CollectionMethods
-      output + "#{entry.prompt}::\n  #{wrap(@record.fetch(entry.key, entry.default))}\n"
-    end
+  # items in the header_items array will not be included in the body of the entry, just the header
+  def header_items
+    [:datetime]
   end
 end

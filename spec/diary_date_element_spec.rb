@@ -68,6 +68,28 @@ RSpec.describe DiaryDateElement do
     end
   end
 
+  context 'with default' do
+    let (:entry_date) { Time.local(2000, 1, 1) }
+
+    before do
+      Timecop.freeze entry_date
+    end
+
+    after do
+      Timecop.return
+    end
+
+    it 'uses now as the default if none given' do
+      element = DiaryDateElement.new(:datetime, 'Datetime')
+      expect(element.default.to_s).to include('2000-01-01')
+    end
+
+    it 'obtains the date with the default format' do
+      element = DiaryDateElement.new(:datetime, 'Datetime', Time.local(1999, 12, 25))
+      expect(element.default.to_s).to include('1999-12-25')
+    end
+  end
+
   context 'using formatting' do
     let (:entry_date) { Time.local(2000, 1, 1) }
 
@@ -91,7 +113,7 @@ RSpec.describe DiaryDateElement do
 
     it 'obtains the date with a specified format' do
       allow(Settings.console).to receive(:ask) { 'yesterday' }
-      element = DiaryDateElement.new(:datetime, 'Datetime', -> x { x.strftime '%B %e, %Y' })
+      element = DiaryDateElement.new(:datetime, 'Datetime', Time.now, -> x { x.strftime '%B %e, %Y' })
       expect(element.obtain.to_s).to include('December 31, 1999')
     end
   end

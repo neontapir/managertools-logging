@@ -64,6 +64,13 @@ module ManagerTools
       record_diary_entry(:performance_checkpoint, Array(name), options)
     end
 
+    desc 'pto NAMES', "Add an PTO entry"
+    method_option :template, type: :boolean, default: false, desc: 'Add a template to the log file, without entry data'
+    map 'pto' => 'paid_time_off'
+    def paid_time_off(*names)
+      record_diary_entry(:pto, Array(names), options)
+    end
+
     desc 'depart NAME', "Move the person's files to the departed team"
     def depart(name)
       execute_subcommand(:depart, Array(name), options)

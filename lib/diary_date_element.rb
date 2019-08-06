@@ -14,19 +14,20 @@ class DiaryDateElement
   # @!method initialize(key, prompt = key.to_s.capitalize, formatter = ->(x) { x.to_s })
   #   Create a new diary element
   #   @raise [ArgumentError] when prompt contains characters not allowed in Asciidoc definition lists
-  def initialize(key, prompt = key.to_s.capitalize, formatter = ->(x) { x.to_s })
+  def initialize(key, prompt = key.to_s.capitalize, default = Time.now, formatter = ->(x) { x.to_s })
     # REVIEW: Research, this assertion may not actually be correct
     raise ArgumentError, 'Asciidoc labeled lists cannot contain special characters' unless prompt =~ /\A['\-A-Za-z ]+\z/
 
     @key = key
     @prompt = prompt
+    @default = default
     @formatter = formatter
   end
 
   # @!method default()
   #   The default value of this element
   def default
-    Time.now
+    @default || Time.now
   end
 
   # @!method obtain()

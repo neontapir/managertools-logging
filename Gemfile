@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 
 gem 'asciidoctor'
 gem 'chronic'
+gem 'chronic_duration'
 gem 'facets'
 gem 'highline'
 gem 'namecase'

@@ -46,6 +46,7 @@ class Settings < Settingslogic
           editor: atom
           feedback_polarity_default: positive
           location_default: alcove
+          pto_default: vacation
 
         development:
           <<: *defaults
