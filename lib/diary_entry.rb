@@ -39,7 +39,7 @@ class DiaryEntry
 
     initial = "=== #{title} (#{format_date(date)})\n"
     elements_array.reject { |element| header_items.include? element.key }.inject(initial) do |output, entry| # rubocop:disable CollectionMethods
-      output + "#{entry.prompt}::\n  #{wrap(@record.fetch(entry.key, entry.default))}\n"
+      output + "#{entry.label}::\n  #{wrap(@record.fetch(entry.key, entry.default))}\n"
     end
   end
 

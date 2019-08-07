@@ -14,6 +14,7 @@ class PtoEntry < DiaryEntry
 
   def elements_array
     [
+      DiaryElement.new(:duration, 'Duration', '0', nil),
       DiaryDateElement.new(:start_time, 'Start date', Time.now, -> x { x.strftime '%B %e, %Y' }),
       DiaryDateElement.new(:end_time, 'End date', Time.now, -> x { x.strftime '%B %e, %Y' }),
       DiaryElement.new(:reason, 'Reason', Settings.pto_default || 'unspecified'),
@@ -28,7 +29,8 @@ class PtoEntry < DiaryEntry
   def post_create(data)
     data[:datetime] = data[:start_time]
     # TODO: Add to elements_array so it's in the body, but find a way that we don't prompt for it
-    # data[:duration] = ChronicDuration.output(Chronic.parse(data[:end_time]) - Chronic.parse(data[:start_time]))
+    duration = ChronicDuration.output(86400 + (Chronic.parse(data[:end_time]) - Chronic.parse(data[:start_time])))
+    data[:duration] = duration || 'unknown'
     data
   end
 

@@ -8,18 +8,18 @@ require_relative 'settings'
 
 # Represents a date in a diary entry
 class DiaryDateElement
-  attr_reader :key, :prompt
+  attr_reader :key, :label
   include MtDataFormatter
 
-  # @!method initialize(key, prompt = key.to_s.capitalize, formatter = ->(x) { x.to_s })
+  # @!method initialize(key, label = key.to_s.capitalize, formatter = ->(x) { x.to_s })
   #   Create a new diary element
-  #   @raise [ArgumentError] when prompt contains characters not allowed in Asciidoc definition lists
-  def initialize(key, prompt = key.to_s.capitalize, default = Time.now, formatter = ->(x) { x.to_s })
+  #   @raise [ArgumentError] when label contains characters not allowed in Asciidoc definition lists
+  def initialize(key, label = key.to_s.capitalize, default = Time.now, formatter = ->(x) { x.to_s })
     # REVIEW: Research, this assertion may not actually be correct
-    raise ArgumentError, 'Asciidoc labeled lists cannot contain special characters' unless prompt =~ /\A['\-A-Za-z ]+\z/
+    raise ArgumentError, 'Asciidoc labeled lists cannot contain special characters' unless label =~ /\A['\-A-Za-z ]+\z/
 
     @key = key
-    @prompt = prompt
+    @label = label
     @default = default
     @formatter = formatter
   end
@@ -31,11 +31,11 @@ class DiaryDateElement
   end
 
   # @!method obtain()
-  #   Display the prompt, and get the element's value from the user
+  #   Display the label, and get the element's value from the user
   def obtain
     time = default
-    if prompt
-      value = Settings.console.ask "#{prompt}: " do |answer|
+    if label
+      value = Settings.console.ask "#{label}: " do |answer|
         answer.default = default.to_s
       end
       time = Chronic.parse(value.to_s, context: :past)
