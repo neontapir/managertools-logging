@@ -30,9 +30,11 @@ class PtoEntry < DiaryEntry
 
   # A hook to modify data after prompting for responses
   def post_create(data)
-    data[:datetime] = data[:start_time]
-    # TODO: Add to elements_array so it's in the body, but find a way that we don't prompt for it
-    duration = ChronicDuration.output(ONE_DAY + (Chronic.parse(data[:end_time]) - Chronic.parse(data[:start_time])))
+    start_time = Chronic.parse(data[:start_time])
+    data[:datetime] = start_time
+
+    end_time = Chronic.parse(data[:end_time])
+    duration = ChronicDuration.output(ONE_DAY + (end_time - start_time))
     data[:duration] = duration || 'unknown'
     data
   end
