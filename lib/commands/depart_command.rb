@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../settings'
 require_relative 'move_team_command'
-require_relative 'settings'
 
 # Allows admin to move a person's folder to the departed section
 class DepartCommand

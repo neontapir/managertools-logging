@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative 'diary_date_element'
-require_relative 'diary_element'
+require_relative '../diary_date_element'
+require_relative '../diary_element'
 require_relative 'diary_entry'
-require_relative 'mt_data_formatter'
+require_relative '../mt_data_formatter'
 
 # Tempate used for team meetings, propagated to all team members' files
 class GoalEntry < DiaryEntry

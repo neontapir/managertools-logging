@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative 'file_writer'
-require_relative 'mt_data_formatter'
-require_relative 'os_adapter'
-require_relative 'team'
+require_relative '../file_writer'
+require_relative '../mt_data_formatter'
+require_relative '../os_adapter'
+require_relative '../team'
 
 # Create a report of a team, using each member's files
 class ReportTeamCommand

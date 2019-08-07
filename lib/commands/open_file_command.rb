@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'diary'
-require_relative 'os_adapter'
+require_relative '../diary'
+require_relative '../os_adapter'
 
 # Open a person's log file.
 class OpenFileCommand

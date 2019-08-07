@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'chronic'
-require_relative 'mt_data_formatter'
+require_relative '../mt_data_formatter'
 
 # Base class for diary entries
 # @!attribute [r] record

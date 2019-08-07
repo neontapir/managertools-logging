@@ -2,8 +2,8 @@
 
 require 'fileutils'
 
-require_relative 'employee_finder'
-require_relative 'settings'
+require_relative '../employee_finder'
+require_relative '../settings'
 
 # Allows printing of a log file's latest entry
 class LastEntryCommand

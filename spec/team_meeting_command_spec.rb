@@ -3,7 +3,7 @@
 require './lib/employee'
 require './lib/employee_folder'
 require './lib/log_file'
-require './lib/team_meeting_command'
+require './lib/commands/team_meeting_command'
 require_relative 'file_contents_validation_helper'
 
 RSpec.describe TeamMeetingCommand do

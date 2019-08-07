@@ -2,11 +2,11 @@
 
 require 'chronic'
 require 'chronic_duration'
-require_relative 'diary_date_element'
-require_relative 'diary_element'
+require_relative '../diary_date_element'
+require_relative '../diary_element'
 require_relative 'diary_entry'
-require_relative 'mt_data_formatter'
-require_relative 'settings'
+require_relative '../mt_data_formatter'
+require_relative '../settings'
 
 # Template for a one-on-one meeting
 class PtoEntry < DiaryEntry

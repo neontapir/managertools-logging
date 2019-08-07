@@ -3,7 +3,7 @@
 require 'ostruct'
 require 'thor'
 require './lib/employee'
-require './lib/new_project_command'
+require './lib/commands/new_project_command'
 
 RSpec.describe NewProjectCommand do
   context 'existing project' do

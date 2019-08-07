@@ -2,8 +2,8 @@
 
 require './lib/employee'
 require './lib/log_file'
-require './lib/last_entry_command'
-require './lib/observation_entry'
+require './lib/commands/last_entry_command'
+require './lib/entries/observation_entry'
 
 RSpec.describe LogFile do
   context 'with diary entries' do

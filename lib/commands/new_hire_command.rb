@@ -3,10 +3,10 @@
 require 'fileutils'
 require 'ostruct'
 require 'thor'
-require_relative 'employee'
-require_relative 'entity_file'
-require_relative 'file_writer'
-require_relative 'observation_entry'
+require_relative '../employee'
+require_relative '../entity_file'
+require_relative '../file_writer'
+require_relative '../entries/observation_entry'
 
 # Create a new entry for a person
 class NewHireCommand

@@ -3,11 +3,11 @@
 require 'fileutils'
 require 'ostruct'
 require 'thor'
-require_relative 'entity_file'
-require_relative 'file_writer'
-require_relative 'observation_entry'
-require_relative 'project_folder'
-require_relative 'project'
+require_relative '../entity_file'
+require_relative '../file_writer'
+require_relative '../entries/observation_entry'
+require_relative '../project_folder'
+require_relative '../project'
 
 # Create a new entry for a person
 class NewProjectCommand

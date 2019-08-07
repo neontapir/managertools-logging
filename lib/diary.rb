@@ -2,7 +2,7 @@
 
 require_relative 'employee'
 require_relative 'settings'
-Dir["#{__dir__}/*_entry.rb"].each { |f| require_relative(f) }
+Dir["#{__dir__}/entries/*_entry.rb"].each { |f| require_relative(f) }
 
 # Base functionality for all entry types. Extends the diary entry with I/O.
 module Diary
@@ -23,7 +23,7 @@ module Diary
     employee.file.insert entry
   end
 
-  # @!method get_entry(type, employee, initial_value)
+  # @!method get_entry(type, employee, initial_record)
   #   Gets a diary entry, whether as a template or as a filled-out entry
   #   @param [String] type The name of the template entry type
   #   @param [String] employee The name of the employee
@@ -39,7 +39,7 @@ module Diary
     entry_type.new data
   end
 
-  # @!method create_entry(type, header, initial_value)
+  # @!method create_entry(type, header, initial_record)
   #   Creates a diary entry, getting responses from the user
   #   @param [String] type The name of the template entry type
   #   @param [String] header The entry header

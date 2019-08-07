@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'timecop'
-require './lib/pto_entry.rb'
+require './lib/entries/pto_entry'
 
 RSpec.describe PtoEntry do
   context 'during the post-create hook' do

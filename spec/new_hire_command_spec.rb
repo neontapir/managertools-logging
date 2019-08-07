@@ -2,7 +2,7 @@
 
 require 'ostruct'
 require './lib/employee'
-require './lib/new_hire_command'
+require './lib/commands/new_hire_command'
 
 RSpec.describe NewHireCommand do
   context 'existing team member' do

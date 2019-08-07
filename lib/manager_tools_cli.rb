@@ -3,7 +3,7 @@
 require 'highline'
 require 'thor'
 require_relative 'settings'
-Dir["#{__dir__}/*_command.rb"].each { |f| require_relative(f) }
+Dir["#{__dir__}/commands/*_command.rb"].each { |f| require_relative(f) }
 
 module ManagerTools
   # Defines the command-line interface

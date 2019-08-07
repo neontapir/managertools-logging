@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'timecop'
-Dir.glob('./lib/*_entry.rb', &method(:require))
+Dir.glob('./lib/entries/*_entry.rb', &method(:require))
 
 RSpec.describe GoalEntry do
   it 'gets an entry by identifier' do

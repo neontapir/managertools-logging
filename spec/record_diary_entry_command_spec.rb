@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-Dir.glob('./lib/*_entry', &method(:require))
+Dir.glob('./lib/entries/*_entry', &method(:require))
 require './lib/employee'
 require './lib/employee_folder'
 require './lib/log_file'
-require './lib/record_diary_entry_command'
+require './lib/commands/record_diary_entry_command'
 require './lib/settings'
 require_relative 'file_contents_validation_helper'
 

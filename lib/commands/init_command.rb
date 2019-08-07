@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'highline'
-require_relative 'settings'
+require_relative '../settings'
 
 # Create default config file
 class InitCommand

@@ -3,9 +3,9 @@
 require 'fileutils'
 require 'highline'
 
-require_relative 'employee'
-require_relative 'team'
-require_relative 'settings'
+require_relative '../employee'
+require_relative '../team'
+require_relative '../settings'
 
 # Implements team folder movement functionality
 class MoveTeamCommand

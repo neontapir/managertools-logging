@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative 'diary'
-require_relative 'employee'
-require_relative 'file_writer'
-require_relative 'os_adapter'
+require_relative '../diary'
+require_relative '../employee'
+require_relative '../file_writer'
+require_relative '../os_adapter'
 
 # Create a report from a person's files
 class ReportCommand

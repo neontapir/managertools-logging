@@ -3,7 +3,7 @@
 require './lib/employee'
 require './lib/employee_folder'
 require './lib/log_file'
-require './lib/observation_entry'
+require './lib/entries/observation_entry'
 
 RSpec.describe LogFile do
   before(:all) do

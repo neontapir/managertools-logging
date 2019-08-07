@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require './lib/diary'
-Dir.glob('./lib/*_entry.rb', &method(:require))
+Dir.glob('./lib/entries/*_entry.rb', &method(:require))
 
 RSpec.describe Diary do
   context 'with template' do

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative 'diary'
-require_relative 'mt_data_formatter'
-require_relative 'team'
+require_relative '../diary'
+require_relative '../mt_data_formatter'
+require_relative '../team'
 
 # Implements personal goal functionality
 class GoalCommand

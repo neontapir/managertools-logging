@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require 'pathname'
-require_relative 'employee'
-require_relative 'employee_folder'
-require_relative 'mt_data_formatter'
+require_relative '../employee'
+require_relative '../employee_folder'
+require_relative '../mt_data_formatter'
+require_relative '../path_formatter'
 require_relative 'new_hire_command'
-require_relative 'path_formatter'
 
 # Generate overview files recrusively for entries in the data folder
 class GenerateOverviewFilesCommand
