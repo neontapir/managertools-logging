@@ -19,11 +19,11 @@ RSpec.describe DiaryElement do
   end
 
   it 'creates an element with specified values' do
-    element = DiaryElement.new(:actions, 'Actions to take', 'No actions')
+    element = DiaryElement.new(:actions, 'Actions to take', default: 'No actions')
     proper?(element, :actions, 'Actions to take', 'No actions')
   end
 
   it 'raises if prompt has special characters' do
-    expect { DiaryElement.new(:question, 'Questions?', 'No questions') }.to raise_error ArgumentError
+    expect { DiaryElement.new(:question, 'Questions?', default: 'No questions') }.to raise_error ArgumentError
   end
 end

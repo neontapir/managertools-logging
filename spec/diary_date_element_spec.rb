@@ -85,7 +85,7 @@ RSpec.describe DiaryDateElement do
     end
 
     it 'obtains the date with the default format' do
-      element = DiaryDateElement.new(:datetime, 'Datetime', Time.local(1999, 12, 25))
+      element = DiaryDateElement.new(:datetime, 'Datetime', default: Time.local(1999, 12, 25))
       expect(element.default.to_s).to include('1999-12-25')
     end
   end
@@ -113,7 +113,7 @@ RSpec.describe DiaryDateElement do
 
     it 'obtains the date with a specified format' do
       allow(Settings.console).to receive(:ask) { 'yesterday' }
-      element = DiaryDateElement.new(:datetime, 'Datetime', Time.now, -> x { x.strftime '%B %e, %Y' })
+      element = DiaryDateElement.new(:datetime, 'Datetime', formatter: -> x { x.strftime '%B %e, %Y' })
       expect(element.obtain.to_s).to include('December 31, 1999')
     end
   end

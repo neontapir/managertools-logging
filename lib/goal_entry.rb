@@ -17,14 +17,9 @@ class GoalEntry < DiaryEntry
   def elements_array
     result = [
       DiaryDateElement.new(:datetime, 'Effective date'),
-      DiaryDateElement.new(:due_date, 'Due date', -> date { format_short_date(date) }),
+      DiaryDateElement.new(:due_date, 'Due date', formatter: -> date { format_short_date(date) }),
       DiaryElement.new(:goal)
     ]
-
-    # if record.key?(:applies_to)
-    #   applies_to = record.fetch(:applies_to)
-    #   result.insert(1, DiaryElement.new(:applies_to, 'Applies to', applies_to)) if applies_to.include?(',')
-    # end
 
     with_applies_to(result)
   end

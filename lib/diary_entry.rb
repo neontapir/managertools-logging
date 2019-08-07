@@ -63,7 +63,7 @@ class DiaryEntry
     return result unless record.key?(:applies_to)
 
     applies_to = record.fetch(:applies_to)
-    result.insert(1, DiaryElement.new(:applies_to, 'Applies to', applies_to)) if applies_to.include?(',')
+    result.insert(1, DiaryElement.new(:applies_to, 'Applies to', default: applies_to)) if applies_to.include?(',')
     result
   end
 

@@ -18,7 +18,7 @@ class TeamMeetingEntry < DiaryEntry
     [
       DiaryDateElement.new(:datetime, 'Effective date'),
       DiaryElement.new(:attendees),
-      DiaryElement.new(:location, 'Location', Settings.location_default || 'unspecified'),
+      DiaryElement.new(:location, 'Location', default: Settings.location_default || 'unspecified'),
       DiaryElement.new(:notes),
       DiaryElement.new(:actions)
     ]

@@ -17,7 +17,7 @@ class InterviewEntry < DiaryEntry
   def elements_array
     [
       DiaryDateElement.new(:datetime, 'Effective date'),
-      DiaryElement.new(:location, 'Location', 'Skype'),
+      DiaryElement.new(:location, 'Location', default: 'Skype'),
       DiaryElement.new(:why_new_job, 'Why new job'),
       DiaryElement.new(:why_us, 'Why us'),
       DiaryElement.new(:goal, 'Career goal'),

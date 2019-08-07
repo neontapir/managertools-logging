@@ -14,14 +14,14 @@ class DiaryDateElement
   # @!method initialize(key, label = key.to_s.capitalize, formatter = ->(x) { x.to_s })
   #   Create a new diary element
   #   @raise [ArgumentError] when label contains characters not allowed in Asciidoc definition lists
-  def initialize(key, label = key.to_s.capitalize, default = Time.now, formatter = ->(x) { x.to_s })
+  def initialize(key, label = key.to_s.capitalize, options = {})
     # REVIEW: Research, this assertion may not actually be correct
     raise ArgumentError, 'Asciidoc labeled lists cannot contain special characters' unless label =~ /\A['\-A-Za-z ]+\z/
 
     @key = key
     @label = label
-    @default = default
-    @formatter = formatter
+    @default = options[:default] || Time.now
+    @formatter = options[:formatter] || ->(x) { x.to_s }
   end
 
   # @!method default()

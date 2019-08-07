@@ -186,7 +186,7 @@ to customize:
 
       def self.elements_array
         [
-          DiaryElement.new(:location, 'Location', 'unspecified'),
+          DiaryElement.new(:location, 'Location', default: 'unspecified'),
           DiaryElement.new(:content)
         ]
       end
