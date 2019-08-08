@@ -91,7 +91,7 @@ RSpec.describe Diary do
     end
   end
 
-  context 'with a diary entry that disables prompting', order: :defined do
+  context 'with diary entries that disable prompting', order: :defined do
     subject = (Class.new do
       include Diary
       def template?
@@ -106,7 +106,10 @@ RSpec.describe Diary do
       end
 
       def elements_array
-        [DiaryElement.new(:xyzzy, 'Xyzzy', default: 'adventure', prompt: nil)]
+        [
+          DiaryElement.new(:xyzzy, 'Xyzzy', default: 'adventure', prompt: nil),
+          DiaryDateElement.new(:adventure_time, 'Adventure Time', default: Time.local(2000), prompt: nil)
+        ]
       end
 
       def to_s
@@ -124,11 +127,12 @@ RSpec.describe Diary do
 
     # NOTE: This feature is useful for derived values, like 'duration' on PtoEntry.
     #   Other tests cover post-prompting data modification.
-    it 'uses the default value instead of prompting for entry' do
+    it 'uses the default values instead of prompting for entry' do
       expect($stdout).to receive(:puts).with('Enter your test for Tony Stark:')
       expect(Settings.console).not_to receive(:ask)
       entry = subject.get_entry 'Test No Prompt', 'Tony Stark'
       expect(entry.record).to include(xyzzy: 'adventure')
+      expect(entry.record[:adventure_time].strftime('%F')).to eq('2000-01-01')
     end
   end
 end
