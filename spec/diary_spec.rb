@@ -90,4 +90,45 @@ RSpec.describe Diary do
       expect(entry.record).to include(plover: 'zork')
     end
   end
+
+  context 'with a diary entry that disables prompting', order: :defined do
+    subject = (Class.new do
+      include Diary
+      def template?
+        false # interactive mode
+      end
+    end).new
+
+    # Create a plain type of diary entry
+    class TestNoPromptEntry < DiaryEntry
+      def prompt(name)
+        "Enter your test for #{name}:"
+      end
+
+      def elements_array
+        [DiaryElement.new(:xyzzy, 'Xyzzy', default: 'adventure', prompt: nil)]
+      end
+
+      def to_s
+        render('Blah blah')
+      end
+    end
+
+    before(:all) do
+      FileUtils.mkdir_p 'data/avengers/tony-stark'
+    end
+
+    after(:all) do
+      FileUtils.rm_r 'data/avengers'
+    end
+
+    # NOTE: This feature is useful for derived values, like 'duration' on PtoEntry.
+    #   Other tests cover post-prompting data modification.
+    it 'uses the default value instead of prompting for entry' do
+      expect($stdout).to receive(:puts).with('Enter your test for Tony Stark:')
+      expect(Settings.console).not_to receive(:ask)
+      entry = subject.get_entry 'Test No Prompt', 'Tony Stark'
+      expect(entry.record).to include(xyzzy: 'adventure')
+    end
+  end
 end
