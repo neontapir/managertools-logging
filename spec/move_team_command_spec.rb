@@ -33,8 +33,9 @@ RSpec.describe MoveTeamCommand do
       expect { subject.command %w[Princess justice-league] }.to output(/Princess Koriandr/).to_stdout
 
       starfire = Employee.find('Princess')
-      expect(starfire.file.path).to eq 'data/justice-league/princess-koriandr/log.adoc'
-      expect(File.read(starfire.file.path)).to include 'Moving Princess Koriandr to team Justice League'
+      starfire_path = starfire.file.path
+      expect(starfire_path).to eq 'data/justice-league/princess-koriandr/log.adoc'
+      expect(File.read(starfire_path)).to include 'Moving Princess Koriandr to team Justice League'
     end
   end
 
@@ -44,8 +45,9 @@ RSpec.describe MoveTeamCommand do
       FileUtils.mkdir_p 'data/teen-titans'
 
       # use new hire command to generate expected files
-      expect { NewHireCommand.new.command %w[Teen\ Titans Princess Koriand'r] }.to output(/princess-koriandr/).to_stdout
-      expect { NewHireCommand.new.command %w[Teen\ Titans Dick Grayson] }.to output(/dick-grayson/).to_stdout
+      new_hire = NewHireCommand.new
+      expect { new_hire.command %w[Teen\ Titans Princess Koriand'r] }.to output(/princess-koriandr/).to_stdout
+      expect { new_hire.command %w[Teen\ Titans Dick Grayson] }.to output(/dick-grayson/).to_stdout
     end
 
     after(:each) do
@@ -53,7 +55,7 @@ RSpec.describe MoveTeamCommand do
       FileUtils.rm_r 'data/teen-titans'
     end
 
-    it 'relocates their files' do
+    it 'relocates all their files' do
       expect{ MoveTeamCommand.new.command %w[Princess Grayson justice-league] }.to output.to_stdout
       
       %w[princess-koriandr dick-grayson].each do |member|
