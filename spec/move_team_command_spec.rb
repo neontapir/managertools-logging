@@ -38,6 +38,31 @@ RSpec.describe MoveTeamCommand do
     end
   end
 
+  context 'moving multiple team members' do
+    before(:each) do
+      FileUtils.mkdir_p 'data/justice-league'
+      FileUtils.mkdir_p 'data/teen-titans'
+
+      # use new hire command to generate expected files
+      expect { NewHireCommand.new.command %w[Teen\ Titans Princess Koriand'r] }.to output(/princess-koriandr/).to_stdout
+      expect { NewHireCommand.new.command %w[Teen\ Titans Dick Grayson] }.to output(/dick-grayson/).to_stdout
+    end
+
+    after(:each) do
+      FileUtils.rm_r 'data/justice-league'
+      FileUtils.rm_r 'data/teen-titans'
+    end
+
+    it 'relocates their files' do
+      expect{ MoveTeamCommand.new.command %w[Princess Grayson justice-league] }.to output.to_stdout
+      
+      %w[princess-koriandr dick-grayson].each do |member|
+        expect(Dir.exist? "data/justice-league/#{member}").to be_truthy
+        expect(Dir.exist? "data/teen-titans/#{member}").to be_falsey
+      end
+    end
+  end
+
   context 'refuses to move a team member to the same folder' do
     before(:each) do
       FileUtils.mkdir_p 'data/teen-titans'

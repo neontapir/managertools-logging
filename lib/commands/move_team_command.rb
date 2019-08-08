@@ -12,7 +12,15 @@ class MoveTeamCommand
   # @!method command(arguments, options)
   #   Move a person's data to a new folder
   def command(arguments, _ = nil)
-    employee_spec, target_team_spec = Array(arguments)
+    target_team_spec = arguments.pop
+    Array(arguments).each do |employee_spec|
+      process(employee_spec, target_team_spec)
+    end
+  end
+
+  private
+
+  def process(employee_spec, target_team_spec)
     employee = Employee.find employee_spec
     raise EmployeeNotFoundError, "No employee matching '#{employee_spec}' found, aborting" unless employee
 
@@ -25,8 +33,6 @@ class MoveTeamCommand
       move(employee, target_team)
     end
   end
-
-  private
 
   def move(employee, target_team)
     puts "Moving #{employee} to team #{target_team}"

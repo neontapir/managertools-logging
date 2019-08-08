@@ -27,10 +27,10 @@ module ManagerTools
       record_diary_entry(:feedback, Array(names), options)
     end
 
-    desc 'goal NAME', "Add a goal log entry"
+    desc 'goal NAME', "Add a goal log entry to each person's file"
     method_option :template, type: :boolean, default: false, desc: 'Add a template to the log file, without entry data'
-    def goal(name)
-      record_diary_entry(:goal, Array(name), options)
+    def goal(*names)
+      record_diary_entry(:goal, Array(names), options)
     end
 
     desc 'interview NAME', "Add an interview log entry"
@@ -72,8 +72,8 @@ module ManagerTools
     end
 
     desc 'depart NAME', "Move the person's files to the departed team"
-    def depart(name)
-      execute_subcommand(:depart, Array(name), options)
+    def depart(*names)
+      execute_subcommand(:depart, Array(names), options)
     end
 
     desc 'gen', 'Create overview files'
@@ -92,8 +92,8 @@ module ManagerTools
 
     desc 'move NAME TEAM', "Move the person's files to the specified team"
     map 'move' => 'move_team'
-    def move_team(name, team)
-      execute_subcommand(:move_team, [name, team], options)
+    def move_team(*names, team)
+      execute_subcommand(:move_team, [names, team], options)
     end
 
     desc 'new TEAM FIRST LAST', "Create the person's overview and log files in the given team folder"
@@ -104,11 +104,11 @@ module ManagerTools
       execute_subcommand(:new_hire, [team, first, last], options)
     end
 
-    desc 'new-project PROJECT', "Create the projects log file in the project root"
-    method_option :force, type: :boolean, default: false, desc: 'Overwrite files if they exist'
-    def new_project(project)
-      execute_subcommand(:new_project, project, options)
-    end
+    # desc 'new-project PROJECT', "Create the projects log file in the project root"
+    # method_option :force, type: :boolean, default: false, desc: 'Overwrite files if they exist'
+    # def new_project(project)
+    #   execute_subcommand(:new_project, project, options)
+    # end
 
     desc 'open NAME', "Open the person's log file"
     map 'open' => 'open_file'
@@ -126,10 +126,10 @@ module ManagerTools
       execute_subcommand(:report_team, team, options)
     end
 
-    desc 'team_meeting TEAM', 'Insert the same diary entry for every person on the team'
+    desc 'team_meeting TEAMS', 'Insert the same diary entry for every person on the given teams'
     map 'team' => 'team_meeting'
-    def team_meeting(team)
-      execute_subcommand(:team_meeting, team, options)
+    def team_meeting(*teams)
+      execute_subcommand(:team_meeting, teams, options)
     end
 
     desc 'init', 'Create a new config file'

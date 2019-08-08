@@ -7,7 +7,7 @@ require_relative '../settings'
 class InitCommand
   # @!method command(arguments, options)
   #   Create a default config file in the configured location
-  def command(arguments, options = nil)
+  def command(_, _ = nil)
     config_file = Settings.config_file
     if File.exist?(config_file)
       warn HighLine.color("Aborting, config file #{config_file} already exists", :red)
