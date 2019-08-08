@@ -1,14 +1,17 @@
 # frozen_string_literal: true
 
+require 'pry'
 require_relative 'settings'
 
 # A single item in a diary entry, like "Location"
 # @!attribute [r] key
 #   @return [Symbol] the key to use for the diary entry's data dictionary, should be unique
 # @!attribute [r] label
-#   @return [String] the phrase to display when labeling the user for its value
+#   @return [String] the phrase to label or identify the value in the output file
 # @!attribute [r] default
 #   @return [String] the default value of the element
+# @!attribute [r] prompt
+#   @return [String] the phrase to display when prompting the user for its value
 class DiaryElement
   # The value used if the element's default value is not specified during object construction
   DEFAULT_VALUE = 'none'
@@ -25,7 +28,8 @@ class DiaryElement
     @key = key
     @label = label
     @default = options[:default] || DEFAULT_VALUE
-    @prompt = options[:prompt] || label
+    @prompt = options.key?(:prompt) ? options[:prompt] : label
+    binding.pry
   end
 
   # @!method obtain()

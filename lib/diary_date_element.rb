@@ -8,7 +8,7 @@ require_relative 'settings'
 
 # Represents a date in a diary entry
 class DiaryDateElement
-  attr_reader :key, :label
+  attr_reader :key, :label, :default, :prompt, :formatter
   include MtDataFormatter
 
   # @!method initialize(key, label = key.to_s.capitalize, formatter = ->(x) { x.to_s })
@@ -22,6 +22,7 @@ class DiaryDateElement
     @label = label
     @default = options[:default] || Time.now
     @formatter = options[:formatter] || ->(x) { x.to_s }
+    @prompt = options.key?(:prompt) ? options[:prompt] : label
   end
 
   # @!method default()
@@ -33,6 +34,7 @@ class DiaryDateElement
   # @!method obtain()
   #   Display the label, and get the element's value from the user
   def obtain
+    return default unless prompt
     time = default
     if label
       value = Settings.console.ask "#{label}: " do |answer|
