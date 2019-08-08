@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry'
 require_relative 'settings'
 
 # A single item in a diary entry, like "Location"
@@ -29,7 +28,6 @@ class DiaryElement
     @label = label
     @default = options[:default] || DEFAULT_VALUE
     @prompt = options.key?(:prompt) ? options[:prompt] : label
-    binding.pry
   end
 
   # @!method obtain()
