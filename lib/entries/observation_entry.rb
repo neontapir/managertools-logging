@@ -14,7 +14,7 @@ class ObservationEntry < DiaryEntry
     "Enter your observation#{personalized}:"
   end
 
-  def elements_array
+  def elements
     result = [
       DiaryDateElement.new(:datetime, 'Effective date'),
       DiaryElement.new(:content)

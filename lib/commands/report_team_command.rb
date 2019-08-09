@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'asciidoctor'
 require_relative '../file_writer'
 require_relative '../mt_data_formatter'
 require_relative '../os_adapter'

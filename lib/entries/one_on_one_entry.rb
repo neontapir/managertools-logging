@@ -14,7 +14,7 @@ class OneOnOneEntry < DiaryEntry
     "For your 1:1 with #{name}, enter the following:"
   end
 
-  def elements_array
+  def elements
     [
       DiaryDateElement.new(:datetime, 'Effective date'),
       DiaryElement.new(:location, 'Location', default: Settings.location_default || 'unspecified'),

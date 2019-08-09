@@ -12,7 +12,7 @@ require_relative '../settings'
 class PtoEntry < DiaryEntry
   include MtDataFormatter
 
-  def elements_array
+  def elements
     [
       DiaryElement.new(:duration, 'Duration', default: '0', prompt: nil),
       DiaryDateElement.new(:start_time, 'Start date', formatter: -> x { x.strftime '%B %e, %Y' }),
@@ -30,10 +30,10 @@ class PtoEntry < DiaryEntry
 
   # A hook to modify data after prompting for responses
   def post_create(data)
-    start_time = Chronic.parse(data[:start_time])
+    start_time = Chronic.parse(data.fetch(:start_time))
     data[:datetime] = start_time
 
-    end_time = Chronic.parse(data[:end_time])
+    end_time = Chronic.parse(data.fetch(:end_time))
     duration = ChronicDuration.output(ONE_DAY + (end_time - start_time))
     data[:duration] = duration || 'unknown'
     data

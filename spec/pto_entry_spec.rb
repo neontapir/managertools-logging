@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'timecop'
+require './lib/settings'
 require './lib/entries/pto_entry'
 
 RSpec.describe PtoEntry do

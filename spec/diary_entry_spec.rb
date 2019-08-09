@@ -72,11 +72,11 @@ RSpec.describe DiaryEntry do
     subject { UnimplementedDiaryEntry.new(datetime: Time.new(2003)) }
 
     it 'raises if the template class is not inherited' do
-      expect { subject.render('Test') }.to raise_error(NotImplementedError, 'DiaryEntry#elements_array must be overriden')
+      expect { subject.render('Test') }.to raise_error(NotImplementedError, 'DiaryEntry#elements must be overriden')
     end
 
-    it 'raises if elements_array is not overriden' do
-      expect { subject.elements_array }.to raise_error(NotImplementedError, 'DiaryEntry#elements_array must be overriden')
+    it 'raises if elements is not overriden' do
+      expect { subject.elements }.to raise_error(NotImplementedError, 'DiaryEntry#elements must be overriden')
     end
 
     it 'raises if prompt is not overriden' do
@@ -88,14 +88,14 @@ RSpec.describe DiaryEntry do
     end
   end
 
-  context 'in improper elements_array implementation context' do
+  context 'in improper elements implementation context' do
     # A class that has some unworkable implementations
     class BadElementsArrayDiaryEntry < DiaryEntry
       def prompt(_)
         # do nothing
       end
 
-      def elements_array
+      def elements
         42 # not enumerable
       end
 
@@ -104,9 +104,9 @@ RSpec.describe DiaryEntry do
       end
     end
 
-    it 'raises if enumerable not returned by elements_array' do
+    it 'raises if enumerable not returned by elements' do
       entry = BadElementsArrayDiaryEntry.new(datetime: Time.new(2004))
-      expect { entry.render('Test') }.to raise_error(ArgumentError, 'BadElementsArrayDiaryEntry#elements_array must return an enumerable')
+      expect { entry.render('Test') }.to raise_error(ArgumentError, 'BadElementsArrayDiaryEntry#elements must return an enumerable')
     end
   end
 end
