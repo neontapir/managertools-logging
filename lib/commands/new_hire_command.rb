@@ -63,7 +63,7 @@ class NewHireCommand
 
       == #{employee}
 
-      image::headshot.jpg[#{employee}, width="200", align="right", float="right"]
+      image::#{employee.canonical_name}.jpg[#{employee}, width="200", align="right", float="right"]
 
       Team: #{employee.team.capitalize}
 
