@@ -10,11 +10,12 @@ require_relative '../settings'
 class TeamMeetingEntry < DiaryEntry
   include MtDataFormatter
 
-  def prompt(*)
-    'For your team meeting, enter the following:'
+  def prompt(team)
+    personalized = team[','] ? '' : "#{team}"
+    "For your #{personalized} team meeting, enter the following:"
   end
 
-  def elements_array
+  def elements
     [
       DiaryDateElement.new(:datetime, 'Effective date'),
       DiaryElement.new(:attendees),

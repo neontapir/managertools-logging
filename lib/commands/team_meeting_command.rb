@@ -24,8 +24,6 @@ class TeamMeetingCommand
     any_team_member = members.first
     entry = get_entry :team_meeting, any_team_member
 
-    members.each do |employee|
-      employee.file.insert entry
-    end
+    members.each { |employee| employee.file.insert entry }
   end
 end

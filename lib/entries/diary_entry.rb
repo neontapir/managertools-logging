@@ -33,12 +33,12 @@ class DiaryEntry
   #   @raise [ArgumentError] when entry_type is not a kind of DiaryEntry
   #   @return [String] an Asciidoc fragment suitable for appending to a log file
   def render(title, entry_type = self.class)
-    raise NotImplementedError, 'DiaryEntry#elements_array must be overriden' unless entry_type.instance_methods(false).include?(:elements_array)
-    raise ArgumentError, "#{entry_type}#elements_array must return an enumerable" unless elements_array.is_a?(Enumerable)
+    raise NotImplementedError, 'DiaryEntry#elements must be overriden' unless entry_type.instance_methods(false).include?(:elements)
+    raise ArgumentError, "#{entry_type}#elements must return an enumerable" unless elements.is_a?(Enumerable)
     raise ArgumentError, "record[:datetime] must be a Time, not a #{date.class}" unless date.is_a?(Time)
 
     initial = "=== #{title} (#{format_date(date)})\n"
-    elements_array.reject { |element| header_items.include? element.key }.inject(initial) do |output, entry| # rubocop:disable CollectionMethods
+    elements.reject { |element| header_items.include? element.key }.inject(initial) do |output, entry| # rubocop:disable CollectionMethods
       output + "#{entry.label}::\n  #{wrap(@record.fetch(entry.key, entry.default))}\n"
     end
   end
@@ -51,11 +51,10 @@ class DiaryEntry
 
   # @abstract Gives an array of DiaryElement objects that the user will be prompted to fill out
   #   @return [Array] the elements to prompt on
-  def elements_array
-    raise NotImplementedError, 'DiaryEntry#elements_array must be overriden'
+  def elements
+    raise NotImplementedError, 'DiaryEntry#elements must be overriden'
   end
 
-  # @!method with_applies_to(result)
   # Augments the array of DiaryElement objects with the list of affected people for user confirmation
   #   @param [Array] result the elements to prompt on
   #   @return [Array] the elements to prompt on, including applies_to
@@ -68,17 +67,18 @@ class DiaryEntry
   end
 
   # fill in the template with the given record entries
-  #   @param [String] prompt the banner to display before gathering template values
+  #   @param [String] header_prompt the banner to display before gathering template values
   def populate(header_prompt)
     Settings.console.say prompt(header_prompt)
-    data = elements_array.each_with_object({}) do |item, entry_record|
+    data = elements.each_with_object({}) do |item, entry_record|
       entry_record[item.key] = item.obtain
     end
     data = post_create(data)
     data
   end
 
-  # A hook to modify data after prompting for responses
+  # a hook to modify data after prompting for responses,
+  #   useful for populating derived values, see PtoEntry's duration for example
   #   @param data [Hash] the data gathered for this entry
   #   @return [Hash] the modified data
   def post_create(data)

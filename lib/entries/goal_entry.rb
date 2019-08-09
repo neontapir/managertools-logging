@@ -14,7 +14,7 @@ class GoalEntry < DiaryEntry
     "To record the goal#{personalized}, enter the following:"
   end
 
-  def elements_array
+  def elements
     result = [
       DiaryDateElement.new(:datetime, 'Effective date'),
       DiaryDateElement.new(:due_date, 'Due date', formatter: -> date { format_short_date(date) }),

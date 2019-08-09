@@ -10,10 +10,11 @@ class PerformanceCheckpointEntry < DiaryEntry
   include MtDataFormatter
 
   def prompt(name)
-    "Enter your performance checkpoint for #{name}:"
+    personalized = name[','] ? '' : " for #{name}"
+    "Enter your performance checkpoint#{personalized}:"
   end
 
-  def elements_array
+  def elements
     [
       DiaryDateElement.new(:datetime, 'Effective date'),
       DiaryElement.new(:content)

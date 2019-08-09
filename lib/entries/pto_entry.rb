@@ -12,7 +12,7 @@ require_relative '../settings'
 class PtoEntry < DiaryEntry
   include MtDataFormatter
 
-  def elements_array
+  def elements
     [
       DiaryElement.new(:duration, 'Duration', default: '0', prompt: nil),
       DiaryDateElement.new(:start_time, 'Start date', formatter: -> x { x.strftime '%B %e, %Y' }),

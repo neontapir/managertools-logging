@@ -42,7 +42,7 @@ RSpec.describe Diary do
         "Enter your test for #{name}:"
       end
 
-      def elements_array
+      def elements
         [DiaryElement.new(:xyzzy)]
       end
 
@@ -105,7 +105,7 @@ RSpec.describe Diary do
         "Enter your test for #{name}:"
       end
 
-      def elements_array
+      def elements
         [
           DiaryElement.new(:xyzzy, 'Xyzzy', default: 'adventure', prompt: nil),
           DiaryDateElement.new(:adventure_time, 'Adventure Time', default: Time.local(2000), prompt: nil)

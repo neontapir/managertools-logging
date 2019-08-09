@@ -15,7 +15,7 @@ class FeedbackEntry < DiaryEntry
     "To give feedback#{personalized}, enter the following:"
   end
 
-  def elements_array
+  def elements
     result = [
       DiaryDateElement.new(:datetime, 'Effective date'),
       DiaryElement.new(:polarity, 'Polarity', default: Settings.feedback_polarity_default || 'positive'),

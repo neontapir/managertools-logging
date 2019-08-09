@@ -14,7 +14,7 @@ class InterviewEntry < DiaryEntry
   end
 
   # rubocop:disable Metrics/MethodLength
-  def elements_array
+  def elements
     [
       DiaryDateElement.new(:datetime, 'Effective date'),
       DiaryElement.new(:location, 'Location', default: 'Skype'),

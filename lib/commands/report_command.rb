@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'asciidoctor'
 require_relative '../diary'
 require_relative '../employee'
 require_relative '../file_writer'
@@ -28,24 +29,29 @@ class ReportCommand
     folder = EmployeeFolder.new employee
     overview_file = File.join(folder.path, 'overview.adoc')
     log_file = (LogFile.new folder).to_s
-    employee_name = employee.canonical_name
-    create_report(employee_name, overview_file, log_file)
+    create_report(employee.canonical_name, overview_file, log_file)
   end
 
   def create_report(employee_name, overview_file, log_file)
-    report_source = "report-#{employee_name}.adoc"
+    report_source = create_report_source(employee_name, overview_file, log_file)
+    
     output = "report-#{employee_name}.html"
-    [report_source, output].each do |file|
-      File.delete file if File.exist? file
-    end
-
-    [overview_file, log_file].each do |file|
-      append_file(report_source, "include::#{file}[]")
-    end
+    File.delete output if File.exist? output
 
     raise StandardError, 'Report launch failed' \
       unless system('asciidoctor', "-o#{output}", report_source)
 
     output
+  end
+
+  def create_report_source(employee_name, overview_file, log_file)
+    report_source = "report-#{employee_name}.adoc"
+    File.delete report_source if File.exist? report_source
+
+    [overview_file, log_file].each do |file|
+      append_file(report_source, "include::#{file}[]")
+    end
+
+    report_source
   end
 end

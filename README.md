@@ -184,7 +184,7 @@ to customize:
         "Enter your observation for #{name}:"
       end
 
-      def self.elements_array
+      def self.elements
         [
           DiaryElement.new(:location, 'Location', default: 'unspecified'),
           DiaryElement.new(:content)
@@ -198,7 +198,7 @@ to customize:
 
 The `prompt` text is displayed at the beginning of the recording.
 
-Each element in the `elements_array` becomes a question that is asked of the
+Each element in the `elements` becomes a question that is asked of the
 user. This example shows two entries. In the `location` entry, the prompt is
 specified in the second argument, and the default value is the third. The
 `content` entry shows that the last two arguments are optional.
