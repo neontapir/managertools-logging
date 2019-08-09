@@ -12,8 +12,9 @@ class MoveTeamCommand
   # @!method command(arguments, options)
   #   Move a person's data to a new folder
   def command(arguments, _ = nil)
-    target_team_spec = arguments.pop
-    Array(arguments).each do |employee_spec|
+    args = Array(arguments)
+    target_team_spec = args.pop
+    args.each do |employee_spec|
       process(employee_spec, target_team_spec)
     end
   end

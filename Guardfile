@@ -1,37 +1,27 @@
 # frozen_string_literal: true
 
-# A sample Guardfile
-# More info at https://github.com/guard/guard#readme
-
-## Uncomment and set this to only include directories you want to watch
-directories(%w[lib spec]).select do |d|
+directories(%w[lib lib/commands lib/entries spec]).select do |d|
   Dir.exist?(d) ? d : UI.warning("Directory #{d} does not exist")
 end
 
-## Note: if you are using the `directories` clause above and you are not
-## watching the project directory ('.'), then you will want to move
-## the Guardfile to a watched dir and symlink it back, e.g.
-#
-#  $ mkdir config
-#  $ mv Guardfile config/
-#  $ ln -s config/Guardfile .
-#
-# and, you'll have to watch "config/Guardfile" instead of "Guardfile"
+# To debug, courtesy of https://github.com/guard/guard/wiki/Understanding-Guard
+# watch(%r{^lib/(.+)\.rb$}) do |m|
+#   "spec/#{m[1]}_spec.rb" # .tap do |result| 
+#      Guard::UI.info "Sending changes to RSpec: #{result.inspect}"
+#      Guard::UI.info "The original match is: #{m.inspect}"
+#   end
+# end
 
-# Note: The cmd option is now required due to the increasing number of ways
-#       rspec may be run, below are examples of the most common uses.
-#  * bundler: 'bundle exec rspec'
-#  * bundler binstubs: 'bin/rspec'
-
-guard :rspec, cmd: 'bin/rspec' do
+guard :rspec, cmd: 'rspec' do
   watch(%r{^spec/.+_spec\.rb$})
-  watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
+  watch(%r{^lib/(.+)\.rb$}) { |m| "spec/#{m[1]}_spec.rb" }
+  watch(%r{^lib/(commands|entries)/(.+)\.rb$}) { |m| "spec/#{m[2]}_spec.rb" }
   watch('spec/spec_helper.rb')  { 'spec' }
 
   require 'guard/rspec/dsl'
   dsl = Guard::RSpec::Dsl.new(self)
 
-  # # RSpec files
+  # RSpec files
   rspec = dsl.rspec
   watch(rspec.spec_helper) { rspec.spec_dir }
   watch(rspec.spec_support) { rspec.spec_dir }
@@ -40,10 +30,4 @@ guard :rspec, cmd: 'bin/rspec' do
   # Ruby files
   ruby = dsl.ruby
   dsl.watch_spec_files_for(ruby.lib_files)
-
-  # # Turnip features and steps
-  # watch(%r{^spec/acceptance/(.+)\.feature$})
-  # watch(%r{^spec/acceptance/steps/(.+)_steps\.rb$}) do |m|
-  #   Dir[File.join("**/#{m[1]}.feature")][0] || "spec/acceptance"
-  # end
 end
