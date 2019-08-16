@@ -33,12 +33,6 @@ module ManagerTools
       record_diary_entry(:goal, Array(names), options)
     end
 
-    desc 'interview NAME', "Add an interview log entry"
-    method_option :template, type: :boolean, default: false, desc: 'Add a template to the log file, without entry data'
-    def interview(name)
-      record_diary_entry(:interview, Array(name), options)
-    end
-
     desc 'obs NAMES', "Add an observation log entry"
     method_option :template, type: :boolean, default: false, desc: 'Add a template to the log file, without entry data'
     map 'ob' => 'observation'
@@ -81,6 +75,12 @@ module ManagerTools
     map 'gen' => 'generate_overview_files'
     def generate_overview_files
       execute_subcommand(:generate_overview_files, [], options)
+    end
+
+    desc 'interview CANDIDATE', "Add an interview log entry"
+    method_option :template, type: :boolean, default: false, desc: 'Add a template to the log file, without entry data'
+    def interview(*candidate)
+      execute_subcommand(:interview, Array(candidate), options)
     end
 
     desc 'latest NAME', "Display the person's latest log entry"

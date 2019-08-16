@@ -47,6 +47,7 @@ class Settings < Settingslogic
           feedback_polarity_default: positive
           location_default: alcove
           pto_default: vacation
+          voip_meeting_default: Zoom
 
         development:
           <<: *defaults

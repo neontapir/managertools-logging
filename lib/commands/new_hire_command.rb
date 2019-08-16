@@ -29,6 +29,7 @@ class NewHireCommand
     nhc_parameters = OpenStruct.new(folder: folder, force: force)
     generate_overview_file_by(nhc_parameters)
     generate_log_file_by(nhc_parameters)
+    employee
   end
 
   private
