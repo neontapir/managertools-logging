@@ -11,17 +11,18 @@ require_relative '../settings'
 class MoveTeamCommand
   # @!method command(arguments, options)
   #   Move a person's data to a new folder
+  #   First argument is the team, then a list of people
   def command(arguments, _ = nil)
-    args = Array(arguments)
-    target_team_spec = args.pop
+    args = Array(arguments).flatten
+    target_team_spec = args.shift
     args.each do |employee_spec|
-      process(employee_spec, target_team_spec)
+      process(target_team_spec, employee_spec)
     end
   end
 
   private
 
-  def process(employee_spec, target_team_spec)
+  def process(target_team_spec, employee_spec)
     employee = Employee.find employee_spec
     raise EmployeeNotFoundError, "No employee matching '#{employee_spec}' found, aborting" unless employee
 
@@ -31,11 +32,12 @@ class MoveTeamCommand
     if employee.team == target_team.path
       warn HighLine.color("Aborting, #{employee} is already in the expected folder", :red)
     else
-      move(employee, target_team)
+      move(target_team, employee)
     end
   end
 
-  def move(employee, target_team)
+  # TODO: include changing imagedir in overview file, add item to Teams line
+  def move(target_team, employee)
     puts "Moving #{employee} to team #{target_team}"
     move_entry = ObservationEntry.new(content: "Moving #{employee} to team #{target_team}")
     employee_file = employee.file

@@ -90,10 +90,10 @@ module ManagerTools
       execute_subcommand(:last_entry, Array(name), options)
     end
 
-    desc 'move NAME TEAM', "Move the person's files to the specified team"
+    desc 'move TEAM *NAMES', "Move the people's files to the specified team"
     map 'move' => 'move_team'
-    def move_team(*names, team)
-      execute_subcommand(:move_team, [names, team], options)
+    def move_team(team, *names)
+      execute_subcommand(:move_team, [team, names], options)
     end
 
     desc 'new TEAM FIRST LAST', "Create the person's overview and log files in the given team folder"

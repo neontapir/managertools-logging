@@ -23,14 +23,14 @@ RSpec.describe MoveTeamCommand do
     subject { MoveTeamCommand.new }
 
     it 'relocates their files' do
-      expect { subject.command %w[Princess justice-league] }.to output(/Princess Koriandr/).to_stdout
+      expect { subject.command %w[justice-league Princess] }.to output(/Princess Koriandr/).to_stdout
 
       expect(Dir.exist? 'data/justice-league/princess-koriandr').to be_truthy
       expect(Dir.exist? 'data/teen-titans/princess-koriandr').to be_falsey
     end
 
     it 'writes a log entry' do
-      expect { subject.command %w[Princess justice-league] }.to output(/Princess Koriandr/).to_stdout
+      expect { subject.command %w[justice-league Princess] }.to output(/Princess Koriandr/).to_stdout
 
       starfire = Employee.find('Princess')
       starfire_path = starfire.file.path
@@ -56,7 +56,7 @@ RSpec.describe MoveTeamCommand do
     end
 
     it 'relocates all their files' do
-      expect{ MoveTeamCommand.new.command %w[Princess Grayson justice-league] }.to output.to_stdout
+      expect{ MoveTeamCommand.new.command %w[justice-league Princess Grayson] }.to output.to_stdout
       
       %w[princess-koriandr dick-grayson].each do |member|
         expect(Dir.exist? "data/justice-league/#{member}").to be_truthy
@@ -80,7 +80,7 @@ RSpec.describe MoveTeamCommand do
     subject { MoveTeamCommand.new }
 
     it 'prints a message' do
-      expect { subject.command %w[Princess Teen\ Titans] }.to output(/is already in the expected folder/).to_stderr
+      expect { subject.command %w[Teen\ Titans Princess] }.to output(/is already in the expected folder/).to_stderr
 
       expect(Dir.exist? 'data/teen-titans/princess-koriandr').to be_truthy
     end
