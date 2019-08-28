@@ -38,6 +38,12 @@ class MoveTeamCommand
 
   # TODO: include changing imagedir in overview file, add item to Teams line
   def move(target_team, employee)
+    move_folder(target_team, employee)
+    # update_imagedir(target_team, employee)
+    # update_team_assignment(target_team, employee)
+  end
+
+  def move_folder(target_team, employee)
     puts "Moving #{employee} to team #{target_team}"
     move_entry = ObservationEntry.new(content: "Moving #{employee} to team #{target_team}")
     employee_file = employee.file
