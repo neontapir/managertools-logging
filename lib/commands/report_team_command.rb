@@ -4,6 +4,7 @@ require 'asciidoctor'
 require_relative '../file_writer'
 require_relative '../mt_data_formatter'
 require_relative '../os_adapter'
+require_relative '../settings'
 require_relative '../team'
 
 # Create a report of a team, using each member's files
@@ -41,7 +42,7 @@ class ReportTeamCommand
 
     append_file(report_source, "= Team #{team.to_s.titlecase}\n\n")
     team.members_by_folder.each do |tm|
-      append_file(report_source, "include::#{tm}/overview.adoc[]\n\n#{HORIZONTAL_RULE}\n\n")
+      append_file(report_source, "include::#{tm}/#{Settings.overview_filename}[]\n\n#{HORIZONTAL_RULE}\n\n")
     end
 
     raise SystemCallError, 'Asciidoctor launch failed' \

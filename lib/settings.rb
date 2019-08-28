@@ -46,6 +46,7 @@ class Settings < Settingslogic
           editor: atom
           feedback_polarity_default: positive
           location_default: alcove
+          overview_filename: overview.adoc
           pto_default: vacation
           voip_meeting_default: Zoom
 

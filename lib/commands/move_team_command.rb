@@ -2,6 +2,7 @@
 
 require 'fileutils'
 require 'highline'
+require 'tempfile'
 
 require_relative '../employee'
 require_relative '../team'
@@ -36,11 +37,9 @@ class MoveTeamCommand
     end
   end
 
-  # TODO: include changing imagedir in overview file, add item to Teams line
   def move(target_team, employee)
+    update_overview_file(target_team, employee)
     move_folder(target_team, employee)
-    # update_imagedir(target_team, employee)
-    # update_team_assignment(target_team, employee)
   end
 
   def move_folder(target_team, employee)
@@ -49,6 +48,35 @@ class MoveTeamCommand
     employee_file = employee.file
     employee_file.insert move_entry
     current_folder = File.dirname employee_file.path
-    FileUtils.move(current_folder, "#{Settings.root}/#{target_team.path}/#{employee.canonical_name}")
+    FileUtils.move(current_folder, target_team_path(target_team, employee))
+  end
+
+  def update_overview_file(target_team, employee)
+    overview = employee.overview_location
+    raise unless File.exist?(overview)
+    temp_file = Tempfile.new(Settings.overview_filename)
+    begin
+      File.open(overview, 'r') do |file|
+        file.each_line do |line|
+          case line
+          when /imagesdir/
+            temp_file.puts ":imagesdir: #{target_team_path(target_team, employee)}"
+          when /Team:/
+            temp_file.puts "#{line.chomp}, #{target_team}"
+          else
+            temp_file.puts line
+          end
+        end
+      end
+      temp_file.close
+      FileUtils.mv(temp_file.path, overview)
+    ensure
+      temp_file.close
+      temp_file.unlink
+    end
+  end
+
+  def target_team_path(target_team, employee)
+    "#{Settings.root}/#{target_team.path}/#{employee.canonical_name}"
   end
 end

@@ -6,9 +6,12 @@ require_relative 'entity_file'
 class LogFile
   include MtFile
 
+  attr_reader :folder
+
   # Create a new log file
   # @param [EmployeeFolder] folder the containing folder
   def initialize(folder)
+    @folder = folder.path
     @log_file = EntityFile.new folder, 'log.adoc'
   end
 

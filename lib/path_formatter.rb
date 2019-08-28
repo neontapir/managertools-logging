@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'namecase'
 require_relative 'mt_data_formatter'
 
 # Splits path into team and member name components

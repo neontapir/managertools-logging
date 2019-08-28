@@ -46,7 +46,7 @@ class NewHireCommand
   end
 
   def generate_overview_file_by(nhc_parameters)
-    generate_file_by(nhc_parameters, 'overview.adoc') do |content_file|
+    generate_file_by(nhc_parameters, Settings.overview_filename) do |content_file|
       create_overview_file nhc_parameters.folder, content_file
     end
   end
@@ -66,7 +66,7 @@ class NewHireCommand
 
       image::#{employee.canonical_name}.jpg[#{employee}, width="200", align="right", float="right"]
 
-      Team: #{employee.team.capitalize}
+      Team: #{employee.team}
 
     OVERVIEW
     write_file(overview_file.path, contents)

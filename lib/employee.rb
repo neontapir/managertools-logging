@@ -3,6 +3,7 @@
 require_relative 'employee_finder'
 require_relative 'employee_folder'
 require_relative 'mt_data_formatter'
+require_relative 'settings'
 
 # Represents a team member, a person assigned to a team
 # @attr_reader [String] team the name of the team the person belongs to
@@ -30,6 +31,14 @@ class Employee
   def file
     folder = EmployeeFolder.new self
     LogFile.new folder
+  end
+
+  # Get the overview file location for the employee
+  #
+  # @return [string] the employee's log file
+  def overview_location
+    folder = EmployeeFolder.new self
+    File.join(folder.to_s, Settings.overview_filename)
   end
 
   # Object equality by its fields

@@ -27,8 +27,8 @@ class ReportCommand
 
   def generate_report_for(employee)
     folder = EmployeeFolder.new employee
-    overview_file = File.join(folder.path, 'overview.adoc')
-    log_file = (LogFile.new folder).to_s
+    overview_file = employee.overview_location
+    log_file = employee.file.to_s
     create_report(employee.canonical_name, overview_file, log_file)
   end
 

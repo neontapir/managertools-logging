@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require './lib/employee'
+require './lib/settings'
 require './lib/commands/move_team_command'
 require './lib/commands/new_hire_command'
 require_relative 'spec_helper'
@@ -33,9 +34,28 @@ RSpec.describe MoveTeamCommand do
       expect { subject.command %w[justice-league Princess] }.to output(/Princess Koriandr/).to_stdout
 
       starfire = Employee.find('Princess')
-      starfire_path = starfire.file.path
-      expect(starfire_path).to eq 'data/justice-league/princess-koriandr/log.adoc'
-      expect(File.read(starfire_path)).to include 'Moving Princess Koriandr to team Justice League'
+      starfire_log = starfire.file.path
+      expect(starfire_log).to eq 'data/justice-league/princess-koriandr/log.adoc'
+      expect(File.read(starfire_log)).to include 'Moving Princess Koriandr to team Justice League'
+    end
+
+    it 'updates the image folder in the overview file' do
+      expect { subject.command %w[justice-league Princess] }.to output(/Princess Koriandr/).to_stdout
+      starfire = Employee.find('Princess')
+      starfire_folder = starfire.file.folder
+      starfire_overview = File.join(starfire_folder, Settings.overview_filename)
+      overview_contents = File.read(starfire_overview)
+      expect(overview_contents).to include 'data/justice-league/princess-koriandr'
+      expect(overview_contents).not_to include 'data/teen-titans/princess-koriandr'
+    end
+
+    it 'updates the team line in the overview file' do
+      expect { subject.command %w[justice-league Princess] }.to output(/Princess Koriandr/).to_stdout
+      starfire = Employee.find('Princess')
+      starfire_folder = starfire.file.folder
+      starfire_overview = File.join(starfire_folder, Settings.overview_filename)
+      overview_contents = File.read(starfire_overview)
+      expect(overview_contents).to include 'Team: Teen Titans, Justice League'
     end
   end
 
