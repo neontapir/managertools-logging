@@ -2,10 +2,12 @@
 
 require_relative '../diary'
 require_relative '../team'
+require_relative '../mt_data_formatter'
 
 # Implements team meeting functionality
 class TeamMeetingCommand
   include Diary
+  include MtDataFormatter
 
   # @!method command(arguments, options)
   #   Create an entry in each team member's file
@@ -21,9 +23,10 @@ class TeamMeetingCommand
   private
 
   def log_message_for(members)
-    any_team_member = members.first
-    entry = get_entry :team_meeting, any_team_member
-
-    members.each { |employee| employee.file.insert entry }
+    entry = nil
+    members.each do |employee|
+      entry ||= get_entry(:team_meeting, members.join(','), applies_to: members.map{|s| to_name(s)}.join(', '))
+      employee.file.insert entry
+    end
   end
 end
