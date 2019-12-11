@@ -43,7 +43,11 @@ RSpec.describe Diary do
       end
 
       def elements
-        [DiaryElement.new(:xyzzy)]
+        [
+          DiaryElement.new(:xyzzy),
+          DiaryElement.new(:wumpus, 'Wumpus', default: 'I feel a draft'),
+          DiaryElement.new(:zork, 'Zork', default: 'plover', prompt: nil)
+        ]
       end
 
       def to_s
@@ -75,19 +79,58 @@ RSpec.describe Diary do
       expect(File.size(log)).to be > old_length
     end
 
-    it 'gets an entry' do
+    it 'gets an entry with user input' do
       expect($stdout).to receive(:puts)
-      allow(Settings.console).to receive(:ask) { 'anything' }
+      allow(Settings.console).to receive(:ask) do |prompt|
+        case prompt
+        when /Xyzzy/ then 'anything'
+        end
+      end
       entry = subject.get_entry 'Test', 'Tony Stark'
       expect(entry.record).to include(xyzzy: 'anything')
     end
 
-    it 'gets an entry with initial values' do
+    it 'uses default values when getting an entry' do
       expect($stdout).to receive(:puts)
-      allow(Settings.console).to receive(:ask) { 'anything' }
-      entry = subject.get_entry 'Test', 'Tony Stark', plover: 'zork'
+      allow(Settings.console).to receive(:ask) {}
+      entry = subject.get_entry 'Test', 'Tony Stark'
+      expect(entry.record).to include(wumpus: 'I feel a draft')
+    end
+
+    it 'overwrites default values with user input' do
+      expect($stdout).to receive(:puts)
+      allow(Settings.console).to receive(:ask) do |prompt|
+        case prompt
+        when /Xyzzy/ then 'anything'
+        when /Wumpus/ then 'AHA! You got the wumpus!'
+        end
+      end
+      entry = subject.get_entry 'Test', 'Tony Stark'
+      expect(entry.record).to include(wumpus: 'AHA! You got the wumpus!')
+    end
+
+    it 'inserts initial values into its record' do
+      expect($stdout).to receive(:puts)
+      allow(Settings.console).to receive(:ask) do |prompt|
+        case prompt
+        when /Xyzzy/ then 'anything'
+        end
+      end
+      entry = subject.get_entry 'Test', 'Tony Stark', oregon_trail: 'BANG'
       expect(entry.record).to include(xyzzy: 'anything')
-      expect(entry.record).to include(plover: 'zork')
+      expect(entry.record).to include(oregon_trail: 'BANG')
+    end
+
+    it 'prioiritizes injected values over user input and default value' do
+      expect($stdout).to receive(:puts)
+      allow(Settings.console).to receive(:ask) do |prompt|
+        case prompt
+        when /Zork/ then 'user input value'
+        end
+      end
+      entry = subject.get_entry 'Test', 'Tony Stark', zork: 'The Great Underground Empire'
+      expect(entry.record).not_to include(zork: 'plover'), 'failure: used default value'
+      expect(entry.record).to include(zork: 'The Great Underground Empire')
     end
   end
 

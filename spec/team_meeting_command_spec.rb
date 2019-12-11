@@ -3,11 +3,13 @@
 require './lib/employee'
 require './lib/employee_folder'
 require './lib/log_file'
+require './lib/mt_data_formatter'
 require './lib/commands/team_meeting_command'
 require_relative 'file_contents_validation_helper'
 
 RSpec.describe TeamMeetingCommand do
   include FileContentsValidationHelper
+  include MtDataFormatter
 
   # force interactive mode, avoid reading global variables
   module Diary
@@ -31,20 +33,20 @@ RSpec.describe TeamMeetingCommand do
       FileUtils.rm_r 'data/avengers'
     end
 
-    it 'will append the entry to all team members' do
-      tony = Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark')
-      steve = Employee.new(team: 'Avengers', first: 'Steve', last: 'Rogers')
-      members = [tony, steve]
+    let (:tony) { Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark') }
+    let (:steve) { Employee.new(team: 'Avengers', first: 'Steve', last: 'Rogers') }
+    let (:members) { [ tony, steve ]}
 
+    it 'will append the entry to all team members' do
       members.each do |m|
         LogFile.new(EmployeeFolder.new(m))
       end
 
-      Settings.with_mock_input "\nall\n\nWe met about stuff\n\n" do
+      Settings.with_mock_input "\n\n\nWe met about stuff\n\n" do
         subject.command ['avengers']
       end
 
-      expected = ["  all\n", "  alcove\n", "  We met about stuff\n", "  none\n"]
+      expected = ["  Steve Rogers, Tony Stark\n", "  alcove\n", "  We met about stuff\n", "  none\n"]
       verify_answers_propagated(expected, members)
     end
   end
@@ -61,7 +63,7 @@ RSpec.describe TeamMeetingCommand do
       FileUtils.rm_r 'data/justice-league'
     end
 
-    it 'will append the entry to all team members' do
+    it 'will append the entry to each team\'s members' do
       tony = Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark')
       steve = Employee.new(team: 'Avengers', first: 'Steve', last: 'Rogers')
       diana = Employee.new(team: 'Justice League', first: 'Diana', last: 'Prince')
@@ -71,11 +73,11 @@ RSpec.describe TeamMeetingCommand do
         LogFile.new(EmployeeFolder.new(m))
       end
 
-      Settings.with_mock_input "\nall\n\nWe met about stuff\n\n" * 2 do
+      Settings.with_mock_input "\n\n\nWe met about stuff\n\n" do
         subject.command %w[avengers justice]
       end
 
-      expected = ["  all\n", "  alcove\n", "  We met about stuff\n", "  none\n"]
+      expected = ["  alcove\n", "  We met about stuff\n", "  none\n"]
       verify_answers_propagated(expected, members)
     end
   end

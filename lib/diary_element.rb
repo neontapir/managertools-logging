@@ -17,7 +17,7 @@ class DiaryElement
 
   attr_reader :key, :label, :default, :prompt
 
-  # @!method initialize(key, label = key.to_s.capitalize, default = DEFAULT_VALUE)
+  # @!method initialize(key, label = key.to_s.capitalize, options = {})
   #   Create a new diary element
   #   @raise [ArgumentError] when label contains characters not allowed in Asciidoc definition lists
   def initialize(key, label = key.to_s.capitalize, options = {})
@@ -38,5 +38,9 @@ class DiaryElement
     Settings.console.ask "#{label}: " do |answer|
       answer.default = default
     end
+  end
+
+  def inspect
+    "<DiaryElement:#{object_id} with key: '#{key}', label: '#{label}', default: '#{default}', prompt: '#{prompt}'>"
   end
 end

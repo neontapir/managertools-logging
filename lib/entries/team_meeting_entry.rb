@@ -18,11 +18,26 @@ class TeamMeetingEntry < DiaryEntry
   def elements
     [
       DiaryDateElement.new(:datetime, 'Effective date'),
+      DiaryElement.new(:team, 'Team', default: nil, prompt: nil),
       DiaryElement.new(:attendees),
       DiaryElement.new(:location, 'Location', default: Settings.location_default || 'unspecified'),
       DiaryElement.new(:notes),
       DiaryElement.new(:actions)
     ]
+  end
+
+  # # A hook to modify data after prompting for responses
+  # def post_create(data)
+  #   if data[:attendees] == DiaryElement::DEFAULT_VALUE
+  #     data[:attendees] = data[:team].members
+  #   end
+
+  #   data
+  # end
+
+  # items in the header_items array will not be included in the body of the entry, just the header
+  def header_items
+    [:datetime, :team]
   end
 
   def to_s

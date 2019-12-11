@@ -82,7 +82,7 @@ RSpec.describe RecordDiaryEntryCommand do
         LogFile.new(EmployeeFolder.new(m))
       end
 
-      Settings.with_mock_input "\n\nSpoke about important things\n" do
+      Settings.with_mock_input "\nSpoke about important things\n" do
         subject.command(:observation, %w[thor rogers])
       end
 

@@ -23,21 +23,22 @@ module Diary
     employee.file.insert entry
   end
 
-  # @!method get_entry(type, employee, initial_record)
+  # @!method get_entry(type, header, initial_record)
   #   Gets a diary entry, whether as a template or as a filled-out entry
   #   @param [String] type The name of the template entry type
-  #   @param [String] employee The name of the employee
+  #   @param [String] header The header, often the name of the employee
   #   @param [Hash] initial_record The initial hash of entry values
-  def get_entry(type, employee, initial_record = {})
-    data = template? ? {} : create_entry(type, employee.to_s, initial_record)
-    # HACK: For Multiple member, I want to show the injected value in the
-    #   template. That creates a chicken and the egg problem. During
-    #   create_entry, the contents of initial_value aren't retained.
-    #   This kludge forces them back in. Fix this.
-    data.merge! initial_record
+  def get_entry(type, header, initial_record = {})
     entry_type = DiaryEntry.get type
+    raise ArgumentError unless entry_type < DiaryEntry
+
+    user_input = template? ? {} : create_entry(entry_type, header.to_s, initial_record)
+    data = initial_record.merge(user_input)
+    
     entry_type.new data
   end
+
+  private
 
   # @!method create_entry(type, header, initial_record)
   #   Creates a diary entry, getting responses from the user
@@ -45,11 +46,8 @@ module Diary
   #   @param [String] header The entry header
   #   @param [Hash] initial_record The initial hash of values
   #   @raise [ArgumentError] when type is not a kind of DiaryEntry
-  def create_entry(type, header, initial_record)
-    entry_type = DiaryEntry.get type
-    raise ArgumentError unless entry_type < DiaryEntry
-
+  def create_entry(entry_type, header, initial_record)
     new_entry = entry_type.new initial_record
-    new_entry.populate(header)
+    new_entry.populate(header, initial_record)
   end
 end

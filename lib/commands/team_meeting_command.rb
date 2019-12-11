@@ -12,33 +12,16 @@ class TeamMeetingCommand
   # @!method command(arguments, options)
   #   Create an entry in each team member's file
   def command(arguments, _ = nil)
+    entry = nil
     Array(arguments).each do |team_name|
       team = Team.find team_name
       raise "no such team #{team_name}" unless team
 
-      log_message_for team_name, team.members
+      members = team.members
+      members.each do |employee|
+        entry ||= get_entry(:team_meeting, to_name(team_name), attendees: members.map{|s| to_name(s)}.join(', '), team: team)
+        employee.file.insert entry
+      end
     end
-  end
-
-  private
-
-  def log_message_for(team_name, members)
-    entry = nil
-    members.each do |employee|
-      entry ||= get_entry(:team_meeting, to_name(team_name), attendees: members.map{|s| to_name(s)}.join(', '))
-      employee.file.insert entry
-    end
-  end
-
-  # HACK: Copied from Diary to alter header, fix this to allow injection
-  def get_entry(type, team_name, initial_record = {})
-    data = template? ? {} : create_entry(type, team_name, initial_record)
-    # HACK: For Multiple member, I want to show the injected value in the
-    #   template. That creates a chicken and the egg problem. During
-    #   create_entry, the contents of initial_value aren't retained.
-    #   This kludge forces them back in. Fix this.
-    data.merge! initial_record
-    entry_type = DiaryEntry.get type
-    entry_type.new data
   end
 end

@@ -21,17 +21,6 @@ class InterviewEntry < DiaryEntry
       DiaryElement.new(:location, 'Location', default: Settings.voip_meeting_default),
       DiaryElement.new(:position, 'Position', default: 'SE1'),
       DiaryElement.new(:other_panel_members, 'Other panel members', default: 'solo'),
-      # DiaryElement.new(:why_new_job, 'Why new job'),
-      # DiaryElement.new(:why_us, 'Why us'),
-      # DiaryElement.new(:goal, 'Career goal'),
-      # DiaryElement.new(:motivation, 'What motivates you'),
-      # DiaryElement.new(:challenge, 'What do you find challenging'),
-      # DiaryElement.new(:environment, 'Work environment'),
-      # DiaryElement.new(:why_not, 'Why not hire you'),
-      # DiaryElement.new(:personality, 'Personality'),
-      # DiaryElement.new(:relocation_needs, 'Relocation needs'),
-      # DiaryElement.new(:start_date, 'Desired start date'),
-      # DiaryElement.new(:compensation, 'Desired compensation'),
       DiaryElement.new(:notes, 'Notes'),
       DiaryElement.new(:recommendation, 'Recommendation')
     ]
