@@ -25,7 +25,7 @@ class TeamMeetingCommand
   def log_message_for(team_name, members)
     entry = nil
     members.each do |employee|
-      entry ||= get_entry(:team_meeting, to_name(team_name), applies_to: members.map{|s| to_name(s)}.join(', '))
+      entry ||= get_entry(:team_meeting, to_name(team_name), attendees: members.map{|s| to_name(s)}.join(', '))
       employee.file.insert entry
     end
   end
