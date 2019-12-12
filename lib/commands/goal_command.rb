@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
 require_relative '../diary'
-require_relative '../mt_data_formatter'
 require_relative '../team'
 
 # Implements personal goal functionality
 class GoalCommand
   include Diary
-  include MtDataFormatter
 
   # @!method command(arguments, options)
   #   Create a goal in each team member's file

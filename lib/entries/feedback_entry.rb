@@ -3,12 +3,10 @@
 require_relative '../diary_date_element'
 require_relative '../diary_element'
 require_relative 'diary_entry'
-require_relative '../mt_data_formatter'
 require_relative '../settings'
 
 # Template for documenting feedback given
 class FeedbackEntry < DiaryEntry
-  include MtDataFormatter
 
   def prompt(name)
     personalized = name[','] ? '' : " to #{name}"

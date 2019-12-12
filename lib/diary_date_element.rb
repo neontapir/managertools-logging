@@ -3,13 +3,11 @@
 require 'chronic'
 require 'date'
 require_relative 'diary_element'
-require_relative 'mt_data_formatter'
 require_relative 'settings'
 
 # Represents a date in a diary entry
 class DiaryDateElement
   attr_reader :key, :label, :default, :prompt, :formatter
-  include MtDataFormatter
 
   # @!method initialize(key, label = key.to_s.capitalize, formatter = ->(x) { x.to_s })
   #   Create a new diary element

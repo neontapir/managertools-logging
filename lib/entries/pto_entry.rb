@@ -10,13 +10,13 @@ require_relative '../settings'
 
 # Template for a one-on-one meeting
 class PtoEntry < DiaryEntry
-  include MtDataFormatter
+  using MtDataFormatter
 
   def elements
     [
       DiaryElement.new(:duration, 'Duration', default: '0', prompt: nil),
-      DiaryDateElement.new(:start_time, 'Start date', formatter: -> x { x.strftime '%B %e, %Y' }),
-      DiaryDateElement.new(:end_time, 'End date', formatter: -> x { x.strftime '%B %e, %Y' }),
+      DiaryDateElement.new(:start_time, 'Start date', formatter: -> x { x.short_date }),
+      DiaryDateElement.new(:end_time, 'End date', formatter: -> x { x.short_date }),
       DiaryElement.new(:reason, 'Reason', default: Settings.pto_default || 'unspecified'),
     ]
   end

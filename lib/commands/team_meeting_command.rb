@@ -7,7 +7,7 @@ require_relative '../mt_data_formatter'
 # Implements team meeting functionality
 class TeamMeetingCommand
   include Diary
-  include MtDataFormatter
+  using MtDataFormatter
 
   # @!method command(arguments, options)
   #   Create an entry in each team member's file
@@ -19,7 +19,7 @@ class TeamMeetingCommand
 
       members = team.members
       members.each do |employee|
-        entry ||= get_entry(:team_meeting, to_name(team_name), attendees: members.map{ |s| to_name(s) }.join(', '), team: team)
+        entry ||= get_entry(:team_meeting, team_name.to_name, attendees: members.map{ |m| m.to_s.to_name }.join(', '), team: team)
         employee.file.insert entry
       end
     end

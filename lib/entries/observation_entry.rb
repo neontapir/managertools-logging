@@ -3,12 +3,9 @@
 require_relative '../diary_date_element'
 require_relative '../diary_element'
 require_relative 'diary_entry'
-require_relative '../mt_data_formatter'
 
 # Template for an observation
 class ObservationEntry < DiaryEntry
-  include MtDataFormatter
-
   def prompt(name)
     personalized = name[','] ? '' : " for #{name}"
     "Enter your observation#{personalized}:"

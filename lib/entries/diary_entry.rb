@@ -8,7 +8,7 @@ require_relative '../mt_data_formatter'
 #   @return [Hash] the entry's data dictionary of elements
 class DiaryEntry
   attr_reader :record
-  include MtDataFormatter
+  using MtDataFormatter
 
   # @!method initialize(**record)
   #   Create a new diary entry
@@ -37,9 +37,9 @@ class DiaryEntry
     raise ArgumentError, "#{entry_type}#elements must return an enumerable" unless elements.is_a?(Enumerable)
     raise ArgumentError, "record[:datetime] must be a Time, not a #{date.class}" unless date.is_a?(Time)
 
-    initial = "=== #{title} (#{format_date(date)})\n"
+    initial = "=== #{title} (#{date.standard_format})\n"
     elements.reject { |element| header_items.include? element.key }.inject(initial) do |output, entry| # rubocop:disable CollectionMethods
-      output + "#{entry.label}::\n  #{wrap(@record.fetch(entry.key, entry.default))}\n"
+      output + "#{entry.label}::\n  #{@record.fetch(entry.key, entry.default).to_s.wrap}\n"
     end
   end
 

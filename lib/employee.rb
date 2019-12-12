@@ -12,7 +12,7 @@ require_relative 'settings'
 class Employee
   include Comparable
   extend EmployeeFinder
-  include MtDataFormatter
+  using MtDataFormatter
 
   attr_reader :team, :first, :last
 
@@ -70,12 +70,12 @@ class Employee
   # The name used in folder creation
   # @return [String] the folder name
   def canonical_name
-    unidown "#{first}-#{last}"
+    "#{first}-#{last}".unidowncase
   end
 
   # The display name, in title case
   # @return [String] the display name
   def to_s
-    "#{to_name(first)} #{to_name(last)}"
+    "#{first} #{last}".to_name
   end
 end

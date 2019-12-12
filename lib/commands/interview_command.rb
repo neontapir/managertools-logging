@@ -1,7 +1,6 @@
 require_relative '../diary'
 require_relative '../employee'
 require_relative '../entries/interview_entry'
-require_relative '../mt_data_formatter'
 require_relative '../settings'
 require_relative 'new_hire_command'
 
@@ -10,7 +9,6 @@ require 'pry'
 # Implements diary recording functionality
 class InterviewCommand
   include Diary
-  include MtDataFormatter
 
   # @!method command(arguments, options)
   #   Record a new diary entry in the person's file

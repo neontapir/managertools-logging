@@ -7,7 +7,7 @@ require_relative '../mt_data_formatter'
 
 # Tempate used for team meetings, propagated to all team members' files
 class GoalEntry < DiaryEntry
-  include MtDataFormatter
+  using MtDataFormatter
 
   def prompt(name)
     personalized = name[','] ? '' : " for #{name}"
@@ -17,7 +17,7 @@ class GoalEntry < DiaryEntry
   def elements
     result = [
       DiaryDateElement.new(:datetime, 'Effective date'),
-      DiaryDateElement.new(:due_date, 'Due date', formatter: -> date { format_short_date(date) }),
+      DiaryDateElement.new(:due_date, 'Due date', formatter: -> date { date.short_date }),
       DiaryElement.new(:goal)
     ]
 

@@ -3,13 +3,10 @@
 require_relative '../diary_date_element'
 require_relative '../diary_element'
 require_relative 'diary_entry'
-require_relative '../mt_data_formatter'
 require_relative '../settings'
 
 # Tempate used for team meetings, propagated to all team members' files
 class TeamMeetingEntry < DiaryEntry
-  include MtDataFormatter
-
   def prompt(team)
     personalized = team[','] ? '' : "#{team}"
     "For your #{personalized} team meeting, enter the following:"

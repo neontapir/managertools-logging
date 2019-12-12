@@ -8,7 +8,7 @@ require_relative 'settings'
 # Reparesents a folder that contains files about a direct report
 # @attr_reader [Project] project the project whose data resides in the folder
 class ProjectFolder
-  include MtDataFormatter
+  using MtDataFormatter
   include PathFormatter
 
   attr_reader :project
@@ -28,7 +28,7 @@ class ProjectFolder
   # The canonical name of the folder
   def folder_name
     project_name = project.project.strip_nonalnum
-    unidown "#{project_name}"
+    project_name.unidowncase
   end
 
   # The path to the file, relative to the parent folder of the root

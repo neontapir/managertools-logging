@@ -8,7 +8,7 @@ require_relative 'settings'
 # Reparesents a folder that contains files about a direct report
 # @attr_reader [Employee] employee the employee whose data resides in the folder
 class EmployeeFolder
-  include MtDataFormatter
+  using MtDataFormatter
   include PathFormatter
 
   attr_reader :employee
@@ -32,9 +32,9 @@ class EmployeeFolder
 
   # The canonical name of the folder
   def folder_name
-    first_name = strip_nonalnum employee.first
-    last_name = strip_nonalnum employee.last
-    unidown "#{first_name}-#{last_name}"
+    first_name = employee.first.strip_nonalnum
+    last_name = employee.last.strip_nonalnum
+    "#{first_name}-#{last_name}".unidowncase
   end
 
   # The path to the file, relative to the parent folder of the root

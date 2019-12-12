@@ -3,13 +3,11 @@
 require './lib/employee'
 require './lib/employee_folder'
 require './lib/log_file'
-require './lib/mt_data_formatter'
 require './lib/commands/team_meeting_command'
 require_relative 'file_contents_validation_helper'
 
 RSpec.describe TeamMeetingCommand do
   include FileContentsValidationHelper
-  include MtDataFormatter
 
   # force interactive mode, avoid reading global variables
   module Diary
