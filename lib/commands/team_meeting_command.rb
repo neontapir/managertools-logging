@@ -19,7 +19,7 @@ class TeamMeetingCommand
 
       members = team.members
       members.each do |employee|
-        entry ||= get_entry(:team_meeting, to_name(team_name), attendees: members.map{|s| to_name(s)}.join(', '), team: team)
+        entry ||= get_entry(:team_meeting, to_name(team_name), attendees: members.map{ |s| to_name(s) }.join(', '), team: team)
         employee.file.insert entry
       end
     end

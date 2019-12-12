@@ -26,15 +26,6 @@ class TeamMeetingEntry < DiaryEntry
     ]
   end
 
-  # # A hook to modify data after prompting for responses
-  # def post_create(data)
-  #   if data[:attendees] == DiaryElement::DEFAULT_VALUE
-  #     data[:attendees] = data[:team].members
-  #   end
-
-  #   data
-  # end
-
   # items in the header_items array will not be included in the body of the entry, just the header
   def header_items
     [:datetime, :team]

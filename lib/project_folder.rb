@@ -27,7 +27,7 @@ class ProjectFolder
 
   # The canonical name of the folder
   def folder_name
-    project_name = strip_nonalnum project.project
+    project_name = project.project.strip_nonalnum
     unidown "#{project_name}"
   end
 

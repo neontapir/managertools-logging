@@ -70,20 +70,16 @@ class DiaryEntry
   #   @param [String] header_prompt the banner to display before gathering template values
   def populate(header_prompt, initial_values)
     Settings.console.say prompt(header_prompt)
-    # p "initial_values: #{initial_values}"
     data = elements.each_with_object({}) do |item, entry_record|
-      entry_record[item.key] = if initial_values.key? item.key 
-        initial_values[item.key]
+      key = item.key
+      entry_record[key] = if initial_values.key? key 
+        initial_values[key]
       else 
         user_input = item.obtain
-        # p "user_input: #{user_input}, default: #{item.default}" 
         user_input || item.default
       end
-      # p "item: #{item.inspect}, entry_record: #{entry_record}"
     end
-    # p "data after obtaining user input: #{data}"
     data = post_create(data)
-    # p "data after post_create: #{data}"
     data
   end
 

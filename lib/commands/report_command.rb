@@ -33,8 +33,7 @@ class ReportCommand
   end
 
   def create_report(employee_name, overview_file, log_file)
-    report_source = create_report_source(employee_name, overview_file, log_file)
-    
+    report_source = create_report_source(employee_name, overview_file, log_file)    
     output = "report-#{employee_name}.html"
     File.delete output if File.exist? output
 

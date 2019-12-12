@@ -28,6 +28,7 @@ module Diary
   #   @param [String] type The name of the template entry type
   #   @param [String] header The header, often the name of the employee
   #   @param [Hash] initial_record The initial hash of entry values
+  #   @raise [ArgumentError] when type is not a kind of DiaryEntry
   def get_entry(type, header, initial_record = {})
     entry_type = DiaryEntry.get type
     raise ArgumentError unless entry_type < DiaryEntry
@@ -42,10 +43,9 @@ module Diary
 
   # @!method create_entry(type, header, initial_record)
   #   Creates a diary entry, getting responses from the user
-  #   @param [String] type The name of the template entry type
+  #   @param [Class] entry_type The class of the template entry
   #   @param [String] header The entry header
   #   @param [Hash] initial_record The initial hash of values
-  #   @raise [ArgumentError] when type is not a kind of DiaryEntry
   def create_entry(entry_type, header, initial_record)
     new_entry = entry_type.new initial_record
     new_entry.populate(header, initial_record)

@@ -32,7 +32,7 @@ class RecordDiaryEntryCommand
   def log_message(members, entry_type)
     entry = nil
     members.each do |employee|
-      entry ||= get_entry(entry_type, members.join(','), applies_to: members.map{|s| to_name(s)}.join(', '))
+      entry ||= get_entry(entry_type, members.join(','), applies_to: members.map{ |s| to_name(s) }.join(', '))
       employee.file.insert entry
     end
   end

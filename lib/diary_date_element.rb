@@ -35,6 +35,7 @@ class DiaryDateElement
   #   Display the label, and get the element's value from the user
   def obtain
     return default unless prompt
+    
     time = default
     if label
       value = Settings.console.ask "#{label}: " do |answer|
