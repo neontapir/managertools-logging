@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require './lib/path_formatter'
+require './lib/path_string_extensions'
 require './lib/team'
 
 RSpec.describe Team do
-  include PathFormatter
+  using PathStringExtensions
 
   context 'in initializer context' do
     it 'raises if params hash does not contain a team entry' do
@@ -47,7 +47,7 @@ RSpec.describe Team do
 
   it 'uses the name as its string representation' do
     avengers = Team.new(team: 'Avengers')
-    expect(avengers.to_s).to eq path_to_name('avengers')
+    expect(avengers.to_s).to eq 'avengers'.path_to_name
   end
 
   context 'with a typical team (Avengers)' do

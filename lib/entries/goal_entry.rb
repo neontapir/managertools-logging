@@ -3,11 +3,11 @@
 require_relative '../diary_date_element'
 require_relative '../diary_element'
 require_relative 'diary_entry'
-require_relative '../mt_data_formatter'
+require_relative '../time_extensions'
 
 # Tempate used for team meetings, propagated to all team members' files
 class GoalEntry < DiaryEntry
-  using MtDataFormatter
+  using TimeExtensions
 
   def prompt(name)
     personalized = name[','] ? '' : " for #{name}"

@@ -162,8 +162,8 @@ module ManagerTools
 
     def parameter_to_command_class(parameter)
       self.class.class_eval do
-        require_relative 'mt_data_formatter'
-        using MtDataFormatter
+        require_relative 'string_extensions'
+        using StringExtensions
       end
       command_class_name = parameter.to_s.tr('_', ' ').titlecase.tr(' ', '')
       Kernel.const_get("#{command_class_name}Command")

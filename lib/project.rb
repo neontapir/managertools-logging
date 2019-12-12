@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'path_formatter'
+require_relative 'path_string_extensions'
 require_relative 'project_finder'
 require_relative 'project_folder'
 
@@ -10,13 +10,13 @@ require_relative 'project_folder'
 class Project
   attr_reader :project
 
-  include PathFormatter
+  using PathStringExtensions
   extend ProjectFinder
 
   # Create a new Project object
   # @param [Hash] params a Hash with a :project entry
   def initialize(**params)
-    @project = to_path_string params.fetch(:project)
+    @project = params.fetch(:project).to_path 
   end
 
   def path
@@ -31,9 +31,13 @@ class Project
     LogFile.new folder
   end
 
+  def split_path
+    to_s.split_path
+  end
+
   # @!method Represent a Project by its titlecased name
   def to_s
-    path_to_name(project)
+    project.path_to_name
   end
 
   # @!method Projects are equal if the have the same #project value

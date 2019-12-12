@@ -3,8 +3,7 @@
 require 'pathname'
 
 require_relative 'log_file'
-require_relative 'mt_data_formatter'
-require_relative 'path_formatter'
+require_relative 'path_string_extensions'
 require_relative 'settings'
 
 # For reporting searches with no results
@@ -13,15 +12,15 @@ end
 
 # Represents a project search provider
 module ProjectFinder
-  include PathFormatter
+  include PathStringExtensions
+  using PathStringExtensions
 
   # Parse the path as though it is an project spec and return the result
   #
   # @param [String] dir the location of a person
   # @return [Hash] the project data represented by the location
   def parse_dir(dir)
-    paths = split_path dir
-    project = paths.last
+    project = dir.split_path.last
     { project: project }
   end
 
@@ -30,7 +29,7 @@ module ProjectFinder
   # @param [String] key the lookup data needed to find the project
   # @return [Project] a Project object
   def find(key)
-    target = to_path_string key
+    target = key.to_path
     project_root = File.join(Settings.root, Settings.project_root)
     Dir.glob("#{project_root}/*") do |dir|
       next unless Dir.exist? dir

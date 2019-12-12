@@ -60,5 +60,6 @@ task :guard do
   system *%w[bundle exec guard] || exit!(1)
 end
 
+task docs: :document
 task test: :spec
 task default: :build

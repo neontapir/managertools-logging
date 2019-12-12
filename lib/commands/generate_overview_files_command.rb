@@ -3,14 +3,12 @@
 require 'pathname'
 require_relative '../employee'
 require_relative '../employee_folder'
-require_relative '../mt_data_formatter'
-require_relative '../path_formatter'
+require_relative '../path_string_extensions'
 require_relative 'new_hire_command'
 
 # Generate overview files recrusively for entries in the data folder
 class GenerateOverviewFilesCommand
-  extend MtDataFormatter
-  extend PathFormatter
+  using PathStringExtensions
 
   # @!method command(arguments, options)
   #   Generate the files needed to create a team overview

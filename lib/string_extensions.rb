@@ -4,40 +4,10 @@ require 'namecase'
 require 'titleize'
 require 'unicode'
 
-# Commodity data formatting functions
-module MtDataFormatter
+# Commodity string formatting functions
+module StringExtensions
   # The standard indentation (two spaces)
-  INDENT = '  ' # this should match what's in the templates
-
-  refine Time do
-    # Format a date in our specific format
-    # @example Format a date
-    #   format_short_date(Time.new(2002)) #=> 'January  1, 2002'
-    def short_date
-      self.strftime '%B %e, %Y'
-    end
-
-    # Format a date in our specific format
-    # @example Format a date
-    #   Time.new(2002).format_date #=> 'January  1, 2002, 12:00 AM'
-    def standard_format
-      self.strftime '%B %e, %Y, %l:%M %p'
-    end
-  end
-
-  # Format a date in our specific format
-  # @example Format a date
-  #   format_date(Time.new(2002)) #=> 'January  1, 2002, 12:00 AM'
-  # def format_date(date)
-  #   date.strftime '%B %e, %Y, %l:%M %p'
-  # end
-
-  # # Format a date in our specific format
-  # # @example Format a date
-  # #   format_short_date(Time.new(2002)) #=> 'January  1, 2002'
-  # def format_short_date(date)
-  #   date.strftime '%B %e, %Y'
-  # end
+  WRAP_INDENT = '  ' # this should match what's in the templates
 
   refine String do
     # Remove non-alphanumeric characters from a string
@@ -62,8 +32,8 @@ module MtDataFormatter
     #   @param [Integer] width the maximum number of characters in a line
     def wrap(width = 78)
       self
-        .gsub(/(.{1,#{width - INDENT.length}})(\s+|\Z)/, "\\1\n#{INDENT}") \
-        .chomp(INDENT)
+        .gsub(/(.{1,#{width - WRAP_INDENT.length}})(\s+|\Z)/, "\\1\n#{WRAP_INDENT}") \
+        .chomp(WRAP_INDENT)
         .chomp
     end
 

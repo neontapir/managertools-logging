@@ -2,12 +2,12 @@
 
 require_relative '../diary'
 require_relative '../employee'
-require_relative '../mt_data_formatter'
+require_relative '../string_extensions'
 
 # Implements diary recording functionality
 class RecordDiaryEntryCommand
   include Diary
-  using MtDataFormatter
+  using StringExtensions
 
   # @!method command(arguments, options)
   #   Record a new diary entry in the person's file

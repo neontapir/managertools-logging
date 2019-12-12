@@ -4,9 +4,9 @@ require 'pathname'
 
 require_relative 'employee_folder'
 require_relative 'log_file'
-require_relative 'mt_data_formatter'
-require_relative 'path_formatter'
+require_relative 'path_string_extensions'
 require_relative 'settings'
+require_relative 'string_extensions'
 
 # For reporting searches with no results
 class EmployeeNotFoundError < StandardError
@@ -14,14 +14,17 @@ end
 
 # Represents a employee search provider
 module EmployeeFinder
-  include PathFormatter
+  include PathStringExtensions
+  using PathStringExtensions
+  using StringExtensions
 
   # Parse the path as though it is an employee spec and return the result
   #
   # @param [String] dir the location of a person
   # @return [Hash] the employee data represented by the location
   def parse_dir(dir)
-    paths = split_path dir
+    # TEMPORARY 20191212
+    paths = dir.split_path
     _root, team, name = paths
     { team: team }.merge(parse_name(name))
   end

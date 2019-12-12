@@ -2,14 +2,14 @@
 
 require 'asciidoctor'
 require_relative '../file_writer'
-require_relative '../mt_data_formatter'
+require_relative '../string_extensions'
 require_relative '../os_adapter'
 require_relative '../settings'
 require_relative '../team'
 
 # Create a report of a team, using each member's files
 class ReportTeamCommand
-  extend MtDataFormatter
+  using StringExtensions
   include FileWriter
   include OSAdapter
 

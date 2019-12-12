@@ -41,7 +41,7 @@ module Diary
 
   private
 
-  # @!method create_entry(type, header, initial_record)
+  # @!method create_entry(entry_type, header, initial_record)
   #   Creates a diary entry, getting responses from the user
   #   @param [Class] entry_type The class of the template entry
   #   @param [String] header The entry header

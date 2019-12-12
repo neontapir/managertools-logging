@@ -2,8 +2,8 @@
 
 require_relative 'employee_finder'
 require_relative 'employee_folder'
-require_relative 'mt_data_formatter'
 require_relative 'settings'
+require_relative 'string_extensions'
 
 # Represents a team member, a person assigned to a team
 # @attr_reader [String] team the name of the team the person belongs to
@@ -12,7 +12,7 @@ require_relative 'settings'
 class Employee
   include Comparable
   extend EmployeeFinder
-  using MtDataFormatter
+  using StringExtensions
 
   attr_reader :team, :first, :last
 

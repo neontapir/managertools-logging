@@ -1,14 +1,16 @@
 # frozen_string_literal: true
 
 require 'chronic'
-require_relative '../mt_data_formatter'
+require_relative '../string_extensions'
+require_relative '../time_extensions'
 
 # Base class for diary entries
 # @!attribute [r] record
 #   @return [Hash] the entry's data dictionary of elements
 class DiaryEntry
   attr_reader :record
-  using MtDataFormatter
+  using StringExtensions
+  using TimeExtensions
 
   # @!method initialize(**record)
   #   Create a new diary entry

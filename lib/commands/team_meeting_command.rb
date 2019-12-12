@@ -2,12 +2,12 @@
 
 require_relative '../diary'
 require_relative '../team'
-require_relative '../mt_data_formatter'
+require_relative '../string_extensions'
 
 # Implements team meeting functionality
 class TeamMeetingCommand
   include Diary
-  using MtDataFormatter
+  using StringExtensions
 
   # @!method command(arguments, options)
   #   Create an entry in each team member's file

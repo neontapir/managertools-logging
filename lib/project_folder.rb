@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 require 'fileutils'
-require_relative 'mt_data_formatter'
-require_relative 'path_formatter'
+require_relative 'string_extensions'
+require_relative 'path_string_extensions'
 require_relative 'settings'
 
 # Reparesents a folder that contains files about a direct report
 # @attr_reader [Project] project the project whose data resides in the folder
 class ProjectFolder
-  using MtDataFormatter
-  include PathFormatter
+  using StringExtensions
+  using PathStringExtensions
 
   attr_reader :project
 
@@ -33,7 +33,7 @@ class ProjectFolder
 
   # The path to the file, relative to the parent folder of the root
   def path
-    File.join(Settings.root, Settings.project_root, to_path_string(folder_name))
+    File.join(Settings.root, Settings.project_root, folder_name.to_path)
   end
 
   # Create a file system folder at path

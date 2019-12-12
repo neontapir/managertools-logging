@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require './lib/mt_data_formatter'
+require './lib/string_extensions'
 
-RSpec.describe MtDataFormatter do
-  using MtDataFormatter
+RSpec.describe StringExtensions do
+  using StringExtensions
 
   context 'when downcasing strings' do
     it 'downcases regular strings' do
@@ -13,11 +13,6 @@ RSpec.describe MtDataFormatter do
     it 'downcases Unicode strings' do
       expect('Äpple'.unidowncase).to eq 'äpple'
     end
-  end
-
-  it 'formats a date' do
-    test_date = Time.strptime('03-02-2001 04:05:06 PM', '%d-%m-%Y %I:%M:%S %p')
-    expect(test_date.standard_format).to eq 'February  3, 2001,  4:05 PM'
   end
 
   context 'when stripping out characters' do
