@@ -6,7 +6,9 @@ require_relative '../entries/interview_entry'
 require_relative '../settings'
 require_relative 'new_hire_command'
 
-# Implements diary recording functionality
+# Records an interview entry.
+# Unlike the RecordDiaryEntryCommand, this will create a new employee entry
+#   on the 'candidates' team if the subject isn't found.
 class InterviewCommand
   include Diary
 

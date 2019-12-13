@@ -3,9 +3,12 @@
 require 'highline'
 require 'thor'
 require_relative 'settings'
+require_relative 'string_extensions'
 Dir["#{__dir__}/commands/*_command.rb"].each { |f| require_relative(f) }
 
 module ManagerTools
+  using StringExtensions
+
   # Defines the command-line interface
   class CLI < Thor
     def self.exit_on_failure?
@@ -161,10 +164,6 @@ module ManagerTools
     end
 
     def parameter_to_command_class(parameter)
-      self.class.class_eval do
-        require_relative 'string_extensions'
-        using StringExtensions
-      end
       command_class_name = parameter.to_s.tr('_', ' ').titlecase.tr(' ', '')
       Kernel.const_get("#{command_class_name}Command")
     end
