@@ -54,6 +54,7 @@ class MoveTeamCommand
   def update_overview_file(target_team, employee)
     overview = employee.overview_location
     raise unless File.exist?(overview)
+
     temp_file = Tempfile.new(Settings.overview_filename)
     begin
       File.open(overview, 'r') do |file|

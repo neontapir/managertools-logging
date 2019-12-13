@@ -6,7 +6,7 @@ end
 
 # To debug, courtesy of https://github.com/guard/guard/wiki/Understanding-Guard
 # watch(%r{^lib/(.+)\.rb$}) do |m|
-#   "spec/#{m[1]}_spec.rb" # .tap do |result| 
+#   "spec/#{m[1]}_spec.rb" # .tap do |result|
 #      Guard::UI.info "Sending changes to RSpec: #{result.inspect}"
 #      Guard::UI.info "The original match is: #{m.inspect}"
 #   end
@@ -16,7 +16,7 @@ guard :rspec, cmd: 'rspec' do
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^lib/(.+)\.rb$}) { |m| "spec/#{m[1]}_spec.rb" }
   watch(%r{^lib/(commands|entries)/(.+)\.rb$}) { |m| "spec/#{m[2]}_spec.rb" }
-  watch('spec/spec_helper.rb')  { 'spec' }
+  watch('spec/spec_helper.rb') { 'spec' }
 
   require 'guard/rspec/dsl'
   dsl = Guard::RSpec::Dsl.new(self)

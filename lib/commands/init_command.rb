@@ -15,6 +15,7 @@ class InitCommand
       FileUtils.mkdir_p(Settings.root)
       IO.write(config_file, Settings.default_config)
       raise IOError, "Failed to create settings file #{config_file}" unless File.exist? config_file
+
       puts "Initializing MT, created #{config_file}"
     end
   end

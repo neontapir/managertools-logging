@@ -44,22 +44,24 @@ class LogFile
   # @example How to consume this method
   #   before, after = divide_file entry
   def divide_file(entry)
+    entry_date = entry.date
     lines = IO.readlines path
     header_locations = get_header_locations lines
-
-    entry_date = entry.date
-    dates = header_locations.keys + [entry_date]
-    dates.sort!
+    dates = inject_new_entry_date(entry_date, header_locations.keys)
 
     insertion_position = dates.index entry_date
-    if insertion_position.zero?
-      [[], lines]
-    elsif insertion_position == dates.size - 1
-      [lines, []]
+    case insertion_position
+    when 0 then [[], lines]
+    when dates.size - 1 then [lines, []]
     else
       demarcation = header_locations[dates[insertion_position + 1]] - 1
       [lines[0...demarcation], lines[demarcation..-1]]
     end
+  end
+
+  def inject_new_entry_date(new_date, timestamps)
+    dates = timestamps << new_date
+    dates.sort!
   end
 
   # Extract the lines in the file containing dates

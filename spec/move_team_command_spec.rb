@@ -77,7 +77,7 @@ RSpec.describe MoveTeamCommand do
 
     it 'relocates all their files' do
       expect{ MoveTeamCommand.new.command %w[justice-league Princess Grayson] }.to output.to_stdout
-      
+
       %w[princess-koriandr dick-grayson].each do |member|
         expect(Dir.exist? "data/justice-league/#{member}").to be_truthy
         expect(Dir.exist? "data/teen-titans/#{member}").to be_falsey

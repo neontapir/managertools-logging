@@ -8,7 +8,7 @@ require_relative '../settings'
 # Tempate used for team meetings, propagated to all team members' files
 class TeamMeetingEntry < DiaryEntry
   def prompt(team)
-    personalized = team[','] ? '' : "#{team}"
+    personalized = team[','] ? '' : team
     "For your #{personalized} team meeting, enter the following:"
   end
 

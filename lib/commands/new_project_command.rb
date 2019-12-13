@@ -25,7 +25,7 @@ class NewProjectCommand
     folder = ProjectFolder.new project
     folder.ensure_exists
 
-    summary = ask "Project summary?"
+    summary = ask 'Project summary?'
 
     npc_parameters = OpenStruct.new(folder: folder, force: force, summary: summary)
     generate_log_file(npc_parameters)

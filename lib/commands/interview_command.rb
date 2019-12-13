@@ -1,10 +1,10 @@
+# frozen_string_literal: true
+
 require_relative '../diary'
 require_relative '../employee'
 require_relative '../entries/interview_entry'
 require_relative '../settings'
 require_relative 'new_hire_command'
-
-require 'pry'
 
 # Implements diary recording functionality
 class InterviewCommand

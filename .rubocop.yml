@@ -20,5 +20,7 @@ Style/FormatString:
   EnforcedStyle: percent
 Style/SignalException:
   EnforcedStyle: only_raise
+Style/SymbolArray:
+  Enabled: false
 Style/StabbyLambdaParentheses:
-   Enabled: false
+  Enabled: false

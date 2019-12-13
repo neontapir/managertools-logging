@@ -17,7 +17,7 @@ class PtoEntry < DiaryEntry
       DiaryElement.new(:duration, 'Duration', default: '0', prompt: nil),
       DiaryDateElement.new(:start_time, 'Start date', formatter: -> x { x.short_date }),
       DiaryDateElement.new(:end_time, 'End date', formatter: -> x { x.short_date }),
-      DiaryElement.new(:reason, 'Reason', default: Settings.pto_default || 'unspecified'),
+      DiaryElement.new(:reason, 'Reason', default: Settings.pto_default || 'unspecified')
     ]
   end
 
@@ -26,7 +26,7 @@ class PtoEntry < DiaryEntry
   end
 
   # One day in seconds
-  ONE_DAY = 86400
+  ONE_DAY = 86_400
 
   # A hook to modify data after prompting for responses
   def post_create(data)

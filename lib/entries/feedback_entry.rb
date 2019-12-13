@@ -7,7 +7,6 @@ require_relative '../settings'
 
 # Template for documenting feedback given
 class FeedbackEntry < DiaryEntry
-
   def prompt(name)
     personalized = name[','] ? '' : " to #{name}"
     "To give feedback#{personalized}, enter the following:"

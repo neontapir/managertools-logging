@@ -31,12 +31,12 @@ module PathStringExtensions
 
     # Convert a titlecased string to a path name
     def to_path
-      self.tr(' ', '-').downcase
+      tr(' ', '-').downcase
     end
 
     # Convert a path string to a title-cased name
     def path_to_name
-      self.tr('-', ' ').titlecase
+      tr('-', ' ').titlecase
     end
   end
 end

@@ -35,7 +35,7 @@ module Diary
 
     user_input = template? ? {} : create_entry(entry_type, header.to_s, initial_record)
     data = initial_record.merge(user_input)
-    
+
     entry_type.new data
   end
 

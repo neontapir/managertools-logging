@@ -16,7 +16,7 @@ class Project
   # Create a new Project object
   # @param [Hash] params a Hash with a :project entry
   def initialize(**params)
-    @project = params.fetch(:project).to_path 
+    @project = params.fetch(:project).to_path
   end
 
   def path

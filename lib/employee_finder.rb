@@ -76,8 +76,8 @@ module EmployeeFinder
                     else
                       obtain('Team', root)
                     end
-    result[:first] = obtain('First', person[:first] || 'Zaphod')
-    result[:last] = obtain('Last', person[:last] || 'Beeblebrox')
+    result[:first] = obtain('First', person.fetch(:first, 'Zaphod'))
+    result[:last] = obtain('Last', person.fetch(:last, 'Beeblebrox'))
     result
   end
 

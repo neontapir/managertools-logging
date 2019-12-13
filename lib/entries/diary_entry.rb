@@ -35,14 +35,18 @@ class DiaryEntry
   #   @raise [ArgumentError] when entry_type is not a kind of DiaryEntry
   #   @return [String] an Asciidoc fragment suitable for appending to a log file
   def render(title, entry_type = self.class)
-    raise NotImplementedError, 'DiaryEntry#elements must be overriden' unless entry_type.instance_methods(false).include?(:elements)
+    raise NotImplementedError, 'DiaryEntry#elements must be overriden' unless entry_type
+                                                                              .instance_methods(false)
+                                                                              .include?(:elements)
     raise ArgumentError, "#{entry_type}#elements must return an enumerable" unless elements.is_a?(Enumerable)
     raise ArgumentError, "record[:datetime] must be a Time, not a #{date.class}" unless date.is_a?(Time)
 
     initial = "=== #{title} (#{date.standard_format})\n"
-    elements.reject { |element| header_items.include? element.key }.inject(initial) do |output, entry| # rubocop:disable CollectionMethods
-      output + "#{entry.label}::\n  #{@record.fetch(entry.key, entry.default).to_s.wrap}\n"
-    end
+    elements
+      .reject { |element| header_items.include? element.key }
+      .inject(initial) do |output, entry| # rubocop:disable CollectionMethods
+        output + "#{entry.label}::\n  #{@record.fetch(entry.key, entry.default).to_s.wrap}\n"
+      end
   end
 
   # @abstract Gives the text shown at the beginning of an interactive session to provide the user context
@@ -74,12 +78,12 @@ class DiaryEntry
     Settings.console.say prompt(header_prompt)
     data = elements.each_with_object({}) do |item, entry_record|
       key = item.key
-      entry_record[key] = if initial_values.key? key 
-        initial_values[key]
-      else 
-        user_input = item.obtain
-        user_input || item.default
-      end
+      entry_record[key] = if initial_values.key? key
+                            initial_values[key]
+                          else
+                            user_input = item.obtain
+                            user_input || item.default
+                          end
     end
     data = post_create(data)
     data

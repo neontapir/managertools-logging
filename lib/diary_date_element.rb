@@ -18,22 +18,16 @@ class DiaryDateElement
 
     @key = key
     @label = label
-    @default = options[:default] || Time.now
-    @formatter = options[:formatter] || ->(x) { x.to_s }
-    @prompt = options.key?(:prompt) ? options[:prompt] : label
-  end
-
-  # @!method default()
-  #   The default value of this element
-  def default
-    @default || Time.now
+    @default = options.fetch(:default, Time.now)
+    @formatter = options.fetch(:formatter, -> (x) { x.to_s })
+    @prompt = options.fetch(:prompt, label)
   end
 
   # @!method obtain()
   #   Display the label, and get the element's value from the user
   def obtain
     return default unless prompt
-    
+
     time = default
     if label
       value = Settings.console.ask "#{label}: " do |answer|

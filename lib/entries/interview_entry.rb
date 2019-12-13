@@ -11,7 +11,6 @@ class InterviewEntry < DiaryEntry
     "For your interview with #{name}, enter the following:"
   end
 
-  # rubocop:disable Metrics/MethodLength
   def elements
     [
       DiaryDateElement.new(:datetime, 'Effective date'),
@@ -22,7 +21,6 @@ class InterviewEntry < DiaryEntry
       DiaryElement.new(:recommendation, 'Recommendation')
     ]
   end
-  # rubocop:enable Metrics/MethodLength
 
   def to_s
     render 'Interview'

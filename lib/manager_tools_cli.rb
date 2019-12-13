@@ -19,7 +19,7 @@ module ManagerTools
 
     package_name 'Manager Tools'
 
-    desc 'feedback NAME', "Add a feedback log entry"
+    desc 'feedback NAME', 'Add a feedback log entry'
     method_option :template, type: :boolean, default: false, desc: 'Add a template to the log file, without entry data'
     map 'fb' => 'feed'
     map 'feed' => 'feed'
@@ -33,7 +33,7 @@ module ManagerTools
       record_diary_entry(:goal, Array(names), options)
     end
 
-    desc 'obs NAMES', "Add an observation log entry"
+    desc 'obs NAMES', 'Add an observation log entry'
     method_option :template, type: :boolean, default: false, desc: 'Add a template to the log file, without entry data'
     map 'ob' => 'observation'
     map 'obs' => 'observation'
@@ -41,7 +41,7 @@ module ManagerTools
       record_diary_entry(:observation, Array(names), options)
     end
 
-    desc 'o3 NAME', "Add an 1:1 log entry"
+    desc 'o3 NAME', 'Add an 1:1 log entry'
     method_option :template, type: :boolean, default: false, desc: 'Add a template to the log file, without entry data'
     map '3o' => 'one_on_one'
     map 'o3' => 'one_on_one'
@@ -50,7 +50,7 @@ module ManagerTools
       record_diary_entry(:one_on_one, Array(name), options)
     end
 
-    desc 'perf NAME', "Add a performance checkpoint log entry"
+    desc 'perf NAME', 'Add a performance checkpoint log entry'
     method_option :template, type: :boolean, default: false, desc: 'Add a template to the log file, without entry data'
     map 'check' => 'performance_checkpoint'
     map 'perf' => 'performance_checkpoint'
@@ -58,7 +58,7 @@ module ManagerTools
       record_diary_entry(:performance_checkpoint, Array(name), options)
     end
 
-    desc 'pto NAMES', "Add an PTO entry"
+    desc 'pto NAMES', 'Add an PTO entry'
     method_option :template, type: :boolean, default: false, desc: 'Add a template to the log file, without entry data'
     map 'pto' => 'paid_time_off'
     def paid_time_off(*names)
@@ -77,7 +77,7 @@ module ManagerTools
       execute_subcommand(:generate_overview_files, [], options)
     end
 
-    desc 'interview CANDIDATE', "Add an interview log entry"
+    desc 'interview CANDIDATE', 'Add an interview log entry'
     method_option :template, type: :boolean, default: false, desc: 'Add a template to the log file, without entry data'
     def interview(*candidate)
       execute_subcommand(:interview, Array(candidate), options)
@@ -149,11 +149,11 @@ module ManagerTools
 
     def do_with_interrupt_handling
       yield if block_given?
-    rescue Interrupt
-      warn HighLine.color("\nAborting, interrupt received", :red)
-      Kernel.exit(3)
     rescue StandardError => e
       warn HighLine.color("\nAborting, fatal #{e.class}, #{e} at #{error_call_site(e)}", :red)
+      Kernel.exit(3)
+    rescue Interrupt
+      warn HighLine.color("\nAborting, interrupt received", :red)
       Kernel.exit(2)
     rescue RuntimeError => e
       warn HighLine.color("\nAborting, fatal unhandled error, #{e} at #{error_call_site(e)}", :red)
