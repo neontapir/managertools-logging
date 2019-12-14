@@ -17,8 +17,7 @@ class InterviewCommand
   def command(arguments, options = nil)
     raise 'missing person name argument' unless arguments.first
 
-    person = arguments.join(' ')
-    employee = Employee.find(person)
+    employee = Employee.find(arguments.join(' '))
     unless employee
       nhc_args = [Settings.candidates_root] + arguments
       employee = NewHireCommand.new.command(nhc_args, options)
