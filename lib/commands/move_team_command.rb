@@ -78,6 +78,6 @@ class MoveTeamCommand
   end
 
   def target_team_path(target_team, employee)
-    "#{Settings.root}/#{target_team.path}/#{employee.canonical_name}"
+    File.join(Settings.root, target_team.path, employee.canonical_name)
   end
 end
