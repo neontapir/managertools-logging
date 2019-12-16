@@ -33,6 +33,7 @@ RSpec.describe InterviewCommand do
   end
 
   context 'with an unknown person' do
+    INPUT = ["\n", "\n", "SE1\n", "Steve Rogers\n", "One eye not an issue\n", "Hire\n"]
     before(:each) do
       # allow(Settings.console).to receive(:print)
       # allow(Settings.console).to receive(:say)
@@ -44,7 +45,7 @@ RSpec.describe InterviewCommand do
       # Settings.with_mock_input do
       #   subject.command ['nick', 'fury']
       # end
-      Settings.with_mock_input "\n\nSE1\nSteve Rogers\nOne eye not an issue\nHire\n" do
+      Settings.with_mock_input INPUT do
         expect{ subject.command ['nick', 'fury'] }.to output.to_stdout
       end
     end
@@ -62,8 +63,9 @@ RSpec.describe InterviewCommand do
     end
 
     it 'will insert an interview entry' do
-      expected = ["  SE1\n", "  Steve Rogers\n", "  One eye not an issue\n", "  Hire\n"]
-      verify_answers_propagated(expected, [nick])
+      # non_defaults = ["  SE1\n", "  Steve Rogers\n", "  One eye not an issue\n", "  Hire\n"]
+      non_defaults = INPUT.reject{ |i| i == $/ }.map{ |i| "  #{i}" }
+      verify_answers_propagated(non_defaults, [nick])
     end
 
     it 'will use the default VOIP meeting location' do

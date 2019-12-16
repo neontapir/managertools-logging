@@ -17,9 +17,7 @@ module SettingsHelper
 
   # FIXME: When running partial test suites, this can fail due to a permissions issue
   def remove_test_settings_file
-    begin
       File.delete config_file if File.exist? config_file
-    rescue Exception
-    end
+  rescue Exception
   end
 end

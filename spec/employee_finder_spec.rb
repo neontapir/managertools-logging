@@ -31,7 +31,6 @@ RSpec.describe EmployeeFinder do
 
     it 'can create a spec with no input' do
       defaults = { first: 'Zaphod', last: 'Beeblebrox', team: Settings.candidates_root }
-      # allow(Settings.console).to receive(:ask).and_return("\n") # default
       Settings.with_mock_input("\n" * 3) do
         expect(subject.create_spec(:superhero, {})).to eq defaults
       end

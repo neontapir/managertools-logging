@@ -13,14 +13,18 @@ class ReportCommand
   include OSAdapter
 
   # Create a report from a person's files
-  def command(arguments, _ = nil)
+  def command(arguments, options = nil)
+    no_launch = (options&.no_launch == true)
+
     person = Array(arguments).first
     raise 'missing person argument' unless person
 
     employee = Employee.get person
     output = generate_report_for employee
     command_line = [OSAdapter.open_command, output].join(' ')
-    raise ArgumentError, "Report launch failed with '#{command_line}'" unless system(command_line)
+    unless (no_launch)
+      raise ArgumentError, "Report launch failed with '#{command_line}'" unless system(command_line)
+    end
   end
 
   private

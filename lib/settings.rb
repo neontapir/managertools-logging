@@ -25,10 +25,11 @@ class Settings < Settingslogic
 
     # HACK: regular RSpec mocking with allow() works in cases where
     #   input is needed, but doesn't when hitting return is desired.
-    #   Figure out how to mock Highline to just hit return and this
-    #   method is no longer necessary.
-    def with_mock_input(input = '')
-      input_stream = input.empty? ? StringIO.new : StringIO.new(input)
+    #   This is needed to test defaults. Figure out how to mock 
+    #   Highline to just hit return and this method is no longer
+    #   necessary.
+    def with_mock_input(*input)
+      input_stream = StringIO.new(input.join)
       @console = HighLine.new(input_stream, StringIO.new)
       yield
     ensure

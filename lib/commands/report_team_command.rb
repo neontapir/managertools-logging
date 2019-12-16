@@ -18,7 +18,9 @@ class ReportTeamCommand
 
   # @!method command(arguments, options)
   #   Create a report of a team, using each member\'s files
-  def command(arguments, _ = nil)
+  def command(arguments, options = nil)
+    no_launch = (options&.no_launch == true)
+
     team_name = Array(arguments).first
     raise 'missing team name argument' unless team_name
 
@@ -30,7 +32,9 @@ class ReportTeamCommand
     output = "#{report_name}.html"
     generate_report(team, report_source, output)
     command_line = [OSAdapter.open_command, output].join(' ')
-    raise SystemCallError, "Report launch failed with '#{command_line}'" unless system(command_line)
+    unless no_launch
+      raise SystemCallError, "Report launch failed with '#{command_line}'" unless system(command_line)
+    end
   end
 
   private
