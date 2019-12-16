@@ -54,25 +54,19 @@ RSpec.describe InterviewCommand do
     end
 
     subject { InterviewCommand.new }
+    let(:nick) { Employee.find('nick') }
 
     it 'will create a new hire' do
-      nick = Employee.find('nick')
       fail 'Employee not found' unless nick
       expect(nick.file.path[Settings.candidates_root]).to be_truthy
     end
 
     it 'will insert an interview entry' do
-      nick = Employee.find('nick')
-      fail 'Employee not found' unless nick
-      
       expected = ["  SE1\n", "  Steve Rogers\n", "  One eye not an issue\n", "  Hire\n"]
       verify_answers_propagated(expected, [nick])
     end
 
     it 'will use the default VOIP meeting location' do
-      nick = Employee.find('nick')
-      fail 'Employee not found' unless nick
-      
       expected = ["  #{Settings.voip_meeting_default}\n"]
       verify_answers_propagated(expected, [nick])
     end
