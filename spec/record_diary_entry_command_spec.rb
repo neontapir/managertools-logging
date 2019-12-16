@@ -59,6 +59,15 @@ RSpec.describe RecordDiaryEntryCommand do
       expected = ["  On track\n"]
       verify_answers_propagated(expected, [tony])
     end
+
+    it 'can write a PTO entry' do
+      Settings.with_mock_input "today\ntomorrow\nsick\n" do
+        subject.command(:pto, ['tony'])
+      end
+
+      expected = ["  sick\n"]
+      verify_answers_propagated(expected, [tony])
+    end
   end
 
   context 'with multiple people' do

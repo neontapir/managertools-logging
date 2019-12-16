@@ -7,10 +7,12 @@ require_relative '../diary_element'
 require_relative 'diary_entry'
 require_relative '../string_extensions'
 require_relative '../settings'
+require_relative '../time_extensions'
 
-# Template for a one-on-one meeting
+# Template for a time off entry
 class PtoEntry < DiaryEntry
   using StringExtensions
+  using TimeExtensions
 
   def elements
     [
