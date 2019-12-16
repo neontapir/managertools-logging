@@ -33,21 +33,19 @@ RSpec.describe InterviewCommand do
   end
 
   context 'with an unknown person' do
-    # TODO: Trying to get rid of Settings.with_mock_input to end dependency on Highline 
-    # This approach is really promising, but doesn't prevent display of the initial prompt text:
-    #
-    # before(:each) do
-    #   allow(Settings.console).to receive(:ask).and_return(nil)
-    #   allow(Settings.console).to receive(:ask).with(/Position/).and_return('SE1')
-    #   allow(Settings.console).to receive(:ask).with(/Other panel/).and_return('Steve Rogers')
-    #   allow(Settings.console).to receive(:ask).with(/Notes/).and_return('One eye not an issue')
-    #   allow(Settings.console).to receive(:ask).with(/Recommendation/).and_return('Hire')
-    #   expect{subject.command ['nick', 'fury'] }.to output(/#{Settings.candidates_root}/).to_stdout
-    # end
-
     before(:each) do
-      Settings.with_mock_input "\nhere\nSE1\nNick Fury\nEdgy but competent\nHire\n" do
-        expect{subject.command ['nick', 'fury'] }.to output(/#{Settings.candidates_root}/).to_stdout
+      # allow(Settings.console).to receive(:print)
+      # allow(Settings.console).to receive(:say)
+      # allow(Settings.console).to receive(:ask).and_return(nil) # default
+      # allow(Settings.console).to receive(:ask).with(/Position/).and_return('SE1')
+      # allow(Settings.console).to receive(:ask).with(/Other panel/).and_return('Steve Rogers')
+      # allow(Settings.console).to receive(:ask).with(/Notes/).and_return('One eye not an issue')
+      # allow(Settings.console).to receive(:ask).with(/Recommendation/).and_return('Hire')
+      # Settings.with_mock_input do
+      #   subject.command ['nick', 'fury']
+      # end
+      Settings.with_mock_input "\n\nSE1\nSteve Rogers\nOne eye not an issue\nHire\n" do
+        expect{ subject.command ['nick', 'fury'] }.to output.to_stdout
       end
     end
 
@@ -67,7 +65,15 @@ RSpec.describe InterviewCommand do
       nick = Employee.find('nick')
       fail 'Employee not found' unless nick
       
-      expected = ["  here\n", "  SE1\n", "  Nick Fury\n", "  Edgy but competent\n", "  Hire\n"]
+      expected = ["  SE1\n", "  Steve Rogers\n", "  One eye not an issue\n", "  Hire\n"]
+      verify_answers_propagated(expected, [nick])
+    end
+
+    it 'will use the default VOIP meeting location' do
+      nick = Employee.find('nick')
+      fail 'Employee not found' unless nick
+      
+      expected = ["  #{Settings.voip_meeting_default}\n"]
       verify_answers_propagated(expected, [nick])
     end
   end
