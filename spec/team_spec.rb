@@ -67,13 +67,12 @@ RSpec.describe Team do
     subject { Team.new(team: 'Avengers') }
 
     it 'finds the team' do
-      team = Team.find('avengers')
-      expect(subject).to eq team
+      expect(subject).to eq Team.find('avengers')
     end
 
     it 'lists its team members' do
-      beast = Employee.find('hank-mccoy')
       ant_man = Employee.find('hank-pym')
+      beast = Employee.find('hank-mccoy')
 
       expect(subject.members).to contain_exactly(beast, ant_man)
     end

@@ -27,7 +27,21 @@ RSpec.describe TeamFinder do
     end
   end
 
-  context 'when finding a team (Avengers)' do
+  shared_examples 'finding' do |team_name, expected|
+    expected = Team.new(team: team_name)
+
+    it 'by full name' do
+      team = subject.find(team_name)
+      expect(team).to eq expected
+    end
+
+    it 'by partial name' do
+      team = subject.find(team_name[0,3])
+      expect(team).to eq expected
+    end
+  end
+
+  context 'with a typical team (Avengers)' do
     avengers_folder = File.join(%W[#{Settings.root} avengers])
     justice_league_folder_spec = File.join(%W[#{Settings.root} justice]) + '*' 
 
@@ -40,17 +54,7 @@ RSpec.describe TeamFinder do
       FileUtils.rm_r avengers_folder
     end
 
-    let(:expected) { Team.new(team: 'avengers') }
-
-    it 'does find an existing team by full name' do
-      team = subject.find('avengers')
-      expect(team).to eq expected
-    end
-
-    it 'does find an existing team by partial name' do
-      team = subject.find('avenge')
-      expect(team).to eq expected
-    end
+    it_has_behavior 'finding', 'avengers'
 
     it 'does not find a team that has no folder' do
       team = Team.find('justice')
@@ -58,7 +62,7 @@ RSpec.describe TeamFinder do
     end
   end
 
-  context 'when finding a team with spaces in the name (League of Extraordinary Gentlemen)' do
+  context 'with a team with spaces in the name (League of Extraordinary Gentlemen)' do
     league_id = 'league-of-extraordinary-gentlemen'
     league_folder = File.join(%W[#{Settings.root} #{league_id}])
 
@@ -70,16 +74,6 @@ RSpec.describe TeamFinder do
       FileUtils.rm_r league_folder
     end
 
-    let(:expected) { Team.new(team: league_id) }
-
-    it 'does find an existing team by full name' do
-      team = subject.find('League of Extraordinary Gentlemen')
-      expect(team).to eq expected
-    end
-
-    it 'does find an existing team by partial name' do
-      team = subject.find('leagu')
-      expect(team).to eq expected
-    end
+    it_has_behavior 'finding', league_id
   end
 end

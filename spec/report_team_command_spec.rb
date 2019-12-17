@@ -23,21 +23,20 @@ RSpec.describe ReportTeamCommand do
       FileUtils.rm ["#{file_prefix}.adoc", "#{file_prefix}.html"]
     end
 
-    it 'can generate a report' do
-      expect(File).to exist "#{file_prefix}.adoc"
-      expect(File).to exist "#{file_prefix}.html"
+    shared_examples "file contents matching" do |filename, *examples|
+      it 'can generate the report file' do
+        expect(File).to exist filename
+       end
+  
+      it 'file has the expected content' do
+        contents = File.read(filename)
+        examples.each do |example|
+          expect(contents).to match example
+        end
+      end
     end
 
-    it 'report specification file has the expected content' do
-      spec_file = File.read("#{file_prefix}.adoc")
-      expect(spec_file).to match /Team Avengers/
-      expect(spec_file).to match /include.*overview/
-    end
-
-    it 'report output file has the expected content' do
-      report_file = File.read("#{file_prefix}.html")
-      expect(report_file).to match /Team: Avengers/
-      expect(report_file).to match /Tony Stark/
-    end
+    include_examples 'file contents matching', "#{file_prefix}.adoc", /Team Avengers/, /include.*overview/
+    include_examples 'file contents matching', "#{file_prefix}.html", /Team: Avengers/, /Tony Stark/
   end
 end

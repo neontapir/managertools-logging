@@ -9,8 +9,12 @@ require_relative 'file_contents_validation_helper'
 RSpec.describe InterviewCommand do
   include FileContentsValidationHelper
 
+  def non_default_values(input)
+    input.reject{ |i| i == "\n" }.map{ |i| "  #{i}" }
+  end
+
   context 'with a known person' do
-    INPUT = ["\n", "here\n", "SE1\n", "Nick Fury\n", "Edgy but competent\n", "Hire\n"]
+    input = ["\n", "here\n", "SE1\n", "Nick Fury\n", "Edgy but competent\n", "Hire\n"]
     iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
 
     before :each do
@@ -23,32 +27,20 @@ RSpec.describe InterviewCommand do
 
     let(:tony) { Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark') }
 
-    
-
     it 'can write an interview entry' do
-      Settings.with_mock_input INPUT do
+      Settings.with_mock_input input do
         subject.command ['tony']
       end
 
-      expected_values = INPUT.reject{ |i| i == "\n" }.map{ |i| "  #{i}" }
-      verify_answers_propagated(expected_values, [tony])
+      verify_answers_propagated(non_default_values(input), [tony])
     end
   end
 
   context 'with an unknown person' do
-    INPUT = ["\n", "\n", "SE1\n", "Steve Rogers\n", "One eye not an issue\n", "Hire\n"]
+    input = ["\n", "\n", "SE1\n", "Steve Rogers\n", "One eye not an issue\n", "Hire\n"]
+
     before :each do
-      # allow(Settings.console).to receive(:print)
-      # allow(Settings.console).to receive(:say)
-      # allow(Settings.console).to receive(:ask).and_return(nil) # default
-      # allow(Settings.console).to receive(:ask).with(/Position/).and_return('SE1')
-      # allow(Settings.console).to receive(:ask).with(/Other panel/).and_return('Steve Rogers')
-      # allow(Settings.console).to receive(:ask).with(/Notes/).and_return('One eye not an issue')
-      # allow(Settings.console).to receive(:ask).with(/Recommendation/).and_return('Hire')
-      # Settings.with_mock_input do
-      #   subject.command ['nick', 'fury']
-      # end
-      Settings.with_mock_input INPUT do
+      Settings.with_mock_input input do
         expect{ subject.command ['nick', 'fury'] }.to output.to_stdout
       end
     end
@@ -57,7 +49,6 @@ RSpec.describe InterviewCommand do
       FileUtils.rm_r File.join(%W[#{Settings.root} #{Settings.candidates_root}])
     end
 
-    
     let(:nick) { Employee.find('nick') }
 
     it 'will create a new hire' do
@@ -66,9 +57,7 @@ RSpec.describe InterviewCommand do
     end
 
     it 'will insert an interview entry' do
-      # non_defaults = ["  SE1\n", "  Steve Rogers\n", "  One eye not an issue\n", "  Hire\n"]
-      non_defaults = INPUT.reject{ |i| i == "\n" }.map{ |i| "  #{i}" }
-      verify_answers_propagated(non_defaults, [nick])
+      verify_answers_propagated(non_default_values(input), [nick])
     end
 
     it 'will use the default VOIP meeting location' do

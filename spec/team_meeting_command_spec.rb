@@ -17,75 +17,58 @@ RSpec.describe TeamMeetingCommand do
     end
   end
 
-  subject do
-    TeamMeetingCommand.new
-  end
-
   context 'with the Avengers team' do
-    captain_america_folder = File.join(%W[#{Settings.root} avengers steve-rogers])
-    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
+    tony = Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark')
+    steve = Employee.new(team: 'Avengers', first: 'Steve', last: 'Rogers')
 
     before :all do
-      [captain_america_folder, iron_man_folder].each do |folder|
-        FileUtils.mkdir_p folder
+      [tony, steve].each do |hero|
+        FileUtils.mkdir_p File.dirname(hero.file.path)
       end
     end
 
     after :all do
-      FileUtils.rm_r File.dirname(captain_america_folder)
+      FileUtils.rm_r tony.file.path
     end
 
-    let(:tony) { Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark') }
-    let(:steve) { Employee.new(team: 'Avengers', first: 'Steve', last: 'Rogers') }
-    let(:members) { [ tony, steve ]}
-
     it 'will append the entry to all team members' do
-      members.each do |m|
-        LogFile.new(EmployeeFolder.new(m))
-      end
-
       Settings.with_mock_input "\n\n\nWe met about stuff\n\n" do
         subject.command ['avengers']
       end
 
       expected = ["  Steve Rogers, Tony Stark\n", "  alcove\n", "  We met about stuff\n", "  none\n"]
-      verify_answers_propagated(expected, members)
+      verify_answers_propagated(expected, [tony, steve])
     end
   end
 
   context 'with multiple teams' do
-    captain_america_folder = File.join(%W[#{Settings.root} avengers steve-rogers])
-    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
-    wonder_woman_folder = File.join(%W[#{Settings.root} justice-league diana-prince])
+    tony = Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark')
+    steve = Employee.new(team: 'Avengers', first: 'Steve', last: 'Rogers')
+    diana = Employee.new(team: 'Justice League', first: 'Diana', last: 'Prince')
+
+    def get_team_folder(log_file_path)
+      File.dirname(File.dirname(log_file_path))
+    end
 
     before :each do
-      [captain_america_folder, iron_man_folder, wonder_woman_folder].each do |folder|
-        FileUtils.mkdir_p folder
+      [tony, steve, diana].each do |hero|
+        FileUtils.mkdir_p File.dirname(hero.file.path)
       end
     end
 
     after :each do
-      [File.dirname(captain_america_folder), File.dirname(wonder_woman_folder)].each do |team_folder|
+      [tony, steve, diana].map{ |hero| get_team_folder(hero.file.path) }.uniq.each do |team_folder|
         FileUtils.rm_r team_folder
       end
     end
 
     it 'will append the entry to each team\'s members' do
-      tony = Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark')
-      steve = Employee.new(team: 'Avengers', first: 'Steve', last: 'Rogers')
-      diana = Employee.new(team: 'Justice League', first: 'Diana', last: 'Prince')
-      members = [tony, steve, diana]
-
-      members.each do |m|
-        LogFile.new(EmployeeFolder.new(m))
-      end
-
       Settings.with_mock_input "\n\n\nWe met about stuff\n\n" do
         subject.command %w[avengers justice]
       end
 
       expected = ["  alcove\n", "  We met about stuff\n", "  none\n"]
-      verify_answers_propagated(expected, members)
+      verify_answers_propagated(expected, [tony, steve, diana])
     end
   end
 end
