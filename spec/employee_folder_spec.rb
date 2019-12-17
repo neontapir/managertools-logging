@@ -6,12 +6,14 @@ require_relative 'settings_helper'
 
 RSpec.describe EmployeeFolder do
   context 'with normal characters' do
+    normal_folder =  File.join(%W[#{Settings.root} normal])
+
     before(:all) do
-      FileUtils.mkdir_p 'data/normal' unless Dir.exist? 'data/normal'
+      FileUtils.mkdir_p normal_folder unless Dir.exist? normal_folder
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/normal'
+      FileUtils.rm_r normal_folder
     end
 
     subject do
@@ -20,7 +22,7 @@ RSpec.describe EmployeeFolder do
     end
 
     it 'creates folder with normal characters' do
-      expected_path = 'data/normal/john-smith'
+      expected_path = File.join(normal_folder, 'john-smith')
       expect(subject.path).to eq expected_path
 
       subject.ensure_exists
@@ -33,12 +35,14 @@ RSpec.describe EmployeeFolder do
   end
 
   context 'with accented characters' do
+    accented_folder =  File.join(%W[#{Settings.root} āčċéñťèð])
+
     before(:all) do
-      FileUtils.mkdir_p 'data/āčċéñťèð' unless Dir.exist? 'data/āčċéñťèð'
+      FileUtils.mkdir_p accented_folder unless Dir.exist? accented_folder
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/āčċéñťèð'
+      FileUtils.rm_r accented_folder
     end
 
     subject do
@@ -47,7 +51,7 @@ RSpec.describe EmployeeFolder do
     end
 
     it 'creates folder with accented characters' do
-      expected_path = 'data/āčċéñťèð/ezel-çeçek'
+      expected_path = File.join(accented_folder, 'ezel-çeçek')
       expect(subject.path).to eq expected_path
 
       subject.ensure_exists
@@ -56,12 +60,15 @@ RSpec.describe EmployeeFolder do
   end
 
   context 'with nonalnum characters' do
+    nonalnum_path = File.join(%W[#{Settings.root} bad])
+    sanitized_name = 'jhn-smth'
+
     before(:all) do
-      FileUtils.mkdir_p 'data/bad'
+      FileUtils.mkdir_p nonalnum_path
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/bad'
+      FileUtils.rm_r nonalnum_path
     end
 
     subject do
@@ -69,15 +76,16 @@ RSpec.describe EmployeeFolder do
       EmployeeFolder.new bad
     end
 
-    it 'ensures the correct folder exists' do
-      FileUtils.rm_r 'data/bad/jhn-smth' if Dir.exist? 'data/bad/jhn-smth'
-      expect(Dir.exist?('data/bad/jhn-smth')).to be_falsey
+    it 'ensures the folder name does not contain non-alphanumeric characters' do  
+      expected_path = File.join(nonalnum_path, sanitized_name)
+      FileUtils.rm_r expected_path if Dir.exist? expected_path
+      expect(Dir.exist? expected_path).to be_falsey
       subject.ensure_exists
-      expect(Dir.exist?('data/bad/jhn-smth')).to be_truthy
+      expect(Dir.exist? expected_path).to be_truthy
     end
 
     it 'strips non-alphanumeric characters from the name' do
-      expect(subject.folder_name).to eq 'jhn-smth'
+      expect(subject.folder_name).to eq sanitized_name
     end
   end
 end

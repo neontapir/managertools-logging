@@ -5,41 +5,49 @@ require './lib/project_finder'
 require_relative 'settings_helper'
 
 RSpec.describe ProjectFinder do
+  def bloodties_folder
+    File.join(%W[#{Settings.root} projects bloodties])
+  end
+
+  def galactic_storm_folder
+    File.join(%W[#{Settings.root} projects galactic-storm])
+  end
+
   include SettingsHelper
 
   subject { (Class.new { include ProjectFinder }).new }
 
   context 'when parsing a project folder (Bloodtide)' do
     before(:all) do
-      FileUtils.mkdir_p 'data/projects/bloodtide'
+      FileUtils.mkdir_p bloodties_folder
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/projects/bloodtide'
+      FileUtils.rm_r bloodties_folder
     end
 
-    let(:dir) { Dir.new('data/projects/bloodtide') }
+    let(:dir) { Dir.new(bloodties_folder) }
 
     it 'extracts the data correctly' do
       project = subject.parse_dir(dir)
-      expect(project).to eq project: 'bloodtide'
+      expect(project).to eq project: 'bloodties'
     end
   end
 
   context 'when finding a project (Bloodtide)' do
     before(:all) do
-      FileUtils.mkdir_p 'data/projects/bloodtide'
-      FileUtils.rm_r 'data/projects/galactic-storm*' if Dir.exist? 'data/projects/galactic-storm*'
+      FileUtils.mkdir_p bloodties_folder
+      FileUtils.rm_r "#{galactic_storm_folder}*" if Dir.exist? "#{galactic_storm_folder}*"
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/projects/bloodtide'
+      FileUtils.rm_r bloodties_folder
     end
 
-    let(:expected) { Project.new(project: 'bloodtide') }
+    let(:expected) { Project.new(project: 'bloodties') }
 
     it 'does find an existing project by full name' do
-      project = subject.find('bloodtide')
+      project = subject.find('bloodties')
       expect(project).to eq expected
     end
 
@@ -56,11 +64,11 @@ RSpec.describe ProjectFinder do
 
   context 'when finding a project with spaces in the name (Galactic Storm)' do
     before(:all) do
-      FileUtils.mkdir_p 'data/projects/galactic-storm'
+      FileUtils.mkdir_p galactic_storm_folder
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/projects/galactic-storm'
+      FileUtils.rm_r galactic_storm_folder
     end
 
     let(:expected) { Project.new(project: 'galactic-storm') }

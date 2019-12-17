@@ -10,12 +10,15 @@ RSpec.describe InterviewCommand do
   include FileContentsValidationHelper
 
   context 'with a known person' do
+    INPUT = ["\n", "here\n", "SE1\n", "Nick Fury\n", "Edgy but competent\n", "Hire\n"]
+    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
+
     before(:each) do
-      FileUtils.mkdir_p 'data/avengers/tony-stark'
+      FileUtils.mkdir_p iron_man_folder
     end
 
     after(:each) do
-      FileUtils.rm_r 'data/avengers'
+      FileUtils.rm_r File.dirname(iron_man_folder)
     end
 
     let (:tony) { Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark') }
@@ -23,12 +26,12 @@ RSpec.describe InterviewCommand do
     subject { InterviewCommand.new }
 
     it 'can write an interview entry' do
-      Settings.with_mock_input "\nhere\nSE1\nNick Fury\nEdgy but competent\nHire\n" do
+      Settings.with_mock_input INPUT do
         subject.command ['tony']
       end
 
-      expected = ["  here\n", "  SE1\n", "  Nick Fury\n", "  Edgy but competent\n", "  Hire\n"]
-      verify_answers_propagated(expected, [tony])
+      expected_values = INPUT.reject{ |i| i == "\n" }.map{ |i| "  #{i}" }
+      verify_answers_propagated(expected_values, [tony])
     end
   end
 
@@ -51,7 +54,7 @@ RSpec.describe InterviewCommand do
     end
 
     after(:each) do
-      FileUtils.rm_r "data/#{Settings.candidates_root}"
+      FileUtils.rm_r File.join(%W[#{Settings.root} #{Settings.candidates_root}])
     end
 
     subject { InterviewCommand.new }
@@ -64,7 +67,7 @@ RSpec.describe InterviewCommand do
 
     it 'will insert an interview entry' do
       # non_defaults = ["  SE1\n", "  Steve Rogers\n", "  One eye not an issue\n", "  Hire\n"]
-      non_defaults = INPUT.reject{ |i| i == $/ }.map{ |i| "  #{i}" }
+      non_defaults = INPUT.reject{ |i| i == "\n" }.map{ |i| "  #{i}" }
       verify_answers_propagated(non_defaults, [nick])
     end
 

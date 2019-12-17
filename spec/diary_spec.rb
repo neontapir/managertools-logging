@@ -5,6 +5,8 @@ Dir.glob('./lib/entries/*_entry.rb', &method(:require))
 
 RSpec.describe Diary do
   context 'with template' do
+    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
+    
     subject = (Class.new do
       include Diary
       def template?
@@ -13,15 +15,15 @@ RSpec.describe Diary do
     end).new
 
     before(:all) do
-      FileUtils.mkdir_p 'data/avengers/tony-stark'
+      FileUtils.mkdir_p iron_man_folder
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/avengers'
+      FileUtils.rm_r File.dirname(iron_man_folder)
     end
 
     it 'appends an entry to the correct file' do
-      log = LogFile.new(Dir.new('data/avengers/tony-stark')).path
+      log = LogFile.new(Dir.new(iron_man_folder)).path
       old_length = File.size?(log) ? File.size(log) : 0
       _ = subject.record_to_file(:interview, 'tony-stark')
       expect(File.size(log)).to be > old_length
@@ -29,6 +31,8 @@ RSpec.describe Diary do
   end
 
   context 'with interaction', order: :defined do
+    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
+
     subject = (Class.new do
       include Diary
       def template?
@@ -56,11 +60,11 @@ RSpec.describe Diary do
     end
 
     before(:all) do
-      FileUtils.mkdir_p 'data/avengers/tony-stark'
+      FileUtils.mkdir_p iron_man_folder
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/avengers'
+      FileUtils.rm_r File.dirname(iron_man_folder)
     end
 
     it 'displays a prompt' do
@@ -70,7 +74,7 @@ RSpec.describe Diary do
     end
 
     it 'appends an entry' do
-      log = LogFile.new(Dir.new('data/avengers/tony-stark')).path
+      log = LogFile.new(Dir.new(iron_man_folder)).path
       old_length = File.size?(log) ? File.size(log) : 0
 
       expect($stdout).to receive(:puts)
@@ -135,6 +139,8 @@ RSpec.describe Diary do
   end
 
   context 'with diary entries that disable prompting', order: :defined do
+    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
+
     subject = (Class.new do
       include Diary
       def template?
@@ -161,11 +167,11 @@ RSpec.describe Diary do
     end
 
     before(:all) do
-      FileUtils.mkdir_p 'data/avengers/tony-stark'
+      FileUtils.mkdir_p iron_man_folder
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/avengers'
+      FileUtils.rm_r File.dirname(iron_man_folder)
     end
 
     # NOTE: This feature is useful for derived values, like 'duration' on PtoEntry.

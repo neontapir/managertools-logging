@@ -12,12 +12,14 @@ RSpec.describe RecordDiaryEntryCommand do
   include FileContentsValidationHelper
 
   context 'with a single person' do
+    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
+
     before(:each) do
-      FileUtils.mkdir_p 'data/avengers/tony-stark'
+      FileUtils.mkdir_p iron_man_folder
     end
 
     after(:each) do
-      FileUtils.rm_r 'data/avengers'
+      FileUtils.rm_r File.dirname(iron_man_folder)
     end
 
     let (:tony) { Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark') }
@@ -71,21 +73,26 @@ RSpec.describe RecordDiaryEntryCommand do
   end
 
   context 'with multiple people' do
+    captain_america_folder = File.join(%W[#{Settings.root} avengers steve-rogers])
+    thor_folder = File.join(%W[#{Settings.root} avengers thor-odinson])
+
     before(:all) do
-      FileUtils.mkdir_p 'data/avengers/thor-odinson'
-      FileUtils.mkdir_p 'data/avengers/steve-rogers'
+      [captain_america_folder, thor_folder].each do |folder|
+        FileUtils.mkdir_p folder
+      end
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/avengers'
+      FileUtils.rm_r File.dirname(captain_america_folder)
     end
 
-    let (:thor) { Employee.new(team: 'Avengers', first: 'Thor', last: 'Odinson') }
     let (:steve) { Employee.new(team: 'Avengers', first: 'Steve', last: 'Rogers') }
+    let (:thor) { Employee.new(team: 'Avengers', first: 'Thor', last: 'Odinson') }
+    
     subject { RecordDiaryEntryCommand.new }
 
-    it 'will append the entry to all their logs' do
-      members = [thor, steve]
+    it 'will append the entry to all their logs in the order given' do
+      members = [steve, thor]
 
       members.each do |m|
         LogFile.new(EmployeeFolder.new(m))

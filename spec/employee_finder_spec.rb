@@ -61,44 +61,50 @@ RSpec.describe EmployeeFinder do
   end
 
   context 'when parsing an employee folder (Iron Man)' do
+    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
+
     before(:all) do
-      FileUtils.mkdir_p 'data/avengers/tony-stark'
+      FileUtils.mkdir_p iron_man_folder
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/avengers'
+      FileUtils.rm_r File.dirname(iron_man_folder)
     end
 
     it 'extracts the data correctly' do
-      dir = Dir.new('data/avengers/tony-stark')
+      dir = Dir.new(iron_man_folder)
       iron_man = subject.parse_dir(dir)
       expect(proper?(iron_man, 'avengers', 'Tony', 'Stark')).to be_truthy
     end
   end
 
   context 'when parsing an employee folder with a hyphen (Rescue)' do
+    rescue_folder = File.join(%W[#{Settings.root} avengers pepper-potts-stark])
+
     before(:all) do
-      FileUtils.mkdir_p 'data/avengers/pepper-potts-stark'
+      FileUtils.mkdir_p rescue_folder
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/avengers'
+      FileUtils.rm_r File.dirname(rescue_folder)
     end
 
     it 'extracts the data correctly' do
-      dir = Dir.new('data/avengers/pepper-potts-stark')
+      dir = Dir.new(rescue_folder)
       avenger_rescue = subject.parse_dir(dir)
       expect(proper?(avenger_rescue, 'avengers', 'Pepper', 'Potts-Stark')).to be_truthy
     end
   end
 
   context 'when finding an employee (Iron Man)' do
+    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
+
     before(:all) do
-      FileUtils.mkdir_p 'data/avengers/tony-stark'
+      FileUtils.mkdir_p iron_man_folder
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/avengers'
+      FileUtils.rm_r File.dirname(iron_man_folder)
     end
 
     it 'does find the expected employee' do
@@ -115,13 +121,16 @@ RSpec.describe EmployeeFinder do
   end
 
   context 'with two employees with same first name (Ant Man and Beast)' do
+    ant_man_folder =  File.join(%W[#{Settings.root} avengers hank-pym])
+    beast_folder =  File.join(%W[#{Settings.root} avengers hank-mccoy])
+
     before(:all) do
-      FileUtils.mkdir_p 'data/avengers/hank-pym'   # Ant Man
-      FileUtils.mkdir_p 'data/avengers/hank-mccoy' # Beast
+      FileUtils.mkdir_p ant_man_folder
+      FileUtils.mkdir_p beast_folder
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/avengers'
+      FileUtils.rm_r File.dirname(ant_man_folder)
     end
 
     it 'returns the first one by alphabetical order if multiples match' do

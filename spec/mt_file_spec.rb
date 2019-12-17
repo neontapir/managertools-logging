@@ -12,20 +12,23 @@ RSpec.describe MtFile do
   end
 
   context 'with a typical instance' do
+    mtfileclass_folder = File.join(%W[#{Settings.root} mtfile])
+
     # Helper class for testing MtFile
     MtFileClass = Class.new do
       include MtFile
+
       def path
-        'data/mtfile/foo'
+        File.join(%W[#{Settings.root} mtfile foo])
       end
     end
 
     before(:each) do
-      FileUtils.mkdir_p 'data/mtfile'
+      FileUtils.mkdir_p mtfileclass_folder
     end
 
     after(:each) do
-      FileUtils.rm_r 'data/mtfile'
+      FileUtils.rm_r mtfileclass_folder
     end
 
     subject { MtFileClass.new }
@@ -36,10 +39,6 @@ RSpec.describe MtFile do
 
     def backup_exists
       File.exist?(subject.backup)
-    end
-
-    it 'knows the file path' do
-      expect(subject.path).to eq 'data/mtfile/foo'
     end
 
     it 'is represented as a string by its path' do

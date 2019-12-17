@@ -9,15 +9,17 @@ RSpec.describe TeamFinder do
   subject { (Class.new { include TeamFinder }).new }
 
   context 'when parsing a team folder (Avengers)' do
+    avengers_folder = File.join(%W[#{Settings.root} avengers])
+
     before(:all) do
-      FileUtils.mkdir_p 'data/avengers'
+      FileUtils.mkdir_p avengers_folder
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/avengers'
+      FileUtils.rm_r avengers_folder
     end
 
-    let(:dir) { Dir.new('data/avengers') }
+    let(:dir) { Dir.new(avengers_folder) }
 
     it 'extracts the data correctly' do
       team = subject.parse_dir(dir)
@@ -26,13 +28,16 @@ RSpec.describe TeamFinder do
   end
 
   context 'when finding a team (Avengers)' do
+    avengers_folder = File.join(%W[#{Settings.root} avengers])
+    justice_league_folder_spec = File.join(%W[#{Settings.root} justice]) + '*' 
+
     before(:all) do
-      FileUtils.mkdir_p 'data/avengers'
-      FileUtils.rm_r 'data/justice*' if Dir.exist? 'data/justice*'
+      FileUtils.mkdir_p avengers_folder
+      FileUtils.rm_r justice_league_folder_spec if Dir.exist? justice_league_folder_spec
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/avengers'
+      FileUtils.rm_r avengers_folder
     end
 
     let(:expected) { Team.new(team: 'avengers') }
@@ -54,15 +59,18 @@ RSpec.describe TeamFinder do
   end
 
   context 'when finding a team with spaces in the name (League of Extraordinary Gentlemen)' do
+    league_id = 'league-of-extraordinary-gentlemen'
+    league_folder = File.join(%W[#{Settings.root} #{league_id}])
+
     before(:all) do
-      FileUtils.mkdir_p 'data/league-of-extraordinary-gentlemen'
+      FileUtils.mkdir_p league_folder
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/league-of-extraordinary-gentlemen'
+      FileUtils.rm_r league_folder
     end
 
-    let(:expected) { Team.new(team: 'league-of-extraordinary-gentlemen') }
+    let(:expected) { Team.new(team: league_id) }
 
     it 'does find an existing team by full name' do
       team = subject.find('League of Extraordinary Gentlemen')

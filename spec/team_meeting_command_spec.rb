@@ -22,13 +22,17 @@ RSpec.describe TeamMeetingCommand do
   end
 
   context 'with the Avengers team' do
+    captain_america_folder = File.join(%W[#{Settings.root} avengers steve-rogers])
+    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
+
     before(:all) do
-      FileUtils.mkdir_p 'data/avengers/tony-stark'
-      FileUtils.mkdir_p 'data/avengers/steve-rogers'
+      [captain_america_folder, iron_man_folder].each do |folder|
+        FileUtils.mkdir_p folder
+      end
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/avengers'
+      FileUtils.rm_r File.dirname(captain_america_folder)
     end
 
     let (:tony) { Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark') }
@@ -50,15 +54,20 @@ RSpec.describe TeamMeetingCommand do
   end
 
   context 'with multiple teams' do
-    before(:all) do
-      FileUtils.mkdir_p 'data/avengers/tony-stark'
-      FileUtils.mkdir_p 'data/avengers/steve-rogers'
-      FileUtils.mkdir_p 'data/justice-league/diana-prince'
+    captain_america_folder = File.join(%W[#{Settings.root} avengers steve-rogers])
+    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
+    wonder_woman_folder = File.join(%W[#{Settings.root} justice-league diana-prince])
+
+    before(:each) do
+      [captain_america_folder, iron_man_folder, wonder_woman_folder].each do |folder|
+        FileUtils.mkdir_p folder
+      end
     end
 
-    after(:all) do
-      FileUtils.rm_r 'data/avengers'
-      FileUtils.rm_r 'data/justice-league'
+    after(:each) do
+      [File.dirname(captain_america_folder), File.dirname(wonder_woman_folder)].each do |team_folder|
+        FileUtils.rm_r team_folder
+      end
     end
 
     it 'will append the entry to each team\'s members' do

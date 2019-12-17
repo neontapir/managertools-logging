@@ -51,15 +51,17 @@ RSpec.describe Team do
   end
 
   context 'with a typical team (Avengers)' do
+    ant_man_folder = File.join(%W[#{Settings.root} avengers hank-pym])
+    beast_folder = File.join(%W[#{Settings.root} avengers hank-mccoy])
+    
     before(:all) do
-      Dir.mkdir('data') unless Dir.exist? 'data'
-      Dir.mkdir('data/avengers')
-      Dir.mkdir('data/avengers/hank-pym')   # Ant Man
-      Dir.mkdir('data/avengers/hank-mccoy') # Beast
+      [ant_man_folder, beast_folder].each do |folder|
+        FileUtils.mkdir_p folder
+      end
     end
 
     after(:all) do
-      FileUtils.remove_dir 'data/avengers'
+      FileUtils.rm_r File.dirname(ant_man_folder)
     end
 
     subject { Team.new(team: 'Avengers') }
@@ -77,21 +79,22 @@ RSpec.describe Team do
     end
 
     it 'lists its team members by folder' do
-      expect(subject.members_by_folder).to contain_exactly(
-        'data/avengers/hank-mccoy',
-        'data/avengers/hank-pym'
-      )
+      expect(subject.members_by_folder).to contain_exactly(ant_man_folder, beast_folder)
     end
   end
 
   context 'with a team name with a space (Justice League)' do
+    batman_folder = File.join(%W[#{Settings.root} justice-league bruce-wayne])
+    superman_folder = File.join(%W[#{Settings.root} justice-league clark-kent])
+
     before(:all) do
-      FileUtils.mkdir_p 'data/justice-league/bruce-wayne' # Batman
-      FileUtils.mkdir_p 'data/justice-league/clark-kent' # Superman
+      [batman_folder, superman_folder].each do |folder|
+        FileUtils.mkdir_p folder
+      end
     end
 
     after(:all) do
-      FileUtils.remove_dir 'data/justice-league'
+      FileUtils.remove_dir File.dirname(batman_folder)
     end
 
     subject { Team.new(team: 'Justice League') }
@@ -101,12 +104,9 @@ RSpec.describe Team do
     end
 
     it 'lists its team members by folder' do
-      raise IOError, 'No Batman folder' unless Dir.exist? 'data/justice-league/bruce-wayne'
-      raise IOError, 'No Superman folder' unless Dir.exist? 'data/justice-league/clark-kent'
-      expect(subject.members_by_folder).to contain_exactly(
-        'data/justice-league/bruce-wayne',
-        'data/justice-league/clark-kent'
-      )
+      raise IOError, 'No Batman folder' unless Dir.exist? batman_folder
+      raise IOError, 'No Superman folder' unless Dir.exist? superman_folder
+      expect(subject.members_by_folder).to contain_exactly(batman_folder, superman_folder)
     end
   end
 end

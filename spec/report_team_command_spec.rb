@@ -6,10 +6,11 @@ require './lib/commands/report_team_command'
 
 RSpec.describe ReportTeamCommand do
   context 'with an existing team' do
+    avengers_folder = File.join(%W[#{Settings.root} avengers])
+
     file_prefix = 'team-avengers-report'
 
     before(:all) do
-      # FileUtils.mkdir_p 'data/avengers/tony-stark'
       Settings.with_mock_input "\nhere\nMet about goals\n\n\n" do
         expect{ NewHireCommand.new.command(%w[Avengers Tony Stark]) }.to output.to_stdout
         RecordDiaryEntryCommand.new.command :one_on_one, ['tony']
@@ -18,7 +19,7 @@ RSpec.describe ReportTeamCommand do
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/avengers'
+      FileUtils.rm_r avengers_folder
       FileUtils.rm ["#{file_prefix}.adoc", "#{file_prefix}.html"]
     end
 

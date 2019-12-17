@@ -30,14 +30,16 @@ RSpec.describe Employee do
   end
 
   context 'when getting names with unusual casing' do
+    people_folder = File.join(%W[#{Settings.root} people])
+
     before(:all) do
-      FileUtils.mkdir_p 'data/people/baron-du-vallon-de-bracieux-de-pierrefonds'
-      FileUtils.mkdir_p 'data/people/old-mcdonald'
-      FileUtils.mkdir_p 'data/people/jj-ginger-oconnell'
+      %w[baron-du-vallon-de-bracieux-de-pierrefonds old-mcdonald jj-ginger-oconnell].each do |p|
+        FileUtils.mkdir_p File.join(people_folder, p)
+      end
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/people'
+      FileUtils.rm_r people_folder
     end
 
     it 'is handles French names' do
@@ -57,12 +59,14 @@ RSpec.describe Employee do
   end
 
   context 'with equality for a single employee (Iron Man)' do
+    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
+
     before(:all) do
-      FileUtils.mkdir_p 'data/avengers/tony-stark'
+      FileUtils.mkdir_p iron_man_folder
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/avengers'
+      FileUtils.rm_r File.dirname(iron_man_folder)
     end
 
     subject { Employee.new(team: 'avengers', first: 'Tony', last: 'Stark') }
@@ -70,7 +74,7 @@ RSpec.describe Employee do
     it 'gives the correct log file location' do
       file = subject.file
       expect(file).not_to be_nil
-      expect(file.path).to eq 'data/avengers/tony-stark/log.adoc'
+      expect(file.path).to eq File.join(iron_man_folder, 'log.adoc')
     end
 
     it 'gives the employee\'s name' do
@@ -93,12 +97,14 @@ RSpec.describe Employee do
   end
 
   context 'with equality for a single employee with a hyphenated team name (Wonder Woman)' do
+    wonder_woman_folder = File.join(%W[#{Settings.root} justice-league diana-prince])
+
     before(:all) do
-      FileUtils.mkdir_p 'data/justice-league/diana-prince'
+      FileUtils.mkdir_p wonder_woman_folder
     end
 
     after(:all) do
-      FileUtils.rm_r 'data/justice-league'
+      FileUtils.rm_r File.dirname(wonder_woman_folder)
     end
 
     subject { Employee.new(team: 'Justice League', first: 'Diana', last: 'Prince') }
@@ -106,7 +112,7 @@ RSpec.describe Employee do
     it 'gives the correct log file location' do
       file = subject.file
       expect(file).not_to be_nil
-      expect(file.path).to eq 'data/justice-league/diana-prince/log.adoc'
+      expect(file.path).to eq File.join(wonder_woman_folder, 'log.adoc')
     end
   end
 end
