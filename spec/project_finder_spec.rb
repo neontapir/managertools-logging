@@ -18,11 +18,11 @@ RSpec.describe ProjectFinder do
   subject { (Class.new { include ProjectFinder }).new }
 
   context 'when parsing a project folder (Bloodtide)' do
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p bloodties_folder
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r bloodties_folder
     end
 
@@ -35,12 +35,12 @@ RSpec.describe ProjectFinder do
   end
 
   context 'when finding a project (Bloodtide)' do
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p bloodties_folder
       FileUtils.rm_r "#{galactic_storm_folder}*" if Dir.exist? "#{galactic_storm_folder}*"
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r bloodties_folder
     end
 
@@ -63,11 +63,11 @@ RSpec.describe ProjectFinder do
   end
 
   context 'when finding a project with spaces in the name (Galactic Storm)' do
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p galactic_storm_folder
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r galactic_storm_folder
     end
 

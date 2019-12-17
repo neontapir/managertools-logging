@@ -11,11 +11,11 @@ RSpec.describe TeamFinder do
   context 'when parsing a team folder (Avengers)' do
     avengers_folder = File.join(%W[#{Settings.root} avengers])
 
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p avengers_folder
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r avengers_folder
     end
 
@@ -31,12 +31,12 @@ RSpec.describe TeamFinder do
     avengers_folder = File.join(%W[#{Settings.root} avengers])
     justice_league_folder_spec = File.join(%W[#{Settings.root} justice]) + '*' 
 
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p avengers_folder
       FileUtils.rm_r justice_league_folder_spec if Dir.exist? justice_league_folder_spec
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r avengers_folder
     end
 
@@ -62,11 +62,11 @@ RSpec.describe TeamFinder do
     league_id = 'league-of-extraordinary-gentlemen'
     league_folder = File.join(%W[#{Settings.root} #{league_id}])
 
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p league_folder
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r league_folder
     end
 

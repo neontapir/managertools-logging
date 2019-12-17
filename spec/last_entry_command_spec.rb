@@ -9,7 +9,7 @@ RSpec.describe LogFile do
   context 'with diary entries' do
     iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
 
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p iron_man_folder
       tony = Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark')
       log_file = LogFile.new(EmployeeFolder.new(tony))
@@ -17,7 +17,7 @@ RSpec.describe LogFile do
       log_file.append ObservationEntry.new(datetime: Time.new(2001, 2, 4, 5, 6, 7).to_s, content: 'Observation B')
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r File.dirname(iron_man_folder)
     end
 

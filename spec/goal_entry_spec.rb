@@ -9,7 +9,7 @@ RSpec.describe GoalEntry do
   end
 
   context 'with multiple people' do
-    let (:entry_date) { Time.new(2001, 2, 3, 4, 5, 6).to_s }
+    let(:entry_date) { Time.new(2001, 2, 3, 4, 5, 6).to_s }
 
     before do
       Timecop.freeze entry_date
@@ -19,7 +19,7 @@ RSpec.describe GoalEntry do
       Timecop.return
     end
 
-    let (:due_date) { Time.new(2001, 3, 2, 5, 6, 7).to_s }
+    let(:due_date) { Time.new(2001, 3, 2, 5, 6, 7).to_s }
     subject { GoalEntry.new(applies_to: 'Clark Kent, Bruce Wayne') }
 
     it 'renders correctly' do
@@ -28,7 +28,7 @@ RSpec.describe GoalEntry do
   end
 
   context 'with a single person' do
-    let (:entry_date) { Time.new(2000) }
+    let(:entry_date) { Time.new(2000) }
 
     before do
       Timecop.freeze entry_date
@@ -38,7 +38,7 @@ RSpec.describe GoalEntry do
       Timecop.return
     end
 
-    let (:due_date) { Time.new(2001, 3, 2, 5, 6, 7) }
+    let(:due_date) { Time.new(2001, 3, 2, 5, 6, 7) }
     subject { GoalEntry.new(applies_to: 'Bruce Wayne') }
 
     it 'renders correctly' do

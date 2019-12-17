@@ -25,19 +25,19 @@ RSpec.describe TeamMeetingCommand do
     captain_america_folder = File.join(%W[#{Settings.root} avengers steve-rogers])
     iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
 
-    before(:all) do
+    before :all do
       [captain_america_folder, iron_man_folder].each do |folder|
         FileUtils.mkdir_p folder
       end
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r File.dirname(captain_america_folder)
     end
 
-    let (:tony) { Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark') }
-    let (:steve) { Employee.new(team: 'Avengers', first: 'Steve', last: 'Rogers') }
-    let (:members) { [ tony, steve ]}
+    let(:tony) { Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark') }
+    let(:steve) { Employee.new(team: 'Avengers', first: 'Steve', last: 'Rogers') }
+    let(:members) { [ tony, steve ]}
 
     it 'will append the entry to all team members' do
       members.each do |m|
@@ -58,13 +58,13 @@ RSpec.describe TeamMeetingCommand do
     iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
     wonder_woman_folder = File.join(%W[#{Settings.root} justice-league diana-prince])
 
-    before(:each) do
+    before :each do
       [captain_america_folder, iron_man_folder, wonder_woman_folder].each do |folder|
         FileUtils.mkdir_p folder
       end
     end
 
-    after(:each) do
+    after :each do
       [File.dirname(captain_america_folder), File.dirname(wonder_woman_folder)].each do |team_folder|
         FileUtils.rm_r team_folder
       end

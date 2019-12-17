@@ -10,7 +10,7 @@ RSpec.describe ReportCommand do
     file_prefix = 'report-tony-stark'
     report_files = ["#{file_prefix}.adoc", "#{file_prefix}.html"]
 
-    before(:all) do
+    before :all do
       Settings.with_mock_input "\nhere\nMet about goals\n\n\n" do
         expect{ NewHireCommand.new.command(%w[Avengers Tony Stark]) }.to output.to_stdout
         RecordDiaryEntryCommand.new.command :one_on_one, ['tony']
@@ -18,7 +18,7 @@ RSpec.describe ReportCommand do
       end
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r avengers_folder
       FileUtils.rm report_files
     end

@@ -6,7 +6,7 @@ require './lib/entries/pto_entry'
 
 RSpec.describe PtoEntry do
   context 'during the post-create hook' do
-    let (:entry_date) { Time.local(1999) }
+    let(:entry_date) { Time.local(1999) }
 
     before do
       Timecop.freeze entry_date

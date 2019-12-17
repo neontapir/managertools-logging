@@ -7,13 +7,13 @@ RSpec.describe EntityFile do
   normal_folder = File.join(%W[#{Settings.root} normal])
   muppets_in_space_folder = File.join(%W[#{Settings.root} muppets-in-space])
 
-  before(:all) do
+  before :all do
     [normal_folder, muppets_in_space_folder].each do |folder|
       FileUtils.mkdir_p folder
     end
   end
 
-  after(:all) do
+  after :all do
     [normal_folder, muppets_in_space_folder].each do |folder|
       FileUtils.rm_r folder
     end

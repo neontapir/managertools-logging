@@ -9,15 +9,15 @@ RSpec.describe NewProjectCommand do
   context 'existing project' do
     bloodties_log = File.join(%W[#{Settings.root} projects bloodties log.adoc])
 
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p File.dirname(bloodties_log)
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r File.dirname(bloodties_log)
     end
 
-    subject { NewProjectCommand.new }
+    
 
     it 'creates a new project' do
       allow(subject).to receive(:ask)
@@ -42,16 +42,16 @@ RSpec.describe NewProjectCommand do
       File.join(%W[#{Settings.root} projects galactic-storm log.adoc])
     end
 
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p File.dirname(galactic_storm_log)
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r File.dirname(galactic_storm_log)
     end
 
-    subject { NewProjectCommand.new }
-    let (:storm) { Project.find('galactic') }
+    
+    let(:storm) { Project.find('galactic') }
 
     def storm_log_contents
        File.read(storm.file.path)

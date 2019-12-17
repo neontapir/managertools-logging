@@ -27,8 +27,8 @@ RSpec.describe Team do
     end
 
     it 'gets the same results with the equals operator' do
-      expect(justice_league == avengers).to be_falsey
       expect(avengers == justice_league).to be_falsey
+      expect(justice_league == avengers).to be_falsey
     end
 
     it 'finds teams with different casing in names the same' do
@@ -54,13 +54,13 @@ RSpec.describe Team do
     ant_man_folder = File.join(%W[#{Settings.root} avengers hank-pym])
     beast_folder = File.join(%W[#{Settings.root} avengers hank-mccoy])
     
-    before(:all) do
+    before :all do
       [ant_man_folder, beast_folder].each do |folder|
         FileUtils.mkdir_p folder
       end
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r File.dirname(ant_man_folder)
     end
 
@@ -87,13 +87,13 @@ RSpec.describe Team do
     batman_folder = File.join(%W[#{Settings.root} justice-league bruce-wayne])
     superman_folder = File.join(%W[#{Settings.root} justice-league clark-kent])
 
-    before(:all) do
+    before :all do
       [batman_folder, superman_folder].each do |folder|
         FileUtils.mkdir_p folder
       end
     end
 
-    after(:all) do
+    after :all do
       FileUtils.remove_dir File.dirname(batman_folder)
     end
 

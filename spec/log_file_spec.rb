@@ -8,22 +8,22 @@ require './lib/entries/observation_entry'
 RSpec.describe LogFile do
   avengers_folder = File.join(%W[#{Settings.root} avengers])
 
-  before(:all) do
+  before :all do
     FileUtils.mkdir_p avengers_folder
   end
 
-  after(:all) do
+  after :all do
     FileUtils.rm_r avengers_folder
   end
 
   context 'with an employee', order: :defined do
     thor_folder = File.join(avengers_folder, 'thor-odinson')
 
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p thor_folder
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r thor_folder
     end
 
@@ -55,11 +55,11 @@ RSpec.describe LogFile do
   context 'with dated diary entries', order: :defined do
     iron_man_folder = File.join(avengers_folder, 'tony-stark')
 
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p iron_man_folder
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r iron_man_folder
     end
 
@@ -88,11 +88,11 @@ RSpec.describe LogFile do
   context 'with undated diary entries', order: :defined do
     hawkeye_folder = File.join(avengers_folder, 'clinton-barton')
 
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p hawkeye_folder
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r hawkeye_folder
     end
 
@@ -116,11 +116,11 @@ RSpec.describe LogFile do
   context 'when new entry is before earliest dated entry in file', order: :defined do
     captain_america_folder = File.join(avengers_folder, 'steve-rogers')
 
-    before(:each) do
+    before :each do
       FileUtils.mkdir_p captain_america_folder
     end
 
-    after(:each) do
+    after :each do
       FileUtils.rm_r captain_america_folder
     end
 
@@ -160,11 +160,11 @@ RSpec.describe LogFile do
   context 'when new entry is between earliest and latest in file', order: :defined do
     black_widow_folder = File.join(avengers_folder, 'natasha-romanoff')
 
-    before(:each) do
+    before :each do
       FileUtils.mkdir_p black_widow_folder
     end
 
-    after(:each) do
+    after :each do
       FileUtils.rm_r black_widow_folder
     end
 
@@ -203,11 +203,11 @@ RSpec.describe LogFile do
   context 'when new entry is after latest in file', order: :defined do
     wasp_folder = File.join(avengers_folder, 'janet-vandyne')
 
-    before(:each) do
+    before :each do
       FileUtils.mkdir_p wasp_folder
     end
 
-    after(:each) do
+    after :each do
       FileUtils.rm_r wasp_folder
     end
 

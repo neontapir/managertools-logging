@@ -13,17 +13,17 @@ RSpec.describe InterviewCommand do
     INPUT = ["\n", "here\n", "SE1\n", "Nick Fury\n", "Edgy but competent\n", "Hire\n"]
     iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
 
-    before(:each) do
+    before :each do
       FileUtils.mkdir_p iron_man_folder
     end
 
-    after(:each) do
+    after :each do
       FileUtils.rm_r File.dirname(iron_man_folder)
     end
 
-    let (:tony) { Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark') }
+    let(:tony) { Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark') }
 
-    subject { InterviewCommand.new }
+    
 
     it 'can write an interview entry' do
       Settings.with_mock_input INPUT do
@@ -37,7 +37,7 @@ RSpec.describe InterviewCommand do
 
   context 'with an unknown person' do
     INPUT = ["\n", "\n", "SE1\n", "Steve Rogers\n", "One eye not an issue\n", "Hire\n"]
-    before(:each) do
+    before :each do
       # allow(Settings.console).to receive(:print)
       # allow(Settings.console).to receive(:say)
       # allow(Settings.console).to receive(:ask).and_return(nil) # default
@@ -53,11 +53,11 @@ RSpec.describe InterviewCommand do
       end
     end
 
-    after(:each) do
+    after :each do
       FileUtils.rm_r File.join(%W[#{Settings.root} #{Settings.candidates_root}])
     end
 
-    subject { InterviewCommand.new }
+    
     let(:nick) { Employee.find('nick') }
 
     it 'will create a new hire' do

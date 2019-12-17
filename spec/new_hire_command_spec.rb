@@ -9,15 +9,15 @@ RSpec.describe NewHireCommand do
     teen_titans_folder = File.join(%W[#{Settings.root} teen-titans])
     starfire_folder = File.join(teen_titans_folder, 'princess-koriandr')
 
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p teen_titans_folder
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r teen_titans_folder
     end
 
-    subject { NewHireCommand.new }
+    
 
     it 'creates a new team member' do
       expect(File.exist? File.join(starfire_folder, 'log.adoc')).to be_falsey
@@ -38,17 +38,17 @@ RSpec.describe NewHireCommand do
   context 'force overwrites team member' do
     teen_titans_folder = File.join(%W[#{Settings.root} teen-titans])
     
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p teen_titans_folder
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r teen_titans_folder
     end
 
-    subject { NewHireCommand.new }
-    let (:robin) { Employee.find('Grayson') }
-    let (:robin_folder) { File.join(teen_titans_folder, 'dick-grayson') }
+    
+    let(:robin) { Employee.find('Grayson') }
+    let(:robin_folder) { File.join(teen_titans_folder, 'dick-grayson') }
 
     def robin_log_contents
       File.read(robin.file.path)

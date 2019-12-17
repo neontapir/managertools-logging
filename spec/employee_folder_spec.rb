@@ -8,11 +8,11 @@ RSpec.describe EmployeeFolder do
   context 'with normal characters' do
     normal_folder =  File.join(%W[#{Settings.root} normal])
 
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p normal_folder unless Dir.exist? normal_folder
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r normal_folder
     end
 
@@ -37,11 +37,11 @@ RSpec.describe EmployeeFolder do
   context 'with accented characters' do
     accented_folder =  File.join(%W[#{Settings.root} āčċéñťèð])
 
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p accented_folder unless Dir.exist? accented_folder
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r accented_folder
     end
 
@@ -63,11 +63,11 @@ RSpec.describe EmployeeFolder do
     nonalnum_path = File.join(%W[#{Settings.root} bad])
     sanitized_name = 'jhn-smth'
 
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p nonalnum_path
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r nonalnum_path
     end
 

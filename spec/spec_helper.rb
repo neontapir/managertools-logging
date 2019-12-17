@@ -35,7 +35,7 @@ RSpec.configure do |config|
     create_test_settings_file
   end
 
-  config.after(:suite) do
+  config.after :suite do
     remove_test_settings_file
   end
 

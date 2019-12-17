@@ -9,7 +9,7 @@ require_relative 'settings_helper'
 require_relative 'spec_helper'
 
 RSpec.describe 'mt script', type: :aruba do
-  before(:each) do
+  before :each do
     create_test_settings_file(Aruba.config.working_directory)
   end
 

@@ -23,40 +23,40 @@ RSpec.describe MtFile do
       end
     end
 
-    before(:each) do
+    before :each do
       FileUtils.mkdir_p mtfileclass_folder
     end
 
-    after(:each) do
+    after :each do
       FileUtils.rm_r mtfileclass_folder
     end
 
-    subject { MtFileClass.new }
+    let(:implementer) { MtFileClass.new }
 
     def foo_exists
-      File.exist?(subject.path)
+      File.exist?(implementer.path)
     end
 
     def backup_exists
-      File.exist?(subject.backup)
+      File.exist?(implementer.backup)
     end
 
     it 'is represented as a string by its path' do
-      expect(subject.to_s).to eq subject.path
+      expect(implementer.to_s).to eq implementer.path
     end
 
     context 'when ensuring existance' do
       it 'creates a file if none exists' do
         expect(foo_exists).to be_falsey
-        subject.ensure_exists
+        implementer.ensure_exists
         expect(foo_exists).to be_truthy
       end
 
       it 'does nothing if file already exists' do
         expect(foo_exists).to be_falsey
-        subject.ensure_exists
+        implementer.ensure_exists
         expect(foo_exists).to be_truthy
-        subject.ensure_exists
+        implementer.ensure_exists
         expect(foo_exists).to be_truthy
       end
     end
@@ -65,16 +65,16 @@ RSpec.describe MtFile do
       it 'creates a backup file if none exists' do
         expect(foo_exists).to be_falsey
         expect(backup_exists).to be_falsey
-        subject.make_backup
+        implementer.make_backup
         expect(foo_exists).to be_truthy
         expect(backup_exists).to be_truthy
       end
 
       it 'removes a backup file' do
-        subject.make_backup
+        implementer.make_backup
         expect(foo_exists).to be_truthy
         expect(backup_exists).to be_truthy
-        subject.remove_backup
+        implementer.remove_backup
         expect(foo_exists).to be_truthy
         expect(backup_exists).to be_falsey
       end

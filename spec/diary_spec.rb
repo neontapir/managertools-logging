@@ -14,11 +14,11 @@ RSpec.describe Diary do
       end
     end).new
 
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p iron_man_folder
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r File.dirname(iron_man_folder)
     end
 
@@ -59,11 +59,11 @@ RSpec.describe Diary do
       end
     end
 
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p iron_man_folder
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r File.dirname(iron_man_folder)
     end
 
@@ -166,11 +166,11 @@ RSpec.describe Diary do
       end
     end
 
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p iron_man_folder
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r File.dirname(iron_man_folder)
     end
 

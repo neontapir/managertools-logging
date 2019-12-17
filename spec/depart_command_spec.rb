@@ -7,30 +7,29 @@ require_relative 'spec_helper'
 
 RSpec.describe DepartCommand do
   context 'moving a departing team member' do
-    depart_root = File.join(%W[#{Settings.root} #{Settings.departed_root}])
-    depart_folder = File.join(%W[#{Settings.root} teen-titans])
+    departed_folder = File.join(%W[#{Settings.root} #{Settings.departed_root}])
+    old_team_folder = File.join(%W[#{Settings.root} teen-titans])
+    starfire = 'princess-koriandr'
 
-    before(:each) do
-      FileUtils.rm_r depart_root if Dir.exist? depart_root
-      FileUtils.mkdir_p depart_folder
+    before :each do
+      FileUtils.rm_r departed_folder if Dir.exist? departed_folder
+      FileUtils.mkdir_p old_team_folder
 
       # use new hire command to generate expected files
       expect { NewHireCommand.new.command %w[Teen\ Titans Princess Koriand'r] }.to output(/princess-koriandr/).to_stdout
     end
 
-    after(:each) do
-      FileUtils.rm_r depart_folder
+    after :each do
+      FileUtils.rm_r old_team_folder
     end
 
-    subject { DepartCommand.new }
-
     it 'relocates their files' do
-      expect(Dir.exist? depart_root).to be_falsey
+      expect(Dir.exist? departed_folder).to be_falsey
 
       expect { subject.command 'Princess' }.to output(/Princess Koriandr/).to_stdout
 
-      expect(Dir.exist? File.join(%W[#{depart_root} princess-koriandr])).to be_truthy
-      expect(Dir.exist? File.join(%W[#{depart_folder} princess-koriandr])).to be_falsey
+      expect(Dir.exist? File.join(%W[#{departed_folder} #{starfire}])).to be_truthy
+      expect(Dir.exist? File.join(%W[#{old_team_folder} #{starfire}])).to be_falsey
     end
   end
 end

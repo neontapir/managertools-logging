@@ -63,11 +63,11 @@ RSpec.describe EmployeeFinder do
   context 'when parsing an employee folder (Iron Man)' do
     iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
 
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p iron_man_folder
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r File.dirname(iron_man_folder)
     end
 
@@ -81,11 +81,11 @@ RSpec.describe EmployeeFinder do
   context 'when parsing an employee folder with a hyphen (Rescue)' do
     rescue_folder = File.join(%W[#{Settings.root} avengers pepper-potts-stark])
 
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p rescue_folder
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r File.dirname(rescue_folder)
     end
 
@@ -99,11 +99,11 @@ RSpec.describe EmployeeFinder do
   context 'when finding an employee (Iron Man)' do
     iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
 
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p iron_man_folder
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r File.dirname(iron_man_folder)
     end
 
@@ -124,12 +124,12 @@ RSpec.describe EmployeeFinder do
     ant_man_folder =  File.join(%W[#{Settings.root} avengers hank-pym])
     beast_folder =  File.join(%W[#{Settings.root} avengers hank-mccoy])
 
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p ant_man_folder
       FileUtils.mkdir_p beast_folder
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r File.dirname(ant_man_folder)
     end
 

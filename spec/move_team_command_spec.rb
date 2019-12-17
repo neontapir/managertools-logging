@@ -12,7 +12,7 @@ RSpec.describe MoveTeamCommand do
     teen_titans_folder = File.join(%W[#{Settings.root} teen-titans])
     starfire_id = 'princess-koriandr'
 
-    before(:each) do
+    before :each do
       [justice_league_folder, teen_titans_folder].each do |folder|
         FileUtils.mkdir_p folder
       end
@@ -21,13 +21,13 @@ RSpec.describe MoveTeamCommand do
       expect { NewHireCommand.new.command %w[Teen\ Titans Princess Koriand'r] }.to output(/#{starfire_id}/).to_stdout
     end
 
-    after(:each) do
+    after :each do
       [justice_league_folder, teen_titans_folder].each do |folder|
         FileUtils.rm_r folder
       end
     end
 
-    subject { MoveTeamCommand.new }
+    
 
     it 'relocates their files' do
       expect { subject.command %w[justice-league Princess] }.to output(/Princess Koriandr/).to_stdout
@@ -69,7 +69,7 @@ RSpec.describe MoveTeamCommand do
     justice_league_folder = File.join(%W[#{Settings.root} justice-league])
     teen_titans_folder = File.join(%W[#{Settings.root} teen-titans])
 
-    before(:each) do
+    before :each do
       [justice_league_folder, teen_titans_folder].each do |folder|
         FileUtils.mkdir_p folder
       end
@@ -80,7 +80,7 @@ RSpec.describe MoveTeamCommand do
       expect { new_hire.command %w[Teen\ Titans Dick Grayson] }.to output(/dick-grayson/).to_stdout
     end
 
-    after(:each) do
+    after :each do
       [justice_league_folder, teen_titans_folder].each do |folder|
         FileUtils.rm_r folder
       end
@@ -100,18 +100,18 @@ RSpec.describe MoveTeamCommand do
     teen_titans_folder = File.join(%W[#{Settings.root} teen-titans])
     starfire = 'princess-koriandr'
 
-    before(:each) do
+    before :each do
       FileUtils.mkdir_p teen_titans_folder
 
       # use new hire command to generate expected files
       expect { NewHireCommand.new.command %w[Teen\ Titans Princess Koriand'r] }.to output(/princess-koriandr/).to_stdout
     end
 
-    after(:each) do
+    after :each do
       FileUtils.rm_r teen_titans_folder
     end
 
-    subject { MoveTeamCommand.new }
+    
 
     it 'prints a message' do
       expect { subject.command %w[Teen\ Titans Princess] }.to output(/is already in the expected folder/).to_stderr

@@ -13,7 +13,7 @@ RSpec.describe DiaryEntry do
   end
 
   context 'with default content' do
-    let (:entry_date) { Time.local(1999) }
+    let(:entry_date) { Time.local(1999) }
 
     before do
       Timecop.freeze entry_date
@@ -23,19 +23,19 @@ RSpec.describe DiaryEntry do
       Timecop.return
     end
 
-    subject { PerformanceCheckpointEntry.new }
+    let(:perf_check_entry) { PerformanceCheckpointEntry.new }
 
     it 'renders correctly' do
-      expect(subject.render('Test', PerformanceCheckpointEntry)).to eq "=== Test (January  1, 1999, 12:00 AM)\nContent::\n  none\n"
+      expect(perf_check_entry.render('Test', PerformanceCheckpointEntry)).to eq "=== Test (January  1, 1999, 12:00 AM)\nContent::\n  none\n"
     end
 
     it 'yields the correct date' do
-      expect(subject.date).to eq entry_date
+      expect(perf_check_entry.date).to eq entry_date
     end
   end
 
   context 'with a time' do
-    let (:entry_date) { Time.new(2001, 2, 3, 4, 5, 6) }
+    let(:entry_date) { Time.new(2001, 2, 3, 4, 5, 6) }
 
     before do
       Timecop.freeze entry_date

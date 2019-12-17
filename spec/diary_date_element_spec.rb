@@ -25,7 +25,7 @@ RSpec.describe DiaryDateElement do
   end
 
   context 'with 1/1/2000 content' do
-    let (:entry_date) { Time.local(2000, 1, 1) }
+    let(:entry_date) { Time.local(2000, 1, 1) }
 
     before do
       Timecop.freeze entry_date
@@ -53,7 +53,7 @@ RSpec.describe DiaryDateElement do
   end
 
   context 'with 3/1/2000 content' do
-    let (:entry_date) { Time.local(2000, 3, 1) }
+    let(:entry_date) { Time.local(2000, 3, 1) }
 
     before do
       Timecop.freeze entry_date
@@ -69,7 +69,7 @@ RSpec.describe DiaryDateElement do
   end
 
   context 'with default' do
-    let (:entry_date) { Time.local(2000, 1, 1) }
+    let(:entry_date) { Time.local(2000, 1, 1) }
 
     before do
       Timecop.freeze entry_date
@@ -91,7 +91,7 @@ RSpec.describe DiaryDateElement do
   end
 
   context 'using formatting' do
-    let (:entry_date) { Time.local(2000, 1, 1) }
+    let(:entry_date) { Time.local(2000, 1, 1) }
 
     before do
       Timecop.freeze entry_date

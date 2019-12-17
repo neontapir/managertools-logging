@@ -32,13 +32,13 @@ RSpec.describe Employee do
   context 'when getting names with unusual casing' do
     people_folder = File.join(%W[#{Settings.root} people])
 
-    before(:all) do
+    before :all do
       %w[baron-du-vallon-de-bracieux-de-pierrefonds old-mcdonald jj-ginger-oconnell].each do |p|
         FileUtils.mkdir_p File.join(people_folder, p)
       end
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r people_folder
     end
 
@@ -61,11 +61,11 @@ RSpec.describe Employee do
   context 'with equality for a single employee (Iron Man)' do
     iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
 
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p iron_man_folder
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r File.dirname(iron_man_folder)
     end
 
@@ -99,11 +99,11 @@ RSpec.describe Employee do
   context 'with equality for a single employee with a hyphenated team name (Wonder Woman)' do
     wonder_woman_folder = File.join(%W[#{Settings.root} justice-league diana-prince])
 
-    before(:all) do
+    before :all do
       FileUtils.mkdir_p wonder_woman_folder
     end
 
-    after(:all) do
+    after :all do
       FileUtils.rm_r File.dirname(wonder_woman_folder)
     end
 
