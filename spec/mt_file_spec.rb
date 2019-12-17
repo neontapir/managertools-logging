@@ -23,11 +23,11 @@ RSpec.describe MtFile do
       end
     end
 
-    before :each do
+    before do
       FileUtils.mkdir_p mtfileclass_folder
     end
 
-    after :each do
+    after do
       FileUtils.rm_r mtfileclass_folder
     end
 

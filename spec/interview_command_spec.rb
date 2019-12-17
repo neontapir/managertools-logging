@@ -17,11 +17,11 @@ RSpec.describe InterviewCommand do
     input = ["\n", "here\n", "SE1\n", "Nick Fury\n", "Edgy but competent\n", "Hire\n"]
     iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
 
-    before :each do
+    before do
       FileUtils.mkdir_p iron_man_folder
     end
 
-    after :each do
+    after do
       FileUtils.rm_r File.dirname(iron_man_folder)
     end
 
@@ -39,13 +39,13 @@ RSpec.describe InterviewCommand do
   context 'with an unknown person' do
     input = ["\n", "\n", "SE1\n", "Steve Rogers\n", "One eye not an issue\n", "Hire\n"]
 
-    before :each do
+    before do
       Settings.with_mock_input input do
         expect{ subject.command ['nick', 'fury'] }.to output.to_stdout
       end
     end
 
-    after :each do
+    after do
       FileUtils.rm_r File.join(%W[#{Settings.root} #{Settings.candidates_root}])
     end
 

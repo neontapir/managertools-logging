@@ -4,9 +4,11 @@ require './lib/commands/init_command'
 require_relative 'settings_helper'
 
 RSpec.describe InitCommand do
+  subject(:init_command) { InitCommand.new }
+  
   it 'will warn and abort if config file exists' do
     Settings.with_mock_input do
-      expect{ InitCommand.new.command }.to output(/already exists/).to_stderr
+      expect{ init_command.command }.to output(/already exists/).to_stderr
     end
   end
 
@@ -16,7 +18,7 @@ RSpec.describe InitCommand do
       FileUtils.rm_r test_location if Dir.exist? test_location
       FileUtils.mv Settings.root, test_location
       Settings.with_mock_input do
-        expect{ InitCommand.new.command }.to output(/Initializing MT/).to_stdout
+        expect{ init_command.command }.to output(/Initializing MT/).to_stdout
         remove_test_settings_file
       end
     rescue

@@ -21,13 +21,13 @@ RSpec.describe TeamMeetingCommand do
     tony = Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark')
     steve = Employee.new(team: 'Avengers', first: 'Steve', last: 'Rogers')
 
-    before :all do
+    before :context do
       [tony, steve].each do |hero|
         FileUtils.mkdir_p File.dirname(hero.file.path)
       end
     end
 
-    after :all do
+    after :context do
       FileUtils.rm_r tony.file.path
     end
 
@@ -50,13 +50,13 @@ RSpec.describe TeamMeetingCommand do
       File.dirname(File.dirname(log_file_path))
     end
 
-    before :each do
+    before do
       [tony, steve, diana].each do |hero|
         FileUtils.mkdir_p File.dirname(hero.file.path)
       end
     end
 
-    after :each do
+    after do
       [tony, steve, diana].map{ |hero| get_team_folder(hero.file.path) }.uniq.each do |team_folder|
         FileUtils.rm_r team_folder
       end

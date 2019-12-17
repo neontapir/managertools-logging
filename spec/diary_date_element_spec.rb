@@ -101,7 +101,7 @@ RSpec.describe DiaryDateElement do
       Timecop.return
     end
 
-    it 'obtains the date with the default format' do
+    it 'obtains the date with the default format', :aggregate_failures do
       allow(Settings.console).to receive(:ask) { 'yesterday' }
       element = DiaryDateElement.new(:datetime)
       expected = element.obtain.to_s

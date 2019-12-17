@@ -5,40 +5,43 @@ Dir.glob('./lib/entries/*_entry.rb', &method(:require))
 
 RSpec.describe Diary do
   context 'with template' do
+    subject(:diary_templated) do (Class.new do
+        include Diary
+        def template?
+          true # non-interactive mode
+        end
+      end).new
+    end
+
     iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
     
-    subject = (Class.new do
-      include Diary
-      def template?
-        true # non-interactive mode
-      end
-    end).new
-
-    before :all do
+    before :context do
       FileUtils.mkdir_p iron_man_folder
     end
 
-    after :all do
+    after :context do
       FileUtils.rm_r File.dirname(iron_man_folder)
     end
 
     it 'appends an entry to the correct file' do
       log = LogFile.new(Dir.new(iron_man_folder)).path
       old_length = File.size?(log) ? File.size(log) : 0
-      _ = subject.record_to_file(:interview, 'tony-stark')
+      _ = diary_templated.record_to_file(:interview, 'tony-stark')
       expect(File.size(log)).to be > old_length
     end
   end
 
   context 'with interaction', order: :defined do
-    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
+    subject(:diary) do
+        (Class.new do
+        include Diary
+        def template?
+          false # interactive mode
+        end
+      end).new
+    end
 
-    subject = (Class.new do
-      include Diary
-      def template?
-        false # interactive mode
-      end
-    end).new
+    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
 
     # Create a plain type of diary entry
     class TestEntry < DiaryEntry
@@ -59,18 +62,18 @@ RSpec.describe Diary do
       end
     end
 
-    before :all do
+    before :context do
       FileUtils.mkdir_p iron_man_folder
     end
 
-    after :all do
+    after :context do
       FileUtils.rm_r File.dirname(iron_man_folder)
     end
 
     it 'displays a prompt' do
       expect($stdout).to receive(:puts).with('Enter your test for Tony Stark:')
       allow(Settings.console).to receive(:ask) { 'anything' }
-      subject.record_to_file(:test, 'tony-stark')
+      diary.record_to_file(:test, 'tony-stark')
     end
 
     it 'appends an entry' do
@@ -79,7 +82,7 @@ RSpec.describe Diary do
 
       expect($stdout).to receive(:puts)
       allow(Settings.console).to receive(:ask) { "Lorem ipsum dolor sit amet, ea sea integre aliquando cotidieque, est dicta dolores concludaturque ne, his in dolorem volutpat.\nPro in iudico deseruisse, vix feugait accommodare ut, ne iisque appetere delicatissimi nec." }
-      subject.record_to_file(:test, 'tony-stark')
+      diary.record_to_file(:test, 'tony-stark')
       expect(File.size(log)).to be > old_length
     end
 
@@ -90,14 +93,14 @@ RSpec.describe Diary do
         when /Xyzzy/ then 'anything'
         end
       end
-      entry = subject.get_entry 'Test', 'Tony Stark'
+      entry = diary.get_entry 'Test', 'Tony Stark'
       expect(entry.record).to include(xyzzy: 'anything')
     end
 
     it 'uses default values when getting an entry' do
       expect($stdout).to receive(:puts)
       allow(Settings.console).to receive(:ask) {}
-      entry = subject.get_entry 'Test', 'Tony Stark'
+      entry = diary.get_entry 'Test', 'Tony Stark'
       expect(entry.record).to include(wumpus: 'I feel a draft')
     end
 
@@ -109,7 +112,7 @@ RSpec.describe Diary do
         when /Wumpus/ then 'AHA! You got the wumpus!'
         end
       end
-      entry = subject.get_entry 'Test', 'Tony Stark'
+      entry = diary.get_entry 'Test', 'Tony Stark'
       expect(entry.record).to include(wumpus: 'AHA! You got the wumpus!')
     end
 
@@ -120,7 +123,7 @@ RSpec.describe Diary do
         when /Xyzzy/ then 'anything'
         end
       end
-      entry = subject.get_entry 'Test', 'Tony Stark', oregon_trail: 'BANG'
+      entry = diary.get_entry 'Test', 'Tony Stark', oregon_trail: 'BANG'
       expect(entry.record).to include(xyzzy: 'anything')
       expect(entry.record).to include(oregon_trail: 'BANG')
     end
@@ -132,7 +135,7 @@ RSpec.describe Diary do
         when /Zork/ then 'user input value'
         end
       end
-      entry = subject.get_entry 'Test', 'Tony Stark', zork: 'The Great Underground Empire'
+      entry = diary.get_entry 'Test', 'Tony Stark', zork: 'The Great Underground Empire'
       expect(entry.record).not_to include(zork: 'plover'), 'failure: used default value'
       expect(entry.record).to include(zork: 'The Great Underground Empire')
     end
@@ -141,12 +144,14 @@ RSpec.describe Diary do
   context 'with diary entries that disable prompting', order: :defined do
     iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
 
-    subject = (Class.new do
-      include Diary
-      def template?
-        false # interactive mode
-      end
-    end).new
+    subject(:diary_no_prompt) do 
+        (Class.new do
+        include Diary
+        def template?
+          false # interactive mode
+        end
+      end).new
+    end
 
     # Create a plain type of diary entry
     class TestNoPromptEntry < DiaryEntry
@@ -166,11 +171,11 @@ RSpec.describe Diary do
       end
     end
 
-    before :all do
+    before :context do
       FileUtils.mkdir_p iron_man_folder
     end
 
-    after :all do
+    after :context do
       FileUtils.rm_r File.dirname(iron_man_folder)
     end
 
@@ -179,7 +184,7 @@ RSpec.describe Diary do
     it 'uses the default values instead of prompting for entry' do
       expect($stdout).to receive(:puts).with('Enter your test for Tony Stark:')
       expect(Settings.console).not_to receive(:ask)
-      entry = subject.get_entry 'Test No Prompt', 'Tony Stark'
+      entry = diary_no_prompt.get_entry 'Test No Prompt', 'Tony Stark'
       expect(entry.record).to include(xyzzy: 'adventure')
       expect(entry.record[:adventure_time].strftime('%F')).to eq('2000-01-01')
     end

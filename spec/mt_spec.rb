@@ -9,7 +9,7 @@ require_relative 'settings_helper'
 require_relative 'spec_helper'
 
 RSpec.describe 'mt script', type: :aruba do
-  before :each do
+  before do
     create_test_settings_file(Aruba.config.working_directory)
   end
 
@@ -37,12 +37,12 @@ RSpec.describe 'mt script', type: :aruba do
       end
 
       it 'prints a usage message' do
-        expect(subject).to match(/Manager Tools commands/)
+        is_expected.to match(/Manager Tools commands/)
       end
 
       it 'the usage message contains all known commands' do
         %w[depart feedback gen goal interview latest move new o3 obs open perf report report_team team_meeting].each do |subcommand|
-          expect(subject).to match(/^\s*?\w+ #{subcommand}/)
+          is_expected.to match(/^\s*?\w+ #{subcommand}/)
         end
       end
     end

@@ -9,6 +9,8 @@ RSpec.describe GoalEntry do
   end
 
   context 'with multiple people' do
+    subject { GoalEntry.new(applies_to: 'Clark Kent, Bruce Wayne') }
+    let(:due_date) { Time.new(2001, 3, 2, 5, 6, 7).to_s }
     let(:entry_date) { Time.new(2001, 2, 3, 4, 5, 6).to_s }
 
     before do
@@ -19,15 +21,14 @@ RSpec.describe GoalEntry do
       Timecop.return
     end
 
-    let(:due_date) { Time.new(2001, 3, 2, 5, 6, 7).to_s }
-    subject { GoalEntry.new(applies_to: 'Clark Kent, Bruce Wayne') }
-
-    it 'renders correctly' do
+   it 'renders correctly' do
       expect(subject.render('Test', GoalEntry)).to include("Applies to::\n  Clark Kent, Bruce Wayne")
     end
   end
 
   context 'with a single person' do
+    subject { GoalEntry.new(applies_to: 'Bruce Wayne') }
+    let(:due_date) { Time.new(2001, 3, 2, 5, 6, 7) }
     let(:entry_date) { Time.new(2000) }
 
     before do
@@ -37,9 +38,6 @@ RSpec.describe GoalEntry do
     after do
       Timecop.return
     end
-
-    let(:due_date) { Time.new(2001, 3, 2, 5, 6, 7) }
-    subject { GoalEntry.new(applies_to: 'Bruce Wayne') }
 
     it 'renders correctly' do
       expect(subject.render('Test', GoalEntry)).not_to include('Applies to::')

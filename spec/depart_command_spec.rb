@@ -11,7 +11,7 @@ RSpec.describe DepartCommand do
     old_team_folder = File.join(%W[#{Settings.root} teen-titans])
     starfire = 'princess-koriandr'
 
-    before :each do
+    before do
       FileUtils.rm_r departed_folder if Dir.exist? departed_folder
       FileUtils.mkdir_p old_team_folder
 
@@ -19,11 +19,11 @@ RSpec.describe DepartCommand do
       expect { NewHireCommand.new.command %w[Teen\ Titans Princess Koriand'r] }.to output(/princess-koriandr/).to_stdout
     end
 
-    after :each do
+    after do
       FileUtils.rm_r old_team_folder
     end
 
-    it 'relocates their files' do
+    it 'relocates their files', :aggregate_failures do
       expect(Dir).not_to exist(departed_folder)
 
       expect { subject.command 'Princess' }.to output(/Princess Koriandr/).to_stdout

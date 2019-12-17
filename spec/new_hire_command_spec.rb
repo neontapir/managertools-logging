@@ -9,11 +9,11 @@ RSpec.describe NewHireCommand do
     teen_titans_folder = File.join(%W[#{Settings.root} teen-titans])
     starfire_folder = File.join(teen_titans_folder, 'princess-koriandr')
 
-    before :all do
+    before :context do
       FileUtils.mkdir_p teen_titans_folder
     end
 
-    after :all do
+    after :context do
       FileUtils.rm_r teen_titans_folder
     end
 
@@ -36,11 +36,11 @@ RSpec.describe NewHireCommand do
   context 'force overwrites team member' do
     teen_titans_folder = File.join(%W[#{Settings.root} teen-titans])
     
-    before :all do
+    before :context do
       FileUtils.mkdir_p teen_titans_folder
     end
 
-    after :all do
+    after :context do
       FileUtils.rm_r teen_titans_folder
     end
 

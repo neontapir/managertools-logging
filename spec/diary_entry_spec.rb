@@ -13,6 +13,7 @@ RSpec.describe DiaryEntry do
   end
 
   context 'with default content' do
+    subject(:entry) { PerformanceCheckpointEntry.new }
     let(:entry_date) { Time.local(1999) }
 
     before do
@@ -23,18 +24,17 @@ RSpec.describe DiaryEntry do
       Timecop.return
     end
 
-    let(:perf_check_entry) { PerformanceCheckpointEntry.new }
-
     it 'renders correctly' do
-      expect(perf_check_entry.render('Test', PerformanceCheckpointEntry)).to eq "=== Test (January  1, 1999, 12:00 AM)\nContent::\n  none\n"
+      expect(entry.render('Test', PerformanceCheckpointEntry)).to eq "=== Test (January  1, 1999, 12:00 AM)\nContent::\n  none\n"
     end
 
     it 'yields the correct date' do
-      expect(perf_check_entry.date).to eq entry_date
+      expect(entry.date).to eq entry_date
     end
   end
 
   context 'with a time' do
+    subject(:entry) { ObservationEntry.new(datetime: entry_date.to_s) }
     let(:entry_date) { Time.new(2001, 2, 3, 4, 5, 6) }
 
     before do
@@ -45,22 +45,20 @@ RSpec.describe DiaryEntry do
       Timecop.return
     end
 
-    subject { ObservationEntry.new(datetime: entry_date.to_s) }
-
     it 'renders correctly' do
-      expect(subject.render('Test', ObservationEntry)).to eq "=== Test (February  3, 2001,  4:05 AM)\nContent::\n  none\n"
+      expect(entry.render('Test', ObservationEntry)).to eq "=== Test (February  3, 2001,  4:05 AM)\nContent::\n  none\n"
     end
 
     it 'yields the correct date' do
-      expect(subject.date).to eq entry_date
+      expect(entry.date).to eq entry_date
     end
   end
 
   context 'with a time and context' do
-    subject { ObservationEntry.new(datetime: Time.new(2002).to_s, content: 'blah').render('Test', ObservationEntry) }
+    subject(:entry) { ObservationEntry.new(datetime: Time.new(2002).to_s, content: 'blah').render('Test', ObservationEntry) }
 
     it 'renders correctly' do
-      is_expected.to eq "=== Test (January  1, 2002, 12:00 AM)\nContent::\n  blah\n"
+      expect(entry).to eq "=== Test (January  1, 2002, 12:00 AM)\nContent::\n  blah\n"
     end
   end
 
@@ -69,22 +67,22 @@ RSpec.describe DiaryEntry do
     class UnimplementedDiaryEntry < DiaryEntry
     end
 
-    subject { UnimplementedDiaryEntry.new(datetime: Time.new(2003)) }
+    subject(:entry) { UnimplementedDiaryEntry.new(datetime: Time.new(2003)) }
 
     it 'raises if the template class is not inherited' do
-      expect { subject.render('Test') }.to raise_error(NotImplementedError, 'DiaryEntry#elements must be overriden')
+      expect { entry.render('Test') }.to raise_error(NotImplementedError, 'DiaryEntry#elements must be overriden')
     end
 
     it 'raises if elements is not overriden' do
-      expect { subject.elements }.to raise_error(NotImplementedError, 'DiaryEntry#elements must be overriden')
+      expect { entry.elements }.to raise_error(NotImplementedError, 'DiaryEntry#elements must be overriden')
     end
 
     it 'raises if prompt is not overriden' do
-      expect { subject.prompt(nil) }.to raise_error(NotImplementedError, 'DiaryEntry#prompt must be overriden')
+      expect { entry.prompt(nil) }.to raise_error(NotImplementedError, 'DiaryEntry#prompt must be overriden')
     end
 
     it 'raises if to_s is not overriden' do
-      expect { subject.to_s }.to raise_error(NotImplementedError, 'DiaryEntry#to_s must be overriden')
+      expect { entry.to_s }.to raise_error(NotImplementedError, 'DiaryEntry#to_s must be overriden')
     end
   end
 
@@ -104,8 +102,9 @@ RSpec.describe DiaryEntry do
       end
     end
 
+    subject(:entry) { BadElementsArrayDiaryEntry.new(datetime: Time.new(2004)) }
+
     it 'raises if enumerable not returned by elements' do
-      entry = BadElementsArrayDiaryEntry.new(datetime: Time.new(2004))
       expect { entry.render('Test') }.to raise_error(ArgumentError, 'BadElementsArrayDiaryEntry#elements must return an enumerable')
     end
   end

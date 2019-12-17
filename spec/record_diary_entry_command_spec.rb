@@ -14,11 +14,11 @@ RSpec.describe RecordDiaryEntryCommand do
   context 'with a single person' do
     iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
 
-    before :each do
+    before do
       FileUtils.mkdir_p iron_man_folder
     end
 
-    after :each do
+    after do
       FileUtils.rm_r File.dirname(iron_man_folder)
     end
 
@@ -51,13 +51,13 @@ RSpec.describe RecordDiaryEntryCommand do
     steve = Employee.new(team: 'Avengers', first: 'Steve', last: 'Rogers')
     thor = Employee.new(team: 'Avengers', first: 'Thor', last: 'Odinson')
 
-    before :all do
+    before :context do
       [steve, thor].each do |hero|
         FileUtils.mkdir_p File.dirname(hero.file.path)
       end
     end
 
-    after :all do
+    after :context do
       FileUtils.rm_r File.dirname(File.dirname(steve.file.path))
     end
 

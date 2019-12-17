@@ -12,7 +12,7 @@ RSpec.describe EmployeeFinder do
   include EmployeeTestHelper
   include SettingsHelper
 
-  subject { (Class.new { include EmployeeFinder }).new }
+  subject(:finder) { (Class.new { include EmployeeFinder }).new }
 
   context 'with a non-existing employee (Red Panda)' do
     it 'will prompt the user for a spec if the employee is not found' do
@@ -23,7 +23,7 @@ RSpec.describe EmployeeFinder do
         when /Last/ then 'Baxter'
         end
       end
-      flying_squirrel = subject.get('Kit', :superhero)
+      flying_squirrel = finder.get('Kit', :superhero)
       expect(flying_squirrel.team).to eq 'Terrific Twosome of Toronto'
       expect(flying_squirrel.first).to eq 'Kit'
       expect(flying_squirrel.last).to eq 'Baxter'
@@ -32,7 +32,7 @@ RSpec.describe EmployeeFinder do
     it 'can create a spec with no input' do
       defaults = { first: 'Zaphod', last: 'Beeblebrox', team: Settings.candidates_root }
       Settings.with_mock_input("\n" * 3) do
-        expect(subject.create_spec(:superhero, {})).to eq defaults
+        expect(finder.create_spec(:superhero, {})).to eq defaults
       end
     end
 
@@ -45,7 +45,7 @@ RSpec.describe EmployeeFinder do
         when /Last/ then 'Fenwick'
         end
       end
-      expect(subject.create_spec(:superhero, {})).to eq red_panda
+      expect(finder.create_spec(:superhero, {})).to eq red_panda
     end
 
     it 'will not prompt for team for an interview candidate' do
@@ -56,24 +56,24 @@ RSpec.describe EmployeeFinder do
           when /Last/ then 'Baxter'
         end
       end
-      expect(subject.create_spec(:interview, {})).to eq flying_squirrel
+      expect(finder.create_spec(:interview, {})).to eq flying_squirrel
     end
   end
 
   context 'when parsing an employee folder (Iron Man)' do
     iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
 
-    before :all do
+    before :context do
       FileUtils.mkdir_p iron_man_folder
     end
 
-    after :all do
+    after :context do
       FileUtils.rm_r File.dirname(iron_man_folder)
     end
 
     it 'extracts the data correctly' do
       dir = Dir.new(iron_man_folder)
-      iron_man = subject.parse_dir(dir)
+      iron_man = finder.parse_dir(dir)
       expect(proper?(iron_man, 'avengers', 'Tony', 'Stark')).to be_truthy
     end
   end
@@ -81,17 +81,17 @@ RSpec.describe EmployeeFinder do
   context 'when parsing an employee folder with a hyphen (Rescue)' do
     rescue_folder = File.join(%W[#{Settings.root} avengers pepper-potts-stark])
 
-    before :all do
+    before :context do
       FileUtils.mkdir_p rescue_folder
     end
 
-    after :all do
+    after :context do
       FileUtils.rm_r File.dirname(rescue_folder)
     end
 
     it 'extracts the data correctly' do
       dir = Dir.new(rescue_folder)
-      avenger_rescue = subject.parse_dir(dir)
+      avenger_rescue = finder.parse_dir(dir)
       expect(proper?(avenger_rescue, 'avengers', 'Pepper', 'Potts-Stark')).to be_truthy
     end
   end
@@ -99,24 +99,24 @@ RSpec.describe EmployeeFinder do
   context 'when finding an employee (Iron Man)' do
     iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
 
-    before :all do
+    before :context do
       FileUtils.mkdir_p iron_man_folder
     end
 
-    after :all do
+    after :context do
       FileUtils.rm_r File.dirname(iron_man_folder)
     end
 
     it 'does find the expected employee' do
-      expect(subject.find('tony')).not_to be_nil
+      expect(finder.find('tony')).not_to be_nil
     end
 
     it 'does find the expected employee with capitalized case' do
-      expect(subject.find('Tony')).not_to be_nil
+      expect(finder.find('Tony')).not_to be_nil
     end
 
     it 'does not find a different employee' do
-      expect(subject.find('steve')).to be_nil
+      expect(finder.find('steve')).to be_nil
     end
   end
 
@@ -124,28 +124,28 @@ RSpec.describe EmployeeFinder do
     ant_man_folder =  File.join(%W[#{Settings.root} avengers hank-pym])
     beast_folder =  File.join(%W[#{Settings.root} avengers hank-mccoy])
 
-    before :all do
+    before :context do
       FileUtils.mkdir_p ant_man_folder
       FileUtils.mkdir_p beast_folder
     end
 
-    after :all do
+    after :context do
       FileUtils.rm_r File.dirname(ant_man_folder)
     end
 
     it 'returns the first one by alphabetical order if multiples match' do
-      hanks = subject.find('hank')
+      hanks = finder.find('hank')
       proper?(hanks, 'avengers', 'Hank', 'Mccoy')
     end
 
     it 'finds the expected employee when given a unique key' do
-      ant_man = subject.find('hank-p')
+      ant_man = finder.find('hank-p')
       proper?(ant_man, 'avengers', 'Hank', 'Pym')
 
-      ant_man_by_last_name = subject.find('pym')
+      ant_man_by_last_name = finder.find('pym')
       proper?(ant_man_by_last_name, 'avengers', 'Hank', 'Pym')
 
-      beast = subject.find('hank-m')
+      beast = finder.find('hank-m')
       proper?(beast, 'avengers', 'Hank', 'Mccoy')
     end
   end

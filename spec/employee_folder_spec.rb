@@ -6,55 +6,55 @@ require_relative 'settings_helper'
 
 RSpec.describe EmployeeFolder do
   context 'with normal characters' do
-    normal_folder =  File.join(%W[#{Settings.root} normal])
-
-    before :all do
-      FileUtils.mkdir_p normal_folder unless Dir.exist? normal_folder
-    end
-
-    after :all do
-      FileUtils.rm_r normal_folder
-    end
-
-    subject do
+    subject(:normal_folder) do
       john = Employee.new(team: 'normal', first: 'John', last: 'Smith')
       EmployeeFolder.new(john)
     end
+    
+    normal_path = File.join(%W[#{Settings.root} normal])
+
+    before :context do
+      FileUtils.mkdir_p normal_path unless Dir.exist? normal_path
+    end
+
+    after :context do
+      FileUtils.rm_r normal_path
+    end
 
     it 'creates folder with normal characters' do
-      expected_path = File.join(normal_folder, 'john-smith')
-      expect(subject.path).to eq expected_path
+      expected_path = File.join(normal_path, 'john-smith')
+      expect(normal_folder.path).to eq expected_path
 
-      subject.ensure_exists
+      normal_folder.ensure_exists
       expect(Dir).to exist(expected_path)
     end
 
     it 'returns the path when cast as a string' do
-      expect(subject.to_s).to eq subject.path
+      expect(normal_folder.to_s).to eq subject.path
     end
   end
 
   context 'with accented characters' do
-    accented_folder =  File.join(%W[#{Settings.root} āčċéñťèð])
-
-    before :all do
-      FileUtils.mkdir_p accented_folder unless Dir.exist? accented_folder
-    end
-
-    after :all do
-      FileUtils.rm_r accented_folder
-    end
-
-    subject do
+    subject(:accented_folder) do
       ezel = Employee.new(team: 'ĀčĊÉñŤÈÐ', first: 'Ezel', last: 'Çeçek')
       EmployeeFolder.new(ezel)
     end
 
-    it 'creates folder with accented characters' do
-      expected_path = File.join(accented_folder, 'ezel-çeçek')
-      expect(subject.path).to eq expected_path
+    accented_path =  File.join(%W[#{Settings.root} āčċéñťèð])
 
-      subject.ensure_exists
+    before :context do
+      FileUtils.mkdir_p accented_path unless Dir.exist? accented_path
+    end
+
+    after :context do
+      FileUtils.rm_r accented_path
+    end
+
+    it 'creates folder with accented characters' do
+      expected_path = File.join(accented_path, 'ezel-çeçek')
+      expect(accented_folder.path).to eq expected_path
+
+      accented_folder.ensure_exists
       expect(Dir).to exist(expected_path)
     end
   end
@@ -63,15 +63,15 @@ RSpec.describe EmployeeFolder do
     nonalnum_path = File.join(%W[#{Settings.root} bad])
     sanitized_name = 'jhn-smth'
 
-    before :all do
+    before :context do
       FileUtils.mkdir_p nonalnum_path
     end
 
-    after :all do
+    after :context do
       FileUtils.rm_r nonalnum_path
     end
 
-    subject do
+    subject(:nonalnum_folder) do
       bad = Employee.new(team: 'bad', first: 'J%hn', last: 'Sm][th')
       EmployeeFolder.new bad
     end
@@ -80,12 +80,12 @@ RSpec.describe EmployeeFolder do
       expected_path = File.join(nonalnum_path, sanitized_name)
       FileUtils.rm_r expected_path if Dir.exist? expected_path
       expect(Dir).not_to exist(expected_path)
-      subject.ensure_exists
+      nonalnum_folder.ensure_exists
       expect(Dir).to exist(expected_path)
     end
 
     it 'strips non-alphanumeric characters from the name' do
-      expect(subject.folder_name).to eq sanitized_name
+      expect(nonalnum_folder.folder_name).to eq sanitized_name
     end
   end
 end
