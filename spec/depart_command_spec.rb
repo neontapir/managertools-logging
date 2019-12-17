@@ -24,12 +24,12 @@ RSpec.describe DepartCommand do
     end
 
     it 'relocates their files' do
-      expect(Dir.exist? departed_folder).to be_falsey
+      expect(Dir).not_to exist(departed_folder)
 
       expect { subject.command 'Princess' }.to output(/Princess Koriandr/).to_stdout
 
-      expect(Dir.exist? File.join(%W[#{departed_folder} #{starfire}])).to be_truthy
-      expect(Dir.exist? File.join(%W[#{old_team_folder} #{starfire}])).to be_falsey
+      expect(Dir).to exist(File.join(%W[#{departed_folder} #{starfire}]))
+      expect(Dir).not_to exist(File.join(%W[#{old_team_folder} #{starfire}]))
     end
   end
 end

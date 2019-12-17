@@ -24,8 +24,8 @@ RSpec.describe ReportTeamCommand do
     end
 
     it 'can generate a report' do
-      expect(File.exist? "#{file_prefix}.adoc").to be_truthy
-      expect(File.exist? "#{file_prefix}.html").to be_truthy
+      expect(File).to exist "#{file_prefix}.adoc"
+      expect(File).to exist "#{file_prefix}.html"
     end
 
     it 'report specification file has the expected content' do

@@ -25,7 +25,7 @@ RSpec.describe ReportCommand do
 
     it 'can generate a report' do
       report_files.each do |file|
-        expect(File.exist? file).to be_truthy
+        expect(File).to exist file
       end
     end
 

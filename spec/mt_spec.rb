@@ -19,15 +19,15 @@ RSpec.describe 'mt script', type: :aruba do
     end
 
     it 'finds the script' do
-      expect(File.exist? MT).to be_truthy
+      expect(File).to exist MT
     end
 
     it 'finds the data file created by the test suite' do
       # admittedly, this is more a test of Aruba than of MT
       expect(Aruba.config.working_directory).to eq 'tmp/aruba'
       aruba_root = File.join(%W[#{Aruba.config.working_directory} #{Settings.root}])
-      expect(Dir.exist? aruba_root).to be_truthy
-      expect(File.exist? File.join(aruba_root, 'config.yml')).to be_truthy
+      expect(Dir).to exist aruba_root
+      expect(File).to exist File.join(aruba_root, 'config.yml')
     end
 
     context 'after running the command' do

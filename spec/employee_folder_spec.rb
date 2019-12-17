@@ -26,7 +26,7 @@ RSpec.describe EmployeeFolder do
       expect(subject.path).to eq expected_path
 
       subject.ensure_exists
-      expect(Dir.exist?(expected_path))
+      expect(Dir).to exist(expected_path)
     end
 
     it 'returns the path when cast as a string' do
@@ -55,7 +55,7 @@ RSpec.describe EmployeeFolder do
       expect(subject.path).to eq expected_path
 
       subject.ensure_exists
-      expect(Dir.exist?(expected_path))
+      expect(Dir).to exist(expected_path)
     end
   end
 
@@ -79,9 +79,9 @@ RSpec.describe EmployeeFolder do
     it 'ensures the folder name does not contain non-alphanumeric characters' do  
       expected_path = File.join(nonalnum_path, sanitized_name)
       FileUtils.rm_r expected_path if Dir.exist? expected_path
-      expect(Dir.exist? expected_path).to be_falsey
+      expect(Dir).not_to exist(expected_path)
       subject.ensure_exists
-      expect(Dir.exist? expected_path).to be_truthy
+      expect(Dir).to exist(expected_path)
     end
 
     it 'strips non-alphanumeric characters from the name' do
