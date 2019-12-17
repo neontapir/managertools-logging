@@ -3,10 +3,10 @@
 require './lib/mt_file'
 
 RSpec.describe MtFile do
-  context 'with a naive instance' do
+  context 'when path is not defined' do
     subject { (Class.new { include MtFile }).new }
 
-    it 'raises an error if path isn\'t defined' do
+    it 'raises an error' do
       expect { subject.path }.to raise_error(NotImplementedError, 'A MtFile must define its #path')
     end
   end

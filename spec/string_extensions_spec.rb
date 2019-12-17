@@ -15,8 +15,8 @@ RSpec.describe StringExtensions do
     end
   end
 
-  context 'when stripping out characters' do
-    it 'returns the same string if none are present' do
+  context 'when stripping out non-alphanumeric characters' do
+    it 'returns the same string when none are present' do
       expect('foo'.strip_nonalnum).to eq 'foo'
     end
 

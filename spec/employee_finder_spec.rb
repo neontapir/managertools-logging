@@ -15,7 +15,7 @@ RSpec.describe EmployeeFinder do
   subject(:finder) { (Class.new { include EmployeeFinder }).new }
 
   context 'with a non-existing employee (Red Panda)' do
-    it 'will prompt the user for a spec if the employee is not found' do
+    it 'will prompt the user for a spec' do
       allow(Settings.console).to receive(:ask) do |prompt|
         case prompt
         when /Team/ then 'Terrific Twosome of Toronto'
@@ -133,7 +133,7 @@ RSpec.describe EmployeeFinder do
       FileUtils.rm_r File.dirname(ant_man_folder)
     end
 
-    it 'returns the first one by alphabetical order if multiples match' do
+    it 'returns the first one by alphabetical order when multiples match' do
       hanks = finder.find('hank')
       proper?(hanks, 'avengers', 'Hank', 'Mccoy')
     end

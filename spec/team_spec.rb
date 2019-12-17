@@ -6,8 +6,8 @@ require './lib/team'
 RSpec.describe Team do
   using PathStringExtensions
 
-  context 'in initializer context' do
-    it 'raises if params hash does not contain a team entry' do
+  context 'params hash does not contain a team entry' do
+    it 'the initializer raises' do
       expect { Team.new({}) }.to raise_error KeyError
     end
   end

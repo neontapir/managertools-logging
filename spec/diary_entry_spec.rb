@@ -69,19 +69,19 @@ RSpec.describe DiaryEntry do
 
     subject(:entry) { UnimplementedDiaryEntry.new(datetime: Time.new(2003)) }
 
-    it 'raises if the template class is not inherited' do
+    it 'raises when the template class is not inherited' do
       expect { entry.render('Test') }.to raise_error(NotImplementedError, 'DiaryEntry#elements must be overriden')
     end
 
-    it 'raises if elements is not overriden' do
+    it 'raises when elements is not overriden' do
       expect { entry.elements }.to raise_error(NotImplementedError, 'DiaryEntry#elements must be overriden')
     end
 
-    it 'raises if prompt is not overriden' do
+    it 'raises when prompt is not overriden' do
       expect { entry.prompt(nil) }.to raise_error(NotImplementedError, 'DiaryEntry#prompt must be overriden')
     end
 
-    it 'raises if to_s is not overriden' do
+    it 'raises when to_s is not overriden' do
       expect { entry.to_s }.to raise_error(NotImplementedError, 'DiaryEntry#to_s must be overriden')
     end
   end
@@ -104,7 +104,7 @@ RSpec.describe DiaryEntry do
 
     subject(:entry) { BadElementsArrayDiaryEntry.new(datetime: Time.new(2004)) }
 
-    it 'raises if enumerable not returned by elements' do
+    it 'raises when enumerable not returned by elements' do
       expect { entry.render('Test') }.to raise_error(ArgumentError, 'BadElementsArrayDiaryEntry#elements must return an enumerable')
     end
   end

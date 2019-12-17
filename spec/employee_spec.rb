@@ -12,12 +12,12 @@ RSpec.describe Employee do
   context 'when getting the name' do
     let(:cap_spec) { { team: 'Avengers', first: 'Steve', last: 'Rogers' } }
 
-    it 'is capitalized if input is capitalized' do
+    it 'is capitalized when input is capitalized' do
       captain_america = Employee.new cap_spec
       expect(captain_america.to_s).to eq 'Steve Rogers'
     end
 
-    it 'is capitalized name even if input is not capitalized' do
+    it 'is capitalized even when input is not capitalized' do
       captain_lowercase = { team: 'avengers', first: 'steve', last: 'rogers' }
       captain_america = Employee.new captain_lowercase
       expect(captain_america.to_s).to eq 'Steve Rogers'

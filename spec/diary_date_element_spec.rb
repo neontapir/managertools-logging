@@ -43,16 +43,20 @@ RSpec.describe DiaryDateElement do
       verify_date_correct('1999-12-01', '1999-12-01')
     end
 
-    it 'obtains now if no date specified' do
-      verify_date_correct('', '2000-01-01')
+    context 'when no date specified' do
+      it 'obtains now' do
+        verify_date_correct('', '2000-01-01')
+      end
     end
 
-    it 'obtains now if an invalid date specified' do
-      verify_date_correct('xyzzy', '2000-01-01')
+    context 'when invalid date specified' do
+      it 'obtains now' do
+        verify_date_correct('xyzzy', '2000-01-01')
+      end
     end
   end
 
-  context 'with 3/1/2000 content' do
+  context 'when year is not specified' do
     let(:entry_date) { Time.local(2000, 3, 1) }
 
     before do
@@ -63,7 +67,7 @@ RSpec.describe DiaryDateElement do
       Timecop.return
     end
 
-    it "obtains date in past if the year isn't specified" do
+    it 'obtains date in past' do
       verify_date_correct('2/20', '2000-02-20')
     end
   end
@@ -79,7 +83,7 @@ RSpec.describe DiaryDateElement do
       Timecop.return
     end
 
-    it 'uses now as the default if none given' do
+    it 'uses now' do
       element = DiaryDateElement.new(:datetime, 'Datetime')
       expect(element.default.to_s).to include('2000-01-01')
     end

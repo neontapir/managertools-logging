@@ -23,13 +23,17 @@ RSpec.describe DiaryElement do
     proper?(element, :actions, 'Actions to take', 'No actions')
   end
 
-  it 'raises if prompt has special characters' do
-    expect { DiaryElement.new(:question, 'Questions?', default: 'No questions') }.to raise_error ArgumentError
+  context 'when prompt has special characters' do
+    it 'raises' do
+      expect { DiaryElement.new(:question, 'Questions?', default: 'No questions') }.to raise_error ArgumentError
+    end
   end
 
-  it 'uses default if prompt is nil' do
-    expect(Settings.console).not_to receive(:ask)
-    element = DiaryElement.new(:unprompted, 'Do not prompt', default: 'xyzzy', prompt: nil)
-    proper?(element, :unprompted, 'Do not prompt', 'xyzzy')
+  context 'when prompt is nil' do
+    it 'uses default' do
+      expect(Settings.console).not_to receive(:ask)
+      element = DiaryElement.new(:unprompted, 'Do not prompt', default: 'xyzzy', prompt: nil)
+      proper?(element, :unprompted, 'Do not prompt', 'xyzzy')
+    end
   end
 end
