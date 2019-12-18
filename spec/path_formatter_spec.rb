@@ -9,6 +9,10 @@ RSpec.describe PathStringExtensions do
     expect('a/b/c'.split_path).to eq %w[a b c]
   end
 
+  it 'ignores a non-path string' do
+    expect('hello'.split_path).to eq %w[hello]
+  end
+
   it 'creates the path string correctly' do
     expect('avengers'.to_path).to eq 'avengers'
     expect('justice-league'.to_path).to eq 'justice-league'

@@ -30,7 +30,7 @@ include SettingsHelper
 require 'aruba/rspec'
 
 RSpec.configure do |config|
-  config.before(:suite) do
+  config.before :suite do
     FileUtils.mkdir_p Settings.root
     create_test_settings_file
   end

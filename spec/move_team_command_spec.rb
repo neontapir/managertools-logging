@@ -8,8 +8,8 @@ require_relative 'spec_helper'
 
 RSpec.describe MoveTeamCommand do
   context 'moving a team member' do
-    justice_league_folder = File.join(%W[#{Settings.root} justice-league])
-    teen_titans_folder = File.join(%W[#{Settings.root} teen-titans])
+    justice_league_folder = File.join %W[#{Settings.root} justice-league]
+    teen_titans_folder = File.join %W[#{Settings.root} teen-titans]
     starfire_id = 'princess-koriandr'
 
     before do
@@ -49,7 +49,7 @@ RSpec.describe MoveTeamCommand do
       expect { subject.command %w[justice-league Princess] }.to output(/Princess Koriandr/).to_stdout
       starfire = Employee.find('Princess')
       starfire_folder = starfire.file.folder
-      starfire_overview = File.join(starfire_folder, Settings.overview_filename)
+      starfire_overview = File.join starfire_folder, Settings.overview_filename
       overview_contents = File.read(starfire_overview)
       expect(overview_contents).to include File.join(justice_league_folder, starfire_id)
       expect(overview_contents).not_to include File.join(teen_titans_folder, starfire_id)
@@ -59,15 +59,15 @@ RSpec.describe MoveTeamCommand do
       expect { subject.command %w[justice-league Princess] }.to output(/Princess Koriandr/).to_stdout
       starfire = Employee.find('Princess')
       starfire_folder = starfire.file.folder
-      starfire_overview = File.join(starfire_folder, Settings.overview_filename)
+      starfire_overview = File.join starfire_folder, Settings.overview_filename
       overview_contents = File.read(starfire_overview)
       expect(overview_contents).to include 'Team: Teen Titans, Justice League'
     end
   end
 
   context 'moving multiple team members' do
-    justice_league_folder = File.join(%W[#{Settings.root} justice-league])
-    teen_titans_folder = File.join(%W[#{Settings.root} teen-titans])
+    justice_league_folder = File.join %W[#{Settings.root} justice-league]
+    teen_titans_folder = File.join %W[#{Settings.root} teen-titans]
 
     before do
       [justice_league_folder, teen_titans_folder].each do |folder|
@@ -97,7 +97,7 @@ RSpec.describe MoveTeamCommand do
   end
 
   context 'refuses to move a team member to the same folder' do
-    teen_titans_folder = File.join(%W[#{Settings.root} teen-titans])
+    teen_titans_folder = File.join %W[#{Settings.root} teen-titans]
     starfire = 'princess-koriandr'
 
     before do

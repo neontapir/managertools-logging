@@ -62,7 +62,7 @@ RSpec.describe TeamMeetingCommand do
       end
     end
 
-    it 'will append the entry to each team\'s members' do
+    it "will append the entry to each team's members" do
       Settings.with_mock_input "\n\n\nWe met about stuff\n\n" do
         subject.command %w[avengers justice]
       end

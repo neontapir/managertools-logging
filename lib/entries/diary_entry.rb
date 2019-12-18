@@ -61,20 +61,9 @@ class DiaryEntry
     raise NotImplementedError, 'DiaryEntry#elements must be overriden'
   end
 
-  # Augments the array of DiaryElement objects with the list of affected people for user confirmation
-  #   @param [Array] result the elements to prompt on
-  #   @return [Array] the elements to prompt on, including applies_to
-  def with_applies_to(result)
-    return result unless record.key?(:applies_to)
-
-    applies_to = record.fetch(:applies_to)
-    result.insert(1, DiaryElement.new(:applies_to, 'Applies to', default: applies_to)) if applies_to.include?(',')
-    result
-  end
-
   # fill in the template with the given record entries
   #   @param [String] header_prompt the banner to display before gathering template values
-  def populate(header_prompt, initial_values)
+  def populate(header_prompt, initial_values = {})
     Settings.console.say prompt(header_prompt)
     data = elements.each_with_object({}) do |item, entry_record|
       key = item.key
@@ -89,14 +78,6 @@ class DiaryEntry
     data
   end
 
-  # a hook to modify data after prompting for responses,
-  #   useful for populating derived values, see PtoEntry's duration for example
-  #   @param data [Hash] the data gathered for this entry
-  #   @return [Hash] the modified data
-  def post_create(data)
-    data
-  end
-
   # @abstract Gives the effective date of the entry
   #   @return [Time] the date
   def date
@@ -106,6 +87,27 @@ class DiaryEntry
   # @abstract Gives the string representation of the class, written to the person's log file
   def to_s
     raise NotImplementedError, 'DiaryEntry#to_s must be overriden'
+  end
+
+  protected
+
+  # Augments the array of DiaryElement objects with the list of affected people for user confirmation
+  #   @param [Array] result the elements to prompt on
+  #   @return [Array] the elements to prompt on, including applies_to
+  def with_applies_to(result)
+    return result unless record.key?(:applies_to)
+
+    applies_to = record.fetch(:applies_to)
+    result.insert(1, DiaryElement.new(:applies_to, 'Applies to', default: applies_to)) if applies_to.include?(',')
+    result
+  end
+
+  # a hook to modify data after prompting for responses,
+  #   useful for populating derived values, see PtoEntry's duration for example
+  #   @param data [Hash] the data gathered for this entry
+  #   @return [Hash] the modified data
+  def post_create(data)
+    data
   end
 
   private

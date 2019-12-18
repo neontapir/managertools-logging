@@ -12,7 +12,7 @@ RSpec.describe RecordDiaryEntryCommand do
   include FileContentsValidationHelper
 
   context 'with a single person' do
-    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
+    iron_man_folder = File.join %W[#{Settings.root} avengers tony-stark]
 
     before do
       FileUtils.mkdir_p iron_man_folder

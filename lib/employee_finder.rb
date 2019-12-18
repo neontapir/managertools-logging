@@ -14,7 +14,6 @@ end
 
 # Represents a employee search provider
 module EmployeeFinder
-  include PathStringExtensions
   using PathStringExtensions
   using StringExtensions
 

@@ -8,7 +8,7 @@ module SettingsHelper
 
   def create_test_settings_file(parent = '.')
     remove_test_settings_file
-    @config_file = File.join(parent, Settings.config_file)
+    @config_file = File.join parent, Settings.config_file
     FileUtils.mkdir_p(File.join(parent, Settings.root))
     IO.write(@config_file, Settings.default_config)
     raise IOError, "Missing settings file #{config_file}" unless File.exist? config_file

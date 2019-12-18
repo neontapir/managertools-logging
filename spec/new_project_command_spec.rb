@@ -7,14 +7,14 @@ require './lib/commands/new_project_command'
 
 RSpec.describe NewProjectCommand do
   context 'existing project' do
-    bloodties_log = File.join(%W[#{Settings.root} projects bloodties log.adoc])
+    bloodties_log = File.join %W[#{Settings.root} projects bloodties log.adoc]
 
-    before :context do
+    before do
       FileUtils.mkdir_p File.dirname(bloodties_log)
     end
 
-    after :context do
-      FileUtils.rm_r File.dirname(bloodties_log)
+    after do
+      FileUtils.rm_r File.dirname(File.dirname(bloodties_log))
     end 
 
     it 'creates a new project' do
@@ -45,7 +45,7 @@ RSpec.describe NewProjectCommand do
     end
 
     after :context do
-      FileUtils.rm_r File.dirname(galactic_storm_log)
+      FileUtils.rm_r File.dirname(File.dirname(galactic_storm_log))
     end
 
     let(:storm) { Project.find('galactic') }

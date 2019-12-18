@@ -6,7 +6,7 @@ require './lib/commands/report_command'
 
 RSpec.describe ReportCommand do
   context 'with an existing employee' do
-    avengers_folder = File.join(%W[#{Settings.root} avengers])
+    avengers_folder = File.join %W[#{Settings.root} avengers]
     file_prefix = 'report-tony-stark'
 
     before :context do
@@ -22,7 +22,7 @@ RSpec.describe ReportCommand do
       FileUtils.rm ["#{file_prefix}.adoc", "#{file_prefix}.html"]
     end
 
-    shared_examples 'file contents matching' do |filename, *examples|
+    shared_examples 'report file contents matching' do |filename, *examples|
       it 'can generate the report file' do
         expect(File).to exist filename
        end
@@ -35,7 +35,7 @@ RSpec.describe ReportCommand do
       end
     end
 
-    include_examples 'file contents matching', "#{file_prefix}.adoc", /include.*overview/,  /include.*log/
-    include_examples 'file contents matching', "#{file_prefix}.html", /Met about goals/
+    include_examples 'report file contents matching', "#{file_prefix}.adoc", /include.*overview/,  /include.*log/
+    include_examples 'report file contents matching', "#{file_prefix}.html", /Met about goals/
   end
 end

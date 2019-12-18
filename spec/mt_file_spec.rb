@@ -12,16 +12,17 @@ RSpec.describe MtFile do
   end
 
   context 'with a typical instance' do
-    mtfileclass_folder = File.join(%W[#{Settings.root} mtfile])
+    subject(:implementer) do 
+      (Class.new do
+        include MtFile
 
-    # Helper class for testing MtFile
-    MtFileClass = Class.new do
-      include MtFile
-
-      def path
-        File.join(%W[#{Settings.root} mtfile foo])
-      end
+        def path
+          File.join(%W[#{Settings.root} mtfile foo])
+        end
+      end).new
     end
+    
+    mtfileclass_folder = File.join %W[#{Settings.root} mtfile]
 
     before do
       FileUtils.mkdir_p mtfileclass_folder
@@ -30,8 +31,6 @@ RSpec.describe MtFile do
     after do
       FileUtils.rm_r mtfileclass_folder
     end
-
-    let(:implementer) { MtFileClass.new }
 
     def foo_exists
       File.exist?(implementer.path)

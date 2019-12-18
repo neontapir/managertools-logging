@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'time'
 require 'timecop'
 Dir.glob('./lib/entries/*_entry.rb', &method(:require))
 
@@ -28,12 +29,21 @@ RSpec.describe DiaryEntry do
       expect(entry.render('Test', PerformanceCheckpointEntry)).to eq "=== Test (January  1, 1999, 12:00 AM)\nContent::\n  none\n"
     end
 
+    it 'populates as expected' do
+      Settings.with_mock_input("\nGood\n") do 
+        data = entry.populate('John Doe')
+        expect(data.keys).to contain_exactly :content, :datetime
+        expect(data[:content]).to eq 'Good'
+        expect(Time.new(data[:datetime])).to be_within(0.01).of(Time.now) 
+      end
+    end
+
     it 'yields the correct date' do
       expect(entry.date).to eq entry_date
     end
   end
 
-  context 'with a time' do
+  context 'with the current time' do
     subject(:entry) { ObservationEntry.new(datetime: entry_date.to_s) }
     let(:entry_date) { Time.new(2001, 2, 3, 4, 5, 6) }
 
@@ -54,11 +64,16 @@ RSpec.describe DiaryEntry do
     end
   end
 
-  context 'with a time and context' do
-    subject(:entry) { ObservationEntry.new(datetime: Time.new(2002).to_s, content: 'blah').render('Test', ObservationEntry) }
+  context 'with a past time' do
+    subject(:entry) { ObservationEntry.new(datetime: entry_date.to_s, content: 'blah') }
+    let(:entry_date) { Time.new(2002) }
 
     it 'renders correctly' do
-      expect(entry).to eq "=== Test (January  1, 2002, 12:00 AM)\nContent::\n  blah\n"
+      expect(entry.render('Test', ObservationEntry)).to eq "=== Test (January  1, 2002, 12:00 AM)\nContent::\n  blah\n"
+    end
+
+    it 'yields the correct date' do
+      expect(entry.date).to eq entry_date
     end
   end
 
@@ -89,16 +104,11 @@ RSpec.describe DiaryEntry do
   context 'in improper elements implementation context' do
     # A class that has some unworkable implementations
     class BadElementsArrayDiaryEntry < DiaryEntry
-      def prompt(_)
-        # do nothing
-      end
+      def prompt(_); end
+      def to_s(); end
 
       def elements
         42 # not enumerable
-      end
-
-      def to_s
-        # do nothing
       end
     end
 

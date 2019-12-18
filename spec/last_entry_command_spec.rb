@@ -7,14 +7,14 @@ require './lib/entries/observation_entry'
 
 RSpec.describe LogFile do
   context 'with diary entries' do
-    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
+    iron_man_folder = File.join %W[#{Settings.root} avengers tony-stark]
 
     before :context do
       FileUtils.mkdir_p iron_man_folder
       tony = Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark')
       log_file = tony.file
-      log_file.append ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Observation A')
-      log_file.append ObservationEntry.new(datetime: Time.new(2001, 2, 4, 5, 6, 7).to_s, content: 'Observation B')
+      log_file.insert ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Observation A')
+      log_file.insert ObservationEntry.new(datetime: Time.new(2001, 2, 4, 5, 6, 7).to_s, content: 'Observation B')
     end
 
     after :context do

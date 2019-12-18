@@ -17,8 +17,8 @@ RSpec.describe EntityFile do
   end
 
   context 'typical usage' do
-    normal_folder = File.join(%W[#{Settings.root} normal])
-    muppets_in_space_folder = File.join(%W[#{Settings.root} muppets-in-space])
+    normal_folder = File.join %W[#{Settings.root} normal]
+    muppets_in_space_folder = File.join %W[#{Settings.root} muppets-in-space]
   
     before :context do
       [normal_folder, muppets_in_space_folder].each do |folder|

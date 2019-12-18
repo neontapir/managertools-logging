@@ -15,15 +15,6 @@ class LogFile
     @log_file = EntityFile.new folder, 'log.adoc'
   end
 
-  # Append a DiaryEntry to the file
-  # @param [DiaryEntry] entry the entry to append
-  def append(entry)
-    make_backup
-    existing_lines = IO.readlines path
-    write_entry_to(existing_lines, entry, [])
-    remove_backup
-  end
-
   # Get the file system path to the file
   def path
     @log_file.path
@@ -33,7 +24,7 @@ class LogFile
   # @param [DiaryEntry] entry the entry to insert
   def insert(entry)
     make_backup
-    before, after = divide_file entry
+    before, after = entry.respond_to?(:date) ? divide_file(entry) : [IO.readlines(path), []]
     write_entry_to(before, entry, after)
     remove_backup
   end
@@ -47,7 +38,7 @@ class LogFile
     entry_date = entry.date
     lines = IO.readlines path
     header_locations = get_header_locations lines
-    dates = inject_new_entry_date(entry_date, header_locations.keys)
+    dates = inject_new_entry_date(header_locations.keys, entry_date)
 
     insertion_position = dates.index entry_date
     case insertion_position
@@ -59,15 +50,10 @@ class LogFile
     end
   end
 
-  def inject_new_entry_date(new_date, timestamps)
-    dates = timestamps << new_date
-    dates.sort!
-  end
-
   # Extract the lines in the file containing dates
   # @param [Array] lines the contents of the file
   # @return [Hash] a dictionary of date lines and their locations in the file
-  def get_header_locations(lines)
+  def get_header_locations(lines = File.readlines(path))
     headers = {}
     lines.each_with_index do |line, line_num|
       dated_matches = /^===.*\((.*)\)/.match line
@@ -95,5 +81,12 @@ class LogFile
       file.puts entry
       file.puts after
     end
+  end
+
+  private
+
+  def inject_new_entry_date(timestamps, new_date)
+    dates = timestamps << new_date
+    dates.sort!
   end
 end

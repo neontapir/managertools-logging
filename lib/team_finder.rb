@@ -14,7 +14,6 @@ end
 
 # Represents a team search provider
 module TeamFinder
-  include PathStringExtensions
   using PathStringExtensions
 
   # Parse the path as though it is an team spec and return the result
@@ -22,7 +21,6 @@ module TeamFinder
   # @param [String] dir the location of a person
   # @return [Hash] the team data represented by the location
   def parse_dir(dir)
-    # TEMPORARY 20191212
     _root, team = dir.split_path
     { team: team }
   end

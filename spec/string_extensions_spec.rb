@@ -35,6 +35,12 @@ RSpec.describe StringExtensions do
       "  world\n" \
       "  it's\n" \
       '  me')
+    end  
+
+    it 'ignores an invalid wrap size' do
+      fahrenheit_451_opener = 'It was a pleasure to burn'
+      expect(fahrenheit_451_opener.wrap(0)).to eq fahrenheit_451_opener
+      expect(fahrenheit_451_opener.wrap(-2)).to eq fahrenheit_451_opener 
     end
 
     LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc egestas imperdiet ' \

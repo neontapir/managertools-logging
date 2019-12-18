@@ -60,26 +60,26 @@ RSpec.describe EmployeeFinder do
     end
   end
 
-  context 'when parsing an employee folder (Iron Man)' do
-    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
+  context 'when parsing an employee folder (Hulk)' do
+    hulk_folder = File.join %W[#{Settings.root} avengers bruce-banner]
 
     before :context do
-      FileUtils.mkdir_p iron_man_folder
+      FileUtils.mkdir_p hulk_folder
     end
 
     after :context do
-      FileUtils.rm_r File.dirname(iron_man_folder)
+      FileUtils.rm_r File.dirname(hulk_folder)
     end
 
     it 'extracts the data correctly' do
-      dir = Dir.new(iron_man_folder)
-      iron_man = finder.parse_dir(dir)
-      expect(proper?(iron_man, 'avengers', 'Tony', 'Stark')).to be_truthy
+      dir = Dir.new(hulk_folder)
+      hulk = finder.parse_dir(dir)
+      expect(proper?(hulk, 'avengers', 'Bruce', 'Banner')).to be_truthy
     end
   end
 
   context 'when parsing an employee folder with a hyphen (Rescue)' do
-    rescue_folder = File.join(%W[#{Settings.root} avengers pepper-potts-stark])
+    rescue_folder = File.join %W[#{Settings.root} avengers pepper-potts-stark]
 
     before :context do
       FileUtils.mkdir_p rescue_folder
@@ -97,7 +97,7 @@ RSpec.describe EmployeeFinder do
   end
 
   context 'when finding an employee (Iron Man)' do
-    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
+    iron_man_folder = File.join %W[#{Settings.root} avengers tony-stark]
 
     before :context do
       FileUtils.mkdir_p iron_man_folder
@@ -121,15 +121,15 @@ RSpec.describe EmployeeFinder do
   end
 
   context 'with two employees with same first name (Ant Man and Beast)' do
-    ant_man_folder =  File.join(%W[#{Settings.root} avengers hank-pym])
-    beast_folder =  File.join(%W[#{Settings.root} avengers hank-mccoy])
+    ant_man_folder = File.join(%W[#{Settings.root} avengers hank-pym])
+    beast_folder = File.join(%W[#{Settings.root} avengers hank-mccoy])
 
-    before :context do
+    before do
       FileUtils.mkdir_p ant_man_folder
       FileUtils.mkdir_p beast_folder
     end
 
-    after :context do
+    after do
       FileUtils.rm_r File.dirname(ant_man_folder)
     end
 

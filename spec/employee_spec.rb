@@ -30,7 +30,7 @@ RSpec.describe Employee do
   end
 
   context 'when getting names with unusual casing' do
-    people_folder = File.join(%W[#{Settings.root} people])
+    people_folder = File.join %W[#{Settings.root} people]
 
     before :all do
       %w[baron-du-vallon-de-bracieux-de-pierrefonds old-mcdonald jj-ginger-oconnell].each do |p|
@@ -60,7 +60,7 @@ RSpec.describe Employee do
 
   context 'with equality for a single employee (Iron Man)' do    
     subject(:iron_man) { Employee.new(team: 'avengers', first: 'Tony', last: 'Stark') }
-    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
+    iron_man_folder = File.join %W[#{Settings.root} avengers tony-stark]
 
     before :all do
       FileUtils.mkdir_p iron_man_folder
@@ -97,7 +97,7 @@ RSpec.describe Employee do
 
   context 'with equality for a single employee with a hyphenated team name (Wonder Woman)' do
     subject(:wonder_woman) { Employee.new(team: 'Justice League', first: 'Diana', last: 'Prince') }
-    wonder_woman_folder = File.join(%W[#{Settings.root} justice-league diana-prince])
+    wonder_woman_folder = File.join %W[#{Settings.root} justice-league diana-prince]
 
     before :all do
       FileUtils.mkdir_p wonder_woman_folder
@@ -111,6 +111,44 @@ RSpec.describe Employee do
       file = wonder_woman.file
       expect(file).not_to be_nil
       expect(file.path).to eq File.join(wonder_woman_folder, 'log.adoc')
+    end
+  end
+
+  context 'abnormal usage' do
+    context 'empty team name' do
+      it 'raises on initialization' do
+        expect{ Employee.new(team: '', first: 'John', last: 'Smith') }.to raise_error ArgumentError
+      end
+    end
+
+    context 'nil team name' do
+      it 'raises on initialization' do
+        expect{ Employee.new(team: nil, first: 'John', last: 'Smith') }.to raise_error ArgumentError
+      end
+    end
+
+    context 'empty first name' do
+      it 'raises on initialization' do
+        expect{ Employee.new(team: 'normal', first: '', last: 'Smith') }.to raise_error ArgumentError
+      end
+    end
+
+    context 'nil first name' do
+      it 'raises on initialization' do
+        expect{ Employee.new(team: 'normal', first: nil, last: 'Smith') }.to raise_error ArgumentError
+      end
+    end
+
+    context 'empty last name' do
+      it 'raises on initialization' do
+        expect{ Employee.new(team: 'normal', first: 'John', last: '') }.to raise_error ArgumentError
+      end
+    end
+
+    context 'nil last name' do
+      it 'raises on initialization' do
+        expect{ Employee.new(team: 'normal', first: 'John', last: nil) }.to raise_error ArgumentError
+      end
     end
   end
 end

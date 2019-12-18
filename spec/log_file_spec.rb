@@ -6,30 +6,59 @@ require './lib/log_file'
 require './lib/entries/observation_entry'
 
 RSpec.describe LogFile do
-  avengers_folder = File.join(%W[#{Settings.root} avengers])
+  avengers_folder = File.join %W[#{Settings.root} avengers]
 
-  before :context do
-    FileUtils.mkdir_p avengers_folder
+  context 'with an employee (isolated examples)' do
+    subject(:hulk_file) do
+      hulk = Employee.new(team: 'Avengers', first: 'Bruce', last: 'Banner')
+      hulk.file
+    end
+
+    hulk_folder = File.join avengers_folder, 'bruce-banner'
+
+    before do
+      FileUtils.mkdir_p hulk_folder
+    end
+
+    after do
+      FileUtils.rm_r File.dirname(hulk_folder)
+    end
+
+    it 'can insert a nil entry' do
+      hulk_file.insert nil
+      expect(File.readlines(hulk_file.path)).to eq %W[\n \n]
+    end
+
+    it 'can insert a blank entry' do
+      hulk_file.insert ''
+      expect(File.readlines(hulk_file.path)).to eq %W[\n \n]
+    end
+
+    it 'can insert a text entry' do
+      hulk_file.insert 'foo'
+      expect(File.readlines(hulk_file.path)).to eq %W[\n foo\n]
+    end
+
+    it 'can insert a dated entry' do
+      hulk_file.insert ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Green')
+      expect(File.readlines(hulk_file.path)).to eq ["\n", "=== Observation (February  3, 2001,  4:05 AM)\n", "Content::\n", "  Green\n"]
+    end
   end
 
-  after :context do
-    FileUtils.rm_r avengers_folder
-  end
-
-  context 'with an employee', order: :defined do
+  context 'with an employee (accumulating examples)', order: :defined do
     subject(:thor_file) do
       thor = Employee.new(team: 'Avengers', first: 'Thor', last: 'Odinson')
       thor.file
     end
 
-    thor_folder = File.join(avengers_folder, 'thor-odinson')
+    thor_folder = File.join avengers_folder, 'thor-odinson'
 
     before :context do
       FileUtils.mkdir_p thor_folder
     end
 
     after :context do
-      FileUtils.rm_r thor_folder
+      FileUtils.rm_r File.dirname(thor_folder)
     end
 
     it 'knows the file path' do
@@ -37,71 +66,70 @@ RSpec.describe LogFile do
     end
 
     it 'creates a new file if none exists' do
-      thor_file.append 'foobar'
+      thor_file.insert 'foobar'
       expect(File.readlines(thor_file.path)).to eq %W[\n foobar\n]
     end
 
-    it 'appends an entry' do
-      thor_file.append 'baz'
+    it 'appends an entry if file is not empty' do
+      thor_file.insert 'baz'
       expect(File.readlines(thor_file.path)).to eq %W[\n foobar\n \n baz\n]
     end
 
     it 'does not add an extra leading carriage return if one provided' do
-      thor_file.append "\nqux"
+      thor_file.insert "\nqux"
       expect(File.readlines(thor_file.path)).to eq %W[\n foobar\n \n baz\n \n qux\n]
     end
   end
 
-  context 'with dated diary entries', order: :defined do
+  context 'with dated diary entries' do
     subject(:iron_man_file) do
       iron_man = Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark')
+      iron_man.file.insert ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Observation A')
+      iron_man.file.insert ObservationEntry.new(datetime: Time.new(2001, 2, 4, 5, 6, 7).to_s, content: 'Observation B')
       iron_man.file
     end
 
-    iron_man_folder = File.join(avengers_folder, 'tony-stark')
+    iron_man_folder = File.join avengers_folder, 'tony-stark'
 
-    before :context do
+    before do
       FileUtils.mkdir_p iron_man_folder
     end
 
-    after :context do
-      FileUtils.rm_r iron_man_folder
+    after do
+      FileUtils.rm_r File.dirname(iron_man_folder)
     end
 
     it 'appends multiple observations correctly' do
-      iron_man_file.append ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Observation A')
-      iron_man_file.append ObservationEntry.new(datetime: Time.new(2001, 2, 4, 5, 6, 7).to_s, content: 'Observation B')
       expect(File.readlines(iron_man_file.path)).to eq ["\n", "=== Observation (February  3, 2001,  4:05 AM)\n",
         "Content::\n", "  Observation A\n", "\n", "=== Observation (February  4, 2001,  5:06 AM)\n",
         "Content::\n", "  Observation B\n"]
     end
 
     it 'gets lines containing a date correctly' do
-      lines = File.readlines(iron_man_file.path)
-      expect(iron_man_file.get_header_locations(lines)).to eq(
+      expect(iron_man_file.get_header_locations).to eq(
         Time.new(2001, 2, 3, 4, 5, 0) => 1,
         Time.new(2001, 2, 4, 5, 6, 0) => 5
       )
     end
   end
 
-  context 'with undated diary entries', order: :defined do
+  context 'with undated diary entries' do
     subject(:hawkeye_file) do
       hawkeye = Employee.new(team: 'Avengers', first: 'Clinton', last: 'Barton')
       file = hawkeye.file
-      file.append "\n=== Background Info\n"
-      file.append ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Observation A')
+      file.insert "\n=== Background Info\n"
+      file.insert ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Observation A')
       file
     end
 
-    hawkeye_folder = File.join(avengers_folder, 'clinton-barton')
+    hawkeye_folder = File.join avengers_folder, 'clinton-barton'
 
     before :context do
       FileUtils.mkdir_p hawkeye_folder
     end
 
     after :context do
-      FileUtils.rm_r hawkeye_folder
+      FileUtils.rm_r File.dirname(hawkeye_folder)
     end
 
     it 'gets undated and dated entry headers correctly' do
@@ -117,22 +145,22 @@ RSpec.describe LogFile do
     subject(:captain_america_file) do
       captain_america = Employee.new(team: 'Avengers', first: 'Steve', last: 'Rogers')
       file = captain_america.file
-      file.append "\n=== Background Info\n"
-      file.append ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Observation A')
-      file.append ObservationEntry.new(datetime: Time.new(2001, 2, 4, 5, 6, 7).to_s, content: 'Observation B')
+      file.insert "\n=== Background Info\n"
+      file.insert ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Observation A')
+      file.insert ObservationEntry.new(datetime: Time.new(2001, 2, 4, 5, 6, 7).to_s, content: 'Observation B')
       file
     end
 
     let(:new_entry) { ObservationEntry.new(datetime: Time.new(1999, 1, 1, 0, 0, 0).to_s, content: 'Observation C') }
 
-    captain_america_folder = File.join(avengers_folder, 'steve-rogers')
+    captain_america_folder = File.join avengers_folder, 'steve-rogers'
 
     before do
       FileUtils.mkdir_p captain_america_folder
     end
 
     after do
-      FileUtils.rm_r captain_america_folder
+      FileUtils.rm_r File.dirname(captain_america_folder)
     end
   
     it 'calculates the insertion position correctly' do
@@ -161,21 +189,21 @@ RSpec.describe LogFile do
     subject(:black_widow_file) do
       black_widow = Employee.new(team: 'Avengers', first: 'Natasha', last: 'Romanoff')
       file = black_widow.file
-      file.append ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Observation A')
-      file.append ObservationEntry.new(datetime: Time.new(2001, 2, 4, 5, 6, 7).to_s, content: 'Observation B')
+      file.insert ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Observation A')
+      file.insert ObservationEntry.new(datetime: Time.new(2001, 2, 4, 5, 6, 7).to_s, content: 'Observation B')
       file
     end
 
     let(:new_entry) { ObservationEntry.new(datetime: Time.new(2001, 2, 4, 0, 0).to_s, content: 'Observation C') }
 
-    black_widow_folder = File.join(avengers_folder, 'natasha-romanoff')
+    black_widow_folder = File.join avengers_folder, 'natasha-romanoff'
 
     before do
       FileUtils.mkdir_p black_widow_folder
     end
 
     after do
-      FileUtils.rm_r black_widow_folder
+      FileUtils.rm_r File.dirname(black_widow_folder)
     end
     
     it 'calculates the insertion position correctly' do
@@ -204,21 +232,21 @@ RSpec.describe LogFile do
     subject(:wasp_file) do
       wasp = Employee.new(team: 'Avengers', first: 'Janet', last: 'Van Dyne')
       file = wasp.file
-      file.append ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Observation A')
-      file.append ObservationEntry.new(datetime: Time.new(2001, 2, 4, 5, 6, 7).to_s, content: 'Observation B')
+      file.insert ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Observation A')
+      file.insert ObservationEntry.new(datetime: Time.new(2001, 2, 4, 5, 6, 7).to_s, content: 'Observation B')
       file
     end
 
     let(:new_entry) { ObservationEntry.new(datetime: Time.new(2018, 1, 1, 0, 0).to_s, content: 'Observation C') }
 
-    wasp_folder = File.join(avengers_folder, 'janet-vandyne')
+    wasp_folder = File.join avengers_folder, 'janet-vandyne'
 
     before do
       FileUtils.mkdir_p wasp_folder
     end
 
     after do
-      FileUtils.rm_r wasp_folder
+      FileUtils.rm_r File.dirname(wasp_folder)
     end
 
     it 'calculates the insertion position correctly' do

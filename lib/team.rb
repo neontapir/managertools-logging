@@ -33,12 +33,9 @@ class Team
     end
   end
 
+  # @!method Return a suitable string used for the team's filesystem folder
   def path
     team
-  end
-
-  def split_path
-    to_s.split_path
   end
 
   # @!method Represent a Team by its titlecased name

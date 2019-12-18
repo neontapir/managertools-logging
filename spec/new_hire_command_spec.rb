@@ -6,8 +6,8 @@ require './lib/commands/new_hire_command'
 
 RSpec.describe NewHireCommand do
   context 'existing team member' do
-    teen_titans_folder = File.join(%W[#{Settings.root} teen-titans])
-    starfire_folder = File.join(teen_titans_folder, 'princess-koriandr')
+    teen_titans_folder = File.join %W[#{Settings.root} teen-titans]
+    starfire_folder = File.join teen_titans_folder, 'princess-koriandr'
 
     before :context do
       FileUtils.mkdir_p teen_titans_folder
@@ -34,7 +34,7 @@ RSpec.describe NewHireCommand do
   end
 
   context 'force overwrites team member' do
-    teen_titans_folder = File.join(%W[#{Settings.root} teen-titans])
+    teen_titans_folder = File.join %W[#{Settings.root} teen-titans]
     
     before :context do
       FileUtils.mkdir_p teen_titans_folder

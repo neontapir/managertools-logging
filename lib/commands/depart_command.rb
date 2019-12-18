@@ -14,7 +14,7 @@ class DepartCommand
   end
 
   def ensure_departed_exists
-    departed_path = File.join(Settings.root,  Settings.departed_root)
+    departed_path = File.join Settings.root,  Settings.departed_root
     FileUtils.mkdir_p departed_path unless Dir.exist? departed_path
   end
 end

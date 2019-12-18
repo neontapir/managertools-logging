@@ -7,8 +7,8 @@ require_relative 'spec_helper'
 
 RSpec.describe DepartCommand do
   context 'moving a departing team member' do
-    departed_folder = File.join(%W[#{Settings.root} #{Settings.departed_root}])
-    old_team_folder = File.join(%W[#{Settings.root} teen-titans])
+    departed_folder = File.join %W[#{Settings.root} #{Settings.departed_root}]
+    old_team_folder = File.join %W[#{Settings.root} teen-titans]
     starfire = 'princess-koriandr'
 
     before do
@@ -20,7 +20,7 @@ RSpec.describe DepartCommand do
     end
 
     after do
-      FileUtils.rm_r old_team_folder
+      [old_team_folder, departed_folder].each { |folder| FileUtils.rm_r folder }
     end
 
     it 'relocates their files', :aggregate_failures do

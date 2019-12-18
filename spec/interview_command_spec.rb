@@ -15,7 +15,7 @@ RSpec.describe InterviewCommand do
 
   context 'with a known person' do
     input = ["\n", "here\n", "SE1\n", "Nick Fury\n", "Edgy but competent\n", "Hire\n"]
-    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
+    iron_man_folder = File.join %W[#{Settings.root} avengers tony-stark]
 
     before do
       FileUtils.mkdir_p iron_man_folder

@@ -23,6 +23,10 @@ class Employee
     @team = params.fetch(:team)
     @first = params.fetch(:first)
     @last = params.fetch(:last)
+
+    raise ArgumentError, 'Team must not be empty' if team.to_s.empty?
+    raise ArgumentError, 'First name must not be empty' if first.to_s.empty?
+    raise ArgumentError, 'Last name must not be empty' if last.to_s.empty?
   end
 
   # Get the LogFile for the employee

@@ -13,7 +13,7 @@ RSpec.describe Diary do
       end).new
     end
 
-    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
+    iron_man_folder = File.join %W[#{Settings.root} avengers tony-stark]
     
     before :context do
       FileUtils.mkdir_p iron_man_folder
@@ -41,7 +41,7 @@ RSpec.describe Diary do
       end).new
     end
 
-    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
+    iron_man_folder = File.join %W[#{Settings.root} avengers tony-stark]
 
     # Create a plain type of diary entry
     class TestEntry < DiaryEntry
@@ -142,7 +142,7 @@ RSpec.describe Diary do
   end
 
   context 'with diary entries that disable prompting', order: :defined do
-    iron_man_folder = File.join(%W[#{Settings.root} avengers tony-stark])
+    iron_man_folder = File.join %W[#{Settings.root} avengers tony-stark]
 
     subject(:diary_no_prompt) do 
         (Class.new do

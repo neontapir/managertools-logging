@@ -15,20 +15,19 @@ RSpec.describe InitCommand do
   end
 
   context 'config file exists' do
+    let(:test_location) { 'data_temp_location' }
+
     it 'will initialize the data structure' do
-      test_location = 'my_temp_location'
-      begin
-        FileUtils.rm_r test_location if Dir.exist? test_location
-        FileUtils.mv Settings.root, test_location
-        Settings.with_mock_input do
-          expect{ init_command.command }.to output(/Initializing MT/).to_stdout
-          remove_test_settings_file
-        end
-      rescue
-        FileUtils.mv test_location, Settings.root  
-      ensure
-        FileUtils.rm_r test_location if Dir.exist? test_location
+      FileUtils.rm_r test_location if Dir.exist? test_location
+      FileUtils.mv Settings.root, test_location
+      Settings.with_mock_input do
+        expect{ init_command.command }.to output(/Initializing MT/).to_stdout
+        remove_test_settings_file
       end
+    rescue
+      FileUtils.mv test_location, Settings.root  
+    ensure
+      FileUtils.rm_r test_location if Dir.exist? test_location
     end
   end
 end

@@ -12,7 +12,6 @@ end
 
 # Represents a project search provider
 module ProjectFinder
-  include PathStringExtensions
   using PathStringExtensions
 
   # Parse the path as though it is an project spec and return the result
@@ -30,7 +29,7 @@ module ProjectFinder
   # @return [Project] a Project object
   def find(key)
     target = key.to_path
-    project_root = File.join(Settings.root, Settings.project_root)
+    project_root = File.join Settings.root, Settings.project_root
     Dir.glob("#{project_root}/*") do |dir|
       next unless Dir.exist? dir
       next unless dir[target]
