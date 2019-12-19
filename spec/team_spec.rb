@@ -108,9 +108,17 @@ RSpec.describe Team do
     end
   end
 
-  context 'params hash does not contain a team entry' do
-    it 'the initializer raises' do
+  context 'abnromal usage' do
+    it 'the initializer raises for empty hash' do
       expect { Team.new({}) }.to raise_error KeyError
+    end
+
+    it 'the initializer raises for nil team' do
+      expect { Team.new(team: nil) }.to raise_error ArgumentError
+    end
+
+    it 'the initializer raises for empty team' do
+      expect { Team.new(team: '') }.to raise_error ArgumentError
     end
   end
 end

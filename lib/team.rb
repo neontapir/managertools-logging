@@ -17,7 +17,10 @@ class Team
   # Create a new Team object
   # @param [Hash] params a Hash with a :team entry
   def initialize(**params)
-    @team = params.fetch(:team).to_path
+    the_team = params.fetch(:team)
+    raise ArgumentError, 'Name must not be empty' if the_team.to_s.empty?
+    
+    @team = the_team.to_path
   end
 
   # @!method Get an array of team members folders located in this folder
