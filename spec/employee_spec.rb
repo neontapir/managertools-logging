@@ -115,11 +115,20 @@ RSpec.describe Employee do
   end
 
   context 'abnormal usage' do
-    context 'empty team name' do
+    context 'mising keys' do
       it 'raises on initialization' do
-        expect{ Employee.new(team: '', first: 'John', last: 'Smith') }.to raise_error ArgumentError
+        expect{ Employee.new({}) }.to raise_error KeyError
+        expect{ Employee.new(first: 'John', last: 'Smith') }.to raise_error KeyError
+        expect{ Employee.new(team: 'normal', last: 'Smith') }.to raise_error KeyError
+        expect{ Employee.new(team: 'normal', first: 'John') }.to raise_error KeyError
       end
     end
+
+    context 'empty team name' do
+     it 'raises on initialization' do
+        expect{ Employee.new(team: '', first: 'John', last: 'Smith') }.to raise_error ArgumentError
+      end
+    end 
 
     context 'nil team name' do
       it 'raises on initialization' do
