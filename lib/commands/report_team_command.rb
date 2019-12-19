@@ -32,9 +32,9 @@ class ReportTeamCommand
     output = "#{report_name}.html"
     generate_report(team, report_source, output)
     command_line = [OSAdapter.open_command, output].join(' ')
-    unless no_launch
-      raise SystemCallError, "Report launch failed with '#{command_line}'" unless system(command_line)
-    end
+    return if no_launch
+    
+    raise SystemCallError, "Report launch failed with '#{command_line}'" unless system(command_line)
   end
 
   private

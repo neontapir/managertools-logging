@@ -19,7 +19,7 @@ class Team
   def initialize(**params)
     the_team = params.fetch(:team)
     raise ArgumentError, 'Name must not be empty' if the_team.to_s.empty?
-    
+
     @team = the_team.to_path
   end
 

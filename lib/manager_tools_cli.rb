@@ -6,6 +6,7 @@ require_relative 'settings'
 require_relative 'string_extensions'
 Dir["#{__dir__}/commands/*_command.rb"].each { |f| require_relative(f) }
 
+# Module containing the heart of the program
 module ManagerTools
   using StringExtensions
 

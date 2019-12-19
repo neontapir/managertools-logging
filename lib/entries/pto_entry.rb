@@ -35,7 +35,7 @@ class PtoEntry < DiaryEntry
     start_time = Chronic.parse(data.fetch(:start_time))
     end_time = Chronic.parse(data.fetch(:end_time))
     
-    if (end_time < start_time)
+    if end_time < start_time
       data[:start_time], data[:end_time] = data[:end_time], data[:start_time]
       start_time, end_time = end_time, start_time
     end
