@@ -31,7 +31,7 @@ RSpec.describe PtoEntry do
       data = entry.post_create({ start_time: 'yesterday', end_time: 'today' })
       expect(data[:duration]).to eq '2 days'
     end
-   
+
     it 'sorts start and end times' do
       data = entry.post_create({ start_time: 'today', end_time: 'yesterday' })
       expect(data[:start_time]).to include 'yesterday'

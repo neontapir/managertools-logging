@@ -16,7 +16,7 @@ class ObservationEntry < DiaryEntry
   def elements
     result = [
       DiaryDateElement.new(:datetime, 'Effective date'),
-      DiaryElement.new(:content)
+      DiaryElement.new(:content),
     ]
     with_applies_to(result)
   end

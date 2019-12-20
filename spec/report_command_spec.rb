@@ -11,7 +11,7 @@ RSpec.describe ReportCommand do
 
     before :context do
       Settings.with_mock_input "\nhere\nMet about goals\n\n\n" do
-        expect{ NewHireCommand.new.command(%w[Avengers Tony Stark]) }.to output.to_stdout
+        expect { NewHireCommand.new.command(%w[Avengers Tony Stark]) }.to output.to_stdout
         RecordDiaryEntryCommand.new.command :one_on_one, ['tony']
         ReportCommand.new.command('tony', OpenStruct.new(no_launch: true))
       end
@@ -25,8 +25,8 @@ RSpec.describe ReportCommand do
     shared_examples 'report file contents matching' do |filename, *examples|
       it 'can generate the report file' do
         expect(File).to exist filename
-       end
-  
+      end
+
       it 'file has the expected content' do
         contents = File.read(filename)
         examples.each do |example|
@@ -35,7 +35,7 @@ RSpec.describe ReportCommand do
       end
     end
 
-    include_examples 'report file contents matching', "#{file_prefix}.adoc", /include.*overview/,  /include.*log/
+    include_examples 'report file contents matching', "#{file_prefix}.adoc", /include.*overview/, /include.*log/
     include_examples 'report file contents matching', "#{file_prefix}.html", /Met about goals/
   end
 end

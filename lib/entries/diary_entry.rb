@@ -36,8 +36,8 @@ class DiaryEntry
   #   @return [String] an Asciidoc fragment suitable for appending to a log file
   def render(title, entry_type = self.class)
     raise NotImplementedError, 'DiaryEntry#elements must be overriden' unless entry_type
-                                                                              .instance_methods(false)
-                                                                              .include?(:elements)
+      .instance_methods(false)
+      .include?(:elements)
     raise ArgumentError, "#{entry_type}#elements must return an enumerable" unless elements.is_a?(Enumerable)
     raise ArgumentError, "record[:datetime] must be a Time, not a #{date.class}" unless date.is_a?(Time)
 
@@ -45,8 +45,8 @@ class DiaryEntry
     elements
       .reject { |element| header_items.include? element.key }
       .inject(initial) do |output, entry| # rubocop:disable CollectionMethods
-        output + "#{entry.label}::\n  #{@record.fetch(entry.key, entry.default).to_s.wrap}\n"
-      end
+      output + "#{entry.label}::\n  #{@record.fetch(entry.key, entry.default).to_s.wrap}\n"
+    end
   end
 
   # @abstract Gives the text shown at the beginning of an interactive session to provide the user context

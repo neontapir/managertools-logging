@@ -32,7 +32,7 @@ class Settings < Settingslogic
     #   to accept defaults
     # HACK: regular RSpec mocking with allow() works in cases where
     #   input is needed, but doesn't when hitting return is desired.
-    #   This is needed to test defaults. Figure out how to mock 
+    #   This is needed to test defaults. Figure out how to mock
     #   Highline to just hit return and this method is no longer
     #   necessary.
     def with_mock_input(*input)

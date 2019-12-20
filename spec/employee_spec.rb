@@ -56,18 +56,18 @@ RSpec.describe Employee do
 
     it 'handles Irish O names' do
       oconnell = Employee.new({ team: 'people', first: 'J.J. "Ginger"'.upcase, last: "O'Connell".upcase })
-      expect(oconnell.canonical_name).to eq "jj-ginger-oconnell"
+      expect(oconnell.canonical_name).to eq 'jj-ginger-oconnell'
       expect(oconnell.to_s).to eq "J.J. \"Ginger\" O'Connell"
     end
 
     it 'handles suffixes names' do
       david = Employee.new({ team: 'people', first: 'David'.upcase, last: 'Curry-Johnson III'.upcase })
-      expect(david.canonical_name).to eq "david-curry-johnson-iii"
-      expect(david.to_s).to eq "David Curry-Johnson III"
+      expect(david.canonical_name).to eq 'david-curry-johnson-iii'
+      expect(david.to_s).to eq 'David Curry-Johnson III'
     end
   end
 
-  context 'with equality for a single employee (Iron Man)' do    
+  context 'with equality for a single employee (Iron Man)' do
     subject(:iron_man) { Employee.new(team: 'avengers', first: 'Tony', last: 'Stark') }
     iron_man_folder = File.join %W[#{Settings.root} avengers tony-stark]
 
@@ -78,7 +78,7 @@ RSpec.describe Employee do
     after :all do
       FileUtils.rm_r File.dirname(iron_man_folder)
     end
-    
+
     it 'gives the correct log file location' do
       file = iron_man.file
       expect(file).not_to be_nil
@@ -126,46 +126,46 @@ RSpec.describe Employee do
   context 'abnormal usage' do
     context 'mising keys' do
       it 'raises on initialization' do
-        expect{ Employee.new({}) }.to raise_error KeyError
-        expect{ Employee.new(first: 'John', last: 'Smith') }.to raise_error KeyError
-        expect{ Employee.new(team: 'normal', last: 'Smith') }.to raise_error KeyError
-        expect{ Employee.new(team: 'normal', first: 'John') }.to raise_error KeyError
+        expect { Employee.new({}) }.to raise_error KeyError
+        expect { Employee.new(first: 'John', last: 'Smith') }.to raise_error KeyError
+        expect { Employee.new(team: 'normal', last: 'Smith') }.to raise_error KeyError
+        expect { Employee.new(team: 'normal', first: 'John') }.to raise_error KeyError
       end
     end
 
     context 'empty team name' do
-     it 'raises on initialization' do
-        expect{ Employee.new(team: '', first: 'John', last: 'Smith') }.to raise_error ArgumentError
+      it 'raises on initialization' do
+        expect { Employee.new(team: '', first: 'John', last: 'Smith') }.to raise_error ArgumentError
       end
-    end 
+    end
 
     context 'nil team name' do
       it 'raises on initialization' do
-        expect{ Employee.new(team: nil, first: 'John', last: 'Smith') }.to raise_error ArgumentError
+        expect { Employee.new(team: nil, first: 'John', last: 'Smith') }.to raise_error ArgumentError
       end
     end
 
     context 'empty first name' do
       it 'raises on initialization' do
-        expect{ Employee.new(team: 'normal', first: '', last: 'Smith') }.to raise_error ArgumentError
+        expect { Employee.new(team: 'normal', first: '', last: 'Smith') }.to raise_error ArgumentError
       end
     end
 
     context 'nil first name' do
       it 'raises on initialization' do
-        expect{ Employee.new(team: 'normal', first: nil, last: 'Smith') }.to raise_error ArgumentError
+        expect { Employee.new(team: 'normal', first: nil, last: 'Smith') }.to raise_error ArgumentError
       end
     end
 
     context 'empty last name' do
       it 'raises on initialization' do
-        expect{ Employee.new(team: 'normal', first: 'John', last: '') }.to raise_error ArgumentError
+        expect { Employee.new(team: 'normal', first: 'John', last: '') }.to raise_error ArgumentError
       end
     end
 
     context 'nil last name' do
       it 'raises on initialization' do
-        expect{ Employee.new(team: 'normal', first: 'John', last: nil) }.to raise_error ArgumentError
+        expect { Employee.new(team: 'normal', first: 'John', last: nil) }.to raise_error ArgumentError
       end
     end
   end

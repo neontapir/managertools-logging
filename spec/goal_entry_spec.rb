@@ -39,7 +39,7 @@ RSpec.describe GoalEntry do
       Timecop.return
     end
 
-   it 'renders correctly' do
+    it 'renders correctly' do
       expect(subject.render('Test', GoalEntry)).to include("Applies to::\n  Clark Kent, Bruce Wayne")
     end
   end

@@ -12,6 +12,7 @@ RSpec.describe TeamMeetingCommand do
   # force interactive mode, avoid reading global variables
   module Diary
     undef :template? if method_defined? :template?
+
     def template?
       false
     end
@@ -57,7 +58,7 @@ RSpec.describe TeamMeetingCommand do
     end
 
     after do
-      [tony, steve, diana].map{ |hero| get_team_folder(hero.file.path) }.uniq.each do |team_folder|
+      [tony, steve, diana].map { |hero| get_team_folder(hero.file.path) }.uniq.each do |team_folder|
         FileUtils.rm_r team_folder
       end
     end

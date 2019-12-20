@@ -27,8 +27,6 @@ RSpec.describe MoveTeamCommand do
       end
     end
 
-    
-
     it 'relocates their files' do
       expect { subject.command %w[justice-league Princess] }.to output(/Princess Koriandr/).to_stdout
 
@@ -87,7 +85,7 @@ RSpec.describe MoveTeamCommand do
     end
 
     it 'relocates all their files' do
-      expect{ MoveTeamCommand.new.command %w[justice-league Princess Grayson] }.to output.to_stdout
+      expect { MoveTeamCommand.new.command %w[justice-league Princess Grayson] }.to output.to_stdout
 
       %w[princess-koriandr dick-grayson].each do |member|
         expect(Dir).to exist File.join(justice_league_folder, "#{member}")
@@ -110,8 +108,6 @@ RSpec.describe MoveTeamCommand do
     after do
       FileUtils.rm_r teen_titans_folder
     end
-
-    
 
     it 'prints a message' do
       expect { subject.command %w[Teen\ Titans Princess] }.to output(/is already in the expected folder/).to_stderr

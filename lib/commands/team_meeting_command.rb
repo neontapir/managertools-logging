@@ -25,7 +25,7 @@ class TeamMeetingCommand
           attendees: members
             .map { |m| m.to_s.to_name }
             .join(', '),
-          team: team
+          team: team,
         )
         employee.file.insert entry
       end

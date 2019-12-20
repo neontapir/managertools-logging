@@ -18,9 +18,9 @@ class PtoEntry < DiaryEntry
   def elements
     [
       DiaryElement.new(:duration, 'Duration', default: '0', prompt: nil),
-      DiaryDateElement.new(:start_time, 'Start date', formatter: -> x { x.short_date }),
-      DiaryDateElement.new(:end_time, 'End date', formatter: -> x { x.short_date }),
-      DiaryElement.new(:reason, 'Reason', default: Settings.pto_default || 'unspecified')
+      DiaryDateElement.new(:start_time, 'Start date', formatter: ->x { x.short_date }),
+      DiaryDateElement.new(:end_time, 'End date', formatter: ->x { x.short_date }),
+      DiaryElement.new(:reason, 'Reason', default: Settings.pto_default || 'unspecified'),
     ]
   end
 
@@ -36,7 +36,7 @@ class PtoEntry < DiaryEntry
   def post_create(data)
     start_time = Chronic.parse(data.fetch(:start_time))
     end_time = Chronic.parse(data.fetch(:end_time))
-    
+
     if end_time < start_time
       data[:start_time], data[:end_time] = data[:end_time], data[:start_time]
       start_time, end_time = end_time, start_time
@@ -45,7 +45,7 @@ class PtoEntry < DiaryEntry
 
     duration = ChronicDuration.output(ONE_DAY + (end_time - start_time))
     data[:duration] = duration || 'unknown'
-    
+
     data
   end
 

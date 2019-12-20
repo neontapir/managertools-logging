@@ -46,7 +46,7 @@ class NewProjectCommand
     print "\n"
   end
 
-   # creates a new log file from a template
+  # creates a new log file from a template
   def create_log_file(npc_parameters, log_file)
     log_file.ensure_exists
     contents = <<~CONTENTS

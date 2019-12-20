@@ -12,7 +12,7 @@ RSpec.describe MtFile do
   end
 
   context 'with a typical instance' do
-    subject(:implementer) do 
+    subject(:implementer) do
       (Class.new do
         include MtFile
 
@@ -21,7 +21,7 @@ RSpec.describe MtFile do
         end
       end).new
     end
-    
+
     mtfileclass_folder = File.join %W[#{Settings.root} mtfile]
 
     before do

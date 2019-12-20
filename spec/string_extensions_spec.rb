@@ -32,19 +32,19 @@ RSpec.describe StringExtensions do
 
     it 'wraps a multiline string' do
       expect('hello world it\'s me'.wrap(5)).to eq("hello\n" \
-      "  world\n" \
-      "  it's\n" \
-      '  me')
-    end  
+                                                "  world\n" \
+                                                "  it's\n" \
+                                                '  me')
+    end
 
     it 'ignores an invalid wrap size' do
       fahrenheit_451_opener = 'It was a pleasure to burn'
       expect(fahrenheit_451_opener.wrap(0)).to eq fahrenheit_451_opener
-      expect(fahrenheit_451_opener.wrap(-2)).to eq fahrenheit_451_opener 
+      expect(fahrenheit_451_opener.wrap(-2)).to eq fahrenheit_451_opener
     end
 
     LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc egestas imperdiet ' \
-      'aliquet. Morbi posuere convallis risus, vitae iaculis felis tincidunt sit amet.'
+    'aliquet. Morbi posuere convallis risus, vitae iaculis felis tincidunt sit amet.'
     it 'wraps a long string of default length' do
       expected = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc egestas\n" \
       "  imperdiet aliquet. Morbi posuere convallis risus, vitae iaculis felis\n" \

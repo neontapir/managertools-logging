@@ -9,18 +9,18 @@ RSpec.describe EmployeeFolder do
     it 'ensure_exists ensures the folder exists' do
       FileUtils.rm_r subject.path if Dir.exist? subject.path
       expect(Dir).not_to exist(subject.path)
-      
+
       subject.ensure_exists
       expect(Dir).to exist(subject.path)
     end
   end
- 
+
   context 'with normal characters' do
     subject(:normal_folder) do
       john = Employee.new(team: 'normal', first: 'John', last: 'Smith')
       EmployeeFolder.new(john)
     end
-    
+
     normal_path = File.join %W[#{Settings.root} normal]
 
     before do
@@ -46,7 +46,7 @@ RSpec.describe EmployeeFolder do
       EmployeeFolder.new(ezel)
     end
 
-    accented_path =  File.join(%W[#{Settings.root} āčċéñťèð])
+    accented_path = File.join(%W[#{Settings.root} āčċéñťèð])
 
     before do
       FileUtils.mkdir_p accented_path
@@ -66,7 +66,7 @@ RSpec.describe EmployeeFolder do
       bad = Employee.new(team: 'bad', first: 'J%hn', last: 'Sm][th')
       EmployeeFolder.new bad
     end
-    
+
     nonalnum_path = File.join %W[#{Settings.root} bad]
 
     before do

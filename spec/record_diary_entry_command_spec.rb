@@ -31,11 +31,11 @@ RSpec.describe RecordDiaryEntryCommand do
         end
         verify_answers_propagated(expected, [tony])
       end
-    end 
+    end
 
-    include_examples 'writing entry', 
+    include_examples 'writing entry',
       :one_on_one, "\nhere\nMet about goals\n\n\n", ["  here\n", "  Met about goals\n", "  none\n"]
-    include_examples 'writing entry', 
+    include_examples 'writing entry',
       :feedback, "\nnegative\nDid a bad thing\n", ["  negative\n", "  Did a bad thing\n"]
     include_examples 'writing entry',
       :goal, "\ntoday\nBe a good citizen\n", ["  Be a good citizen\n"]

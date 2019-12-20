@@ -30,11 +30,11 @@ RSpec.describe DiaryEntry do
     end
 
     it 'populates as expected' do
-      Settings.with_mock_input("\nGood\n") do 
+      Settings.with_mock_input("\nGood\n") do
         data = entry.populate('John Doe')
         expect(data.keys).to contain_exactly :content, :datetime
         expect(data[:content]).to eq 'Good'
-        expect(Time.new(data[:datetime])).to be_within(0.01).of(Time.now) 
+        expect(Time.new(data[:datetime])).to be_within(0.01).of(Time.now)
       end
     end
 

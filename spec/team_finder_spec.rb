@@ -17,14 +17,14 @@ RSpec.describe TeamFinder do
     end
 
     it 'by partial name' do
-      team = finder.find(team_name[0,3])
+      team = finder.find(team_name[0, 3])
       expect(team).to eq expected
     end
   end
 
   context 'with a typical team (Avengers)' do
     avengers_folder = File.join %W[#{Settings.root} avengers]
-    
+
     before :context do
       FileUtils.mkdir_p avengers_folder
     end
@@ -90,7 +90,7 @@ RSpec.describe TeamFinder do
 
     it 'finds a team by unique identifier' do
       [justice_league_id, justice_society_id].each do |name|
-        team = finder.find(name[0,9]) # justice_l or justice_s
+        team = finder.find(name[0, 9]) # justice_l or justice_s
         expect(team.path).to eq name
       end
     end

@@ -19,7 +19,7 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
-unless ARGV.any? {|e| e =~ /guard-rspec/ }
+unless ARGV.any? { |e| e =~ /guard-rspec/ }
   require 'simplecov'
   SimpleCov.start
 end

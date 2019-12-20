@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Lint/HandleExceptions
 begin
   require 'rspec/core/rake_task'
   RSpec::Core::RakeTask.new(:spec)
@@ -9,12 +10,13 @@ end
 begin
   require 'yard'
   YARD::Rake::YardocTask.new(:document) do |t|
-    t.files   = ['lib/**/*.rb']   
+    t.files = ['lib/**/*.rb']
     t.options = ['--exclude', 'spec/']
     t.stats_options = ['--list-undoc']
   end
 rescue LoadError
 end
+# rubocop:enable Lint/HandleExceptions
 
 desc 'Rebuild the overview and team directory documents'
 task :rebuild do

@@ -10,7 +10,7 @@ RSpec.describe Team do
     subject(:avengers) { Team.new(team: 'Avengers') }
     ant_man_folder = File.join %W[#{Settings.root} avengers hank-pym]
     beast_folder = File.join %W[#{Settings.root} avengers hank-mccoy]
-    
+
     before :context do
       [ant_man_folder, beast_folder].each do |folder|
         FileUtils.mkdir_p folder
@@ -25,12 +25,13 @@ RSpec.describe Team do
       expect(avengers).to eq Team.find('avengers')
     end
 
-    it { is_expected.to have_attributes(
+    it {
+      is_expected.to have_attributes(
         path: 'avengers',
         to_s: 'Avengers',
-      ) 
+      )
     }
-    
+
     it 'uses the name as its string representation' do
       expect(avengers.to_s).to eq 'avengers'.path_to_name
     end

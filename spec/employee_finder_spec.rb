@@ -52,8 +52,8 @@ RSpec.describe EmployeeFinder do
       flying_squirrel = { first: 'Kit', last: 'Baxter', team: Settings.candidates_root }
       allow(Settings.console).to receive(:ask) do |prompt|
         case prompt
-          when /First/ then 'Kit'
-          when /Last/ then 'Baxter'
+        when /First/ then 'Kit'
+        when /Last/ then 'Baxter'
         end
       end
       expect(finder.create_spec(:interview, {})).to eq flying_squirrel

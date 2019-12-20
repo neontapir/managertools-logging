@@ -27,7 +27,7 @@ class ProjectFolder
 
   # The canonical name of the folder
   def folder_name
-    project_name = project.project.tr(' ','-').strip_nonalnum
+    project_name = project.project.tr(' ', '-').strip_nonalnum
     project_name.unidowncase
   end
 

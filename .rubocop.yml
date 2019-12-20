@@ -5,6 +5,8 @@ AllCops:
   Exclude:
     - 'test'
     - 'spec/**/*'
+Layout/MultilineMethodCallIndentation:
+   EnforcedStyle: indented
 Layout/SpaceInLambdaLiteral:
    Enabled: false
 Lint/AmbiguousOperator:
@@ -23,4 +25,8 @@ Style/SignalException:
 Style/SymbolArray:
   Enabled: false
 Style/StabbyLambdaParentheses:
+  Enabled: false
+Style/TrailingCommaInArrayLiteral:
+  Enabled: false
+Style/TrailingCommaInArguments:
   Enabled: false

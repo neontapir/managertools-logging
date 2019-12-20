@@ -18,7 +18,7 @@ class FeedbackEntry < DiaryEntry
     result = [
       DiaryDateElement.new(:datetime, 'Effective date'),
       DiaryElement.new(:polarity, 'Polarity', default: Settings.feedback_polarity_default || 'positive'),
-      DiaryElement.new(:content)
+      DiaryElement.new(:content),
     ]
 
     with_applies_to(result)

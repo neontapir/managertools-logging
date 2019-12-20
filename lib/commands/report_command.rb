@@ -23,7 +23,7 @@ class ReportCommand
     output = generate_report_for employee
     command_line = [OSAdapter.open_command, output].join(' ')
     return if no_launch
-    
+
     raise ArgumentError, "Report launch failed with '#{command_line}'" unless system(command_line)
   end
 
@@ -43,8 +43,7 @@ class ReportCommand
     output = "report-#{employee_name}.html"
     File.delete output if File.exist? output
 
-    raise StandardError, 'Report launch failed' \
-      unless system('asciidoctor', "-o#{output}", report_source)
+    raise StandardError, 'Report launch failed' unless system('asciidoctor', "-o#{output}", report_source)
 
     output
   end

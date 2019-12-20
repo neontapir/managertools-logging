@@ -33,7 +33,7 @@ class ReportTeamCommand
     generate_report(team, report_source, output)
     command_line = [OSAdapter.open_command, output].join(' ')
     return if no_launch
-    
+
     raise SystemCallError, "Report launch failed with '#{command_line}'" unless system(command_line)
   end
 
@@ -51,7 +51,6 @@ class ReportTeamCommand
       append_file(report_source, "include::#{tm}/#{Settings.overview_filename}[]\n\n#{HORIZONTAL_RULE}\n\n")
     end
 
-    raise SystemCallError, 'Asciidoctor launch failed' \
-      unless system('asciidoctor', "-o#{output}", report_source)
+    raise SystemCallError, 'Asciidoctor launch failed' unless system('asciidoctor', "-o#{output}", report_source)
   end
 end

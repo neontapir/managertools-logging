@@ -39,7 +39,7 @@ class RecordDiaryEntryCommand
         members.join(','),
         applies_to: members
           .map { |m| m.to_s.to_name }
-          .join(', ')
+          .join(', '),
       )
       employee.file.insert entry
     end

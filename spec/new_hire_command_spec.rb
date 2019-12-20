@@ -36,7 +36,7 @@ RSpec.describe NewHireCommand do
 
   context 'force overwrites team member' do
     teen_titans_folder = File.join %W[#{Settings.root} teen-titans]
-    
+
     before :context do
       FileUtils.mkdir_p teen_titans_folder
     end
@@ -45,7 +45,6 @@ RSpec.describe NewHireCommand do
       FileUtils.rm_r teen_titans_folder
     end
 
-    
     let(:robin) { Employee.find('Grayson') }
     let(:robin_folder) { File.join(teen_titans_folder, 'dick-grayson') }
 

@@ -6,15 +6,15 @@ Dir.glob('./lib/entries/*_entry.rb', &method(:require))
 RSpec.describe Diary do
   context 'with template' do
     subject(:diary_templated) do (Class.new do
-        include Diary
-        def template?
-          true # non-interactive mode
-        end
-      end).new
-    end
+      include Diary
+
+      def template?
+        true # non-interactive mode
+      end
+    end).new     end
 
     iron_man_folder = File.join %W[#{Settings.root} avengers tony-stark]
-    
+
     before :context do
       FileUtils.mkdir_p iron_man_folder
     end
@@ -33,8 +33,9 @@ RSpec.describe Diary do
 
   context 'with interaction', order: :defined do
     subject(:diary) do
-        (Class.new do
+      (Class.new do
         include Diary
+
         def template?
           false # interactive mode
         end
@@ -53,7 +54,7 @@ RSpec.describe Diary do
         [
           DiaryElement.new(:xyzzy),
           DiaryElement.new(:wumpus, 'Wumpus', default: 'I feel a draft'),
-          DiaryElement.new(:zork, 'Zork', default: 'plover', prompt: nil)
+          DiaryElement.new(:zork, 'Zork', default: 'plover', prompt: nil),
         ]
       end
 
@@ -99,7 +100,7 @@ RSpec.describe Diary do
 
     it 'uses default values when getting an entry' do
       expect($stdout).to receive(:puts)
-      allow(Settings.console).to receive(:ask) {}
+      allow(Settings.console).to receive(:ask) { }
       entry = diary.get_entry 'Test', 'Tony Stark'
       expect(entry.record).to include(wumpus: 'I feel a draft')
     end
@@ -144,9 +145,10 @@ RSpec.describe Diary do
   context 'with diary entries that disable prompting', order: :defined do
     iron_man_folder = File.join %W[#{Settings.root} avengers tony-stark]
 
-    subject(:diary_no_prompt) do 
-        (Class.new do
+    subject(:diary_no_prompt) do
+      (Class.new do
         include Diary
+
         def template?
           false # interactive mode
         end
@@ -162,7 +164,7 @@ RSpec.describe Diary do
       def elements
         [
           DiaryElement.new(:xyzzy, 'Xyzzy', default: 'adventure', prompt: nil),
-          DiaryDateElement.new(:adventure_time, 'Adventure Time', default: Time.local(2000), prompt: nil)
+          DiaryDateElement.new(:adventure_time, 'Adventure Time', default: Time.local(2000), prompt: nil),
         ]
       end
 

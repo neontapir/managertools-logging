@@ -16,7 +16,7 @@ class PerformanceCheckpointEntry < DiaryEntry
   def elements
     [
       DiaryDateElement.new(:datetime, 'Effective date'),
-      DiaryElement.new(:content)
+      DiaryElement.new(:content),
     ]
   end
 

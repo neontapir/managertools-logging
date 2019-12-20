@@ -20,7 +20,7 @@ class InterviewEntry < DiaryEntry
       DiaryElement.new(:position, 'Position', default: 'SE1'),
       DiaryElement.new(:other_panel_members, 'Other panel members', default: 'solo'),
       DiaryElement.new(:notes, 'Notes'),
-      DiaryElement.new(:recommendation, 'Recommendation')
+      DiaryElement.new(:recommendation, 'Recommendation'),
     ]
   end
 

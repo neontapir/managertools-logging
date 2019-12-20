@@ -24,6 +24,7 @@ module StringExtensions
     def unidowncase
       Unicode.downcase self
     end
+
     # rubocop: enable Style/AsciiComments
 
     # wrap(input, width = 78)
@@ -31,7 +32,7 @@ module StringExtensions
     #   @param [String] input the string to wrap
     #   @param [Integer] width the maximum number of characters in a line
     def wrap(width = 78)
-      gsub(/(.{1,#{width - WRAP_INDENT.length}})(\s+|\Z)/, "\\1\n#{WRAP_INDENT}") \
+      gsub(/(.{1,#{width - WRAP_INDENT.length}})(\s+|\Z)/, "\\1\n#{WRAP_INDENT}")
         .chomp(WRAP_INDENT)
         .chomp
     end

@@ -19,7 +19,7 @@ class DiaryDateElement
     @key = key
     @label = label
     @default = options.fetch(:default, Time.now)
-    @formatter = options.fetch(:formatter, -> (x) { x.to_s })
+    @formatter = options.fetch(:formatter, ->(x) { x.to_s })
     @prompt = options.fetch(:prompt, label)
   end
 

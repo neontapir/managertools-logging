@@ -10,7 +10,7 @@ RSpec.describe InterviewCommand do
   include FileContentsValidationHelper
 
   def non_default_values(input)
-    input.reject{ |i| i == "\n" }.map{ |i| "  #{i}" }
+    input.reject { |i| i == "\n" }.map { |i| "  #{i}" }
   end
 
   context 'with a known person' do
@@ -41,7 +41,7 @@ RSpec.describe InterviewCommand do
 
     before do
       Settings.with_mock_input input do
-        expect{ subject.command ['nick', 'fury'] }.to output.to_stdout
+        expect { subject.command ['nick', 'fury'] }.to output.to_stdout
       end
     end
 
