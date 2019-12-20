@@ -7,11 +7,13 @@ require_relative '../settings'
 
 # Tempate used for team meetings, propagated to all team members' files
 class TeamMeetingEntry < DiaryEntry
+  # generates the interactive prompt string
   def prompt(team)
     personalized = team[','] ? '' : team
     "For your #{personalized} team meeting, enter the following:"
   end
 
+  # define the items included in the entry
   def elements
     [
       DiaryDateElement.new(:datetime, 'Effective date'),
@@ -28,6 +30,7 @@ class TeamMeetingEntry < DiaryEntry
     [:datetime, :team]
   end
 
+  # render the entry into a string suitable for file insertion
   def to_s
     render('Team Meeting')
   end

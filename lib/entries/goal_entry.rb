@@ -9,11 +9,13 @@ require_relative '../time_extensions'
 class GoalEntry < DiaryEntry
   using TimeExtensions
 
+  # generates the interactive prompt string
   def prompt(name)
     personalized = name[','] ? '' : " for #{name}"
     "To record the goal#{personalized}, enter the following:"
   end
 
+  # define the items included in the entry
   def elements
     result = [
       DiaryDateElement.new(:datetime, 'Effective date'),
@@ -24,6 +26,7 @@ class GoalEntry < DiaryEntry
     with_applies_to(result)
   end
 
+  # render the entry into a string suitable for file insertion
   def to_s
     render 'Development Goal'
   end

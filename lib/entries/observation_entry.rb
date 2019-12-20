@@ -6,11 +6,13 @@ require_relative 'diary_entry'
 
 # Template for an observation
 class ObservationEntry < DiaryEntry
+  # generates the interactive prompt string
   def prompt(name)
     personalized = name[','] ? '' : " for #{name}"
     "Enter your observation#{personalized}:"
   end
 
+  # define the items included in the entry
   def elements
     result = [
       DiaryDateElement.new(:datetime, 'Effective date'),
@@ -19,6 +21,7 @@ class ObservationEntry < DiaryEntry
     with_applies_to(result)
   end
 
+  # render the entry into a string suitable for file insertion
   def to_s
     render 'Observation'
   end

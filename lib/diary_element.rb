@@ -40,6 +40,7 @@ class DiaryElement
     end
   end
 
+  # Print a detailed view of a diary element for debugging
   def inspect
     "<DiaryElement:#{object_id} with key: '#{key}', label: '#{label}', default: '#{default}', prompt: '#{prompt}'>"
   end

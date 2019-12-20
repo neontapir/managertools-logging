@@ -145,14 +145,17 @@ module ManagerTools
 
     private
 
+    # the project's root file should be the parent of the current folder
     def project_root
       File.expand_path("#{__dir__}/..")
     end
 
+    # used for friendly error messages, so entire stack trace is not displat\yed
     def error_call_site(error)
       error.backtrace.first.gsub(project_root, '.')
     end
 
+    # wrap the call with interrupt handling, for consistent error display
     def do_with_interrupt_handling
       yield if block_given?
     rescue StandardError => e
@@ -166,18 +169,20 @@ module ManagerTools
       Kernel.exit(1)
     end
 
+    # convert a symbol into a command class
     def parameter_to_command_class(parameter)
-      # command_class_name = parameter.to_s.tr('_', ' ').titlecase.tr(' ', '')
       command_class_name = parameter.to_s.path_to_name.tr(' ', '')
       Kernel.const_get("#{command_class_name}Command")
     end
 
+    # run the given subcommand
     def execute_subcommand(subcommand_name, arguments, options)
       subcommand_class = parameter_to_command_class(subcommand_name)
       subcommand = subcommand_class.new
       do_with_interrupt_handling { subcommand.command(arguments, options) }
     end
 
+    # the default action, write a template to the person's file
     def record_diary_entry(subcommand, arguments, options)
       diary = RecordDiaryEntryCommand.new
       do_with_interrupt_handling { diary.command(subcommand.to_sym, arguments, options) }

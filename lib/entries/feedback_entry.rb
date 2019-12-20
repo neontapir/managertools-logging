@@ -7,11 +7,13 @@ require_relative '../settings'
 
 # Template for documenting feedback given
 class FeedbackEntry < DiaryEntry
+  # generates the interactive prompt string
   def prompt(name)
     personalized = name[','] ? '' : " to #{name}"
     "To give feedback#{personalized}, enter the following:"
   end
 
+  # define the items included in the entry
   def elements
     result = [
       DiaryDateElement.new(:datetime, 'Effective date'),
@@ -22,6 +24,7 @@ class FeedbackEntry < DiaryEntry
     with_applies_to(result)
   end
 
+  # render the entry into a string suitable for file insertion
   def to_s
     render 'Feedback'
   end

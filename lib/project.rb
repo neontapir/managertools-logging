@@ -19,6 +19,7 @@ class Project
     @project = params.fetch(:project).to_path
   end
 
+  # the path to the project's files
   def path
     project
   end

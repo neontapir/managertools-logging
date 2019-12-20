@@ -7,10 +7,12 @@ require_relative '../settings'
 
 # Template for a phone screening interview
 class InterviewEntry < DiaryEntry
+  # generates the interactive prompt string
   def prompt(name)
     "For your interview with #{name}, enter the following:"
   end
 
+  # define the items included in the entry
   def elements
     [
       DiaryDateElement.new(:datetime, 'Effective date'),
@@ -22,6 +24,7 @@ class InterviewEntry < DiaryEntry
     ]
   end
 
+  # render the entry into a string suitable for file insertion
   def to_s
     render 'Interview'
   end

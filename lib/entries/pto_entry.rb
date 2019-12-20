@@ -14,6 +14,7 @@ class PtoEntry < DiaryEntry
   using StringExtensions
   using TimeExtensions
 
+  # define the items included in the entry
   def elements
     [
       DiaryElement.new(:duration, 'Duration', default: '0', prompt: nil),
@@ -23,6 +24,7 @@ class PtoEntry < DiaryEntry
     ]
   end
 
+  # generates the interactive prompt string
   def prompt(name)
     "To record paid time off for #{name}, enter the following:"
   end
@@ -47,6 +49,7 @@ class PtoEntry < DiaryEntry
     data
   end
 
+  # render the entry into a string suitable for file insertion
   def to_s
     render 'Paid time off'
   end

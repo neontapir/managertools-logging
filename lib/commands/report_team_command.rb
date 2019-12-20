@@ -39,6 +39,7 @@ class ReportTeamCommand
 
   private
 
+  # Generates an HTML report of a team by concatenating its members' reports
   def generate_report(team, report_source, output)
     [report_source, output].each do |file|
       File.delete file if File.exist? file

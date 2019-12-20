@@ -10,8 +10,7 @@ require_relative 'new_hire_command'
 class GenerateOverviewFilesCommand
   using PathStringExtensions
 
-  # @!method command(arguments, options)
-  #   Generate the files needed to create a team overview
+  # Generate the files needed to create a team overview
   def command(_, options = nil)
     force = (options&.force == true)
 
@@ -27,9 +26,9 @@ class GenerateOverviewFilesCommand
 
   private
 
+  # Get the new hire command arguments
   def get_nhc_args(folder)
     employee = Employee.find folder
-    nhc_args = [employee.team, employee.first, employee.last]
-    nhc_args
+    [employee.team, employee.first, employee.last]
   end
 end

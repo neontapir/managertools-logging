@@ -17,13 +17,14 @@ class MoveTeamCommand
     args = Array(arguments).flatten
     target_team_spec = args.shift
     args.each do |employee_spec|
-      process(target_team_spec, employee_spec)
+      move_team(target_team_spec, employee_spec)
     end
   end
 
   private
 
-  def process(target_team_spec, employee_spec)
+  # Checks preconditions for move, then executes the move
+  def move_team(target_team_spec, employee_spec)
     employee = Employee.find employee_spec
     raise EmployeeNotFoundError, "No employee matching '#{employee_spec}' found, aborting" unless employee
 
@@ -37,11 +38,13 @@ class MoveTeamCommand
     end
   end
 
+  # Moves the employee's files to the target team's folder
   def move(target_team, employee)
     update_overview_file(target_team, employee)
     move_folder(target_team, employee)
   end
 
+  # Move the employee's files
   def move_folder(target_team, employee)
     puts "Moving #{employee} to team #{target_team}"
     move_entry = ObservationEntry.new(content: "Moving #{employee} to team #{target_team}")
@@ -51,6 +54,7 @@ class MoveTeamCommand
     FileUtils.move(current_folder, target_team_path(target_team, employee))
   end
 
+  # Add the new team to the person's overview file
   def update_overview_file(target_team, employee)
     overview = employee.overview_location
     raise unless File.exist?(overview)
@@ -77,6 +81,7 @@ class MoveTeamCommand
     end
   end
 
+  # Build the destination path for the move
   def target_team_path(target_team, employee)
     File.join(Settings.root, target_team.path, employee.canonical_name)
   end

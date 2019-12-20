@@ -15,6 +15,7 @@ module ManagerTools
       @kernel = kernel
     end
 
+    # run the console application, delegating the work to the CLI class
     def execute! # rubocop:disable Metrics/MethodLength
       exit_code = begin
                     # Thor accesses these streams directly rather than letting them be injected, so we replace them...

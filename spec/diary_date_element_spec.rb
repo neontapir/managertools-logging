@@ -7,6 +7,7 @@ require_relative 'diary_element_test_helper'
 RSpec.describe DiaryDateElement do
   include DiaryElementTestHelper
 
+  # validates dates
   def verify_date_correct(request, expected)
     allow(Settings.console).to receive(:ask) { request }
     element = DiaryDateElement.new(:datetime)

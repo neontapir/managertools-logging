@@ -20,6 +20,7 @@ class RecordDiaryEntryCommand
 
   private
 
+  # takes a list of employee specs and converts it into employee objects
   def to_employees(arguments)
     arguments.map do |person|
       employee = Employee.find(person)
@@ -29,6 +30,7 @@ class RecordDiaryEntryCommand
     end
   end
 
+  # logs a message to each employee's file
   def log_message(members, entry_type)
     entry = nil
     members.each do |employee|
