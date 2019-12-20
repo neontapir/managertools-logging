@@ -32,9 +32,7 @@ class EmployeeFolder
 
   # The canonical name of the folder
   def folder_name
-    first_name = employee.first.strip_nonalnum
-    last_name = employee.last.strip_nonalnum
-    "#{first_name}-#{last_name}".unidowncase
+    employee.canonical_name
   end
 
   # The path to the file, relative to the parent folder of the root
