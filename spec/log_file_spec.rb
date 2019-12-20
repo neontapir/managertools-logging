@@ -175,40 +175,41 @@ RSpec.describe LogFile do
     it 'calculates the insertion position correctly' do
       before, after = captain_america_file.divide_file(new_entry)
       expect(before).to eq ["\n", "=== Background Info\n"]
-      after_expected = [
-        "\n",
-        "=== Observation (February  3, 2001,  4:05 AM)\n",
-        "Content::\n",
-        "  Observation A\n",
-        "\n",
-        "=== Observation (February  4, 2001,  5:06 AM)\n",
-        "Content::\n",
-        "  Observation B\n",
-      ]
-      expect(after).to eq after_expected
+      after_expected = <<~EXPECTED
+
+        === Observation (February  3, 2001,  4:05 AM)
+        Content::
+          Observation A
+        
+        === Observation (February  4, 2001,  5:06 AM)
+        Content::
+          Observation B
+
+      EXPECTED
+      expect(after.map(&:chomp)).to eq after_expected.split("\n")
     end
 
     it 'inserts the new entry after the undated entries and before the earliest dated entry' do
       captain_america_file.make_backup
       before, after = captain_america_file.divide_file(new_entry)
       captain_america_file.write_entry_to(before, new_entry, after)
-      expected = [
-        "\n",
-        "=== Background Info\n",
-        "\n",
-        "=== Observation (January  1, 1999, 12:00 AM)\n",
-        "Content::\n",
-        "  Observation C\n",
-        "\n",
-        "=== Observation (February  3, 2001,  4:05 AM)\n",
-        "Content::\n",
-        "  Observation A\n",
-        "\n",
-        "=== Observation (February  4, 2001,  5:06 AM)\n",
-        "Content::\n",
-        "  Observation B\n",
-      ]
-      expect(File.readlines(captain_america_file.path)).to eq expected
+      expected = <<~EXPECTED
+        
+        === Background Info
+        
+        === Observation (January  1, 1999, 12:00 AM)
+        Content::
+          Observation C
+        
+        === Observation (February  3, 2001,  4:05 AM)
+        Content::
+          Observation A
+        
+        === Observation (February  4, 2001,  5:06 AM)
+        Content::
+          Observation B
+      EXPECTED
+      expect(File.readlines(captain_america_file.path).map(&:chomp)).to eq expected.split("\n")
       FileUtils.move(captain_america_file.backup, captain_america_file.path)
     end
   end
@@ -246,21 +247,21 @@ RSpec.describe LogFile do
       black_widow_file.make_backup
       before, after = black_widow_file.divide_file(new_entry)
       black_widow_file.write_entry_to(before, new_entry, after)
-      expected = [
-        "\n",
-        "=== Observation (February  3, 2001,  4:05 AM)\n",
-        "Content::\n",
-        "  Observation A\n",
-        "\n",
-        "=== Observation (February  4, 2001, 12:00 AM)\n",
-        "Content::\n",
-        "  Observation C\n",
-        "\n",
-        "=== Observation (February  4, 2001,  5:06 AM)\n",
-        "Content::\n",
-        "  Observation B\n",
-      ]
-      expect(File.readlines(black_widow_file.path)).to eq expected
+      expected = <<~EXPECTED
+        
+        === Observation (February  3, 2001,  4:05 AM)
+        Content::
+          Observation A
+        
+        === Observation (February  4, 2001, 12:00 AM)
+        Content::
+          Observation C
+        
+        === Observation (February  4, 2001,  5:06 AM)
+        Content::
+          Observation B
+      EXPECTED
+      expect(File.readlines(black_widow_file.path).map(&:chomp)).to eq expected.split("\n")
       FileUtils.move(black_widow_file.backup, black_widow_file.path)
     end
   end
@@ -297,21 +298,21 @@ RSpec.describe LogFile do
       wasp_file.make_backup
       before, after = wasp_file.divide_file(new_entry)
       wasp_file.write_entry_to(before, new_entry, after)
-      expected = [
-        "\n",
-        "=== Observation (February  3, 2001,  4:05 AM)\n",
-        "Content::\n",
-        "  Observation A\n",
-        "\n",
-        "=== Observation (February  4, 2001,  5:06 AM)\n",
-        "Content::\n",
-        "  Observation B\n",
-        "\n",
-        "=== Observation (January  1, 2018, 12:00 AM)\n",
-        "Content::\n",
-        "  Observation C\n",
-      ]
-      expect(File.readlines(wasp_file.path)).to eq expected
+      expected = <<~EXPECTED
+        
+        === Observation (February  3, 2001,  4:05 AM)
+        Content::
+          Observation A
+        
+        === Observation (February  4, 2001,  5:06 AM)
+        Content::
+          Observation B
+        
+        === Observation (January  1, 2018, 12:00 AM)
+        Content::
+          Observation C
+      EXPECTED
+      expect(File.readlines(wasp_file.path).map(&:chomp)).to eq expected.split("\n")
       FileUtils.move(wasp_file.backup, wasp_file.path)
     end
   end
