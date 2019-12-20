@@ -63,5 +63,9 @@ RSpec.describe StringExtensions do
     it 'capitalizes the right letters' do
       expect('goodwin mcdonald'.to_name).to eq 'Goodwin McDonald'
     end
+
+    it 'handles suffixes' do
+      expect('david curry-johnson iii'.to_name).to eq 'David Curry-Johnson III'
+    end
   end
 end

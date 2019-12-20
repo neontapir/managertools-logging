@@ -74,7 +74,8 @@ class Employee
   # The name used in folder creation
   # @return [String] the folder name
   def canonical_name
-    "#{first}-#{last}".unidowncase
+    first_name, last_name = [first, last].map{ |n| n.tr(' ','-').strip_nonalnum }
+    "#{first_name}-#{last_name}".unidowncase
   end
 
   # The display name, in title case
