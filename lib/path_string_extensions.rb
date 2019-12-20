@@ -35,8 +35,12 @@ module PathStringExtensions
     end
 
     # Convert a path string to a title-cased name
+    # Name case is needed for proper names
+    # Titlecase is needed because name case doesn't handle prepositions,
+    #   which are sometimes found in team names
     def path_to_name
-      tr('-', ' ').titlecase
+      # tr('-', ' ').titlecase
+      NameCase(tr('-', ' ').upcase).titlecase
     end
   end
 end

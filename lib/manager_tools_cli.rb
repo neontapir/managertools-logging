@@ -2,12 +2,14 @@
 
 require 'highline'
 require 'thor'
+require_relative 'path_string_extensions'
 require_relative 'settings'
 require_relative 'string_extensions'
 Dir["#{__dir__}/commands/*_command.rb"].each { |f| require_relative(f) }
 
 # Module containing the heart of the program
 module ManagerTools
+  using PathStringExtensions
   using StringExtensions
 
   # Defines the command-line interface
@@ -165,7 +167,8 @@ module ManagerTools
     end
 
     def parameter_to_command_class(parameter)
-      command_class_name = parameter.to_s.tr('_', ' ').titlecase.tr(' ', '')
+      # command_class_name = parameter.to_s.tr('_', ' ').titlecase.tr(' ', '')
+      command_class_name = parameter.to_s.path_to_name.tr(' ', '')
       Kernel.const_get("#{command_class_name}Command")
     end
 

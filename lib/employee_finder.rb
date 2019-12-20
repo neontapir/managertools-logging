@@ -30,9 +30,9 @@ module EmployeeFinder
 
   # Parse a string as though it is part of an employee spec and return the result
   def parse_name(name)
-    words = name.tr('-', ' ').titlecase.strip.split(/\s+/)
+    words = name.path_to_name.strip.split(/\s+/)
     first = words.shift
-    { first: first, last: words.map(&:titlecase).join('-') }
+    { first: first, last: words.join('-') }
   end
 
   # Given a part of employee data, find the first matching employee

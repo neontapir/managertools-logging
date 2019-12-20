@@ -44,7 +44,8 @@ class ReportTeamCommand
       File.delete file if File.exist? file
     end
 
-    append_file(report_source, "= Team #{team.to_s.titlecase}\n\n")
+    # append_file(report_source, "= Team #{team.to_s.titlecase}\n\n")
+    append_file(report_source, "= Team #{team.to_s.to_name}\n\n")
     team.members_by_folder.each do |tm|
       append_file(report_source, "include::#{tm}/#{Settings.overview_filename}[]\n\n#{HORIZONTAL_RULE}\n\n")
     end

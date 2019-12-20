@@ -78,6 +78,24 @@ RSpec.describe EmployeeFinder do
     end
   end
 
+  context 'when parsing an employee folder with a suffix (Winchester)' do
+    winchester_folder = File.join %W[#{Settings.root} mash charles-emerson-winchester-iii]
+
+    before :context do
+      FileUtils.mkdir_p winchester_folder
+    end
+
+    after :context do
+      FileUtils.rm_r File.dirname(winchester_folder)
+    end
+
+    it 'extracts the data correctly' do
+      dir = Dir.new(winchester_folder)
+      winchester = finder.parse_dir(dir)
+      expect(proper?(winchester, 'mash', 'Charles', 'Emerson-Winchester-III')).to be_truthy
+    end
+  end
+
   context 'when parsing an employee folder with a hyphen (Rescue)' do
     rescue_folder = File.join %W[#{Settings.root} avengers pepper-potts-stark]
 
@@ -135,7 +153,7 @@ RSpec.describe EmployeeFinder do
 
     it 'returns the first one by alphabetical order when multiples match' do
       hanks = finder.find('hank')
-      proper?(hanks, 'avengers', 'Hank', 'Mccoy')
+      proper?(hanks, 'avengers', 'Hank', 'McCoy')
     end
 
     it 'finds the expected employee when given a unique key' do
@@ -146,7 +164,7 @@ RSpec.describe EmployeeFinder do
       proper?(ant_man_by_last_name, 'avengers', 'Hank', 'Pym')
 
       beast = finder.find('hank-m')
-      proper?(beast, 'avengers', 'Hank', 'Mccoy')
+      proper?(beast, 'avengers', 'Hank', 'McCoy')
     end
   end
 end
