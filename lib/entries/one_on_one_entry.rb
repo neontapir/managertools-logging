@@ -16,7 +16,7 @@ class OneOnOneEntry < DiaryEntry
   def elements
     [
       DiaryDateElement.new(:datetime, 'Effective date'),
-      DiaryElement.new(:location, 'Location', default: Settings.location_default || 'unspecified'),
+      DiaryElement.new(:location, 'Location', default: Settings.meeting_location_default || 'unspecified'),
       DiaryElement.new(:notes),
       DiaryElement.new(:actions)
     ]

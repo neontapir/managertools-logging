@@ -54,7 +54,7 @@ class Settings < Settingslogic
           project_root: projects
           editor: atom
           feedback_polarity_default: positive
-          location_default: alcove
+          meeting_location_default: alcove
           log_filename: log.adoc
           overview_filename: overview.adoc
           pto_default: vacation
