@@ -3,6 +3,17 @@
 begin
   require 'rspec/core/rake_task'
   RSpec::Core::RakeTask.new(:spec)
+rescue LoadError
+end
+
+begin
+  require 'yard'
+  YARD::Rake::YardocTask.new(:document) do |t|
+    t.files   = ['lib/**/*.rb']   
+    t.options = ['--exclude', 'spec/']
+    t.stats_options = ['--list-undoc']
+  end
+rescue LoadError
 end
 
 desc 'Rebuild the overview and team directory documents'
@@ -10,12 +21,6 @@ task :rebuild do
   system *%w[rm -f */*/*/overview.adoc] || exit!(1)
   system *%w[./mt generate-overview-files] || exit!(1)
   task(:build).invoke
-end
-
-desc 'Build the YARD documentation'
-task :document do
-  system 'yardoc' || exit!(1)
-  puts 'YARD build successful, try `open doc/index.html` to view'
 end
 
 desc 'Run flay against the solution to detect code duplication'
