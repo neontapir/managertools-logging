@@ -101,17 +101,17 @@ RSpec.describe LogFile do
     end
 
     it 'appends multiple observations correctly' do
-      expected = [
-        "\n",
-        "=== Observation (February  3, 2001,  4:05 AM)\n",
-        "Content::\n",
-        "  Observation A\n",
-        "\n",
-        "=== Observation (February  4, 2001,  5:06 AM)\n",
-        "Content::\n",
-        "  Observation B\n",
-      ]
-      expect(File.readlines(iron_man_file.path)).to eq expected
+      expected = <<~EXPECTED
+        
+        === Observation (February  3, 2001,  4:05 AM)
+        Content::
+          Observation A
+        
+        === Observation (February  4, 2001,  5:06 AM)
+        Content::
+          Observation B
+      EXPECTED
+      expect(File.readlines(iron_man_file.path).map(&:chomp)).to eq expected.split("\n")
     end
 
     it 'gets lines containing a date correctly' do
