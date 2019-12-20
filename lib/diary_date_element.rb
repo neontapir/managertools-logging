@@ -9,7 +9,7 @@ require_relative 'settings'
 class DiaryDateElement
   attr_reader :key, :label, :default, :prompt, :formatter
 
-  # @!method initialize(key, label = key.to_s.capitalize, formatter = ->(x) { x.to_s })
+  # initialize(key, label = key.to_s.capitalize, formatter = ->(x) { x.to_s })
   #   Create a new diary element
   #   @raise [ArgumentError] when label contains characters not allowed in Asciidoc definition lists
   def initialize(key, label = key.to_s.capitalize, options = {})
@@ -23,7 +23,7 @@ class DiaryDateElement
     @prompt = options.fetch(:prompt, label)
   end
 
-  # @!method obtain()
+  # obtain()
   #   Display the label, and get the element's value from the user
   def obtain
     return default unless prompt

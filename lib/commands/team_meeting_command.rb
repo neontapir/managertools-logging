@@ -9,7 +9,7 @@ class TeamMeetingCommand
   include Diary
   using StringExtensions
 
-  # @!method command(arguments, options)
+  # command(arguments, options)
   #   Create an entry in each team member's file
   def command(arguments, _ = nil)
     entry = nil

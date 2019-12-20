@@ -6,23 +6,30 @@ require 'settingslogic'
 # Application-wide settings
 class Settings < Settingslogic
   class << self
+    # the top folder for content
+    # @note hard-coded so application can bootstrap itself
     def root
       'data'
     end
 
+    # the location of the configuration file
     def config_file
       File.join(root, 'config.yml')
     end
 
+    # provides an interview for console interaction
     def console
       @console ||= set_console
       @console
     end
 
+    # set up a new HighLine input and output stream
     def set_console(input = $stdin, output = $stdout)
       @console = HighLine.new(input, output)
     end
 
+    # allows stubbing of user input, including just hitting return
+    #   to accept defaults
     # HACK: regular RSpec mocking with allow() works in cases where
     #   input is needed, but doesn't when hitting return is desired.
     #   This is needed to test defaults. Figure out how to mock 
@@ -36,6 +43,7 @@ class Settings < Settingslogic
       @console = HighLine.new($stdin, $stdout)
     end
 
+    # a template for the default configuration
     def default_config
       <<~CONFIG
         defaults: &defaults
@@ -47,6 +55,7 @@ class Settings < Settingslogic
           editor: atom
           feedback_polarity_default: positive
           location_default: alcove
+          log_filename: log.adoc
           overview_filename: overview.adoc
           pto_default: vacation
           voip_meeting_default: Zoom

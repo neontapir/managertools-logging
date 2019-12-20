@@ -12,14 +12,14 @@ class DiaryEntry
   using StringExtensions
   using TimeExtensions
 
-  # @!method initialize(**record)
+  # initialize(**record)
   #   Create a new diary entry
   def initialize(**record)
     record[:datetime] = Time.now.to_s unless record.key? :datetime
     @record = record
   end
 
-  # @!method get(name)
+  # get(name)
   #   Get the Ruby type of entry base on its name
   #   @param [String] name the name of the entry class
   #   @return [Class] the class referred to by the name
@@ -28,7 +28,7 @@ class DiaryEntry
     Kernel.const_get "#{entry_type_name}Entry"
   end
 
-  # @!method render(title, entry_type = self.class)
+  # render(title, entry_type = self.class)
   #   Render the diary entry
   #   @param [String] title the header of the entry
   #   @param [Class] entry_type the Ruby class of the entry type

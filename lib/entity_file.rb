@@ -11,7 +11,7 @@ class EntityFile
   include MtFile
   attr_reader :folder, :filename
 
-  # @!method initialize(folder, filename)
+  # initialize(folder, filename)
   #   @param [String] folder The folder containing the file
   #   @param [String] filename The name of the file
   #   @raise [ArgumentError] when folder or file are empty
@@ -24,7 +24,7 @@ class EntityFile
     @filename = filename
   end
 
-  # @!method path
+  # path
   #   The file system path to this EntityFile
   def path
     File.join(folder.path, filename)

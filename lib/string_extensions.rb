@@ -26,7 +26,7 @@ module StringExtensions
     end
     # rubocop: enable Style/AsciiComments
 
-    # @!method wrap(input, width = 78)
+    # wrap(input, width = 78)
     #   Wrap input text on word boundaries, indenting all lines by INDENT
     #   @param [String] input the string to wrap
     #   @param [Integer] width the maximum number of characters in a line
@@ -36,7 +36,7 @@ module StringExtensions
         .chomp
     end
 
-    # @!method to_name(input)
+    # to_name(input)
     #   Put string in proper name casing
     #   @param [String] input the string to transform
     def to_name

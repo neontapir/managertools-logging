@@ -85,6 +85,7 @@ class LogFile
 
   private
 
+  # put the new entry date in the list of known dates for later sorting
   def inject_new_entry_date(timestamps, new_date)
     dates = timestamps << new_date
     dates.sort!

@@ -12,7 +12,7 @@ require_relative 'new_hire_command'
 class InterviewCommand
   include Diary
 
-  # @!method command(arguments, options)
+  # command(arguments, options)
   #   Record a new diary entry in the person's file
   def command(arguments, options = nil)
     raise 'missing person name argument' unless arguments.first

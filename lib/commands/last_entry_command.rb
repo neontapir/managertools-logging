@@ -9,7 +9,7 @@ require_relative '../settings'
 class LastEntryCommand
   include EmployeeFinder
 
-  # @!method command(arguments, options)
+  # command(arguments, options)
   #   Print the latest entry in the file
   #   @raise [EmployeeNotFoundError]
   def command(arguments, _ = nil)

@@ -13,7 +13,7 @@ require_relative '../project'
 class NewProjectCommand
   include FileWriter
 
-  # @!method command(arguments, options)
+  # command(arguments, options)
   #   Create new overview and load files for a person
   def command(arguments, options = nil)
     force = (options&.force == true)
@@ -33,6 +33,7 @@ class NewProjectCommand
 
   private
 
+  # creates a new log file
   def generate_log_file(npc_parameters)
     content_file = EntityFile.new(npc_parameters.folder, 'log.adoc')
     print "\nReviewing #{content_file}... "
@@ -44,6 +45,7 @@ class NewProjectCommand
     print "\n"
   end
 
+   # creates a new log file from a template
   def create_log_file(npc_parameters, log_file)
     log_file.ensure_exists
     contents = <<~CONTENTS

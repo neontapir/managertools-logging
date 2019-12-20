@@ -5,7 +5,7 @@ require_relative '../settings'
 
 # Create default config file
 class InitCommand
-  # @!method command(arguments, options)
+  # command(arguments, options)
   #   Create a default config file in the configured location
   def command(_ = nil, _ = nil)
     config_file = Settings.config_file

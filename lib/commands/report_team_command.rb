@@ -16,7 +16,7 @@ class ReportTeamCommand
   # A horizontal rule in Asciidoc
   HORIZONTAL_RULE = "'''"
 
-  # @!method command(arguments, options)
+  # command(arguments, options)
   #   Create a report of a team, using each member\'s files
   def command(arguments, options = nil)
     no_launch = (options&.no_launch == true)
@@ -39,6 +39,7 @@ class ReportTeamCommand
 
   private
 
+  # Generates an HTML report of a team by concatenating its members' reports
   def generate_report(team, report_source, output)
     [report_source, output].each do |file|
       File.delete file if File.exist? file

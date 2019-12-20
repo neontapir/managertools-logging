@@ -8,7 +8,7 @@ class OpenFileCommand
   include Diary
   include OSAdapter
 
-  # @!method command(arguments, options)
+  # command(arguments, options)
   #   Open a person's log file in the default editor
   #   @raise [IOError]
   def command(arguments, _ = nil)

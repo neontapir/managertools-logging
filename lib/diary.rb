@@ -6,14 +6,14 @@ Dir["#{__dir__}/entries/*_entry.rb"].each { |f| require_relative(f) }
 
 # Base functionality for all entry types. Extends the diary entry with I/O.
 module Diary
-  # @!method template?
+  # template?
   #   Returns true if a command line option requests a template instead of an interactive session
   #   This is used by the MT top-level script, but not in unit-tested code
   def template?
     @command_opts&.template
   end
 
-  # @!method record_to_file(type, person)
+  # record_to_file(type, person)
   #   Records a diary entry to the person's log file
   #   @param [String] type The name of the template entry type
   #   @param [String] person The name of the person
@@ -23,7 +23,7 @@ module Diary
     employee.file.insert entry
   end
 
-  # @!method get_entry(type, header, initial_record)
+  # get_entry(type, header, initial_record)
   #   Gets a diary entry, whether as a template or as a filled-out entry
   #   @param [String] type The name of the template entry type
   #   @param [String] header The header, often the name of the employee
@@ -41,7 +41,7 @@ module Diary
 
   private
 
-  # @!method create_entry(entry_type, header, initial_record)
+  # create_entry(entry_type, header, initial_record)
   #   Creates a diary entry, getting responses from the user
   #   @param [Class] entry_type The class of the template entry
   #   @param [String] header The entry header

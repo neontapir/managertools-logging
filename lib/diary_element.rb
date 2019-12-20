@@ -17,7 +17,7 @@ class DiaryElement
 
   attr_reader :key, :label, :default, :prompt
 
-  # @!method initialize(key, label = key.to_s.capitalize, options = {})
+  # initialize(key, label = key.to_s.capitalize, options = {})
   #   Create a new diary element
   #   @raise [ArgumentError] when label contains characters not allowed in Asciidoc definition lists
   def initialize(key, label = key.to_s.capitalize, options = {})
@@ -30,7 +30,7 @@ class DiaryElement
     @prompt = options.key?(:prompt) ? options[:prompt] : label
   end
 
-  # @!method obtain()
+  # obtain()
   #   Display the label, and get the element's value from the user
   def obtain
     return default unless prompt
@@ -40,6 +40,7 @@ class DiaryElement
     end
   end
 
+  # Print a detailed view of a diary element for debugging
   def inspect
     "<DiaryElement:#{object_id} with key: '#{key}', label: '#{label}', default: '#{default}', prompt: '#{prompt}'>"
   end

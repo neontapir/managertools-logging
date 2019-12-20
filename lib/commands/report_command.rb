@@ -29,6 +29,7 @@ class ReportCommand
 
   private
 
+  # gemerates a report for an employee
   def generate_report_for(employee)
     _ = EmployeeFolder.new employee
     overview_file = employee.overview_location
@@ -36,6 +37,7 @@ class ReportCommand
     create_report(employee.canonical_name, overview_file, log_file)
   end
 
+  # calls Asciidoctor to convert the report template to HTML
   def create_report(employee_name, overview_file, log_file)
     report_source = create_report_source(employee_name, overview_file, log_file)
     output = "report-#{employee_name}.html"
@@ -47,6 +49,7 @@ class ReportCommand
     output
   end
 
+  # builds a report template for Asciidoctor
   def create_report_source(employee_name, overview_file, log_file)
     report_source = "report-#{employee_name}.adoc"
     File.delete report_source if File.exist? report_source

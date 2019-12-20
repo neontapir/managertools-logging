@@ -19,6 +19,7 @@ class Project
     @project = params.fetch(:project).to_path
   end
 
+  # the path to the project's files
   def path
     project
   end
@@ -31,23 +32,24 @@ class Project
     LogFile.new folder
   end
 
+  # convenience method for splitting a path
   def split_path
     to_s.split_path
   end
 
-  # @!method Represent a Project by its titlecased name
+  # Represent a Project by its titlecased name
   def to_s
     project.path_to_name
   end
 
-  # @!method Projects are equal if the have the same #project value
+  # Projects are equal if the have the same #project value
   def eql?(other)
     return false unless other.respond_to? :project
 
     project.eql? other.project
   end
 
-  # @!method Equality operator overload
+  # Equality operator overload
   def ==(other)
     eql? other
   end

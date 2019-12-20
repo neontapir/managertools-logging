@@ -14,7 +14,7 @@ end
 
 desc 'Build the YARD documentation'
 task :document do
-  system 'yard', 'doc' || exit!(1)
+  system 'yardoc' || exit!(1)
   puts 'YARD build successful, try `open doc/index.html` to view'
 end
 
