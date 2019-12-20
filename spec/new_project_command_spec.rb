@@ -4,10 +4,11 @@ require 'ostruct'
 require 'thor'
 require './lib/employee'
 require './lib/commands/new_project_command'
+require './lib/settings'
 
 RSpec.describe NewProjectCommand do
   context 'existing project' do
-    bloodties_log = File.join %W[#{Settings.root} projects bloodties log.adoc]
+    bloodties_log = File.join %W[#{Settings.root} projects bloodties #{Settings.log_filename}]
 
     before do
       FileUtils.mkdir_p File.dirname(bloodties_log)
@@ -37,7 +38,7 @@ RSpec.describe NewProjectCommand do
 
   context 'force overwrites project' do
     def galactic_storm_log 
-      File.join(%W[#{Settings.root} projects galactic-storm log.adoc])
+      File.join(%W[#{Settings.root} projects galactic-storm #{Settings.log_filename}])
     end
 
     before :context do
@@ -73,14 +74,14 @@ RSpec.describe NewProjectCommand do
     it 'will not recreate an existing project without force' do
       setup_new_project_with_entry
       expect(storm_log_contents).to include 'Defined first epics'
-      expect { subject.command(%w[galactic-storm]) }.to output(/log.adoc... exists/).to_stdout
+      expect { subject.command(%w[galactic-storm]) }.to output(/#{Settings.log_filename}... exists/).to_stdout
       expect(storm_log_contents).to include 'Defined first epics'
     end
 
     it 'forces recreates an existing project' do
       setup_new_project_with_entry
       expect(storm_log_contents).to include 'Defined first epics'
-      expect { subject.command(%w[galactic-storm], OpenStruct.new(force: true)) }.to output(/log.adoc... created/).to_stdout
+      expect { subject.command(%w[galactic-storm], OpenStruct.new(force: true)) }.to output(/#{Settings.log_filename ... created/).to_stdout
       expect(storm_log_contents).not_to include 'Defined first epics'
     end
   end

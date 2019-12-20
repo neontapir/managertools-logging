@@ -8,6 +8,7 @@ require_relative '../file_writer'
 require_relative '../entries/observation_entry'
 require_relative '../project_folder'
 require_relative '../project'
+require_relative '../settings'
 
 # Create a new entry for a person
 class NewProjectCommand
@@ -35,7 +36,7 @@ class NewProjectCommand
 
   # creates a new log file
   def generate_log_file(npc_parameters)
-    content_file = EntityFile.new(npc_parameters.folder, 'log.adoc')
+    content_file = EntityFile.new(npc_parameters.folder, Settings.log_filename)
     print "\nReviewing #{content_file}... "
     if !npc_parameters.force && File.exist?(content_file.path)
       print 'exists'

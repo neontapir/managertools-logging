@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'entity_file'
+require_relative 'settings'
 
 # Plumbing for log files
 class LogFile
@@ -12,7 +13,7 @@ class LogFile
   # @param [EmployeeFolder] folder the containing folder
   def initialize(folder)
     @folder = folder.path
-    @log_file = EntityFile.new folder, 'log.adoc'
+    @log_file = EntityFile.new folder, Settings.log_filename
   end
 
   # Get the file system path to the file

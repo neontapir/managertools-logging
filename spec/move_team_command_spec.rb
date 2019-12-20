@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require './lib/employee'
-require './lib/settings'
 require './lib/commands/move_team_command'
 require './lib/commands/new_hire_command'
+require './lib/settings'
 require_relative 'spec_helper'
 
 RSpec.describe MoveTeamCommand do
@@ -41,7 +41,7 @@ RSpec.describe MoveTeamCommand do
 
       starfire = Employee.find('Princess')
       starfire_log = starfire.file.path
-      expect(starfire_log).to eq File.join(justice_league_folder, starfire_id, 'log.adoc')
+      expect(starfire_log).to eq File.join(justice_league_folder, starfire_id, Settings.log_filename)
       expect(File.read(starfire_log)).to include 'Moving Princess Koriandr to team Justice League'
     end
 

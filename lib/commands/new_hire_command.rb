@@ -7,6 +7,7 @@ require_relative '../employee'
 require_relative '../entity_file'
 require_relative '../file_writer'
 require_relative '../entries/observation_entry'
+require_relative '../settings'
 
 # Create a new entry for a person
 class NewHireCommand
@@ -55,7 +56,7 @@ class NewHireCommand
 
   # creates a new log file
   def generate_log_file_by(nhc_parameters)
-    generate_file_by(nhc_parameters, 'log.adoc') do |content_file|
+    generate_file_by(nhc_parameters, Settings.log_filename) do |content_file|
       create_log_file content_file
     end
   end
@@ -81,11 +82,11 @@ class NewHireCommand
   def create_log_file(log_file)
     log_file.ensure_exists
     contents = <<~CONTENTS
-      === Biographical information
+      #{DiaryEntry::ENTRY_HEADER_MARKER} Biographical information
 
       #{@biography}
 
-      === Employment information
+      #{DiaryEntry::ENTRY_HEADER_MARKER} Employment information
 
       Hire Date: #{@hire_date}
       Grade level: #{@grade_level}

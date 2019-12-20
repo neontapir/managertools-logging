@@ -82,7 +82,7 @@ RSpec.describe Employee do
     it 'gives the correct log file location' do
       file = iron_man.file
       expect(file).not_to be_nil
-      expect(file.path).to eq File.join(iron_man_folder, 'log.adoc')
+      expect(file.path).to eq File.join(iron_man_folder, Settings.log_filename)
     end
 
     it 'gives the employee\'s name' do
@@ -119,7 +119,7 @@ RSpec.describe Employee do
     it 'gives the correct log file location' do
       file = wonder_woman.file
       expect(file).not_to be_nil
-      expect(file.path).to eq File.join(wonder_woman_folder, 'log.adoc')
+      expect(file.path).to eq File.join(wonder_woman_folder, Settings.log_filename)
     end
   end
 
