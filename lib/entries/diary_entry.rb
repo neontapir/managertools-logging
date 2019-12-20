@@ -28,6 +28,9 @@ class DiaryEntry
     Kernel.const_get "#{entry_type_name}Entry"
   end
 
+  # the Asciidoc header marker used by the script
+  ENTRY_HEADER_MARKER = '==='
+
   # render(title, entry_type = self.class)
   #   Render the diary entry
   #   @param [String] title the header of the entry
@@ -41,7 +44,7 @@ class DiaryEntry
     raise ArgumentError, "#{entry_type}#elements must return an enumerable" unless elements.is_a?(Enumerable)
     raise ArgumentError, "record[:datetime] must be a Time, not a #{date.class}" unless date.is_a?(Time)
 
-    initial = "=== #{title} (#{date.standard_format})\n"
+    initial = "#{ENTRY_HEADER_MARKER} #{title} (#{date.standard_format})\n"
     elements
       .reject { |element| header_items.include? element.key }
       .inject(initial) do |output, entry| # rubocop:disable CollectionMethods
