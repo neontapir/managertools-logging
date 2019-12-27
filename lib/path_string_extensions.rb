@@ -43,7 +43,7 @@ module PathStringExtensions
     #     Titlecase is needed because name case doesn't handle prepositions,
     #     which are sometimes found in team names
     def path_to_name
-      NameCase(tr('-', ' ').upcase).titlecase
+      NameCase(tr('_-', ' ').upcase).titlecase
     end
   end
 end

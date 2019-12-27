@@ -188,15 +188,14 @@ module ManagerTools
     end
 
     # convert a symbol into a command class
-    def parameter_to_command_class(parameter)
-      command_class_name = parameter.to_s.path_to_name.tr(' ', '')
+    def to_command(symbol)
+      command_class_name = symbol.to_s.path_to_name.tr(' ', '')
       Kernel.const_get("#{command_class_name}Command")
     end
 
     # run the given subcommand
     def execute_subcommand(subcommand_name, arguments, options)
-      subcommand_class = parameter_to_command_class(subcommand_name)
-      subcommand = subcommand_class.new
+      subcommand = to_command(subcommand_name).new
       do_with_interrupt_handling { subcommand.command(arguments, options) }
     end
 
