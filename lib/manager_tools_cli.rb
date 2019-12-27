@@ -183,15 +183,15 @@ module ManagerTools
     # wrap the call with interrupt handling, for consistent error display
     def do_with_interrupt_handling
       yield if block_given?
-    rescue StandardError => e
-      warn HighLine.color("\nAborting, fatal #{e.class}, #{e} at #{error_call_site(e)}", :red)
-      Kernel.exit(3)
-    rescue Interrupt
-      warn HighLine.color("\nAborting, interrupt received", :red)
-      Kernel.exit(2)
-    rescue RuntimeError => e
-      warn HighLine.color("\nAborting, fatal unhandled error, #{e} at #{error_call_site(e)}", :red)
-      Kernel.exit(1)
+    # rescue StandardError => e
+    #   warn HighLine.color("\nAborting, fatal #{e.class}, #{e} at #{error_call_site(e)}", :red)
+    #   Kernel.exit(3)
+    # rescue Interrupt
+    #   warn HighLine.color("\nAborting, interrupt received", :red)
+    #   Kernel.exit(2)
+    # rescue RuntimeError => e
+    #   warn HighLine.color("\nAborting, fatal unhandled error, #{e} at #{error_call_site(e)}", :red)
+    #   Kernel.exit(1)
     end
 
     # convert a symbol into a command class

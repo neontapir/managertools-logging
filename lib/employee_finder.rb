@@ -8,8 +8,12 @@ require_relative 'path_string_extensions'
 require_relative 'settings'
 require_relative 'string_extensions'
 
-# For reporting searches with no results
+# For reporting employee searches with no results
 class EmployeeNotFoundError < StandardError
+end
+
+# For reporting entity searches with no results
+class EntityNotFoundError < StandardError
 end
 
 # Represents a employee search provider
@@ -22,7 +26,6 @@ module EmployeeFinder
   # @param [String] dir the location of a person
   # @return [Hash] the employee data represented by the location
   def parse_dir(dir)
-    # TEMPORARY 20191212
     paths = dir.split_path
     _root, team, name = paths
     { team: team }.merge(parse_name(name))
@@ -48,9 +51,16 @@ module EmployeeFinder
       next unless folder[key]
 
       employee = parse_dir folder
+      next if project? employee
+      
       result << Employee.new(employee)
     end
     result.min
+  end
+
+  # returns true if found item is a project, not an employee
+  def project?(spec)
+    spec[:team] == Settings.project_root
   end
 
   # Description of method

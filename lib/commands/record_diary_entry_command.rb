@@ -15,25 +15,25 @@ class RecordDiaryEntryCommand
     @command_opts ||= options
     raise 'missing person name argument' unless arguments.first
 
-    log_message(to_employees(arguments), subcommand.to_sym)
+    log_message(to_entities(arguments), subcommand.to_sym)
   end
 
   private
 
-  # takes a list of employee specs and converts it into employee objects
-  def to_employees(arguments)
-    arguments.map do |person|
-      employee = Employee.find(person)
-      raise EmployeeNotFoundError, "unable to find employee '#{person}'" unless employee
+  # takes a list of entity specs and converts it into entity objects
+  def to_entities(arguments)
+    arguments.map do |item|
+      entity = Employee.find(item) || Project.find(item)
+      raise EntityNotFoundError, "unable to find employee or project '#{item}'" unless entity
 
-      employee
+      entity
     end
   end
 
-  # logs a message to each employee's file
+  # logs a message to each entity's file
   def log_message(members, entry_type)
     entry = nil
-    members.each do |employee|
+    members.each do |entity|
       entry ||= get_entry(
         entry_type,
         members.join(','),
@@ -41,7 +41,7 @@ class RecordDiaryEntryCommand
           .map { |m| m.to_s.to_name }
           .join(', '),
       )
-      employee.file.insert entry
+      entity.file.insert entry
     end
   end
 end
