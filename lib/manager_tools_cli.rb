@@ -123,11 +123,13 @@ module ManagerTools
       execute_subcommand(:new_hire, [team, first, last], options)
     end
 
-    # desc 'new-project PROJECT', "Create the projects log file in the project root"
-    # method_option :force, type: :boolean, default: false, desc: 'Overwrite files if they exist'
-    # def new_project(project)
-    #   execute_subcommand(:new_project, project, options)
-    # end
+    desc 'new-project PROJECT', "Create the projects log file in the project root"
+    method_option :force, type: :boolean, default: false, desc: 'Overwrite files if they exist'
+    map 'project' => 'new_project'
+    
+    def new_project(project)
+      execute_subcommand(:new_project, project, options)
+    end
 
     desc 'open NAME', "Open the person's log file"
     map 'open' => 'open_file'
