@@ -5,35 +5,35 @@ require_relative 'string_extensions'
 require_relative 'path_string_extensions'
 require_relative 'settings'
 
-# Reparesents a folder that contains files about a project
-# @attr_reader [Project] project the project whose data resides in the folder
-class ProjectFolder
+# Reparesents a folder that contains files about a team
+# @attr_reader [Team] team the project whose data resides in the folder
+class TeamFolder
   using StringExtensions
   using PathStringExtensions
 
-  attr_reader :project
+  attr_reader :team
 
   class << self
     # The root folder where data is stored, taken from Settings
     def root
-      File.join(Settings.root, Settings.project_root)
+      Settings.root
     end
   end
 
   # Create a new ProjectFolder object
-  def initialize(project)
-    @project = project
+  def initialize(team)
+    @team = team
   end
 
   # The canonical name of the folder
   def folder_name
-    project_name = project.project.tr(' ', '-').strip_nonalnum
-    project_name.unidowncase
+    team_name = team.team.tr(' ', '-').strip_nonalnum
+    team_name.unidowncase
   end
 
   # The path to the file, relative to the parent folder of the root
   def path
-    File.join(ProjectFolder.root, folder_name.to_path)
+    File.join(Settings.root, folder_name.to_path)
   end
 
   # Create a file system folder at path

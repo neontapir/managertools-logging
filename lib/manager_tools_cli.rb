@@ -125,10 +125,15 @@ module ManagerTools
 
     desc 'new-project PROJECT', "Create the projects log file in the project root"
     method_option :force, type: :boolean, default: false, desc: 'Overwrite files if they exist'
-    map 'project' => 'new_project'
     
     def new_project(project)
       execute_subcommand(:new_project, project, options)
+    end
+
+    desc 'new-team TEAM', "Create the team's folder in the data root"
+    
+    def new_team(team)
+      execute_subcommand(:new_team, team, options)
     end
 
     desc 'open NAME', "Open the person's log file"

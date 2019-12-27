@@ -26,7 +26,10 @@ class NewProjectCommand
     folder = ProjectFolder.new project
     folder.ensure_exists
 
-    summary = Settings.console.ask "Project summary: "
+    summary = ask 'Project summary? '
+    # summary = Settings.console.ask 'Project summary?' do |answer|
+    #   answer.default = 'undefined'
+    # end
 
     npc_parameters = OpenStruct.new(folder: folder, force: force, summary: summary)
     generate_log_file(npc_parameters)

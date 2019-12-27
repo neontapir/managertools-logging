@@ -2,13 +2,13 @@
 
 require 'ostruct'
 require 'thor'
-require './lib/employee'
 require './lib/commands/new_project_command'
+require './lib/project_folder'
 require './lib/settings'
 
 RSpec.describe NewProjectCommand do
   context 'existing project' do
-    bloodties_log = File.join %W[#{Settings.root} projects bloodties #{Settings.log_filename}]
+    bloodties_log = File.join %W[#{ProjectFolder.root} bloodties #{Settings.log_filename}]
 
     before do
       FileUtils.mkdir_p File.dirname(bloodties_log)
@@ -18,12 +18,14 @@ RSpec.describe NewProjectCommand do
       FileUtils.rm_r File.dirname(File.dirname(bloodties_log))
     end 
 
-    it 'creates a new project' do
-      allow(subject).to receive(:ask)
+    it 'creates a new project with defaults' do
+      allow(subject).to receive(:ask) 
 
       expect(File).not_to exist bloodties_log
 
-      expect { subject.command(%w[Bloodties]) }.to output(/bloodties/).to_stdout
+      # Settings.with_mock_input("\n") do
+        expect { subject.command(%w[Bloodties]) }.to output(/bloodties/).to_stdout
+      # end
 
       bloodties = Project.find('Bloodties')
       expect(bloodties).not_to be_nil
@@ -38,7 +40,7 @@ RSpec.describe NewProjectCommand do
 
   context 'force overwrites project' do
     def galactic_storm_log 
-      File.join(%W[#{Settings.root} projects galactic-storm #{Settings.log_filename}])
+      File.join(%W[#{ProjectFolder.root} galactic-storm #{Settings.log_filename}])
     end
 
     before :context do
@@ -57,7 +59,9 @@ RSpec.describe NewProjectCommand do
 
     def setup_new_project_with_entry
       allow(subject).to receive(:ask) { 'Intervene in the Kree and Shi\'ar war' }
-      expect { subject.command(%w[galactic-storm]) }.to output(/galactic-storm/).to_stdout
+      # Settings.with_mock_input "Intervene in the Kree and Shi'ar war\n" do
+        expect { subject.command(%w[galactic-storm]) }.to output(/galactic-storm/).to_stdout
+      # end
       expect(storm).not_to be_nil
 
       # create a diary entry to differentiate log from a newly created file
