@@ -83,21 +83,21 @@ RSpec.describe LogFile do
   end
 
   context 'with dated diary entries' do
-    subject(:iron_man_file) do
-      iron_man = Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark')
-      iron_man.file.insert ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Observation A')
-      iron_man.file.insert ObservationEntry.new(datetime: Time.new(2001, 2, 4, 5, 6, 7).to_s, content: 'Observation B')
-      iron_man.file
+    subject(:she_hulk_file) do
+      she_hulk = Employee.new(team: 'Avengers', first: 'Jennifer', last: 'Walters')
+      she_hulk.file.insert ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Observation A')
+      she_hulk.file.insert ObservationEntry.new(datetime: Time.new(2001, 2, 4, 5, 6, 7).to_s, content: 'Observation B')
+      she_hulk.file
     end
 
-    iron_man_folder = File.join avengers_folder, 'tony-stark'
+    she_hulk_folder = File.join avengers_folder, 'jennifer-walters'
 
     before do
-      FileUtils.mkdir_p iron_man_folder
+      FileUtils.mkdir_p she_hulk_folder
     end
 
     after do
-      FileUtils.rm_r File.dirname(iron_man_folder)
+      FileUtils.rm_r File.dirname(she_hulk_folder)
     end
 
     it 'appends multiple observations correctly' do
@@ -111,11 +111,11 @@ RSpec.describe LogFile do
         Content::
           Observation B
       EXPECTED
-      expect(File.readlines(iron_man_file.path).map(&:chomp)).to eq expected.split("\n")
+      expect(File.readlines(she_hulk_file.path).map(&:chomp)).to eq expected.split("\n")
     end
 
     it 'gets lines containing a date correctly' do
-      expect(iron_man_file.get_header_locations).to eq(
+      expect(she_hulk_file.get_header_locations).to eq(
         Time.new(2001, 2, 3, 4, 5, 0) => 1,
         Time.new(2001, 2, 4, 5, 6, 0) => 5,
       )

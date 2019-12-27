@@ -11,25 +11,25 @@ require_relative 'file_contents_validation_helper'
 RSpec.describe RecordDiaryEntryCommand do
   include FileContentsValidationHelper
 
-  context 'with a single person' do
-    iron_man_folder = File.join %W[#{Settings.root} avengers tony-stark]
+  context 'with a single person (Spectrum)' do
+    spectrum_folder = File.join %W[#{Settings.root} avengers monica-rambeau]
 
     before do
-      FileUtils.mkdir_p iron_man_folder
+      FileUtils.mkdir_p spectrum_folder
     end
 
     after do
-      FileUtils.rm_r File.dirname(iron_man_folder)
+      FileUtils.rm_r File.dirname(spectrum_folder)
     end
 
-    let(:tony) { Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark') }
+    let(:spectrum) { Employee.new(team: 'Avengers', first: 'Monica', last: 'Rambeau') }
 
     shared_examples 'writing entry' do |entry_type, input, expected|
       it "of type #{entry_type} includes expected values" do
         Settings.with_mock_input input do
-          subject.command(entry_type, ['tony'])
+          subject.command(entry_type, ['monica'])
         end
-        verify_answers_propagated(expected, [tony])
+        verify_answers_propagated(expected, [spectrum])
       end
     end
 
@@ -47,27 +47,27 @@ RSpec.describe RecordDiaryEntryCommand do
       :pto, "today\ntomorrow\nsick\n", ["  sick\n"]
   end
 
-  context 'with multiple people' do
-    steve = Employee.new(team: 'Avengers', first: 'Steve', last: 'Rogers')
+  context 'with multiple people (Black Panther, Thor)' do
+    black_panther = Employee.new(team: 'Avengers', first: 'Luke', last: 'Charles')
     thor = Employee.new(team: 'Avengers', first: 'Thor', last: 'Odinson')
 
     before :context do
-      [steve, thor].each do |hero|
+      [black_panther, thor].each do |hero|
         FileUtils.mkdir_p File.dirname(hero.file.path)
       end
     end
 
     after :context do
-      FileUtils.rm_r File.dirname(File.dirname(steve.file.path))
+      FileUtils.rm_r File.dirname(File.dirname(black_panther.file.path))
     end
 
     it 'will append the entry to all their logs in the order given' do
       Settings.with_mock_input "\nSpoke about important things\n" do
-        subject.command(:observation, %w[thor rogers])
+        subject.command(:observation, %w[thor luke])
       end
 
-      expected = ["  Thor Odinson, Steve Rogers\n", "  Spoke about important things\n"]
-      verify_answers_propagated(expected, [steve, thor])
+      expected = ["  Thor Odinson, Luke Charles\n", "  Spoke about important things\n"]
+      verify_answers_propagated(expected, [black_panther, thor])
     end
   end
 end

@@ -5,15 +5,15 @@ require './lib/commands/record_diary_entry_command'
 require './lib/commands/report_command'
 
 RSpec.describe ReportCommand do
-  context 'with an existing employee' do
+  context 'with an existing employee (War Patriot)' do
     avengers_folder = File.join %W[#{Settings.root} avengers]
-    file_prefix = 'report-tony-stark'
+    file_prefix = 'report-james-rhodes'
 
     before :context do
       Settings.with_mock_input "\nhere\nMet about goals\n\n\n" do
-        expect { NewHireCommand.new.command(%w[Avengers Tony Stark]) }.to output.to_stdout
-        RecordDiaryEntryCommand.new.command :one_on_one, ['tony']
-        ReportCommand.new.command('tony', OpenStruct.new(no_launch: true))
+        expect { NewHireCommand.new.command(%w[Avengers James Rhodes]) }.to output.to_stdout
+        RecordDiaryEntryCommand.new.command :one_on_one, ['james']
+        ReportCommand.new.command('james', OpenStruct.new(no_launch: true))
       end
     end
 

@@ -114,23 +114,23 @@ RSpec.describe EmployeeFinder do
     end
   end
 
-  context 'when finding an employee (Iron Man)' do
-    iron_man_folder = File.join %W[#{Settings.root} avengers tony-stark]
+  context 'when finding an employee (Moondragon)' do
+    moondragon_folder = File.join %W[#{Settings.root} avengers heather-douglas]
 
     before :context do
-      FileUtils.mkdir_p iron_man_folder
+      FileUtils.mkdir_p moondragon_folder
     end
 
     after :context do
-      FileUtils.rm_r File.dirname(iron_man_folder)
+      FileUtils.rm_r File.dirname(moondragon_folder)
     end
 
     it 'does find the expected employee' do
-      expect(finder.find('tony')).not_to be_nil
+      expect(finder.find('heather')).not_to be_nil
     end
 
     it 'does find the expected employee with capitalized case' do
-      expect(finder.find('Tony')).not_to be_nil
+      expect(finder.find('Heather')).not_to be_nil
     end
 
     it 'does not find a different employee' do

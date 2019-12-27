@@ -9,27 +9,27 @@ require_relative 'settings_helper'
 RSpec.describe Employee do
   include SettingsHelper
 
-  context 'when getting the name' do
-    let(:cap_spec) { { team: 'Avengers', first: 'Steve', last: 'Rogers' } }
+  context 'when getting the name (Quicksilver)' do
+    let(:quicksilver_spec) { { team: 'Avengers', first: 'Pietro', last: 'Maximoff' } }
 
     it 'is capitalized when input is capitalized' do
-      captain_america = Employee.new cap_spec
-      expect(captain_america.to_s).to eq 'Steve Rogers'
+      quicksilver = Employee.new quicksilver_spec
+      expect(quicksilver.to_s).to eq 'Pietro Maximoff'
     end
 
     it 'is capitalized even when input is not capitalized' do
-      captain_lowercase = { team: 'avengers', first: 'steve', last: 'rogers' }
-      captain_america = Employee.new captain_lowercase
-      expect(captain_america.to_s).to eq 'Steve Rogers'
+      quicksilver_lowercase = { team: 'avengers', first: 'pietro', last: 'maximoff' }
+      quicksilver = Employee.new quicksilver_lowercase
+      expect(quicksilver.to_s).to eq 'Pietro Maximoff'
     end
 
     it 'is available as a canonical name' do
-      captain_america = Employee.new cap_spec
-      expect(captain_america.canonical_name).to eq 'steve-rogers'
+      quicksilver = Employee.new quicksilver_spec
+      expect(quicksilver.canonical_name).to eq 'pietro-maximoff'
     end
   end
 
-  context 'when getting names with unusual casing' do
+  context 'when getting names with unusual casing (Porthos, et al)' do
     people_folder = File.join %W[#{Settings.root} people]
 
     before :all do
@@ -67,40 +67,40 @@ RSpec.describe Employee do
     end
   end
 
-  context 'with equality for a single employee (Iron Man)' do
-    subject(:iron_man) { Employee.new(team: 'avengers', first: 'Tony', last: 'Stark') }
-    iron_man_folder = File.join %W[#{Settings.root} avengers tony-stark]
+  context 'with equality for a single employee (Two-Gun Kid)' do
+    subject(:two_gun_kid) { Employee.new(team: 'avengers', first: 'Matt', last: 'Hawk') }
+    two_gun_kid_folder = File.join %W[#{Settings.root} avengers matt-hawk]
 
     before :all do
-      FileUtils.mkdir_p iron_man_folder
+      FileUtils.mkdir_p two_gun_kid_folder
     end
 
     after :all do
-      FileUtils.rm_r File.dirname(iron_man_folder)
+      FileUtils.rm_r File.dirname(two_gun_kid_folder)
     end
 
     it 'gives the correct log file location' do
-      file = iron_man.file
+      file = two_gun_kid.file
       expect(file).not_to be_nil
-      expect(file.path).to eq File.join(iron_man_folder, Settings.log_filename)
+      expect(file.path).to eq File.join(two_gun_kid_folder, Settings.log_filename)
     end
 
     it 'gives the employee\'s name' do
-      expect(iron_man.to_s).to eq 'Tony Stark'
+      expect(two_gun_kid.to_s).to eq 'Matt Hawk'
     end
 
     it 'equality should match on team, first, and last name' do
-      is_expected.to eq Employee.new(team: 'avengers', first: 'Tony', last: 'Stark')
-      is_expected.not_to eq Employee.new(team: 'justice-league', first: 'Tony', last: 'Stark')
-      is_expected.not_to eq Employee.new(team: 'avengers', first: 'Anthony', last: 'Stark')
-      is_expected.not_to eq Employee.new(team: 'avengers', first: 'Tony', last: 'Starkraving')
+      is_expected.to eq Employee.new(team: 'avengers', first: 'Matt', last: 'Hawk')
+      is_expected.not_to eq Employee.new(team: 'justice-league', first: 'Matt', last: 'Hawk')
+      is_expected.not_to eq Employee.new(team: 'avengers', first: 'Anthony', last: 'Hawk')
+      is_expected.not_to eq Employee.new(team: 'avengers', first: 'Matt', last: 'Hawking')
     end
 
     it 'equality should not match on invalid objects' do
-      is_expected.not_to eq 'Tony Stark of the Avengers'
-      is_expected.not_to eq OpenStruct.new(first: 'Tony', last: 'Stark') # no team
-      is_expected.not_to eq OpenStruct.new(team: 'avengers', last: 'Stark') # no first
-      is_expected.not_to eq OpenStruct.new(team: 'avengers', first: 'Tony') # no last
+      is_expected.not_to eq 'Matt Hawk of the Avengers'
+      is_expected.not_to eq OpenStruct.new(first: 'Matt', last: 'Hawk') # no team
+      is_expected.not_to eq OpenStruct.new(team: 'avengers', last: 'Hawk') # no first
+      is_expected.not_to eq OpenStruct.new(team: 'avengers', first: 'Matt') # no last
     end
   end
 

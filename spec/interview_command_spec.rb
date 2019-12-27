@@ -13,30 +13,30 @@ RSpec.describe InterviewCommand do
     input.reject { |i| i == "\n" }.map { |i| "  #{i}" }
   end
 
-  context 'with a known person' do
-    input = ["\n", "here\n", "SE1\n", "Nick Fury\n", "Edgy but competent\n", "Hire\n"]
-    iron_man_folder = File.join %W[#{Settings.root} avengers tony-stark]
+  context 'with a known person (Hellcat)' do
+    input = ["\n", "here\n", "SE1\n", "Nick Fury\n", "Scientist and pyschic\n", "Hire\n"]
+    hellcat_folder = File.join %W[#{Settings.root} avengers patsy-walker]
 
     before do
-      FileUtils.mkdir_p iron_man_folder
+      FileUtils.mkdir_p hellcat_folder
     end
 
     after do
-      FileUtils.rm_r File.dirname(iron_man_folder)
+      FileUtils.rm_r File.dirname(hellcat_folder)
     end
 
-    let(:tony) { Employee.new(team: 'Avengers', first: 'Tony', last: 'Stark') }
+    let(:hellcat) { Employee.new(team: 'Avengers', first: 'Patsy', last: 'Walker') }
 
     it 'can write an interview entry' do
       Settings.with_mock_input input do
-        subject.command ['tony']
+        subject.command ['patsy']
       end
 
-      verify_answers_propagated(non_default_values(input), [tony])
+      verify_answers_propagated(non_default_values(input), [hellcat])
     end
   end
 
-  context 'with an unknown person' do
+  context 'with a previously unknown person (Nick Fury)' do
     input = ["\n", "\n", "SE1\n", "Steve Rogers\n", "One eye not an issue\n", "Hire\n"]
 
     before do

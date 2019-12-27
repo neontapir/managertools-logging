@@ -22,23 +22,23 @@ RSpec.describe TeamFinder do
     end
   end
 
-  context 'with a typical team (Avengers)' do
-    avengers_folder = File.join %W[#{Settings.root} avengers]
+  context 'with a typical team (Watchmen)' do
+    watchmen_folder = File.join %W[#{Settings.root} watchmen]
 
     before :context do
-      FileUtils.mkdir_p avengers_folder
+      FileUtils.mkdir_p watchmen_folder
     end
 
     after :context do
-      FileUtils.rm_r avengers_folder
+      FileUtils.rm_r watchmen_folder
     end
 
-    it_has_behavior 'finding', 'avengers'
+    it_has_behavior 'finding', 'watchmen'
 
     it 'parses the folder data correctly' do
-      dir = Dir.new(avengers_folder)
+      dir = Dir.new(watchmen_folder)
       team = finder.parse_dir(dir)
-      expect(team).to eq team: 'avengers'
+      expect(team).to eq team: 'watchmen'
     end
   end
 

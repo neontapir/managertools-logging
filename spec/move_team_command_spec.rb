@@ -7,7 +7,7 @@ require './lib/settings'
 require_relative 'spec_helper'
 
 RSpec.describe MoveTeamCommand do
-  context 'moving a team member' do
+  context 'moving a team member (Starfire)' do
     justice_league_folder = File.join %W[#{Settings.root} justice-league]
     teen_titans_folder = File.join %W[#{Settings.root} teen-titans]
     starfire_id = 'princess-koriandr'
@@ -63,7 +63,7 @@ RSpec.describe MoveTeamCommand do
     end
   end
 
-  context 'moving multiple team members' do
+  context 'moving multiple team members (Cyborg, Robin)' do
     justice_league_folder = File.join %W[#{Settings.root} justice-league]
     teen_titans_folder = File.join %W[#{Settings.root} teen-titans]
 
@@ -74,7 +74,7 @@ RSpec.describe MoveTeamCommand do
 
       # use new hire command to generate expected files
       new_hire = NewHireCommand.new
-      expect { new_hire.command %w[Teen\ Titans Princess Koriand'r] }.to output(/princess-koriandr/).to_stdout
+      expect { new_hire.command %w[Teen\ Titans Victor Stone] }.to output(/victor-stone/).to_stdout
       expect { new_hire.command %w[Teen\ Titans Dick Grayson] }.to output(/dick-grayson/).to_stdout
     end
 
@@ -85,24 +85,24 @@ RSpec.describe MoveTeamCommand do
     end
 
     it 'relocates all their files' do
-      expect { MoveTeamCommand.new.command %w[justice-league Princess Grayson] }.to output.to_stdout
+      expect { MoveTeamCommand.new.command %w[justice-league Stone Grayson] }.to output.to_stdout
 
-      %w[princess-koriandr dick-grayson].each do |member|
+      %w[victor-stone dick-grayson].each do |member|
         expect(Dir).to exist File.join(justice_league_folder, "#{member}")
         expect(Dir).not_to exist File.join(teen_titans_folder, "#{member}")
       end
     end
   end
 
-  context 'refuses to move a team member to the same folder' do
+  context 'refuses to move a team member to the same folder (Raven)' do
     teen_titans_folder = File.join %W[#{Settings.root} teen-titans]
-    starfire = 'princess-koriandr'
+    raven = 'rachel-roth'
 
     before do
       FileUtils.mkdir_p teen_titans_folder
 
       # use new hire command to generate expected files
-      expect { NewHireCommand.new.command %w[Teen\ Titans Princess Koriand'r] }.to output(/princess-koriandr/).to_stdout
+      expect { NewHireCommand.new.command %w[Teen\ Titans Rachel Roth] }.to output(/#{raven}/).to_stdout
     end
 
     after do
@@ -110,9 +110,9 @@ RSpec.describe MoveTeamCommand do
     end
 
     it 'prints a message' do
-      expect { subject.command %w[Teen\ Titans Princess] }.to output(/is already in the expected folder/).to_stderr
+      expect { subject.command %w[Teen\ Titans Rachel] }.to output(/is already in the expected folder/).to_stderr
 
-      expect(Dir).to exist File.join(teen_titans_folder, starfire)
+      expect(Dir).to exist File.join(teen_titans_folder, raven)
     end
   end
 end

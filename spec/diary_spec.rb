@@ -13,20 +13,20 @@ RSpec.describe Diary do
       end
     end).new     end
 
-    iron_man_folder = File.join %W[#{Settings.root} avengers tony-stark]
+    mantis_folder = File.join %W[#{Settings.root} avengers mr-brandt]
 
     before :context do
-      FileUtils.mkdir_p iron_man_folder
+      FileUtils.mkdir_p mantis_folder
     end
 
     after :context do
-      FileUtils.rm_r File.dirname(iron_man_folder)
+      FileUtils.rm_r File.dirname(mantis_folder)
     end
 
     it 'appends an entry to the correct file' do
-      log = LogFile.new(Dir.new(iron_man_folder)).path
+      log = LogFile.new(Dir.new(mantis_folder)).path
       old_length = File.size?(log) ? File.size(log) : 0
-      _ = diary_templated.record_to_file(:interview, 'tony-stark')
+      _ = diary_templated.record_to_file(:interview, 'mr-brandt')
       expect(File.size(log)).to be > old_length
     end
   end
