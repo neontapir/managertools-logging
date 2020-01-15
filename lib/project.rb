@@ -16,6 +16,8 @@ class Project
   # Create a new Project object
   # @param [Hash] params a Hash with a :project entry
   def initialize(project:)
+    raise ArgumentError, 'Name must not be empty' if project.to_s.empty?
+
     @project = project.to_path
   end
 

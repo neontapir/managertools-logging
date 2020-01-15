@@ -54,10 +54,22 @@ RSpec.describe Employee do
       expect(old_mcdonald.to_s).to eq 'Old McDonald'
     end
 
+    it 'handles Irish accented names' do
+      o_madagain = Employee.new(team: 'people', first: 'breandán'.upcase, last: "ó madagáin".upcase)
+      expect(o_madagain.canonical_name).to eq 'breandán-ó-madagáin'
+      expect(o_madagain.to_s).to eq 'Breandán ó Madagáin'
+    end
+
     it 'handles Irish O names' do
       oconnell = Employee.new(team: 'people', first: 'J.J. "Ginger"'.upcase, last: "O'Connell".upcase)
       expect(oconnell.canonical_name).to eq 'jj-ginger-oconnell'
       expect(oconnell.to_s).to eq "J.J. \"Ginger\" O'Connell"
+    end
+
+    it 'handles hyphenated first names' do
+      cheroutre = Employee.new(team: 'people', first: 'marie-thérèse'.upcase, last: 'cheroutre'.upcase)
+      expect(cheroutre.canonical_name).to eq 'marie-thérèse-cheroutre'
+      expect(cheroutre.to_s).to eq 'Marie-Thérèse Cheroutre'
     end
 
     it 'handles suffixed names' do
