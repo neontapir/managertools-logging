@@ -37,6 +37,13 @@ class Employee
     raise ArgumentError, 'Last name must not be empty' if last.to_s.empty?
   end
 
+  # The name used in folder creation
+  # @return [String] the folder name
+  def canonical_name
+    first_name, last_name = [first, last].map { |n| n.tr(' ', '-').strip_nonalnum }
+    "#{first_name}-#{last_name}".unidowncase
+  end
+
   # Get the LogFile for the employee
   #
   # @return [LogFile] the employee's log file
@@ -77,13 +84,6 @@ class Employee
     comparison = first <=> other.first if comparison.zero?
     comparison = last <=> other.last if comparison.zero?
     comparison
-  end
-
-  # The name used in folder creation
-  # @return [String] the folder name
-  def canonical_name
-    first_name, last_name = [first, last].map { |n| n.tr(' ', '-').strip_nonalnum }
-    "#{first_name}-#{last_name}".unidowncase
   end
 
   # The display name, in title case
