@@ -111,7 +111,7 @@ RSpec.describe Team do
 
   context 'abnromal usage' do
     it 'the initializer raises for empty hash' do
-      expect { Team.new({}) }.to raise_error KeyError
+      expect { Team.new() }.to raise_error ArgumentError
     end
 
     it 'the initializer raises for nil team' do

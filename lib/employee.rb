@@ -19,10 +19,18 @@ class Employee
   # Create a new Employee object
   #
   # @param [Hash] params the employee data
-  def initialize(**params)
-    @team = params.fetch(:team)
-    @first = params.fetch(:first)
-    @last = params.fetch(:last)
+  # def initialize(**params)
+  #   @team = params.fetch(:team)
+  #   @first = params.fetch(:first)
+  #   @last = params.fetch(:last)
+
+  #   raise ArgumentError, 'Team must not be empty' if team.to_s.empty?
+  #   raise ArgumentError, 'First name must not be empty' if first.to_s.empty?
+  #   raise ArgumentError, 'Last name must not be empty' if last.to_s.empty?
+  # end
+
+  def initialize(team:, first:, last:)
+    @team, @first, @last = team, first, last
 
     raise ArgumentError, 'Team must not be empty' if team.to_s.empty?
     raise ArgumentError, 'First name must not be empty' if first.to_s.empty?

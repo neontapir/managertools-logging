@@ -13,18 +13,18 @@ RSpec.describe Employee do
     let(:quicksilver_spec) { { team: 'Avengers', first: 'Pietro', last: 'Maximoff' } }
 
     it 'is capitalized when input is capitalized' do
-      quicksilver = Employee.new quicksilver_spec
+      quicksilver = Employee.new **quicksilver_spec
       expect(quicksilver.to_s).to eq 'Pietro Maximoff'
     end
 
     it 'is capitalized even when input is not capitalized' do
       quicksilver_lowercase = { team: 'avengers', first: 'pietro', last: 'maximoff' }
-      quicksilver = Employee.new quicksilver_lowercase
+      quicksilver = Employee.new **quicksilver_lowercase
       expect(quicksilver.to_s).to eq 'Pietro Maximoff'
     end
 
     it 'is available as a canonical name' do
-      quicksilver = Employee.new quicksilver_spec
+      quicksilver = Employee.new **quicksilver_spec
       expect(quicksilver.canonical_name).to eq 'pietro-maximoff'
     end
   end
@@ -43,25 +43,25 @@ RSpec.describe Employee do
     end
 
     it 'handles French names' do
-      porthos = Employee.new({ team: 'people', first: 'Baron'.downcase, last: 'du Vallon de Bracieux de Pierrefonds'.downcase })
+      porthos = Employee.new(team: 'people', first: 'Baron'.downcase, last: 'du Vallon de Bracieux de Pierrefonds'.downcase)
       expect(porthos.canonical_name).to eq 'baron-du-vallon-de-bracieux-de-pierrefonds'
       expect(porthos.to_s).to eq 'Baron du Vallon de Bracieux de Pierrefonds'
     end
 
     it 'handles Irish Mac names' do
-      old_mcdonald = Employee.new({ team: 'people', first: 'Old'.upcase, last: 'McDonald'.upcase })
+      old_mcdonald = Employee.new(team: 'people', first: 'Old'.upcase, last: 'McDonald'.upcase)
       expect(old_mcdonald.canonical_name).to eq 'old-mcdonald'
       expect(old_mcdonald.to_s).to eq 'Old McDonald'
     end
 
     it 'handles Irish O names' do
-      oconnell = Employee.new({ team: 'people', first: 'J.J. "Ginger"'.upcase, last: "O'Connell".upcase })
+      oconnell = Employee.new(team: 'people', first: 'J.J. "Ginger"'.upcase, last: "O'Connell".upcase)
       expect(oconnell.canonical_name).to eq 'jj-ginger-oconnell'
       expect(oconnell.to_s).to eq "J.J. \"Ginger\" O'Connell"
     end
 
-    it 'handles suffixes names' do
-      david = Employee.new({ team: 'people', first: 'David'.upcase, last: 'Curry-Johnson III'.upcase })
+    it 'handles suffixed names' do
+      david = Employee.new(team: 'people', first: 'David'.upcase, last: 'Curry-Johnson III'.upcase)
       expect(david.canonical_name).to eq 'david-curry-johnson-iii'
       expect(david.to_s).to eq 'David Curry-Johnson III'
     end
@@ -126,10 +126,10 @@ RSpec.describe Employee do
   context 'abnormal usage' do
     context 'mising keys' do
       it 'raises on initialization' do
-        expect { Employee.new({}) }.to raise_error KeyError
-        expect { Employee.new(first: 'John', last: 'Smith') }.to raise_error KeyError
-        expect { Employee.new(team: 'normal', last: 'Smith') }.to raise_error KeyError
-        expect { Employee.new(team: 'normal', first: 'John') }.to raise_error KeyError
+        expect { Employee.new() }.to raise_error ArgumentError
+        expect { Employee.new(first: 'John', last: 'Smith') }.to raise_error ArgumentError
+        expect { Employee.new(team: 'normal', last: 'Smith') }.to raise_error ArgumentError
+        expect { Employee.new(team: 'normal', first: 'John') }.to raise_error ArgumentError
       end
     end
 

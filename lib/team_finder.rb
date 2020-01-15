@@ -36,7 +36,7 @@ module TeamFinder
       next unless dir[target]
 
       team_spec = parse_dir dir
-      return Team.new team_spec
+      return Team.new **team_spec
     end
   end
 end

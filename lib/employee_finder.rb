@@ -53,7 +53,7 @@ module EmployeeFinder
       employee = parse_dir folder
       next if project? employee
       
-      result << Employee.new(employee)
+      result << Employee.new(**employee)
     end
     result.min
   end
@@ -70,7 +70,7 @@ module EmployeeFinder
   # @return [Hash] a specification of the employee
   def get(person, type = :generic)
     employee_spec = find person
-    employee_spec || Employee.new(create_spec(type, parse_name(person)))
+    employee_spec || Employee.new(**create_spec(type, parse_name(person)))
   end
 
   # Create a specification describing a person

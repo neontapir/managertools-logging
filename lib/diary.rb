@@ -36,7 +36,7 @@ module Diary
     user_input = template? ? {} : create_entry(entry_type, header.to_s, initial_record)
     data = initial_record.merge(user_input)
 
-    entry_type.new data
+    entry_type.new **data
   end
 
   private
@@ -47,7 +47,7 @@ module Diary
   #   @param [String] header The entry header
   #   @param [Hash] initial_record The initial hash of values
   def create_entry(entry_type, header, initial_record)
-    new_entry = entry_type.new initial_record
+    new_entry = entry_type.new **initial_record
     new_entry.populate(header, initial_record)
   end
 end

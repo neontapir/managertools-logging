@@ -26,9 +26,16 @@ end
 
 group :ide, optional: true do
   # gem 'bundler-stats'
+  gem 'fastri'
   gem 'rake'
   gem 'rcodetools'
-  gem 'solargraph'
+  gem 'solargraph' unless Gem.win_platform? # until nokogiri supported for Ruby 2.7 on Windows
+  # ...\managertools-logging [master ≡]> gem install nokogiri --platform=ruby -- --use-system-libraries
+  # Temporarily enhancing PATH for MSYS/MINGW...
+  # Building native extensions with: '--use-system-libraries'
+  # This could take a while...
+  # Successfully installed nokogiri-1.10.7
+  # 1 gem installed
 end
 
 group :quality, optional: true do
