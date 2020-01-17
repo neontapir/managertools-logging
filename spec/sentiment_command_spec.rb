@@ -22,8 +22,7 @@ RSpec.describe SentimentCommand do
 
     it 'can generate the sentiment analysis' do
       expect{ SentimentCommand.new.command('peter') }.to output(<<~MESSAGE
-        {"  Location  here  Notes  Met about goals  Actions "=>:positive}
-        {"  Location  here  Notes  Met about goals  Actions "=>0.625}
+        positive (0.625):   Location  here  Notes  Met about goals  Actions 
       MESSAGE
       ).to_stdout
     end
