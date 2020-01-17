@@ -35,9 +35,7 @@ class SentimentCommand
 
     content = enrich_content(analyzer, content)
 
-    content
-      .reject{ |c| c.sentiment == :neutral }
-      .each { |c| puts c }
+    content.each { |c| puts c }
   end
 
   def extract_log_file_data(employee)
@@ -56,7 +54,10 @@ class SentimentCommand
 
   def enrich_content(analyzer, content)
     content.map do |text|
-      SentimentData.new(text, analyzer.sentiment(text), analyzer.score(text).round(3))
+      sentiment = analyzer.sentiment(text)
+      next if sentiment == :neutral
+      
+      SentimentData.new(text, sentiment, analyzer.score(text).round(3))
     end
   end
 end
