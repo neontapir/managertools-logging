@@ -29,8 +29,13 @@ class DiaryEntry
       Kernel.const_get "#{entry_type_name}Entry"
     end
 
+    def inherited(subclass)
+      @descendants ||= []
+      @descendants << subclass
+    end
+  
     def descendants
-      ObjectSpace.each_object(Class).select { |klass| klass < self }
+      @descendants 
     end
   end
 
