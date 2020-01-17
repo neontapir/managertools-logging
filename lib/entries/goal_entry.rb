@@ -27,7 +27,7 @@ class GoalEntry < DiaryEntry
   end
 
   # render the entry into a string suitable for file insertion
-  def to_s
-    render 'Development Goal'
+  def entry_banner
+    'Development Goal'
   end
 end

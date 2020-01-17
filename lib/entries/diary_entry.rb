@@ -19,13 +19,19 @@ class DiaryEntry
     @record = record
   end
 
-  # get(name)
-  #   Get the Ruby type of entry base on its name
-  #   @param [String] name the name of the entry class
-  #   @return [Class] the class referred to by the name
-  def self.get(name)
-    entry_type_name = name.to_s.tr('_-', StringExtensions::WRAP_INDENT).split(' ').map(&:capitalize).join
-    Kernel.const_get "#{entry_type_name}Entry"
+  class << self
+    # get(name)
+    #   Get the Ruby type of entry base on its name
+    #   @param [String] name the name of the entry class
+    #   @return [Class] the class referred to by the name
+    def get(name)
+      entry_type_name = name.to_s.tr('_-', StringExtensions::WRAP_INDENT).split(' ').map(&:capitalize).join
+      Kernel.const_get "#{entry_type_name}Entry"
+    end
+
+    def descendants
+      ObjectSpace.each_object(Class).select { |klass| klass < self }
+    end
   end
 
   # the Asciidoc header marker used by the script
@@ -88,8 +94,13 @@ class DiaryEntry
   end
 
   # @abstract Gives the string representation of the class, written to the person's log file
+  def entry_banner
+    'Diary Entry'
+  end
+
+  # @abstract Gives the string representation of the class, written to the person's log file
   def to_s
-    raise NotImplementedError, 'DiaryEntry#to_s must be overriden'
+    render entry_banner
   end
 
   protected

@@ -50,7 +50,7 @@ class PtoEntry < DiaryEntry
   end
 
   # render the entry into a string suitable for file insertion
-  def to_s
-    render 'Paid time off'
+  def entry_banner
+    'Paid time off'
   end
 end

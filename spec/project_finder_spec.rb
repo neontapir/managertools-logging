@@ -5,6 +5,10 @@ require './lib/project_finder'
 require_relative 'settings_helper'
 
 RSpec.describe ProjectFinder do
+  after :context do
+    FileUtils.rm_r File.join(%W[#{Settings.root} projects])
+  end
+
   def bloodties_folder
     File.join(%W[#{Settings.root} projects bloodties])
   end

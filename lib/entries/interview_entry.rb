@@ -25,7 +25,7 @@ class InterviewEntry < DiaryEntry
   end
 
   # render the entry into a string suitable for file insertion
-  def to_s
-    render 'Interview'
+  def entry_banner
+    'Interview'
   end
 end

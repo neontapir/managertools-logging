@@ -31,7 +31,7 @@ class TeamMeetingEntry < DiaryEntry
   end
 
   # render the entry into a string suitable for file insertion
-  def to_s
-    render('Team Meeting')
+  def entry_banner
+    'Team Meeting'
   end
 end

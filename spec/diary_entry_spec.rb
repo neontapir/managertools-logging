@@ -95,10 +95,6 @@ RSpec.describe DiaryEntry do
     it 'raises when prompt is not overriden' do
       expect { entry.prompt(nil) }.to raise_error(NotImplementedError, 'DiaryEntry#prompt must be overriden')
     end
-
-    it 'raises when to_s is not overriden' do
-      expect { entry.to_s }.to raise_error(NotImplementedError, 'DiaryEntry#to_s must be overriden')
-    end
   end
 
   context 'in improper elements implementation context' do

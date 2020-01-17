@@ -43,7 +43,7 @@ class SentimentCommand
 
   def extract_log_file_data(employee)
     doc = Asciidoctor.load_file(employee.file.path)
-    entries = [ObservationEntry::NAME, OneOnOneEntry::NAME]
+    entries = DiaryEntry.descendants.map{|k| k.new.entry_banner}
     entries_regex = Regexp.union(entries)
     content =  doc.sections
       .filter{ |s| s.title =~ /#{entries_regex}/ }

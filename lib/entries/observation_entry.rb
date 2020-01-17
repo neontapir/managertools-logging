@@ -6,8 +6,6 @@ require_relative 'diary_entry'
 
 # Template for an observation
 class ObservationEntry < DiaryEntry
-  NAME = 'Observation'
-
   # generates the interactive prompt string
   def prompt(name)
     personalized = name[','] ? '' : " for #{name}"
@@ -24,7 +22,7 @@ class ObservationEntry < DiaryEntry
   end
 
   # render the entry into a string suitable for file insertion
-  def to_s
-    render NAME
+  def entry_banner
+    'Observation'
   end
 end

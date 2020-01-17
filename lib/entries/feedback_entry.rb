@@ -25,7 +25,7 @@ class FeedbackEntry < DiaryEntry
   end
 
   # render the entry into a string suitable for file insertion
-  def to_s
-    render 'Feedback'
+  def entry_banner
+    'Feedback'
   end
 end

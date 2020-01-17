@@ -7,8 +7,6 @@ require_relative '../settings'
 
 # Template for a one-on-one meeting
 class OneOnOneEntry < DiaryEntry
-  NAME = 'One-on-One'
-
   # generates the interactive prompt string
   def prompt(name)
     "For your 1:1 with #{name}, enter the following:"
@@ -25,7 +23,7 @@ class OneOnOneEntry < DiaryEntry
   end
 
   # render the entry into a string suitable for file insertion
-  def to_s
-    render NAME
+  def entry_banner
+    'One-on-One'
   end
 end

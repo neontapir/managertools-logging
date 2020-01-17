@@ -21,7 +21,7 @@ class PerformanceCheckpointEntry < DiaryEntry
   end
 
   # render the entry into a string suitable for file insertion
-  def to_s
-    render 'Performance Checkpoint'
+  def entry_banner
+    'Performance Checkpoint'
   end
 end
