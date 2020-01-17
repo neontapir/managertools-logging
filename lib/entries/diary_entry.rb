@@ -12,12 +12,8 @@ class DiaryEntry
   using StringExtensions
   using TimeExtensions
 
-  # initialize(**record)
-  #   Create a new diary entry
-  def initialize(**record)
-    record[:datetime] = Time.now.to_s unless record.key? :datetime
-    @record = record
-  end
+  # the Asciidoc header marker used by the script
+  ENTRY_HEADER_MARKER = '==='
 
   class << self
     # get(name)
@@ -25,7 +21,12 @@ class DiaryEntry
     #   @param [String] name the name of the entry class
     #   @return [Class] the class referred to by the name
     def get(name)
-      entry_type_name = name.to_s.tr('_-', StringExtensions::WRAP_INDENT).split(' ').map(&:capitalize).join
+      entry_type_name = name
+        .to_s
+        .tr('_-', StringExtensions::WRAP_INDENT)
+        .split(' ')
+        .map(&:capitalize)
+        .join
       Kernel.const_get "#{entry_type_name}Entry"
     end
 
@@ -39,8 +40,12 @@ class DiaryEntry
     end
   end
 
-  # the Asciidoc header marker used by the script
-  ENTRY_HEADER_MARKER = '==='
+  # initialize(**record)
+  #   Create a new diary entry
+  def initialize(**record)
+    record[:datetime] = Time.now.to_s unless record.key? :datetime
+    @record = record
+  end
 
   # render(title, entry_type = self.class)
   #   Render the diary entry
