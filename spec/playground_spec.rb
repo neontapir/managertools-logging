@@ -3,7 +3,7 @@
 require 'asciidoctor'
 
 RSpec.describe do
-  it 'can analyze a document', focus: true do
+  it 'can analyze a document', skip: true do
     lines = <<~LOG_FILE
     === Biographical information
 
@@ -298,24 +298,39 @@ RSpec.describe do
     doc = Asciidoctor::Document.new
     reader = Asciidoctor::Reader.new lines
     Asciidoctor::Parser.parse(reader, doc)
+
+    # require 'loofah'
+
+    entries = [ObservationEntry::NAME, OneOnOneEntry::NAME]
+    entries_regex = Regexp.union(entries)
     content =  doc.sections
-      .filter{ |s| s.title =~ /Observation/ }
+      .filter{ |s| s.title =~ /#{entries_regex}/ }
       .flat_map{ |s| s.content }
-      .map{ |c| c =~ %r{<p>(.+)</p>}m ? $1.tr("\n", ' ') : nil }
+      .map{ |c| c.tr("\n", ' ') }
+      .map{ |c| c.gsub(/\<.+?\>/, '') }
+      # .map{ |c| c =~ %r{<p>(.+)</p>\s*</dd>}m ? $1 : nil }
+      .first(10)
 
-    require 'sentimental'
+    pp content
 
-    analyzer = Sentimental.new
-    analyzer.load_defaults
+    # content =  doc.sections
+    #   .filter{ |s| s.title =~ /Observation/ }
+    #   .flat_map{ |s| s.content }
+    #   .map{ |c| c =~ %r{<p>(.+)</p>}m ? $1.tr("\n", ' ') : nil }
 
-    sentiments = content.reject(&:nil?).map{ |c| [c[0,50], analyzer.sentiment(c)] }.to_h
+    # require 'sentimental'
 
-    pp sentiments
+    # analyzer = Sentimental.new
+    # analyzer.load_defaults
 
-    analysis = content.reject(&:nil?).map{ |c| [c[0,50], analyzer.score(c)] }.to_h
+    # sentiments = content.reject(&:nil?).map{ |c| [c[0,50], analyzer.sentiment(c)] }.to_h
 
-    pp analysis
+    # pp sentiments
 
-    expect(analysis).to be_nil
+    # analysis = content.reject(&:nil?).map{ |c| [c[0,50], analyzer.score(c)] }.to_h
+
+    # pp analysis
+
+    # expect(analysis).to be_nil
   end
 end

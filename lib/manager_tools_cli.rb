@@ -155,6 +155,12 @@ module ManagerTools
       execute_subcommand(:report_team, team, options)
     end
 
+    desc 'sentiment NAME', 'Do sentiment analysis on the person\'s log file'
+
+    def sentiment(name)
+      execute_subcommand(:sentiment, name, options)
+    end
+
     desc 'team_meeting TEAMS', 'Insert the same diary entry for every person on the given teams'
     map 'team' => 'team_meeting'
 
