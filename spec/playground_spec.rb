@@ -3,7 +3,7 @@
 require 'asciidoctor'
 
 RSpec.describe do
-  it 'can analyze a document', skip: true do
+  it 'can analyze a document', skip: 'is a sandbox for analysis algorithm testing' do
     lines = <<~LOG_FILE
     === Biographical information
 

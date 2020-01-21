@@ -28,7 +28,8 @@ module EmployeeFinder
   def parse_dir(dir)
     paths = dir.split_path
     _root, team, name = paths
-    { team: team }.merge(parse_name(name))
+    hash = { team: team }.merge(parse_name(name))
+    EmployeeSpecification.new hash
   end
 
   # Parse a string as though it is part of an employee spec and return the result
@@ -50,17 +51,17 @@ module EmployeeFinder
       next unless Dir.exist? folder
       next unless folder[key]
 
-      employee = parse_dir folder
-      next if project? employee
+      employee_spec = parse_dir folder
+      next if project? employee_spec
       
-      result << Employee.new(**employee)
+      result << employee_spec.to_employee
     end
     result.min
   end
 
   # returns true if found item is a project, not an employee
   def project?(spec)
-    spec[:team] == Settings.project_root
+    spec.team == Settings.project_root
   end
 
   # Description of method
@@ -70,24 +71,24 @@ module EmployeeFinder
   # @return [Hash] a specification of the employee
   def get(person, type = :generic)
     employee_spec = find person
-    employee_spec || Employee.new(**create_spec(type, parse_name(person)))
+    employee_spec || create_employee(type, parse_name(person))
   end
 
   # Create a specification describing a person
   #
   # @param [String] type the type of entry
   # @return [Hash] a specification of the employee
-  def create_spec(type, person)
-    result = {}
+  def create_employee(type, person)
+    result = EmployeeSpecification.new
     root = EmployeeFolder.candidates_root
-    result[:team] = if type.to_sym.eql? :interview
+    result.team = if type.to_sym.eql? :interview
                       root
                     else
                       obtain('Team', root)
                     end
-    result[:first] = obtain('First', person.fetch(:first, 'Zaphod'))
-    result[:last] = obtain('Last', person.fetch(:last, 'Beeblebrox'))
-    result
+    result.first = obtain('First', person.fetch(:first, 'Zaphod'))
+    result.last = obtain('Last', person.fetch(:last, 'Beeblebrox'))
+    result.to_employee
   end
 
   # Display the prompt, and get the element's value from the user

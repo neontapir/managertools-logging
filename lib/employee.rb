@@ -5,6 +5,12 @@ require_relative 'employee_folder'
 require_relative 'settings'
 require_relative 'string_extensions'
 
+EmployeeSpecification = Struct.new(:team, :first, :last, keyword_init: true) do
+  def to_employee
+    Employee.new(team: team, first: first, last: last)
+  end
+end
+
 # Represents a team member, a person assigned to a team
 # @attr_reader [String] team the name of the team the person belongs to
 # @attr_reader [String] first the first name of the team member

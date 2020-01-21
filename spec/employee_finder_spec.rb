@@ -9,6 +9,7 @@ require_relative 'employee_test_helper'
 require_relative 'settings_helper'
 
 RSpec.describe EmployeeFinder do
+  include EmployeeFinder
   include EmployeeTestHelper
   include SettingsHelper
 
@@ -29,15 +30,15 @@ RSpec.describe EmployeeFinder do
       expect(flying_squirrel.last).to eq 'Baxter'
     end
 
-    it 'can create a spec with no input' do
-      defaults = { first: 'Zaphod', last: 'Beeblebrox', team: Settings.candidates_root }
+    it 'can create a default employee with no input' do
+      defaults = EmployeeSpecification.new(first: 'Zaphod', last: 'Beeblebrox', team: Settings.candidates_root)
       Settings.with_mock_input("\n" * 3) do
-        expect(finder.create_spec(:superhero, {})).to eq defaults
+        expect(finder.create_employee(:superhero, {})).to eq defaults
       end
     end
 
-    it 'can create a spec with given input' do
-      red_panda = { first: 'August', last: 'Fenwick', team: 'Terrific Twosome of Toronto' }
+    it 'can create a employee with given input' do
+      red_panda = Employee.new(first: 'August', last: 'Fenwick', team: 'Terrific Twosome of Toronto')
       allow(Settings.console).to receive(:ask) do |prompt|
         case prompt
         when /Team/ then 'Terrific Twosome of Toronto'
@@ -45,18 +46,18 @@ RSpec.describe EmployeeFinder do
         when /Last/ then 'Fenwick'
         end
       end
-      expect(finder.create_spec(:superhero, {})).to eq red_panda
+      expect(finder.create_employee(:superhero, {})).to eq red_panda
     end
 
     it 'will not prompt for team for an interview candidate' do
-      flying_squirrel = { first: 'Kit', last: 'Baxter', team: Settings.candidates_root }
+      flying_squirrel = Employee.new(first: 'Kit', last: 'Baxter', team: Settings.candidates_root)
       allow(Settings.console).to receive(:ask) do |prompt|
         case prompt
         when /First/ then 'Kit'
         when /Last/ then 'Baxter'
         end
       end
-      expect(finder.create_spec(:interview, {})).to eq flying_squirrel
+      expect(finder.create_employee(:interview, {})).to eq flying_squirrel
     end
   end
 

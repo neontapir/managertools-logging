@@ -24,8 +24,7 @@ class DiaryElement
     # REVIEW: Research, this assertion may not actually be correct
     raise ArgumentError, 'Asciidoc labeled lists cannot contain special characters' unless label =~ /\A['\-A-Za-z ]+\z/
 
-    @key = key
-    @label = label
+    @key, @label = key, label
     @default = options[:default] || DEFAULT_VALUE
     @prompt = options.key?(:prompt) ? options[:prompt] : label
   end

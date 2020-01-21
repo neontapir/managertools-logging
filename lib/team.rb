@@ -31,7 +31,7 @@ class Team
   def members
     members_by_folder.map do |folder|
       member_spec = Employee.parse_dir folder
-      Employee.new **member_spec
+      member_spec.to_employee
     end
   end
 
