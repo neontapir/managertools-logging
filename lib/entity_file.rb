@@ -17,11 +17,10 @@ class EntityFile
   #   @raise [ArgumentError] when folder or file are empty
   #   Create an employee file object
   def initialize(folder, filename)
+    @folder, @filename = folder, filename
+
     raise ArgumentError, 'Folder cannot be empty' if folder.to_s.empty?
     raise ArgumentError, 'Filename cannot be empty' if filename.to_s.empty?
-
-    @folder = folder
-    @filename = filename
   end
 
   # path

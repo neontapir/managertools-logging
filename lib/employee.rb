@@ -18,17 +18,9 @@ class Employee
 
   # Create a new Employee object
   #
-  # @param [Hash] params the employee data
-  # def initialize(**params)
-  #   @team = params.fetch(:team)
-  #   @first = params.fetch(:first)
-  #   @last = params.fetch(:last)
-
-  #   raise ArgumentError, 'Team must not be empty' if team.to_s.empty?
-  #   raise ArgumentError, 'First name must not be empty' if first.to_s.empty?
-  #   raise ArgumentError, 'Last name must not be empty' if last.to_s.empty?
-  # end
-
+  # @param [String] team the employee's team, also its containing folder
+  # @param [String] first the employee's first name
+  # @param [String] last the employee's last name
   def initialize(team:, first:, last:)
     @team, @first, @last = team, first, last
 
@@ -65,7 +57,7 @@ class Employee
   # @param [Type] other the object to compare
   # @return [Boolean] whether the object is equivalent
   def eql?(other)
-    return unless other.respond_to?(:team) && other.respond_to?(:first) && other.respond_to?(:last)
+    return false unless other.respond_to?(:team) && other.respond_to?(:first) && other.respond_to?(:last)
 
     (self <=> other).zero?
   end
