@@ -44,15 +44,15 @@ class Project
     project.path_to_name
   end
 
-  # Projects are equal if the have the same #project value
-  def eql?(other)
-    return false unless other.respond_to? :project
-
-    project.eql? other.project
-  end
-
   # Equality operator overload
   def ==(other)
-    eql? other
+    return false unless other.respond_to? :project
+
+    project.eql? other.project  
+  end
+
+  # Projects are equal if the have the same #project value
+  def eql?(other)
+    instance_of?(other.class) && self == other
   end
 end

@@ -62,15 +62,15 @@ class Employee
   #
   # @param [Type] other the object to compare
   # @return [Boolean] whether the object is equivalent
-  def eql?(other)
+  def ==(other)
     return false unless other.respond_to?(:team) && other.respond_to?(:first) && other.respond_to?(:last)
 
     (self <=> other).zero?
   end
 
   # Object equality
-  def ==(other)
-    eql?(other)
+  def eql?(other)
+    instance_of?(other.class) && self == other
   end
 
   # Object comparison by its fields
