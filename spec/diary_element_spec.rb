@@ -36,4 +36,28 @@ RSpec.describe DiaryElement do
       proper?(element, :unprompted, 'Do not prompt', 'xyzzy')
     end
   end
+
+  context 'in equality context' do
+    subject { DiaryElement.new(:unprompted, 'Do not prompt', default: 'xyzzy', prompt: nil) }
+
+    it 'implements equals' do
+      equal = DiaryElement.new(:unprompted, 'Do not prompt', default: 'xyzzy', prompt: nil)
+      expect(subject).to eq equal
+    end
+
+    it 'finds an element with a different key unequal' do
+      different_key = DiaryElement.new(:not_prompted, 'Do not prompt', default: 'xyzzy', prompt: nil)
+      expect(subject).not_to eq different_key
+    end
+
+    it 'finds an element with a different label unequal' do
+      different_label = DiaryElement.new(:unprompted, 'Fail to prompt', default: 'xyzzy', prompt: nil)
+      expect(subject).not_to eq different_label
+    end
+
+    it 'finds an element with a different value unequal' do
+      different_value = DiaryElement.new(:unprompted, 'Do not prompt', default: 'plover', prompt: nil)
+      expect(subject).not_to eq different_value
+    end
+  end
 end

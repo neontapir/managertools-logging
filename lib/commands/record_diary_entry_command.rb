@@ -2,10 +2,11 @@
 
 require_relative '../diary'
 require_relative '../employee'
+require_relative 'mt_command'
 require_relative '../string_extensions'
 
 # Implements diary recording functionality
-class RecordDiaryEntryCommand
+class RecordDiaryEntryCommand < MtCommand
   include Diary
   using StringExtensions
 

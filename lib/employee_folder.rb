@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'attr_extras'
 require 'fileutils'
 require_relative 'path_string_extensions'
 require_relative 'settings'
@@ -11,7 +12,7 @@ class EmployeeFolder
   using StringExtensions
   using PathStringExtensions
 
-  attr_reader :employee
+  attr_value_initialize :employee
 
   class << self
     # The root folder where data is stored, taken from Settings
@@ -23,11 +24,6 @@ class EmployeeFolder
     def candidates_root
       Settings.candidates_root
     end
-  end
-
-  # Create a new EmployeeFolder object
-  def initialize(employee)
-    @employee = employee
   end
 
   # The canonical name of the folder

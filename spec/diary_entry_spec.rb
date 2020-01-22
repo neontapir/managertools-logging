@@ -85,15 +85,15 @@ RSpec.describe DiaryEntry do
     subject(:entry) { UnimplementedDiaryEntry.new(datetime: Time.new(2003)) }
 
     it 'raises when the template class is not inherited' do
-      expect { entry.render('Test') }.to raise_error(NotImplementedError, 'DiaryEntry#elements must be overriden')
+      expect { entry.render('Test') }.to raise_error AttrExtras::MethodNotImplementedError
     end
 
     it 'raises when elements is not overriden' do
-      expect { entry.elements }.to raise_error(NotImplementedError, 'DiaryEntry#elements must be overriden')
+      expect { entry.elements }.to raise_error AttrExtras::MethodNotImplementedError
     end
 
     it 'raises when prompt is not overriden' do
-      expect { entry.prompt(nil) }.to raise_error(NotImplementedError, 'DiaryEntry#prompt must be overriden')
+      expect { entry.prompt(nil) }.to raise_error AttrExtras::MethodNotImplementedError
     end
   end
 
@@ -112,6 +112,31 @@ RSpec.describe DiaryEntry do
 
     it 'raises when enumerable not returned by elements' do
       expect { entry.render('Test') }.to raise_error(ArgumentError, 'BadElementsArrayDiaryEntry#elements must return an enumerable')
+    end
+  end
+
+  context 'with default content' do
+    subject(:entry) { PerformanceCheckpointEntry.new }
+    let(:entry_date) { Time.local(1999) }
+
+    before do
+      Timecop.freeze entry_date
+    end
+
+    after do
+      Timecop.return
+    end
+
+    it 'implements equality' do
+      expect(entry).to eq PerformanceCheckpointEntry.new
+    end
+
+    it 'finds a different record unequal' do
+      other = PerformanceCheckpointEntry.new
+      Settings.with_mock_input("\nGood\n") do
+        data = other.populate('John Doe')
+      end
+      expect(entry).not_to eq other
     end
   end
 end

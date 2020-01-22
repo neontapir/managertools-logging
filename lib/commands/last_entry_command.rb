@@ -2,11 +2,13 @@
 
 require 'fileutils'
 
+require_relative '../entries/diary_entry'
 require_relative '../employee_finder'
+require_relative 'mt_command'
 require_relative '../settings'
 
 # Allows printing of a log file's latest entry
-class LastEntryCommand
+class LastEntryCommand < MtCommand
   include EmployeeFinder
 
   # command(arguments, options)
@@ -20,7 +22,7 @@ class LastEntryCommand
     log_file = employee.file.path
     last = []
     File.readlines(log_file).each do |line|
-      last.clear if line['=== ']
+      last.clear if line[DiaryEntry::ENTRY_HEADER_MARKER]
       last << line
     end
     puts last.join

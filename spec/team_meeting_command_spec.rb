@@ -29,7 +29,7 @@ RSpec.describe TeamMeetingCommand do
     end
 
     after do
-      FileUtils.rm_r thing.file.path
+      FileUtils.rm_r File.dirname(thing.file.path)
     end
 
     it 'will append the entry to all team members' do

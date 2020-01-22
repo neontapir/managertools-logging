@@ -50,4 +50,35 @@ RSpec.describe EntityFile do
       expect(EntityFile.new(folder, 'file').path).to eq File.join(muppets_in_space_folder, 'john-smith-jones/file')
     end
   end
+
+  context 'in equality context' do
+    equality_folder = File.join %W[#{Settings.root} equality]
+
+    subject { EntityFile.new(equality_folder, 'equal_file') }
+    
+    before :context do
+      [equality_folder].each do |folder|
+        FileUtils.mkdir_p folder
+      end
+    end
+
+    after :context do
+      [equality_folder].each do |folder|
+        FileUtils.rm_r folder
+      end
+    end
+
+    it 'implements equals' do
+      expect(subject).to eq EntityFile.new(equality_folder, 'equal_file')
+    end
+
+    it 'finds a different folder unequal' do
+      different_folder = File.join %W[#{Settings.root} inequality]
+      expect(subject).not_to eq EntityFile.new(different_folder, 'equal_file')
+    end
+
+    it 'finds a different file unequal' do
+      expect(subject).not_to eq EntityFile.new(equality_folder, 'unequal_file')
+    end
+  end
 end

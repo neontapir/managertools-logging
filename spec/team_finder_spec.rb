@@ -64,7 +64,10 @@ RSpec.describe TeamFinder do
     justice_society_id = 'justice-society'
     justice_society_folder = File.join %W[#{Settings.root} #{justice_society_id}]
 
+    avengers_folder = File.join %W[#{Settings.root}avengers]
+
     before :context do
+      FileUtils.rm_r avengers_folder if Dir.exist? avengers_folder
       [justice_league_folder, justice_society_folder].each do |group_folder|
         FileUtils.mkdir_p group_folder
       end
@@ -76,7 +79,7 @@ RSpec.describe TeamFinder do
       end
     end
 
-    it 'does not find a team that has no folder' do
+    it 'finds nothing given a team spec that has no corresponding folder' do
       team = Team.find('avengers')
       expect(team).to be_nil
     end

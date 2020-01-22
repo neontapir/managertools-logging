@@ -8,7 +8,8 @@ require_relative 'settings'
 class LogFile
   include MtFile
 
-  attr_value :folder
+  attr_reader :folder
+  attr_value :log_file
 
   # Create a new log file
   # @param [EmployeeFolder] folder the containing folder

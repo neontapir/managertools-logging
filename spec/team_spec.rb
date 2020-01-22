@@ -46,6 +46,10 @@ RSpec.describe Team do
     it 'lists its team members by folder' do
       expect(avengers.members_by_folder).to contain_exactly(ant_man_folder, beast_folder)
     end
+
+    it 'implements equality' do
+      expect(avengers).to eq Team.new(team: 'avengers')
+    end
   end
 
   context 'with a team name with a space (Justice League)' do

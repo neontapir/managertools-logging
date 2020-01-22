@@ -4,10 +4,11 @@ require 'pathname'
 require_relative '../employee'
 require_relative '../employee_folder'
 require_relative '../path_string_extensions'
+require_relative 'mt_command'
 require_relative 'new_hire_command'
 
 # Generate overview files recrusively for entries in the data folder
-class GenerateOverviewFilesCommand
+class GenerateOverviewFilesCommand < MtCommand
   using PathStringExtensions
 
   # Generate the files needed to create a team overview

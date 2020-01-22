@@ -10,10 +10,8 @@ RSpec.describe LogFile do
   avengers_folder = File.join %W[#{Settings.root} avengers]
 
   context 'with an employee (isolated examples)' do
-    subject(:hulk_file) do
-      hulk = Employee.new(team: 'Avengers', first: 'Bruce', last: 'Banner')
-      hulk.file
-    end
+    let (:hulk) { Employee.new(team: 'Avengers', first: 'Bruce', last: 'Banner') }
+    subject(:hulk_file) { hulk.file }
 
     hulk_folder = File.join avengers_folder, 'bruce-banner'
 
@@ -43,6 +41,14 @@ RSpec.describe LogFile do
     it 'can insert a dated entry' do
       hulk_file.insert ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Green')
       expect(File.readlines(hulk_file.path)).to eq ["\n", "=== Observation (February  3, 2001,  4:05 AM)\n", "Content::\n", "  Green\n"]
+    end
+
+    it 'implements equality' do
+      expect(hulk_file).to eq Employee.new(team: 'Avengers', first: 'Bruce', last: 'Banner').file
+    end
+
+    it 'find a different path unequal' do
+      expect(hulk_file).not_to eq Employee.new(team: 'Defenders', first: 'Bruce', last: 'Banner').file
     end
   end
 

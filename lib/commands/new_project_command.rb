@@ -5,13 +5,14 @@ require 'ostruct'
 require 'thor'
 require_relative '../entity_file'
 require_relative '../file_writer'
+require_relative 'mt_command'
 require_relative '../entries/observation_entry'
 require_relative '../project_folder'
 require_relative '../project'
 require_relative '../settings'
 
 # Create a new entry for a person
-class NewProjectCommand
+class NewProjectCommand < MtCommand
   include FileWriter
 
   # command(arguments, options)

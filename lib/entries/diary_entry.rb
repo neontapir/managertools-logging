@@ -55,9 +55,9 @@ class DiaryEntry
   #   @raise [ArgumentError] when entry_type is not a kind of DiaryEntry
   #   @return [String] an Asciidoc fragment suitable for appending to a log file
   def render(title, entry_type = self.class)
-    raise NotImplementedError, 'DiaryEntry#elements must be overriden' unless entry_type
-      .instance_methods(false)
-      .include?(:elements)
+    # raise NotImplementedError, 'DiaryEntry#elements must be overriden' unless entry_type
+    #   .instance_methods(false)
+    #   .include?(:elements)
     raise ArgumentError, "#{entry_type}#elements must return an enumerable" unless elements.is_a?(Enumerable)
     raise ArgumentError, "record[:datetime] must be a Time, not a #{date.class}" unless date.is_a?(Time)
 
@@ -69,17 +69,21 @@ class DiaryEntry
     end
   end
 
-  # @abstract Gives the text shown at the beginning of an interactive session to provide the user context
-  #   @param [String] preamble the string to display
-  def prompt(_preamble)
-    raise NotImplementedError, 'DiaryEntry#prompt must be overriden'
-  end
+  attr_implement :prompt, [:preamble]
 
-  # @abstract Gives an array of DiaryElement objects that the user will be prompted to fill out
-  #   @return [Array] the elements to prompt on
-  def elements
-    raise NotImplementedError, 'DiaryEntry#elements must be overriden'
-  end
+  # # @abstract Gives the text shown at the beginning of an interactive session to provide the user context
+  # #   @param [String] preamble the string to display
+  # def prompt(_preamble)
+  #   raise NotImplementedError, 'DiaryEntry#prompt must be overriden'
+  # end
+
+  attr_implement :elements
+
+  # # @abstract Gives an array of DiaryElement objects that the user will be prompted to fill out
+  # #   @return [Array] the elements to prompt on
+  # def elements
+  #   raise NotImplementedError, 'DiaryEntry#elements must be overriden'
+  # end
 
   # fill in the template with the given record entries
   #   @param [String] header_prompt the banner to display before gathering template values
@@ -94,8 +98,8 @@ class DiaryEntry
                             user_input || item.default
                           end
     end
-    data = post_create(data)
-    data
+    @record = post_create(data)
+    record
   end
 
   # @abstract Gives the effective date of the entry

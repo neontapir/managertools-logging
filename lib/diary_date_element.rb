@@ -8,7 +8,8 @@ require_relative 'settings'
 
 # Represents a date in a diary entry
 class DiaryDateElement
-  attr_value :key, :label, :default, :prompt, :formatter
+  attr_value :key, :label, :value
+  attr_reader :default, :prompt, :formatter
 
   # initialize(key, label = key.to_s.capitalize, formatter = ->(x) { x.to_s })
   #   Create a new diary element
@@ -20,6 +21,7 @@ class DiaryDateElement
     @key = key
     @label = label
     @default = options.fetch(:default, Time.now)
+    @value = default
     @formatter = options.fetch(:formatter, ->(x) { x.to_s })
     @prompt = options.fetch(:prompt, label)
   end
@@ -31,12 +33,13 @@ class DiaryDateElement
 
     time = default
     if label
-      value = Settings.console.ask "#{label}: " do |answer|
+      input = Settings.console.ask "#{label}: " do |answer|
         answer.default = default.to_s
       end
-      time = Chronic.parse(value.to_s, context: :past)
+      time = Chronic.parse(input.to_s, context: :past)
       time ||= default
     end
-    @formatter.call time
+    @value = @formatter.call time
+    value
   end
 end

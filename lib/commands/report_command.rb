@@ -4,10 +4,11 @@ require 'asciidoctor'
 require_relative '../diary'
 require_relative '../employee'
 require_relative '../file_writer'
+require_relative 'mt_command'
 require_relative '../os_adapter'
 
 # Create a report from a person's files
-class ReportCommand
+class ReportCommand < MtCommand
   include Diary
   include FileWriter
   include OSAdapter

@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 require_relative '../diary'
+require_relative 'mt_command'
 require_relative '../team'
 require_relative '../string_extensions'
 
 # Implements team meeting functionality
-class TeamMeetingCommand
+class TeamMeetingCommand < MtCommand
   include Diary
   using StringExtensions
 

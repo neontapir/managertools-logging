@@ -3,11 +3,12 @@
 require 'asciidoctor'
 require 'sentimental'
 require_relative '../employee'
+require_relative 'mt_command'
 require_relative '../settings'
 Dir["#{__dir__}/entries/*_entry.rb"].each { |f| require_relative(f) }
 
 # Create a sentiment report from a person's log file
-class SentimentCommand
+class SentimentCommand < MtCommand
 
   class SentimentData < Struct.new(:data, :sentiment, :score)
     def to_s

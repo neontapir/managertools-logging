@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 require_relative '../diary'
+require_relative 'mt_command'
 require_relative '../os_adapter'
 
 # Open a person's log file.
-class OpenFileCommand
+class OpenFileCommand < MtCommand
   include Diary
   include OSAdapter
 

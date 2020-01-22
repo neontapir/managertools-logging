@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
+require 'attr_extras'
 require './lib/mt_file'
 
 RSpec.describe MtFile do
   context 'when path is not defined' do
-    subject { (Class.new { include MtFile }).new }
+    subject(:implementer) { (Class.new { include MtFile }).new }
 
     it 'raises an error' do
-      expect { subject.path }.to raise_error(NotImplementedError, 'A MtFile must define its #path')
+      expect { implementer.path }.to raise_error AttrExtras::MethodNotImplementedError
     end
   end
 

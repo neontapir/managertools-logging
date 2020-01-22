@@ -16,7 +16,8 @@ class DiaryElement
   # The value used if the element's default value is not specified during object construction
   DEFAULT_VALUE = 'none'
 
-  attr_value :key, :label, :default, :prompt
+  attr_value :key, :label, :value
+  attr_reader :default, :prompt
 
   # initialize(key, label = key.to_s.capitalize, options = {})
   #   Create a new diary element
@@ -27,6 +28,7 @@ class DiaryElement
 
     @key, @label = key, label
     @default = options[:default] || DEFAULT_VALUE
+    @value = default
     @prompt = options.key?(:prompt) ? options[:prompt] : label
   end
 
@@ -35,13 +37,14 @@ class DiaryElement
   def obtain
     return default unless prompt
 
-    Settings.console.ask "#{label}: " do |answer|
+    @value = Settings.console.ask "#{label}: " do |answer|
       answer.default = default
     end
+    value
   end
 
   # Print a detailed view of a diary element for debugging
   def inspect
-    "<DiaryElement:#{object_id} with key: '#{key}', label: '#{label}', default: '#{default}', prompt: '#{prompt}'>"
+    "<DiaryElement:#{object_id} with key: '#{key}', label: '#{label}', value: '#{value}'>"
   end
 end

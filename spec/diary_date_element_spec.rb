@@ -122,4 +122,37 @@ RSpec.describe DiaryDateElement do
       expect(element.obtain.to_s).to include('December 31, 1999')
     end
   end
+
+  context 'with 6/29/2007 content' do
+    let(:entry_date) { Time.local(2007, 6, 29) }
+    subject { DiaryDateElement.new(:datetime, 'Datetime') }
+
+    before do
+      Timecop.freeze entry_date
+    end
+
+    after do
+      Timecop.return
+    end
+
+    it 'implements equality' do
+      equal = DiaryDateElement.new(:datetime, 'Datetime')
+      expect(subject).to eq equal
+    end
+
+    it 'finds a different key unequal' do
+      different_key = DiaryDateElement.new(:hammer_time, 'Datetime')
+      expect(subject).not_to eq different_key
+    end
+
+    it 'finds a different label unequal' do
+      different_label = DiaryDateElement.new(:datetime, 'Hammer time')
+      expect(subject).not_to eq different_label
+    end
+
+    it 'finds a different value unequal' do
+      different_value = DiaryDateElement.new(:datetime, 'Datetime', default: Time.local(1999, 12, 25))
+      expect(subject).not_to eq different_value
+    end
+  end
 end

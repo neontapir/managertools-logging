@@ -4,12 +4,13 @@ require_relative '../diary'
 require_relative '../employee'
 require_relative '../entries/interview_entry'
 require_relative '../settings'
+require_relative 'mt_command'
 require_relative 'new_hire_command'
 
 # Records an interview entry.
 # Unlike the RecordDiaryEntryCommand, this will create a new employee entry
 #   on the 'candidates' team if the subject isn't found.
-class InterviewCommand
+class InterviewCommand < MtCommand
   include Diary
 
   # command(arguments, options)

@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 require 'highline'
+require_relative 'mt_command'
 require_relative '../settings'
 
 # Create default config file
-class InitCommand
+class InitCommand < MtCommand
   # command(arguments, options)
   #   Create a default config file in the configured location
   def command(_ = nil, _ = nil)
