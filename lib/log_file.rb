@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'attr_extras'
 require_relative 'entity_file'
 require_relative 'settings'
 
@@ -7,7 +8,7 @@ require_relative 'settings'
 class LogFile
   include MtFile
 
-  attr_reader :folder
+  attr_value :folder
 
   # Create a new log file
   # @param [EmployeeFolder] folder the containing folder

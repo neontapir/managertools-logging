@@ -138,10 +138,10 @@ RSpec.describe Employee do
   context 'abnormal usage' do
     context 'mising keys' do
       it 'raises on initialization' do
-        expect { Employee.new() }.to raise_error ArgumentError
-        expect { Employee.new(first: 'John', last: 'Smith') }.to raise_error ArgumentError
-        expect { Employee.new(team: 'normal', last: 'Smith') }.to raise_error ArgumentError
-        expect { Employee.new(team: 'normal', first: 'John') }.to raise_error ArgumentError
+        expect { Employee.new() }.to raise_error KeyError
+        expect { Employee.new(first: 'John', last: 'Smith') }.to raise_error KeyError
+        expect { Employee.new(team: 'normal', last: 'Smith') }.to raise_error KeyError
+        expect { Employee.new(team: 'normal', first: 'John') }.to raise_error KeyError
       end
     end
 

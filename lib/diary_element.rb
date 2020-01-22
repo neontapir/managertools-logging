@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'attr_extras'
 require_relative 'settings'
 
 # A single item in a diary entry, like "Location"
@@ -15,7 +16,7 @@ class DiaryElement
   # The value used if the element's default value is not specified during object construction
   DEFAULT_VALUE = 'none'
 
-  attr_reader :key, :label, :default, :prompt
+  attr_value :key, :label, :default, :prompt
 
   # initialize(key, label = key.to_s.capitalize, options = {})
   #   Create a new diary element

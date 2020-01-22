@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'attr_extras'
 require_relative 'employee'
 require_relative 'employee_folder'
 require_relative 'path_string_extensions'
@@ -9,7 +10,7 @@ require_relative 'team_finder'
 #   @!attribute [r] team
 #   @return [String] the path name of the team
 class Team
-  attr_reader :team
+  attr_value :team
 
   using PathStringExtensions
   extend TeamFinder
@@ -43,17 +44,5 @@ class Team
   # Represent a Team by its titlecased name
   def to_s
     team.path_to_name
-  end
-
-  # Teams are equal if the have the same #team value
-  def ==(other)
-    return false unless other.respond_to? :team
-
-    team.eql? other.team
-  end
-
-  # Equality operator overload  
-  def eql?(other)
-    instance_of?(other.class) && self == other
   end
 end

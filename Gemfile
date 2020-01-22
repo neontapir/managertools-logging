@@ -3,6 +3,7 @@
 source 'https://rubygems.org'
 
 gem 'asciidoctor'
+gem 'attr_extras'
 gem 'chronic'
 gem 'chronic_duration'
 gem 'facets'

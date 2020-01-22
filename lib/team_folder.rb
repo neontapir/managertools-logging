@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'attr_extras'
 require 'fileutils'
 require_relative 'string_extensions'
 require_relative 'path_string_extensions'
@@ -11,18 +12,13 @@ class TeamFolder
   using StringExtensions
   using PathStringExtensions
 
-  attr_reader :team
+  attr_value_initialize :team
 
   class << self
     # The root folder where data is stored, taken from Settings
     def root
       Settings.root
     end
-  end
-
-  # Create a new ProjectFolder object
-  def initialize(team)
-    @team = team
   end
 
   # The canonical name of the folder

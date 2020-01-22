@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'attr_extras'
 require 'chronic'
 require_relative '../string_extensions'
 require_relative '../time_extensions'
@@ -8,7 +9,7 @@ require_relative '../time_extensions'
 # @!attribute [r] record
 #   @return [Hash] the entry's data dictionary of elements
 class DiaryEntry
-  attr_reader :record
+  attr_value :record
   using StringExtensions
   using TimeExtensions
 

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'attr_extras'
 require_relative 'path_string_extensions'
 require_relative 'project_finder'
 require_relative 'project_folder'
@@ -8,7 +9,7 @@ require_relative 'project_folder'
 #   @!attribute [r] project
 #   @return [String] the path name of the project
 class Project
-  attr_reader :project
+  attr_value :project
 
   using PathStringExtensions
   extend ProjectFinder
@@ -42,17 +43,5 @@ class Project
   # Represent a Project by its titlecased name
   def to_s
     project.path_to_name
-  end
-
-  # Equality operator overload
-  def ==(other)
-    return false unless other.respond_to? :project
-
-    project.eql? other.project  
-  end
-
-  # Projects are equal if the have the same #project value
-  def eql?(other)
-    instance_of?(other.class) && self == other
   end
 end

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'attr_extras'
 require 'chronic'
 require 'date'
 require_relative 'diary_element'
@@ -7,7 +8,7 @@ require_relative 'settings'
 
 # Represents a date in a diary entry
 class DiaryDateElement
-  attr_reader :key, :label, :default, :prompt, :formatter
+  attr_value :key, :label, :default, :prompt, :formatter
 
   # initialize(key, label = key.to_s.capitalize, formatter = ->(x) { x.to_s })
   #   Create a new diary element
