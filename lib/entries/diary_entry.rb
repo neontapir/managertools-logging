@@ -9,12 +9,15 @@ require_relative '../time_extensions'
 # @!attribute [r] record
 #   @return [Hash] the entry's data dictionary of elements
 class DiaryEntry
-  attr_value :record
   using StringExtensions
   using TimeExtensions
 
   # the Asciidoc header marker used by the script
   ENTRY_HEADER_MARKER = '==='
+
+  attr_value :record
+  attr_implement :prompt, [:preamble]
+  attr_implement :elements
 
   class << self
     # get(name)
@@ -37,7 +40,7 @@ class DiaryEntry
     end
   
     def descendants
-      @descendants 
+      @descendants
     end
   end
 
@@ -55,9 +58,6 @@ class DiaryEntry
   #   @raise [ArgumentError] when entry_type is not a kind of DiaryEntry
   #   @return [String] an Asciidoc fragment suitable for appending to a log file
   def render(title, entry_type = self.class)
-    # raise NotImplementedError, 'DiaryEntry#elements must be overriden' unless entry_type
-    #   .instance_methods(false)
-    #   .include?(:elements)
     raise ArgumentError, "#{entry_type}#elements must return an enumerable" unless elements.is_a?(Enumerable)
     raise ArgumentError, "record[:datetime] must be a Time, not a #{date.class}" unless date.is_a?(Time)
 
@@ -68,22 +68,6 @@ class DiaryEntry
       output + "#{entry.label}::\n  #{@record.fetch(entry.key, entry.default).to_s.wrap}\n"
     end
   end
-
-  attr_implement :prompt, [:preamble]
-
-  # # @abstract Gives the text shown at the beginning of an interactive session to provide the user context
-  # #   @param [String] preamble the string to display
-  # def prompt(_preamble)
-  #   raise NotImplementedError, 'DiaryEntry#prompt must be overriden'
-  # end
-
-  attr_implement :elements
-
-  # # @abstract Gives an array of DiaryElement objects that the user will be prompted to fill out
-  # #   @return [Array] the elements to prompt on
-  # def elements
-  #   raise NotImplementedError, 'DiaryEntry#elements must be overriden'
-  # end
 
   # fill in the template with the given record entries
   #   @param [String] header_prompt the banner to display before gathering template values

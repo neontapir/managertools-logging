@@ -47,6 +47,7 @@ group :quality, optional: true do
   gem 'reek'
   gem 'rubocop'
   gem 'rubocop-performance'
+  gem 'rubycritic'
 end
 
 group :test do

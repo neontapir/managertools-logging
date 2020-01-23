@@ -25,6 +25,11 @@ task :rebuild do
   task(:build).invoke
 end
 
+desc 'Run rubycritic against the solution to detect code quality issues'
+task :rubycritic do
+  system 'rubycritic' || exit!(1)
+end
+
 desc 'Run flay against the solution to detect code duplication'
 task :flay do
   system 'flay', '.' || exit!(1)
@@ -47,7 +52,7 @@ end
 
 desc 'Inspect the quality of the code'
 task :quality do
-  %I[flay flog reek rubocop].each { |t| task(t).invoke }
+  %I[rubycritic rubocop].each { |t| task(t).invoke }
 end
 
 desc 'Build the team directory document'
@@ -67,6 +72,7 @@ task :guard do
   system *%w[bundle exec guard] || exit!(1)
 end
 
+task critic: :rubycritic
 task docs: :document
 task test: :spec
 task default: :build
