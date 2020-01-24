@@ -24,6 +24,10 @@ class NewHireCommand < MtCommand
     raise 'missing first name argument' unless first
     raise 'missing last name argument' unless last
 
+    [:biography, :grade_level, :hire_date].each do |var|
+      instance_variable_set("@#{var}", options&.send(var) || '')
+    end
+
     employee = Employee.new(team: team, first: first, last: last)
     folder = EmployeeFolder.new employee
     folder.ensure_exists
@@ -89,7 +93,7 @@ class NewHireCommand < MtCommand
 
       #{DiaryEntry::ENTRY_HEADER_MARKER} Employment information
 
-      Hire Date: #{@hire_date}
+      Hire date: #{@hire_date}
       Grade level: #{@grade_level}
 
     CONTENTS
