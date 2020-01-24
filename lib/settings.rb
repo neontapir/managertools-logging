@@ -9,7 +9,7 @@ class Settings < Settingslogic
     # the top folder for content
     # @note hard-coded so application can bootstrap itself
     def root
-      'data'
+      method_defined?(:data_root) ? data_root : 'data'
     end
 
     # the location of the configuration file
@@ -47,12 +47,11 @@ class Settings < Settingslogic
     def default_config
       <<~CONFIG
         defaults: &defaults
-          # TODO: root is set in lib/settings.rb
-          root: data
+          data_root: data
           candidates_root: zzz_candidates
           departed_root: zzz_departed
           project_root: projects
-          editor: atom
+          editor: code
           feedback_polarity_default: positive
           meeting_location_default: alcove
           log_filename: log.adoc

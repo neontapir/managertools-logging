@@ -13,18 +13,18 @@ RSpec.describe Employee do
     let(:quicksilver_data) { { team: 'Avengers', first: 'Pietro', last: 'Maximoff' } }
 
     it 'is capitalized when input is capitalized' do
-      quicksilver = Employee.new **quicksilver_data
+      quicksilver = Employee.new(**quicksilver_data)
       expect(quicksilver.to_s).to eq 'Pietro Maximoff'
     end
 
     it 'is capitalized even when input is not capitalized' do
       quicksilver_lowercase = quicksilver_data.dup.transform_values {|v| v.downcase }
-      quicksilver = Employee.new **quicksilver_lowercase
+      quicksilver = Employee.new(**quicksilver_lowercase)
       expect(quicksilver.to_s).to eq 'Pietro Maximoff'
     end
 
     it 'is available as a canonical name' do
-      quicksilver = Employee.new **quicksilver_data
+      quicksilver = Employee.new(**quicksilver_data)
       expect(quicksilver.canonical_name).to eq 'pietro-maximoff'
     end
   end

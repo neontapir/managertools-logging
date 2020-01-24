@@ -7,7 +7,6 @@ require './lib/commands/sentiment_command'
 RSpec.describe SentimentCommand do
   context 'with an existing employee (Spider-Man)' do
     avengers_folder = File.join %W[#{Settings.root} avengers]
-    file_prefix = 'report-peter-parker'
 
     before :context do
       Settings.with_mock_input "\nhere\nMet about goals\n\n\n" do

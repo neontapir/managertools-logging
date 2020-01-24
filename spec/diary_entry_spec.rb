@@ -134,7 +134,7 @@ RSpec.describe DiaryEntry do
     it 'finds a different record unequal' do
       other = PerformanceCheckpointEntry.new
       Settings.with_mock_input("\nGood\n") do
-        data = other.populate('John Doe')
+        other.populate('John Doe')
       end
       expect(entry).not_to eq other
     end

@@ -35,7 +35,7 @@ module ProjectFinder
       next unless dir[target]
 
       project_spec = parse_dir dir
-      return Project.new **project_spec
+      return Project.new(**project_spec)
     end
   end
 end
