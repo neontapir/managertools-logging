@@ -26,6 +26,9 @@ I created an omnibus script in Ruby to call the various functions from one scrip
 
     Reviewing data/avengers/tony-stark/overview.adoc... generating
 
+Here, I'm making a `one-on-one` entry. Note that I can specify a partial name
+to look up a person.
+
     $ ./mt o3 tony
     For your 1:1 with Tony Stark, enter the following:
     Location: |none| Avengers Tower
@@ -52,15 +55,17 @@ prompted me for the data it needed. Here are the files that were created:
     └── avengers
         ├── steve-rogers
         │   └── log.adoc
+        │   └── overview.adoc
         └── tony-stark
             ├── log.adoc
             └── overview.adoc
 
-These commands store their data as Asciidoc files. Notice that Tony has an
-overview file, which was created by the `new-hire` command. I can generate
-missing team files using `gen-overview-files`.
+These commands store their data as Asciidoc files. I can create an HTML export
+of the log file pretty easily:
 
-You can also provide `feedback`:
+    $ ./mt report steve
+
+There are a number of types of diary entries. You can also provide `feedback`:
 
     $ ./mt feedback tony
     With feedback for Tony Stark, enter the following:
@@ -68,7 +73,7 @@ You can also provide `feedback`:
     Content: |none| When you try to provoke people in the team room, it makes
     bystanders uncomfortable. Can you do that differently next time?
 
-You can make observations about direct reports. Observations are an entry type
+You can make `observations` about direct reports. Observations are an entry type
 for adding content to a log which does not come from an interaction with the
 direct report.
 
@@ -78,11 +83,31 @@ direct report.
     computer help. She asked if computer training was part of his annual goal
     plan.
 
+You can also make observations about `multiple people at once`. You can use 
+`relative time specification` in date fields.
+
+    $ ./mt obs rogers stark
+    Enter your observation:
+    Effective date: |2020-01-25 10:15:50 -0700| yesterday
+    Content: |none| Came into the office early to help set up for the team 
+    meeting
+
+When I enter that, the following entry is put into their log files.
+
+    === Observation (January 24, 2020, 12:00 PM)
+    Applies to::
+      Steve Rogers, Tony Stark
+    Content::
+      Came into the office early to help set up for the team meeting
+
 Other entry options not covered here are:
 
+- `goal`, for recording goals or individual development plans
 - `interview` (which uses a team called `zzz_candidates`)
 - `perf`, which uses a performance checkpoint template
-- `team`, which propagates the content to the logs of all members of the team
+- `pto`, for recording time out of office
+- `team`, which acts like the multiple people entry above, but it auto-selects
+  all members of the specified team(s)
 
 After our examples, this is what `data/avengers/tony-stark/log.adoc` contains:
 
@@ -101,6 +126,12 @@ After our examples, this is what `data/avengers/tony-stark/log.adoc` contains:
     Content::
       When you try to provoke people in the team room, it makes bystanders
       uncomfortable. Can you do that differently next time?
+
+    === Observation (January 24, 2020, 12:00 PM)
+    Applies to::
+      Steve Rogers, Tony Stark
+    Content::
+      Came into the office early to help set up for the team meeting
 
 Notice that the command did some word-wrapping for you.
 
@@ -129,7 +160,12 @@ combine all members of the team into a single web page.
 
 Other commands include:
 
+- `move`, for moving people to a different team
 - `depart`, for moving people to the `zzz_departed` folder
+
+The advantage of using these move commands is that it will add a diary entry
+indicating the team change.
+
 - `last`, for displaying the person's last diary entry
 - `open`, for loading the diary log file into the default text editor
 
@@ -141,9 +177,9 @@ test suite assumes that it can create and destroy Avengers data at will.)
 ### Lookups
 
 The script finds people by looking at a string containing the team name and the
-individual's name, then finding the first match in alphabetical order. This is
-the reason that the candidates folder is prefaced with "zzz\_", in order to make
-it last in the search order.
+individual's name, then finding the first match by folder and person name in 
+alphabetical order. This is the reason that the candidates folder is prefaced 
+with "zzz\_", in order to make it last in the search order.
 
 This algorithm can be problematic in some edge cases. For example, I have a
 "Tommy" team, and that person has a person named Tom on it. If I just reference
@@ -155,60 +191,83 @@ been enough of an issue for me to correct.
 
 ### Changing where data is stored
 
-In `lib/employee_folder.rb`, there is a variable called `root` which defines
-where your data is stored. The variable `candidates_root` determines in which
-folder interviews are recorded.
+In the `config.yaml` file, there is a variable called `data_root` which defines
+where your data is stored. It's used by `lib\settings.rb`. The variable
+`candidates_root` determines in which folder interviews are recorded.
 
-I manually move the folders of people who no longer report to me to a team
-folder called "`zzz_departed`". The script will still find them as normal. You can
-also use the same approach when people change teams. It happens infrequently
-enough for me that I didn't automate it.
+People who no longer report to me are put into a team folder called
+"`zzz_departed`". The script will still find them as normal.
 
 ### Adding a new entry type
 
 If you want to add a new diary entry type, you will need to create a new entry
 class in `lib`, using the naming convention `type + Entry`, for example
-`ObservationEntry` for an observation.
+`ObservationEntry` for an observation. It will inherit from `DiaryEntry`.
 
 After creating a new entry type according to the subsection, you need to update
-the main `mt` script to parse your new entry type. Use the existing types as a
-guide. For simple cases, "invoke module directly" is the right option.
+`lib\manager_tools_cli.rb` to parse your new entry type. It makes heavy use
+of the `Thor` gem to define subcommands `mt` understands. Use the existing types
+as a guide. For simple cases, "invoke module directly" is the right option. For 
+more complicated cases, create a custom command.
+
+### Adding a new command
+
+Actions are handled by commands. There is an `MtCommand` class that implements
+a Command pattern using the method `command`. To add a command, create a new
+inheritor, then add the command to `lib\manager_tools_cli.rb`, which handles
+all the program interaction with the CLI.
 
 #### Creating the new entry type
 
-Looking at ObservationEntry as an example, you will see there are three methods
+Looking at `ObservationEntry` as an example, you will see there are three methods
 to customize:
 
+    require_relative '../diary_date_element'
+    require_relative '../diary_element'
+    require_relative 'diary_entry'
+
+    # Template for an observation
     class ObservationEntry < DiaryEntry
-      def self.prompt(name)
-        "Enter your observation for #{name}:"
+      # generates the interactive prompt string
+      def prompt(name)
+        personalized = name[','] ? '' : " for #{name}"
+        "Enter your observation#{personalized}:"
       end
 
-      def self.elements
-        [
-          DiaryElement.new(:location, 'Location', default: 'unspecified'),
-          DiaryElement.new(:content)
+      # define the items included in the entry
+      def elements
+        result = [
+          DiaryDateElement.new(:datetime, 'Effective date'),
+          DiaryElement.new(:content),
         ]
+        with_applies_to(result)
       end
 
-      def to_s
-        render('Observation')
+      # render the entry into a string suitable for file insertion
+      def entry_banner
+        'Observation'
       end
     end
 
-The `prompt` text is displayed at the beginning of the recording.
+The `prompt` text is displayed at the beginning of the recording. The
+`personalized` variable exists to gracefully handle situations where
+multiple people are specified.
 
 Each element in the `elements` becomes a question that is asked of the
-user. This example shows two entries. In the `location` entry, the prompt is
-specified in the second argument, and the default value is the third. The
-`content` entry shows that the last two arguments are optional.
+user. This example shows two entries, a date and a string. The difference
+is that dates apply parsing to interpret the date given. 
 
-The `to_s` method is what gets written to the log file, and in most cases should
-be the results of the `render` method. The argument to `render` is the entry
-header.
+In the `datetime` entry, the prompt is specified in the second argument. If
+there were a third argument, it would be the default value. For dates, that's
+now. For strings, it's "None". The `content` entry shows that the last two
+arguments are optional.
+
+The `to_s` method is what gets written to the log file, and the implementation
+inherited from `DiaryEntry` uses the results of the `render` method. The
+`entry_banner` titles the diary entry.
 
 ## Usage Hints
 
 In cases where I want to quote material, I will often use the script to fill in
-values. I then use a text editor like Atom to add the quoted material, like a
-chat room transcript or email.
+values. I then use a text editor like Atom or VS Code to add the quoted material,
+like a chat room transcript or email.
