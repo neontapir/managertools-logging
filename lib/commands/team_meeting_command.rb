@@ -25,6 +25,7 @@ class TeamMeetingCommand < MtCommand
           team_name.to_name,
           attendees: members
             .map { |m| m.to_s.to_name }
+            .sort
             .join(', '),
           team: team,
         )
