@@ -34,11 +34,14 @@ class DiaryEntry
       Kernel.const_get "#{entry_type_name}Entry"
     end
 
+    # overwriting this inherited method allows descendents to return the expected values
     def inherited(subclass)
       @descendants ||= []
       @descendants << subclass
     end
   
+    # implementors of DiaryEntry
+    # @note used by sentiment analysis to filter non-diary entries
     def descendants
       @descendants
     end

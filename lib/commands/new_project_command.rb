@@ -15,6 +15,9 @@ require_relative '../settings'
 class NewProjectCommand < MtCommand
   include FileWriter
 
+  # colletion of valid parameters
+  NpcParameters = Struct.new(:folder, :force, :summary)
+
   # command(arguments, options)
   #   Create new overview and load files for a person
   def command(arguments, options = nil)
@@ -32,7 +35,7 @@ class NewProjectCommand < MtCommand
     #   answer.default = 'undefined'
     # end
 
-    npc_parameters = OpenStruct.new(folder: folder, force: force, summary: summary)
+    npc_parameters = NpcParameters.new(folder, force, summary)
     generate_log_file(npc_parameters)
   end
 

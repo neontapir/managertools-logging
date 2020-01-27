@@ -10,7 +10,9 @@ Dir["#{__dir__}/entries/*_entry.rb"].each { |f| require_relative(f) }
 # Create a sentiment report from a person's log file
 class SentimentCommand < MtCommand
 
+  # a diary entry and its sentiment score
   class SentimentData < Struct.new(:data, :sentiment, :score)
+    # display the data
     def to_s
       "#{sentiment} (#{score}): #{data}"
     end
@@ -49,7 +51,7 @@ class SentimentCommand < MtCommand
     
     doc.sections
       .filter{ |s| s.title =~ /#{entries_regex}/ }
-      .flat_map{ |s| s.content }
+      .flat_map(&:content)
       .map{ |c| c.tr("\n", ' ').gsub(/\<.+?\>/, '').to_s[0,50] }
   end
 

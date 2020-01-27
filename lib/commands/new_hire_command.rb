@@ -14,6 +14,9 @@ require_relative '../settings'
 class NewHireCommand < MtCommand
   include FileWriter
 
+  # colletion of valid parameters
+  NhcParameters = Struct.new(:folder, :force)
+
   # command(arguments, options)
   #   Create new overview and load files for a person
   def command(arguments, options = nil)
@@ -32,7 +35,7 @@ class NewHireCommand < MtCommand
     folder = EmployeeFolder.new employee
     folder.ensure_exists
 
-    nhc_parameters = OpenStruct.new(folder: folder, force: force)
+    nhc_parameters = NhcParameters.new(folder, force)
     generate_overview_file_by(nhc_parameters)
     generate_log_file_by(nhc_parameters)
     employee

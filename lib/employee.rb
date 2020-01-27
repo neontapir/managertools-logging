@@ -9,6 +9,7 @@ require_relative 'string_extensions'
 # A data container for employee data, used during searching folders for
 # employee records
 EmployeeSpecification = Struct.new(:team, :first, :last, keyword_init: true) do
+  # convert a hash to an employee
   def to_employee
     Employee.new(team: team, first: first, last: last)
   end

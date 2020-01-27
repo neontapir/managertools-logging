@@ -18,7 +18,7 @@ RSpec.describe Employee do
     end
 
     it 'is capitalized even when input is not capitalized' do
-      quicksilver_lowercase = quicksilver_data.dup.transform_values {|v| v.downcase }
+      quicksilver_lowercase = quicksilver_data.dup.transform_values(&:downcase)
       quicksilver = Employee.new(**quicksilver_lowercase)
       expect(quicksilver.to_s).to eq 'Pietro Maximoff'
     end
