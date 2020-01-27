@@ -16,7 +16,7 @@ class Team
   extend TeamFinder
 
   # Create a new Team object
-  # @param [Hash] params a Hash with a :team entry
+  # @param [String] team a team name
   def initialize(team:)
     raise ArgumentError, 'Name must not be empty' if team.to_s.empty?
 

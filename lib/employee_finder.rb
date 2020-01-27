@@ -28,8 +28,7 @@ module EmployeeFinder
   def parse_dir(dir)
     paths = dir.split_path
     _root, team, name = paths
-    hash = { team: team }.merge(parse_name(name))
-    EmployeeSpecification.new hash
+    EmployeeSpecification.new({ team: team , **parse_name(name) })
   end
 
   # Parse a string as though it is part of an employee spec and return the result

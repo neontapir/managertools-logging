@@ -15,7 +15,7 @@ class Project
   extend ProjectFinder
 
   # Create a new Project object
-  # @param [Hash] params a Hash with a :project entry
+  # @param [String] project a project name
   def initialize(project:)
     raise ArgumentError, 'Name must not be empty' if project.to_s.empty?
 
