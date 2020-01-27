@@ -80,7 +80,7 @@ class LogFile
   def write_entry_to(before, entry, after)
     File.open(path, 'w') do |file|
       file.puts before
-      file.puts "\n" unless entry.to_s[0, 1] == "\n" # ensure leading CR for Asciidoc
+      file.puts "\n" unless entry.to_s.start_with? "\n" # ensure leading CR for Asciidoc
       file.puts entry
       file.puts after
     end

@@ -50,7 +50,7 @@ class SentimentCommand < MtCommand
     entries_regex = Regexp.union(entry_banners)
     
     doc.sections
-      .filter{ |s| s.title =~ /#{entries_regex}/ }
+      .filter{ |s| s.title.match? /#{entries_regex}/ }
       .flat_map(&:content)
       .map{ |c| c.tr("\n", ' ').gsub(/\<.+?\>/, '').to_s[0,50] }
   end

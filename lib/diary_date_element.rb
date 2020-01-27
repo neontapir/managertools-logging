@@ -16,7 +16,7 @@ class DiaryDateElement
   #   @raise [ArgumentError] when label contains characters not allowed in Asciidoc definition lists
   def initialize(key, label = key.to_s.capitalize, options = {})
     # REVIEW: Research, this assertion may not actually be correct
-    raise ArgumentError, 'Asciidoc labeled lists cannot contain special characters' unless label =~ /\A['\-A-Za-z ]+\z/
+    raise ArgumentError, 'Asciidoc labeled lists cannot contain special characters' unless label.match? /\A['\-A-Za-z ]+\z/
 
     @key = key
     @label = label
