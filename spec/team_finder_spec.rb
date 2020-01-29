@@ -64,7 +64,7 @@ RSpec.describe TeamFinder do
     justice_society_id = 'justice-society'
     justice_society_folder = File.join %W[#{Settings.root} #{justice_society_id}]
 
-    avengers_folder = File.join %W[#{Settings.root}avengers]
+    avengers_folder = File.join %W[#{Settings.root} avengers]
 
     before :context do
       FileUtils.rm_r avengers_folder if Dir.exist? avengers_folder
@@ -91,9 +91,9 @@ RSpec.describe TeamFinder do
       end
     end
 
-    it 'finds a team by unique identifier' do
+    it 'finds a team by unique partial name' do
       [justice_league_id, justice_society_id].each do |name|
-        team = finder.find(name[0, 9]) # justice_l or justice_s
+        team = finder.find(name[0, 9]) # justice-l or justice-s
         expect(team.path).to eq name
       end
     end

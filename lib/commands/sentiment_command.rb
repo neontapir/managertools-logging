@@ -11,7 +11,7 @@ Dir["#{__dir__}/entries/*_entry.rb"].each { |f| require_relative(f) }
 class SentimentCommand < MtCommand
 
   # a diary entry and its sentiment score
-  class SentimentData < Struct.new(:data, :sentiment, :score)
+  SentimentData = Struct.new(:data, :sentiment, :score) do
     # display the data
     def to_s
       "#{sentiment} (#{score}): #{data}"

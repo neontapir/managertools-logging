@@ -14,12 +14,18 @@ class PtoEntry < DiaryEntry
   using StringExtensions
   using TimeExtensions
 
+  # One day in seconds
+  ONE_DAY = 86_400
+
+  # short date format
+  SHORT_FORMAT = ->x { x.short_date }
+
   # define the items included in the entry
-  def elements
+  def elements   
     [
       DiaryElement.new(:duration, 'Duration', default: '0', prompt: nil),
-      DiaryDateElement.new(:start_time, 'Start date', formatter: ->x { x.short_date }),
-      DiaryDateElement.new(:end_time, 'End date', formatter: ->x { x.short_date }),
+      DiaryDateElement.new(:start_time, 'Start date', formatter: SHORT_FORMAT),
+      DiaryDateElement.new(:end_time, 'End date', formatter: SHORT_FORMAT),
       DiaryElement.new(:reason, 'Reason', default: Settings.pto_default || 'unspecified'),
     ]
   end
@@ -28,9 +34,6 @@ class PtoEntry < DiaryEntry
   def prompt(name)
     "To record paid time off for #{name}, enter the following:"
   end
-
-  # One day in seconds
-  ONE_DAY = 86_400
 
   # A hook to modify data after prompting for responses
   def post_create(data)
