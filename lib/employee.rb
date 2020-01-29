@@ -71,10 +71,7 @@ class Employee
   # @param [Type] other the object to compare
   # @return [Integer] -1 (other less than), 0 (equal), or 1 (greater than)
   def <=>(other)
-    comparison = team <=> other.team
-    comparison = first <=> other.first if comparison.zero?
-    comparison = last <=> other.last if comparison.zero?
-    comparison
+    [team, first, last] <=> [other.team, other.first, other.last]
   end
 
   # The display name, in title case
