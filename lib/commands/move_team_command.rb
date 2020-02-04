@@ -25,17 +25,29 @@ class MoveTeamCommand
 
   # Checks preconditions for move, then executes the move
   def move_team(target_team_spec, employee_spec)
-    employee = Employee.find employee_spec
-    raise EmployeeNotFoundError, "No employee matching '#{employee_spec}' found, aborting" unless employee
-
-    target_team = Team.find target_team_spec
-    raise TeamNotFoundError, "No team matching '#{target_team_spec}' found, aborting" unless target_team
+    employee, target_team = parse_input(target_team_spec, employee_spec)
 
     if employee.team == target_team.path
       warn HighLine.color("Aborting, #{employee} is already in the expected folder", :red)
     else
       move(target_team, employee)
     end
+  end
+
+  # parse input to get entities to act against
+  def parse_input(target_team_spec, employee_spec)
+    target_team = Team.find target_team_spec
+    unless target_team
+      warn HighLine.color("No team matching '#{target_team_spec}' found, will try swapping parameters", :yellow)
+      (employee_spec, target_team_spec) = target_team_spec, employee_spec
+      target_team =  Team.find target_team_spec
+    end
+    raise TeamNotFoundError, "No team matching '#{target_team_spec}' found, aborting" unless target_team
+    
+    employee = Employee.find employee_spec
+    raise EmployeeNotFoundError, "No employee matching '#{employee_spec}' found, aborting" unless employee
+
+    [employee, target_team]
   end
 
   # Moves the employee's files to the target team's folder
@@ -46,13 +58,28 @@ class MoveTeamCommand
 
   # Move the employee's files
   def move_folder(target_team, employee)
-    puts "Moving #{employee} to team #{target_team}"
-    move_entry = ObservationEntry.new(content: "Moving #{employee} to team #{target_team}")
+    destination = destination_label(target_team)
+    puts "Moving #{employee} to #{destination}"
+    move_entry = ObservationEntry.new(content: "Moving #{employee} to #{destination}")
     employee_file = employee.file
     employee_file.insert move_entry
     current_folder = File.dirname employee_file.path
     FileUtils.move(current_folder, target_team_path(target_team, employee))
   end
+
+  # compose desitnation for console message
+  def destination_label(target_team)
+    %w[candidates departed project].each do |word|
+      return "#{word} folder" if target_team.path =~ /#{Settings.send("#{word}_root")}/
+    end
+    "team #{target_team}"
+  end 
+
+  # only add team to person's overview file if it's a regular team
+  # NOTE: relies on destination_team implementation
+  def add_to_team_list?(target_team)
+    destination_label(target_team).start_with? 'team '
+  end  
 
   # Add the new team to the person's overview file
   def update_overview_file(target_team, employee)
@@ -63,14 +90,14 @@ class MoveTeamCommand
     begin
       File.open(overview, 'r') do |file|
         file.each_line do |line|
-          case line
-          when /imagesdir/
-            temp_file.puts ":imagesdir: #{target_team_path(target_team, employee)}"
-          when /Team:/
-            temp_file.puts "#{line.chomp}, #{target_team}"
-          else
-            temp_file.puts line
-          end
+          updated_line = case line
+                         when /imagesdir/
+                           ":imagesdir: #{target_team_path(target_team, employee)}"
+                         when /Team:/
+                          add_to_team_list?(target_team) ? "#{line.chomp}, #{target_team}" : line 
+                         else line
+                         end
+          temp_file.puts updated_line
         end
       end
       temp_file.close

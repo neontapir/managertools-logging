@@ -31,5 +31,15 @@ RSpec.describe DepartCommand do
       expect(Dir).to exist(File.join(%W[#{departed_folder} #{demolition_man}]))
       expect(Dir).not_to exist(File.join(%W[#{old_team_folder} #{demolition_man}]))
     end
+
+    it 'does not update the team line in the overview file' do
+      expect { subject.command 'dunphy' }.to output(/Dennis Dunphy/).to_stdout
+      demolition_man_employee = Employee.find('Dennis')
+      new_folder = demolition_man_employee.file.folder
+      overview_location = File.join new_folder, Settings.overview_filename
+      overview_contents = File.read(overview_location)
+      expect(overview_contents).to match /^Team: Revengers\s*$/m
+      expect(overview_contents).not_to match /^Team:.*departed/im
+    end
   end
 end

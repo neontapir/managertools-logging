@@ -63,6 +63,36 @@ RSpec.describe MoveTeamCommand do
     end
   end
 
+  context 'moving a team member with swapped parameters (Red Arrow)' do
+    justice_league_folder = File.join %W[#{Settings.root} justice-league]
+    teen_titans_folder = File.join %W[#{Settings.root} teen-titans]
+    red_arrow_id = 'roy-harper'
+
+    before do
+      [justice_league_folder, teen_titans_folder].each do |folder|
+        FileUtils.mkdir_p folder
+      end
+
+      # use new hire command to generate expected files
+      expect { NewHireCommand.new.command %w[Teen\ Titans Roy Harper] }.to output(/#{red_arrow_id}/).to_stdout
+    end
+
+    after do
+      [justice_league_folder, teen_titans_folder].each do |folder|
+        FileUtils.rm_r folder
+      end
+    end
+
+    it 'relocates their files' do
+      expect { subject.command %w[Harper justice-league] }
+        .to output(/no team matching.*swapping/i).to_stderr
+        .and output(/moving.*harper/i).to_stdout
+
+      expect(Dir).to exist File.join(justice_league_folder, red_arrow_id)
+      expect(Dir).not_to exist File.join(teen_titans_folder, red_arrow_id)
+    end
+  end
+
   context 'moving multiple team members (Cyborg, Robin)' do
     justice_league_folder = File.join %W[#{Settings.root} justice-league]
     teen_titans_folder = File.join %W[#{Settings.root} teen-titans]
