@@ -22,11 +22,13 @@
 /vendor/bundle
 /lib/bundler/man/
 
+# Used by RuboCop. Remote config files pulled in from inherit_from directive.
+.rubocop-https?--*
+
 Gemfile.lock
 
 ## mt-specific
 /data/
 /data
 team-directory.*
-logic
 /.vscode/
