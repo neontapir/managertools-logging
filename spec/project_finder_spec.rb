@@ -2,24 +2,25 @@
 
 require './lib/project'
 require './lib/project_finder'
+require './lib/project_folder'
 require_relative 'settings_helper'
 
 RSpec.describe ProjectFinder do
   after :context do
-    FileUtils.rm_r File.join(%W[#{Settings.root} projects])
+    FileUtils.rm_r ProjectFolder.root
   end
 
   def bloodties_folder
-    File.join(%W[#{Settings.root} projects bloodties])
+    File.join(ProjectFolder.root, 'bloodties')
   end
 
   def galactic_storm_folder
-    File.join(%W[#{Settings.root} projects galactic-storm])
+    File.join(ProjectFolder.root, 'galactic-storm')
   end
 
   include SettingsHelper
 
-  subject { (Class.new { include ProjectFinder }).new }
+  subject(:project_finder) { (Class.new { include ProjectFinder }).new }
 
   context 'when parsing a project folder (Bloodtide)' do
     before :context do
@@ -33,7 +34,7 @@ RSpec.describe ProjectFinder do
     let(:dir) { Dir.new(bloodties_folder) }
 
     it 'extracts the data correctly' do
-      project = subject.parse_dir(dir)
+      project = project_finder.parse_dir(dir)
       expect(project).to eq project: 'bloodties'
     end
   end
@@ -41,7 +42,6 @@ RSpec.describe ProjectFinder do
   context 'when finding a project (Bloodtide)' do
     before :context do
       FileUtils.mkdir_p bloodties_folder
-      # FileUtils.rm_r "#{galactic_storm_folder}*" if Dir.exist? "#{galactic_storm_folder}*"
     end
 
     after :context do
@@ -51,17 +51,17 @@ RSpec.describe ProjectFinder do
     let(:expected) { Project.new(project: 'bloodties') }
 
     it 'does find an existing project by full name' do
-      project = subject.find('bloodties')
+      project = project_finder.find('bloodties')
       expect(project).to eq expected
     end
 
     it 'does find an existing project by partial name' do
-      project = subject.find('blood')
+      project = project_finder.find('blood')
       expect(project).to eq expected
     end
 
     it 'does not find a project that has no folder' do
-      project = Project.find('galactic-storm')
+      project = project_finder.find('galactic-storm')
       expect(project).to be_nil
     end
   end
@@ -78,12 +78,12 @@ RSpec.describe ProjectFinder do
     let(:expected) { Project.new(project: 'galactic-storm') }
 
     it 'does find an existing project by full name' do
-      project = subject.find('Galactic Storm')
+      project = project_finder.find('Galactic Storm')
       expect(project).to eq expected
     end
 
     it 'does find an existing project by partial name' do
-      project = subject.find('galac')
+      project = project_finder.find('galac')
       expect(project).to eq expected
     end
   end

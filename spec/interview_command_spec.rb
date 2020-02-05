@@ -48,7 +48,7 @@ RSpec.describe InterviewCommand do
     end
 
     after do
-      FileUtils.rm_r File.join(%W[#{Settings.root} #{Settings.candidates_root}])
+      FileUtils.rm_r File.join(Settings.root, Settings.candidates_root)
     end
 
     let(:nick) { Employee.find('nick') }

@@ -3,10 +3,17 @@
 require 'ostruct'
 require 'thor'
 require './lib/commands/new_project_command'
+require './lib/commands/record_diary_entry_command'
 require './lib/project_folder'
 require './lib/settings'
 
 RSpec.describe NewProjectCommand do
+  subject (:new_project) { NewProjectCommand.new }
+
+  after :context do
+    FileUtils.rm_r ProjectFolder.root
+  end
+
   context 'existing project' do
     bloodties_log = File.join %W[#{ProjectFolder.root} bloodties #{Settings.log_filename}]
 
@@ -14,17 +21,13 @@ RSpec.describe NewProjectCommand do
       FileUtils.mkdir_p File.dirname(bloodties_log)
     end
 
-    after do
-      FileUtils.rm_r File.dirname(File.dirname(bloodties_log))
-    end 
-
     it 'creates a new project with defaults' do
-      allow(subject).to receive(:ask) 
+      allow(new_project).to receive(:ask)
 
       expect(File).not_to exist bloodties_log
 
       # Settings.with_mock_input("\n") do
-        expect { subject.command(%w[Bloodties]) }.to output(/bloodties/).to_stdout
+        expect { new_project.command(%w[Bloodties]) }.to output(/bloodties/).to_stdout
       # end
 
       bloodties = Project.find('Bloodties')
@@ -39,16 +42,12 @@ RSpec.describe NewProjectCommand do
   end
 
   context 'force overwrites project' do
-    def galactic_storm_log 
+    def galactic_storm_log
       File.join(%W[#{ProjectFolder.root} galactic-storm #{Settings.log_filename}])
     end
 
     before :context do
       FileUtils.mkdir_p File.dirname(galactic_storm_log)
-    end
-
-    after :context do
-      FileUtils.rm_r File.dirname(File.dirname(galactic_storm_log))
     end
 
     let(:storm) { Project.find('galactic') }
@@ -58,10 +57,8 @@ RSpec.describe NewProjectCommand do
     end
 
     def setup_new_project_with_entry
-      allow(subject).to receive(:ask) { 'Intervene in the Kree and Shi\'ar war' }
-      # Settings.with_mock_input "Intervene in the Kree and Shi'ar war\n" do
-        expect { subject.command(%w[galactic-storm]) }.to output(/galactic-storm/).to_stdout
-      # end
+      allow(new_project).to receive(:ask) { 'Intervene in the Kree and Shi\'ar war' }
+      expect { new_project.command(%w[galactic-storm]) }.to output(/galactic-storm/).to_stdout
       expect(storm).not_to be_nil
 
       # create a diary entry to differentiate log from a newly created file
@@ -78,14 +75,14 @@ RSpec.describe NewProjectCommand do
     it 'will not recreate an existing project without force' do
       setup_new_project_with_entry
       expect(storm_log_contents).to include 'Defined first epics'
-      expect { subject.command(%w[galactic-storm]) }.to output(/#{Settings.log_filename}... exists/).to_stdout
+      expect { new_project.command(%w[galactic-storm]) }.to output(/#{Settings.log_filename}... exists/).to_stdout
       expect(storm_log_contents).to include 'Defined first epics'
     end
 
     it 'forces recreates an existing project' do
       setup_new_project_with_entry
       expect(storm_log_contents).to include 'Defined first epics'
-      expect { subject.command(%w[galactic-storm], OpenStruct.new(force: true)) }.to output(/#{Settings.log_filename}... created/).to_stdout
+      expect { new_project.command(%w[galactic-storm], OpenStruct.new(force: true)) }.to output(/#{Settings.log_filename}... created/).to_stdout
       expect(storm_log_contents).not_to include 'Defined first epics'
     end
   end

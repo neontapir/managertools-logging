@@ -7,7 +7,7 @@ require './lib/entries/observation_entry'
 require './lib/settings'
 
 RSpec.describe LogFile do
-  avengers_folder = File.join %W[#{Settings.root} avengers]
+  avengers_folder = File.join(Settings.root, 'avengers')
 
   context 'with an employee (isolated examples)' do
     let (:hulk) { Employee.new(team: 'Avengers', first: 'Bruce', last: 'Banner') }
@@ -88,7 +88,7 @@ RSpec.describe LogFile do
     end
   end
 
-  context 'with dated diary entries' do
+  context 'when adding diary entries with date specified' do
     subject(:she_hulk_file) do
       she_hulk = Employee.new(team: 'Avengers', first: 'Jennifer', last: 'Walters')
       she_hulk.file.insert ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Observation A')
@@ -108,11 +108,11 @@ RSpec.describe LogFile do
 
     it 'appends multiple observations correctly' do
       expected = <<~EXPECTED
-        
+
         === Observation (February  3, 2001,  4:05 AM)
         Content::
           Observation A
-        
+
         === Observation (February  4, 2001,  5:06 AM)
         Content::
           Observation B
@@ -128,7 +128,7 @@ RSpec.describe LogFile do
     end
   end
 
-  context 'with undated diary entries' do
+  context 'when adding undated diary entries' do
     subject(:hawkeye_file) do
       hawkeye = Employee.new(team: 'Avengers', first: 'Clinton', last: 'Barton')
       file = hawkeye.file
@@ -156,7 +156,7 @@ RSpec.describe LogFile do
     end
   end
 
-  context 'when new entry is before earliest dated entry in file', order: :defined do
+  context 'when adding a new entry dated before earliest dated entry in file', order: :defined do
     subject(:captain_america_file) do
       captain_america = Employee.new(team: 'Avengers', first: 'Steve', last: 'Rogers')
       file = captain_america.file
@@ -186,7 +186,7 @@ RSpec.describe LogFile do
         === Observation (February  3, 2001,  4:05 AM)
         Content::
           Observation A
-        
+
         === Observation (February  4, 2001,  5:06 AM)
         Content::
           Observation B
@@ -200,17 +200,17 @@ RSpec.describe LogFile do
       before, after = captain_america_file.divide_file(new_entry)
       captain_america_file.write_entry_to(before, new_entry, after)
       expected = <<~EXPECTED
-        
+
         === Background Info
-        
+
         === Observation (January  1, 1999, 12:00 AM)
         Content::
           Observation C
-        
+
         === Observation (February  3, 2001,  4:05 AM)
         Content::
           Observation A
-        
+
         === Observation (February  4, 2001,  5:06 AM)
         Content::
           Observation B
@@ -220,7 +220,7 @@ RSpec.describe LogFile do
     end
   end
 
-  context 'when new entry is between earliest and latest in file', order: :defined do
+  context 'when adding a new entry dated between earliest and latest in file', order: :defined do
     subject(:black_widow_file) do
       black_widow = Employee.new(team: 'Avengers', first: 'Natasha', last: 'Romanoff')
       file = black_widow.file
@@ -254,15 +254,15 @@ RSpec.describe LogFile do
       before, after = black_widow_file.divide_file(new_entry)
       black_widow_file.write_entry_to(before, new_entry, after)
       expected = <<~EXPECTED
-        
+
         === Observation (February  3, 2001,  4:05 AM)
         Content::
           Observation A
-        
+
         === Observation (February  4, 2001, 12:00 AM)
         Content::
           Observation C
-        
+
         === Observation (February  4, 2001,  5:06 AM)
         Content::
           Observation B
@@ -272,7 +272,7 @@ RSpec.describe LogFile do
     end
   end
 
-  context 'when new entry is after latest in file', order: :defined do
+  context 'when adding a new entry dated after latest in file', order: :defined do
     subject(:wasp_file) do
       wasp = Employee.new(team: 'Avengers', first: 'Janet', last: 'Van Dyne')
       file = wasp.file
@@ -305,15 +305,15 @@ RSpec.describe LogFile do
       before, after = wasp_file.divide_file(new_entry)
       wasp_file.write_entry_to(before, new_entry, after)
       expected = <<~EXPECTED
-        
+
         === Observation (February  3, 2001,  4:05 AM)
         Content::
           Observation A
-        
+
         === Observation (February  4, 2001,  5:06 AM)
         Content::
           Observation B
-        
+
         === Observation (January  1, 2018, 12:00 AM)
         Content::
           Observation C

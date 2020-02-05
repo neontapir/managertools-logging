@@ -11,15 +11,19 @@ require_relative 'file_contents_validation_helper'
 RSpec.describe RecordDiaryEntryCommand do
   include FileContentsValidationHelper
 
+  subject(:record_diary_entry) { RecordDiaryEntryCommand.new }
+
+  avengers_folder = File.join(Settings.root, 'avengers')
+
+  after do
+    FileUtils.rm_r avengers_folder
+  end
+
   context 'with a single person (Spectrum)' do
-    spectrum_folder = File.join %W[#{Settings.root} avengers monica-rambeau]
+    spectrum_folder = File.join(avengers_folder, 'monica-rambeau')
 
     before do
       FileUtils.mkdir_p spectrum_folder
-    end
-
-    after do
-      FileUtils.rm_r File.dirname(spectrum_folder)
     end
 
     let(:spectrum) { Employee.new(team: 'Avengers', first: 'Monica', last: 'Rambeau') }
@@ -27,7 +31,7 @@ RSpec.describe RecordDiaryEntryCommand do
     shared_examples 'writing entry' do |entry_type, input, expected|
       it "of type #{entry_type} includes expected values" do
         Settings.with_mock_input input do
-          subject.command(entry_type, ['monica'])
+          record_diary_entry.command(entry_type, ['monica'])
         end
         verify_answers_propagated(expected, [spectrum])
       end
@@ -57,13 +61,9 @@ RSpec.describe RecordDiaryEntryCommand do
       end
     end
 
-    after :context do
-      FileUtils.rm_r File.dirname(File.dirname(black_panther.file.path))
-    end
-
     it 'will append the entry to all their logs in the order given' do
       Settings.with_mock_input "\nSpoke about important things\n" do
-        subject.command(:observation, %w[thor luke])
+        record_diary_entry.command(:observation, %w[thor luke])
       end
 
       expected = ["  Thor Odinson, Luke Charles\n", "  Spoke about important things\n"]

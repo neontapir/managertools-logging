@@ -120,6 +120,12 @@ RSpec.configure do |config|
   config.alias_it_should_behave_like_to :it_has_behavior, 'has behavior:'
 
   # ensure tests clean up after themselves properly
+  config.before(:suite) do
+    files_in_test_folder = Dir.glob(File.join(Settings.root, '*'))
+    expect(files_in_test_folder).to be_empty.or contain_exactly('data/config.yml')
+  end
+
+  # ensure tests clean up after themselves properly
   config.after(:suite) do
     expect(Dir.glob(File.join(Settings.root, '*'))).to contain_exactly 'data/config.yml'
   end
