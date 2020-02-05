@@ -9,6 +9,8 @@ require_relative 'file_contents_validation_helper'
 RSpec.describe InterviewCommand do
   include FileContentsValidationHelper
 
+  subject(:interview) { InterviewCommand.new }
+
   def non_default_values(input)
     input.reject { |i| i == "\n" }.map { |i| "  #{i}" }
   end
@@ -29,7 +31,7 @@ RSpec.describe InterviewCommand do
 
     it 'can write an interview entry' do
       Settings.with_mock_input input do
-        subject.command ['patsy']
+        interview.command ['patsy']
       end
 
       verify_answers_propagated(non_default_values(input), [hellcat])
@@ -41,7 +43,7 @@ RSpec.describe InterviewCommand do
 
     before do
       Settings.with_mock_input input do
-        expect { subject.command ['nick', 'fury'] }.to output.to_stdout
+        expect { interview.command ['nick', 'fury'] }.to output.to_stdout
       end
     end
 

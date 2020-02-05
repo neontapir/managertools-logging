@@ -6,7 +6,7 @@ require_relative 'settings_helper'
 
 RSpec.describe EmployeeFolder do
   shared_examples 'ensure exists' do
-    it 'ensure_exists ensures the folder exists' do
+    it 'ensure_exists indeed ensures that the folder exists' do
       FileUtils.rm_r subject.path if Dir.exist? subject.path
       expect(Dir).not_to exist(subject.path)
 

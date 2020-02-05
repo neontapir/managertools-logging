@@ -9,6 +9,8 @@ require_relative 'file_contents_validation_helper'
 RSpec.describe TeamMeetingCommand do
   include FileContentsValidationHelper
 
+  subject(:team_meeting) { TeamMeetingCommand.new }
+
   # force interactive mode, avoid reading global variables
   module Diary
     undef :template? if method_defined? :template?
@@ -18,23 +20,33 @@ RSpec.describe TeamMeetingCommand do
     end
   end
 
+  def make_folders(*group)
+    group.each do |hero|
+      FileUtils.mkdir_p File.dirname(hero.file.path)
+    end
+  end
+
+  def remove_folders(*group)
+    group.each do |hero|
+      FileUtils.rm_r File.dirname(hero.file.path)
+    end
+  end
+
   context 'with the Avengers team' do
     thing = Employee.new(team: 'Avengers', first: 'Benjamin', last: 'Grimm')
     vision = Employee.new(team: 'Avengers', first: 'Victor', last: 'Shade')
 
     before do
-      [thing, vision].each do |hero|
-        FileUtils.mkdir_p File.dirname(hero.file.path)
-      end
+      make_folders thing, vision
     end
 
     after do
-      FileUtils.rm_r File.dirname(thing.file.path)
+      remove_folders thing, vision
     end
 
     it 'will append the entry to all team members' do
       Settings.with_mock_input "\n\n\nWe met about stuff\n\n" do
-        subject.command ['avengers']
+        team_meeting.command ['avengers']
       end
 
       expected = ["  alcove\n", "  We met about stuff\n", "  none\n"]
@@ -43,7 +55,7 @@ RSpec.describe TeamMeetingCommand do
 
     it 'the team member names will be in alphabetical order' do
       Settings.with_mock_input "\n\n\nWe met about more stuff\n\n" do
-        subject.command ['avengers']
+        team_meeting.command ['avengers']
       end
 
       expected = ["  Benjamin Grimm, Victor Shade\n"]
@@ -61,20 +73,16 @@ RSpec.describe TeamMeetingCommand do
     end
 
     before do
-      [firebird, falcon, diana].each do |hero|
-        FileUtils.mkdir_p File.dirname(hero.file.path)
-      end
+      make_folders firebird, falcon, diana
     end
 
     after do
-      [firebird, falcon, diana].map { |hero| get_team_folder(hero.file.path) }.uniq.each do |team_folder|
-        FileUtils.rm_r team_folder
-      end
+      remove_folders firebird, falcon, diana
     end
 
     it "will append the entry to each team's members" do
       Settings.with_mock_input "\n\n\nWe met about stuff\n\n" do
-        subject.command %w[avengers justice]
+        team_meeting.command %w[avengers justice]
       end
 
       expected = ["  alcove\n", "  We met about stuff\n", "  none\n"]

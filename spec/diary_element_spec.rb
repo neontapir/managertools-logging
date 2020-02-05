@@ -42,22 +42,22 @@ RSpec.describe DiaryElement do
 
     it 'implements equals' do
       equal = DiaryElement.new(:unprompted, 'Do not prompt', default: 'xyzzy', prompt: nil)
-      expect(subject).to eq equal
+      is_expected.to eq equal
     end
 
     it 'finds an element with a different key unequal' do
       different_key = DiaryElement.new(:not_prompted, 'Do not prompt', default: 'xyzzy', prompt: nil)
-      expect(subject).not_to eq different_key
+      is_expected.not_to eq different_key
     end
 
     it 'finds an element with a different label unequal' do
       different_label = DiaryElement.new(:unprompted, 'Fail to prompt', default: 'xyzzy', prompt: nil)
-      expect(subject).not_to eq different_label
+      is_expected.not_to eq different_label
     end
 
     it 'finds an element with a different value unequal' do
       different_value = DiaryElement.new(:unprompted, 'Do not prompt', default: 'plover', prompt: nil)
-      expect(subject).not_to eq different_value
+      is_expected.not_to eq different_value
     end
   end
 end

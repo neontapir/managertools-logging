@@ -137,22 +137,22 @@ RSpec.describe DiaryDateElement do
 
     it 'implements equality' do
       equal = DiaryDateElement.new(:datetime, 'Datetime')
-      expect(subject).to eq equal
+      is_expected.to eq equal
     end
 
     it 'finds a different key unequal' do
       different_key = DiaryDateElement.new(:hammer_time, 'Datetime')
-      expect(subject).not_to eq different_key
+      is_expected.not_to eq different_key
     end
 
     it 'finds a different label unequal' do
       different_label = DiaryDateElement.new(:datetime, 'Hammer time')
-      expect(subject).not_to eq different_label
+      is_expected.not_to eq different_label
     end
 
     it 'finds a different value unequal' do
       different_value = DiaryDateElement.new(:datetime, 'Datetime', default: Time.local(1999, 12, 25))
-      expect(subject).not_to eq different_value
+      is_expected.not_to eq different_value
     end
   end
 end

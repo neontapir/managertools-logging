@@ -4,7 +4,7 @@ require './lib/entity_file'
 require './lib/employee_folder'
 
 RSpec.describe EntityFile do
-  context 'abnormal usage' do
+  context 'abnormal construction' do
     it 'raises when no folder given' do
       expect { EntityFile.new(nil, anything) }.to raise_error ArgumentError, 'Folder cannot be empty'
     end
@@ -55,30 +55,26 @@ RSpec.describe EntityFile do
     equality_folder = File.join %W[#{Settings.root} equality]
 
     subject { EntityFile.new(equality_folder, 'equal_file') }
-    
+
     before :context do
-      [equality_folder].each do |folder|
-        FileUtils.mkdir_p folder
-      end
+      FileUtils.mkdir_p equality_folder
     end
 
     after :context do
-      [equality_folder].each do |folder|
-        FileUtils.rm_r folder
-      end
+      FileUtils.rm_r equality_folder
     end
 
     it 'implements equals' do
-      expect(subject).to eq EntityFile.new(equality_folder, 'equal_file')
+      is_expected.to eq EntityFile.new(equality_folder, 'equal_file')
     end
 
     it 'finds a different folder unequal' do
       different_folder = File.join %W[#{Settings.root} inequality]
-      expect(subject).not_to eq EntityFile.new(different_folder, 'equal_file')
+      is_expected.not_to eq EntityFile.new(different_folder, 'equal_file')
     end
 
     it 'finds a different file unequal' do
-      expect(subject).not_to eq EntityFile.new(equality_folder, 'unequal_file')
+      is_expected.not_to eq EntityFile.new(equality_folder, 'unequal_file')
     end
   end
 end

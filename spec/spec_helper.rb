@@ -108,6 +108,7 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = :random
+  Kernel.srand config.seed
 
   # Seed global randomization in this process using the `--seed` CLI option.
   # Setting this allows you to use `--seed` to deterministically reproduce
@@ -117,6 +118,11 @@ RSpec.configure do |config|
   # config.seed = 60733
 
   config.alias_it_should_behave_like_to :it_has_behavior, 'has behavior:'
+
+  # ensure tests clean up after themselves properly
+  config.after(:suite) do
+    expect(Dir.glob(File.join(Settings.root, '*'))).to contain_exactly 'data/config.yml'
+  end
 end
 
 # Aruba support

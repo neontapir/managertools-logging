@@ -41,7 +41,7 @@ RSpec.describe ProjectFinder do
   context 'when finding a project (Bloodtide)' do
     before :context do
       FileUtils.mkdir_p bloodties_folder
-      FileUtils.rm_r "#{galactic_storm_folder}*" if Dir.exist? "#{galactic_storm_folder}*"
+      # FileUtils.rm_r "#{galactic_storm_folder}*" if Dir.exist? "#{galactic_storm_folder}*"
     end
 
     after :context do

@@ -74,5 +74,6 @@ end
 
 task critic: :rubycritic
 task docs: :document
+task rspec: :spec
 task test: :spec
 task default: :build
