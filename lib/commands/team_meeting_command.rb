@@ -12,7 +12,7 @@ class TeamMeetingCommand < MtCommand
 
   # command(arguments, options)
   #   Create an entry in each team member's file
-  def command(arguments, _ = nil)
+  def command(arguments, _options = nil)
     entry = nil
     Array(arguments).each do |team_name|
       team = Team.find team_name

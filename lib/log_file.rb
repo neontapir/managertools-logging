@@ -34,7 +34,8 @@ class LogFile
 
   # Split the contents of the file into the part before the entry and the part after
   # @param [DiaryEntry] entry the entry to insert
-  # @return [Array] an array with two entries: the chunk before where the entry belongs, and the chunk that belongs after
+  # @return [Array] an array with two entries: the chunk before where the entry belongs,
+  #   and the chunk that belongs after
   # @example How to consume this method
   #   before, after = divide_file entry
   def divide_file(entry)

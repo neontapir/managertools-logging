@@ -4,13 +4,13 @@ require_relative 'mt_command'
 require_relative '../team_folder'
 require_relative '../team'
 
-# Create a new entry for a team. 
+# Create a new entry for a team.
 # NOTE: Strictly speaking, this command isn't necessary. The new hire command will create the team folder if it doesn't
 # exist. It exists for parity with the new hire and new project commands.
 class NewTeamCommand < MtCommand
   # command(arguments, options)
   #   Create the folder for a team
-  def command(arguments, options = nil)
+  def command(arguments, _options = nil)
     # force = (options&.force == true)
 
     team_name = Array(arguments).first

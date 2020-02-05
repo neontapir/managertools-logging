@@ -40,7 +40,7 @@ class MoveTeamCommand
     unless target_team
       warn HighLine.color("No team matching '#{target_team_spec}' found, will try swapping parameters", :yellow)
       (employee_spec, target_team_spec) = target_team_spec, employee_spec
-      target_team =  Team.find target_team_spec
+      target_team = Team.find target_team_spec
     end
     raise TeamNotFoundError, "No team matching '#{target_team_spec}' found, aborting" unless target_team
     
@@ -79,7 +79,7 @@ class MoveTeamCommand
   # NOTE: relies on destination_team implementation
   def add_to_team_list?(target_team)
     destination_label(target_team).start_with? 'team '
-  end  
+  end
 
   # Add the new team to the person's overview file
   def update_overview_file(target_team, employee)
@@ -94,7 +94,7 @@ class MoveTeamCommand
                          when /imagesdir/
                            ":imagesdir: #{target_team_path(target_team, employee)}"
                          when /Team:/
-                          add_to_team_list?(target_team) ? "#{line.chomp}, #{target_team}" : line 
+                           add_to_team_list?(target_team) ? "#{line.chomp}, #{target_team}" : line
                          else line
                          end
           temp_file.puts updated_line

@@ -21,7 +21,7 @@ class PtoEntry < DiaryEntry
   SHORT_FORMAT = ->x { x.short_date }
 
   # define the items included in the entry
-  def elements   
+  def elements
     [
       DiaryElement.new(:duration, 'Duration', default: '0', prompt: nil),
       DiaryDateElement.new(:start_time, 'Start date', formatter: SHORT_FORMAT),

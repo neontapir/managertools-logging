@@ -20,6 +20,8 @@ class DiaryEntry
   attr_implement :elements
 
   class << self
+    attr_reader :descendants
+
     # get(name)
     #   Get the Ruby type of entry base on its name
     #   @param [String] name the name of the entry class
@@ -34,16 +36,10 @@ class DiaryEntry
       Kernel.const_get "#{entry_type_name}Entry"
     end
 
-    # overwriting this inherited method allows descendents to return the expected values
+    # overwriting this inherited method allows descendants to return the expected values
     def inherited(subclass)
       @descendants ||= []
       @descendants << subclass
-    end
-  
-    # implementors of DiaryEntry
-    # @note used by sentiment analysis to filter non-diary entries
-    def descendants
-      @descendants
     end
   end
 
@@ -68,8 +64,8 @@ class DiaryEntry
     elements
       .reject { |element| header_items.include? element.key }
       .inject(initial) do |output, entry| # rubocop:disable CollectionMethods
-      output + "#{entry.label}::\n  #{@record.fetch(entry.key, entry.default).to_s.wrap}\n"
-    end
+        output + "#{entry.label}::\n  #{@record.fetch(entry.key, entry.default).to_s.wrap}\n"
+      end
   end
 
   # fill in the template with the given record entries

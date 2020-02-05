@@ -33,7 +33,7 @@ group :ide, optional: true do
   gem 'rake'
   gem 'rcodetools'
   gem 'solargraph' unless Gem.win_platform? # until nokogiri supported for Ruby 2.7 on Windows
-  # ...\managertools-logging [master ≡]> gem install nokogiri --platform=ruby -- --use-system-libraries
+  # ...\managertools-logging> gem install nokogiri --platform=ruby -- --use-system-libraries
   # Temporarily enhancing PATH for MSYS/MINGW...
   # Building native extensions with: '--use-system-libraries'
   # This could take a while...

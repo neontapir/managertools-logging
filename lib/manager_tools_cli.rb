@@ -123,7 +123,7 @@ module ManagerTools
       execute_subcommand(:new_hire, [team, first, last], options)
     end
 
-    desc 'new-project PROJECT', "Create the projects log file in the project root"
+    desc 'new-project PROJECT', 'Create the projects log file in the project root'
     method_option :force, type: :boolean, default: false, desc: 'Overwrite files if they exist'
     
     def new_project(project)
@@ -131,7 +131,7 @@ module ManagerTools
     end
 
     desc 'new-team TEAM', "Create the team's folder in the data root"
-    
+
     def new_team(team)
       execute_subcommand(:new_team, team, options)
     end
@@ -189,15 +189,15 @@ module ManagerTools
     # wrap the call with interrupt handling, for consistent error display
     def do_with_interrupt_handling
       yield if block_given?
-    # rescue StandardError => e
-    #   warn HighLine.color("\nAborting, fatal #{e.class}, #{e} at #{error_call_site(e)}", :red)
-    #   Kernel.exit(3)
-    # rescue Interrupt
-    #   warn HighLine.color("\nAborting, interrupt received", :red)
-    #   Kernel.exit(2)
-    # rescue RuntimeError => e
-    #   warn HighLine.color("\nAborting, fatal unhandled error, #{e} at #{error_call_site(e)}", :red)
-    #   Kernel.exit(1)
+    rescue StandardError => e
+      warn HighLine.color("\nAborting, fatal #{e.class}, #{e} at #{error_call_site(e)}", :red)
+      Kernel.exit(3)
+    rescue Interrupt
+      warn HighLine.color("\nAborting, interrupt received", :red)
+      Kernel.exit(2)
+    rescue RuntimeError => e
+      warn HighLine.color("\nAborting, fatal unhandled error, #{e} at #{error_call_site(e)}", :red)
+      Kernel.exit(1)
     end
 
     # convert a symbol into a command class

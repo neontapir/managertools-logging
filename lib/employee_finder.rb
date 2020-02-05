@@ -28,7 +28,7 @@ module EmployeeFinder
   def parse_dir(dir)
     paths = dir.split_path
     _root, team, name = paths
-    EmployeeSpecification.new({ team: team , **parse_name(name) })
+    EmployeeSpecification.new(team: team, **parse_name(name))
   end
 
   # Parse a string as though it is part of an employee spec and return the result
@@ -80,11 +80,11 @@ module EmployeeFinder
   def create_employee(type, person)
     result = EmployeeSpecification.new
     root = EmployeeFolder.candidates_root
-    result.team = if type.to_sym.eql? :interview
-                      root
-                    else
-                      obtain('Team', root)
-                    end
+    result.team = if type.to_sym == :interview
+                    root
+                  else
+                    obtain('Team', root)
+                  end
     result.first = obtain('First', person.fetch(:first, 'Zaphod'))
     result.last = obtain('Last', person.fetch(:last, 'Beeblebrox'))
     result.to_employee
