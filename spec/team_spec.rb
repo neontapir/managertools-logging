@@ -72,8 +72,8 @@ RSpec.describe Team do
     end
 
     it 'lists its team members by folder' do
-      raise IOError, 'No Batman folder' unless Dir.exist? batman_folder
-      raise IOError, 'No Superman folder' unless Dir.exist? superman_folder
+      expect(Dir).to exist batman_folder
+      expect(Dir).to exist superman_folder
       expect(justice_league.members_by_folder).to contain_exactly(batman_folder, superman_folder)
     end
   end

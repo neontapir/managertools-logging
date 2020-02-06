@@ -9,12 +9,12 @@ RSpec.describe DepartCommand do
   subject(:depart) { DepartCommand.new }
 
   context 'moving a departing team member (Demolition Man)' do
-    departed_folder = File.join %W[#{Settings.root} #{Settings.departed_root}]
-    old_team_folder = File.join %W[#{Settings.root} revengers]
+    departed_folder = File.join(Settings.root, Settings.departed_root)
+    old_team_folder = File.join(Settings.root, 'revengers')
     demolition_man = 'dennis-dunphy'
 
     before do
-      FileUtils.rm_r departed_folder if Dir.exist? departed_folder
+      expect(Dir).not_to exist departed_folder
       FileUtils.mkdir_p old_team_folder
 
       # use new hire command to generate expected files

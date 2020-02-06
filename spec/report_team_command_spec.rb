@@ -11,7 +11,7 @@ RSpec.describe ReportTeamCommand do
     file_prefix = 'team-shield-report'
 
     before :context do
-      FileUtils.rm_r shield_folder if Dir.exist? shield_folder
+      expect(Dir).not_to exist shield_folder
       Settings.with_mock_input "\nhere\nMet about goals\n\n\n" do
         expect { NewHireCommand.new.command(%w[Shield Nick Fury]) }.to output.to_stdout
         RecordDiaryEntryCommand.new.command :one_on_one, ['nick']

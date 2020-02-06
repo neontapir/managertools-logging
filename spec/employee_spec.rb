@@ -126,6 +126,7 @@ RSpec.describe Employee do
 
     after :all do
       FileUtils.rm_r File.dirname(wonder_woman_folder)
+      expect(Dir).not_to exist File.join(Settings.root, 'justice-league')
     end
 
     it 'gives the correct log file location', :aggregate_failures do
