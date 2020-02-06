@@ -84,6 +84,8 @@ class LogFile
       file.puts "\n" unless entry.to_s.start_with? "\n" # ensure leading CR for Asciidoc
       file.puts entry
       file.puts after
+    ensure
+      file.close
     end
   end
 

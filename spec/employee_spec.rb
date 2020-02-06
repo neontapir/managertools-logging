@@ -42,37 +42,37 @@ RSpec.describe Employee do
       FileUtils.rm_r people_folder
     end
 
-    it 'handles French names' do
+    it 'handles French names', :aggregate_failures do
       porthos = Employee.new(team: 'people', first: 'Baron'.downcase, last: 'du Vallon de Bracieux de Pierrefonds'.downcase)
       expect(porthos.canonical_name).to eq 'baron-du-vallon-de-bracieux-de-pierrefonds'
       expect(porthos.to_s).to eq 'Baron du Vallon de Bracieux de Pierrefonds'
     end
 
-    it 'handles Irish Mac names' do
+    it 'handles Irish Mac names', :aggregate_failures do
       old_mcdonald = Employee.new(team: 'people', first: 'Old'.upcase, last: 'McDonald'.upcase)
       expect(old_mcdonald.canonical_name).to eq 'old-mcdonald'
       expect(old_mcdonald.to_s).to eq 'Old McDonald'
     end
 
-    it 'handles Irish accented names' do
+    it 'handles Irish accented names', :aggregate_failures do
       o_madagain = Employee.new(team: 'people', first: 'breandán'.upcase, last: "ó madagáin".upcase)
       expect(o_madagain.canonical_name).to eq 'breandán-ó-madagáin'
       expect(o_madagain.to_s).to eq 'Breandán ó Madagáin'
     end
 
-    it 'handles Irish O names' do
+    it 'handles Irish O names', :aggregate_failures do
       oconnell = Employee.new(team: 'people', first: 'J.J. "Ginger"'.upcase, last: "O'Connell".upcase)
       expect(oconnell.canonical_name).to eq 'jj-ginger-oconnell'
       expect(oconnell.to_s).to eq "J.J. \"Ginger\" O'Connell"
     end
 
-    it 'handles hyphenated first names' do
+    it 'handles hyphenated first names', :aggregate_failures do
       cheroutre = Employee.new(team: 'people', first: 'marie-thérèse'.upcase, last: 'cheroutre'.upcase)
       expect(cheroutre.canonical_name).to eq 'marie-thérèse-cheroutre'
       expect(cheroutre.to_s).to eq 'Marie-Thérèse Cheroutre'
     end
 
-    it 'handles suffixed names' do
+    it 'handles suffixed names', :aggregate_failures do
       david = Employee.new(team: 'people', first: 'David'.upcase, last: 'Curry-Johnson III'.upcase)
       expect(david.canonical_name).to eq 'david-curry-johnson-iii'
       expect(david.to_s).to eq 'David Curry-Johnson III'
@@ -91,7 +91,7 @@ RSpec.describe Employee do
       FileUtils.rm_r File.dirname(two_gun_kid_folder)
     end
 
-    it 'gives the correct log file location' do
+    it 'gives the correct log file location', :aggregate_failures do
       file = two_gun_kid.file
       expect(file).not_to be_nil
       expect(file.path).to eq File.join(two_gun_kid_folder, Settings.log_filename)
@@ -101,14 +101,14 @@ RSpec.describe Employee do
       expect(two_gun_kid.to_s).to eq 'Matt Hawk'
     end
 
-    it 'equality should match on team, first, and last name' do
+    it 'equality should match on team, first, and last name', :aggregate_failures do
       is_expected.to eq Employee.new(team: 'avengers', first: 'Matt', last: 'Hawk')
       is_expected.not_to eq Employee.new(team: 'justice-league', first: 'Matt', last: 'Hawk')
       is_expected.not_to eq Employee.new(team: 'avengers', first: 'Anthony', last: 'Hawk')
       is_expected.not_to eq Employee.new(team: 'avengers', first: 'Matt', last: 'Hawking')
     end
 
-    it 'equality should not match on invalid objects' do
+    it 'equality should not match on invalid objects', :aggregate_failures do
       is_expected.not_to eq 'Matt Hawk of the Avengers'
       is_expected.not_to eq OpenStruct.new(first: 'Matt', last: 'Hawk') # no team
       is_expected.not_to eq OpenStruct.new(team: 'avengers', last: 'Hawk') # no first
@@ -128,7 +128,7 @@ RSpec.describe Employee do
       FileUtils.rm_r File.dirname(wonder_woman_folder)
     end
 
-    it 'gives the correct log file location' do
+    it 'gives the correct log file location', :aggregate_failures do
       file = wonder_woman.file
       expect(file).not_to be_nil
       expect(file.path).to eq File.join(wonder_woman_folder, Settings.log_filename)
@@ -137,7 +137,7 @@ RSpec.describe Employee do
 
   context 'abnormal usage' do
     context 'mising keys' do
-      it 'raises on initialization' do
+      it 'raises on initialization', :aggregate_failures do
         expect { Employee.new() }.to raise_error KeyError
         expect { Employee.new(first: 'John', last: 'Smith') }.to raise_error KeyError
         expect { Employee.new(team: 'normal', last: 'Smith') }.to raise_error KeyError
