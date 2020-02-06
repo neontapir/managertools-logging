@@ -33,50 +33,44 @@ RSpec.describe MtFile do
       FileUtils.rm_r mtfileclass_folder
     end
 
-    def foo_exists
-      File.exist?(implementer.path)
-    end
-
-    def backup_exists
-      File.exist?(implementer.backup)
-    end
-
     it 'is represented as a string by its path' do
       expect(implementer.to_s).to eq implementer.path
     end
 
     context 'when ensuring existance' do
+      before do
+        expect(File).not_to exist implementer.path
+      end
+
       it 'creates a file if none exists' do
-        expect(foo_exists).to be_falsey
         implementer.ensure_exists
-        expect(foo_exists).to be_truthy
+        expect(File).to exist implementer.path
       end
 
       it 'does nothing if file already exists' do
-        expect(foo_exists).to be_falsey
         implementer.ensure_exists
-        expect(foo_exists).to be_truthy
         implementer.ensure_exists
-        expect(foo_exists).to be_truthy
+        expect(File).to exist implementer.path
       end
     end
 
     context 'when making a backup' do
+      before do
+        expect(File).not_to exist implementer.path
+        expect(File).not_to exist implementer.backup
+      end
+
       it 'creates a backup file if none exists' do
-        expect(foo_exists).to be_falsey
-        expect(backup_exists).to be_falsey
         implementer.make_backup
-        expect(foo_exists).to be_truthy
-        expect(backup_exists).to be_truthy
+        expect(File).to exist implementer.path
+        expect(File).to exist implementer.backup
       end
 
       it 'removes a backup file' do
         implementer.make_backup
-        expect(foo_exists).to be_truthy
-        expect(backup_exists).to be_truthy
         implementer.remove_backup
-        expect(foo_exists).to be_truthy
-        expect(backup_exists).to be_falsey
+        expect(File).to exist implementer.path
+        expect(File).not_to exist implementer.backup
       end
     end
   end

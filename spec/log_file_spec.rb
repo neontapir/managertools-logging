@@ -6,7 +6,7 @@ require './lib/log_file'
 require './lib/entries/observation_entry'
 require './lib/settings'
 
-RSpec.describe LogFile, focus: true do
+RSpec.describe LogFile do
   avengers_folder = File.join(Settings.root, 'avengers')
 
   shared_examples 'entry insertion' do |item, result|
