@@ -1,20 +1,15 @@
 # frozen_string_literal: true
 
-require 'timecop'
 require './lib/settings'
 require './lib/entries/pto_entry'
+require_relative 'support/shared_contexts'
 
 RSpec.describe PtoEntry do
   context 'during the post-create hook' do
     subject(:entry) { PtoEntry.new }
-    let(:entry_date) { Time.local(1999) }
 
-    before do
-      Timecop.freeze entry_date
-    end
-
-    after do
-      Timecop.return
+    include_context 'freeze_time' do
+      let(:clock_date) { Time.local(1999) }
     end
 
     it 'sets the diary data to the start_time' do

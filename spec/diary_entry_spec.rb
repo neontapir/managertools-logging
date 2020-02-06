@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 require 'time'
-require 'timecop'
+
 Dir.glob('./lib/entries/*_entry.rb', &method(:require))
+require_relative 'support/shared_contexts'
 
 RSpec.describe DiaryEntry do
   it 'gets an entry by identifier' do
@@ -14,16 +15,11 @@ RSpec.describe DiaryEntry do
   end
 
   context 'with default content' do
+    include_context 'freeze_time' do
+      let(:clock_date) { Time.local(1999) }
+    end
+
     subject(:entry) { PerformanceCheckpointEntry.new }
-    let(:entry_date) { Time.local(1999) }
-
-    before do
-      Timecop.freeze entry_date
-    end
-
-    after do
-      Timecop.return
-    end
 
     it 'renders correctly' do
       expect(entry.render('Test', PerformanceCheckpointEntry)).to eq "=== Test (January  1, 1999, 12:00 AM)\nContent::\n  none\n"
@@ -39,41 +35,36 @@ RSpec.describe DiaryEntry do
     end
 
     it 'yields the correct date' do
-      expect(entry.date).to eq entry_date
+      expect(entry.date).to eq clock_date
     end
   end
 
   context 'with the current time' do
-    subject(:entry) { ObservationEntry.new(datetime: entry_date.to_s) }
-    let(:entry_date) { Time.new(2001, 2, 3, 4, 5, 6) }
-
-    before do
-      Timecop.freeze entry_date
+    include_context 'freeze_time' do
+      let(:clock_date) { Time.new(2001, 2, 3, 4, 5, 6) }
     end
 
-    after do
-      Timecop.return
-    end
+    subject(:entry) { ObservationEntry.new(datetime: clock_date.to_s) }
 
     it 'renders correctly' do
       expect(entry.render('Test', ObservationEntry)).to eq "=== Test (February  3, 2001,  4:05 AM)\nContent::\n  none\n"
     end
 
     it 'yields the correct date' do
-      expect(entry.date).to eq entry_date
+      expect(entry.date).to eq clock_date
     end
   end
 
   context 'with a past time' do
-    subject(:entry) { ObservationEntry.new(datetime: entry_date.to_s, content: 'blah') }
-    let(:entry_date) { Time.new(2002) }
+    subject(:entry) { ObservationEntry.new(datetime: clock_date.to_s, content: 'blah') }
+    let(:clock_date) { Time.new(2002) }
 
     it 'renders correctly' do
       expect(entry.render('Test', ObservationEntry)).to eq "=== Test (January  1, 2002, 12:00 AM)\nContent::\n  blah\n"
     end
 
     it 'yields the correct date' do
-      expect(entry.date).to eq entry_date
+      expect(entry.date).to eq clock_date
     end
   end
 
@@ -116,16 +107,11 @@ RSpec.describe DiaryEntry do
   end
 
   context 'with default content' do
+    include_context 'freeze_time' do
+      let(:clock_date) { Time.local(1999) }
+    end
+
     subject(:entry) { PerformanceCheckpointEntry.new }
-    let(:entry_date) { Time.local(1999) }
-
-    before do
-      Timecop.freeze entry_date
-    end
-
-    after do
-      Timecop.return
-    end
 
     it 'implements equality' do
       expect(entry).to eq PerformanceCheckpointEntry.new

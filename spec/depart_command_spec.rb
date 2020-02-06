@@ -6,6 +6,8 @@ require './lib/commands/new_hire_command'
 require_relative 'spec_helper'
 
 RSpec.describe DepartCommand do
+  subject(:depart) { DepartCommand.new }
+
   context 'moving a departing team member (Demolition Man)' do
     departed_folder = File.join %W[#{Settings.root} #{Settings.departed_root}]
     old_team_folder = File.join %W[#{Settings.root} revengers]
@@ -26,14 +28,14 @@ RSpec.describe DepartCommand do
     it 'relocates their files', :aggregate_failures do
       expect(Dir).not_to exist(departed_folder)
 
-      expect { subject.command 'dunphy' }.to output(/Dennis Dunphy/).to_stdout
+      expect { depart.command 'dunphy' }.to output(/Dennis Dunphy/).to_stdout
 
       expect(Dir).to exist(File.join(%W[#{departed_folder} #{demolition_man}]))
       expect(Dir).not_to exist(File.join(%W[#{old_team_folder} #{demolition_man}]))
     end
 
     it 'does not update the team line in the overview file' do
-      expect { subject.command 'dunphy' }.to output(/Dennis Dunphy/).to_stdout
+      expect { depart.command 'dunphy' }.to output(/Dennis Dunphy/).to_stdout
       demolition_man_employee = Employee.find('Dennis')
       new_folder = demolition_man_employee.file.folder
       overview_location = File.join new_folder, Settings.overview_filename

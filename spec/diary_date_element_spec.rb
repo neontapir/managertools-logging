@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'timecop'
 require './lib/diary_date_element'
 require_relative 'diary_element_test_helper'
+require_relative 'support/shared_contexts'
 
 RSpec.describe DiaryDateElement do
   include DiaryElementTestHelper
@@ -11,7 +11,7 @@ RSpec.describe DiaryDateElement do
   def verify_date_correct(request, expected)
     allow(Settings.console).to receive(:ask) { request }
     element = DiaryDateElement.new(:datetime)
-    proper?(element, :datetime, 'Datetime', entry_date)
+    proper?(element, :datetime, 'Datetime', clock_date)
     expect(element.obtain.to_s).to include(expected)
   end
 
@@ -25,23 +25,19 @@ RSpec.describe DiaryDateElement do
     proper?(element, :the_time, 'My date', Time.now)
   end
 
-  context 'with 1/1/2000 content' do
-    let(:entry_date) { Time.local(2000, 1, 1) }
-
-    before do
-      Timecop.freeze entry_date
+  context 'with a given date (1/1/2000)' do
+    include_context 'freeze_time' do
+      let(:clock_date) { Time.local(2000, 1, 1) }
     end
 
-    after do
-      Timecop.return
-    end
+    context 'when valid date specified' do
+      it 'obtains the relative date' do
+        verify_date_correct('yesterday', '1999-12-31')
+      end
 
-    it 'obtains the relative date' do
-      verify_date_correct('yesterday', '1999-12-31')
-    end
-
-    it 'obtains the absolute date' do
-      verify_date_correct('1999-12-01', '1999-12-01')
+      it 'obtains the absolute date' do
+        verify_date_correct('1999-12-01', '1999-12-01')
+      end
     end
 
     context 'when no date specified' do
@@ -58,14 +54,8 @@ RSpec.describe DiaryDateElement do
   end
 
   context 'when year is not specified' do
-    let(:entry_date) { Time.local(2000, 3, 1) }
-
-    before do
-      Timecop.freeze entry_date
-    end
-
-    after do
-      Timecop.return
+    include_context 'freeze_time' do
+      let(:clock_date) { Time.local(2000, 3, 1) }
     end
 
     it 'obtains date in past' do
@@ -73,15 +63,9 @@ RSpec.describe DiaryDateElement do
     end
   end
 
-  context 'with default' do
-    let(:entry_date) { Time.local(2000, 1, 1) }
-
-    before do
-      Timecop.freeze entry_date
-    end
-
-    after do
-      Timecop.return
+  context 'using the default attribute' do
+    include_context 'freeze_time' do
+      let(:clock_date) { Time.local(2000, 1, 1) }
     end
 
     it 'uses now' do
@@ -96,14 +80,8 @@ RSpec.describe DiaryDateElement do
   end
 
   context 'using formatting' do
-    let(:entry_date) { Time.local(2000, 1, 1) }
-
-    before do
-      Timecop.freeze entry_date
-    end
-
-    after do
-      Timecop.return
+    include_context 'freeze_time' do
+      let(:clock_date) { Time.local(2000, 1, 1) }
     end
 
     it 'obtains the date with the default format', :aggregate_failures do
@@ -124,16 +102,11 @@ RSpec.describe DiaryDateElement do
   end
 
   context 'with 6/29/2007 content' do
-    let(:entry_date) { Time.local(2007, 6, 29) }
+    include_context 'freeze_time' do
+      let(:clock_date) { Time.local(2007, 6, 29) }
+    end
+
     subject { DiaryDateElement.new(:datetime, 'Datetime') }
-
-    before do
-      Timecop.freeze entry_date
-    end
-
-    after do
-      Timecop.return
-    end
 
     it 'implements equality' do
       equal = DiaryDateElement.new(:datetime, 'Datetime')
