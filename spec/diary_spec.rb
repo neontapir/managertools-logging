@@ -33,6 +33,11 @@ RSpec.describe Diary do
     end
 
     context 'with interaction', order: :defined do
+      iron_man_folder = File.join %W[#{Settings.root} avengers tony-stark]
+      before :context do
+        FileUtils.mkdir_p iron_man_folder
+      end
+
       subject(:diary) do
         (Class.new do
           include Diary
@@ -42,8 +47,6 @@ RSpec.describe Diary do
           end
         end).new
       end
-
-      iron_man_folder = File.join %W[#{Settings.root} avengers tony-stark]
 
       # Create a plain type of diary entry
       class TestEntry < DiaryEntry
@@ -62,10 +65,6 @@ RSpec.describe Diary do
         def to_s
           render('Blah blah')
         end
-      end
-
-      before :context do
-        FileUtils.mkdir_p iron_man_folder
       end
 
       it 'displays a prompt' do
@@ -141,6 +140,9 @@ RSpec.describe Diary do
 
     context 'with diary entries that disable prompting' do
       luke_cage_folder = File.join %W[#{Settings.root} avengers luke-cage]
+      before :context do
+        FileUtils.mkdir_p luke_cage_folder
+      end
 
       subject(:diary_no_prompt) do
         (Class.new do
@@ -168,10 +170,6 @@ RSpec.describe Diary do
         def to_s
           render('Blah blah')
         end
-      end
-
-      before :context do
-        FileUtils.mkdir_p luke_cage_folder
       end
 
       # NOTE: This feature is useful for derived values, like 'duration' on PtoEntry.

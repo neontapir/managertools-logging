@@ -5,12 +5,10 @@ require 'stringio'
 require './lib/employee'
 require './lib/employee_finder'
 require './lib/settings'
-require_relative 'employee_test_helper'
 require_relative 'settings_helper'
 
 RSpec.describe EmployeeFinder do
   include EmployeeFinder
-  include EmployeeTestHelper
   include SettingsHelper
 
   context 'finding employees' do
@@ -22,7 +20,7 @@ RSpec.describe EmployeeFinder do
 
     # this context creates no files
     context 'with a non-existing employee (Red Panda)' do
-      it 'will prompt the user for a spec' do
+      it 'will prompt the user for a spec', :aggregated_failures do
         allow(Settings.console).to receive(:ask) do |prompt|
           case prompt
           when /Team/ then 'Terrific Twosome of Toronto'
@@ -31,9 +29,7 @@ RSpec.describe EmployeeFinder do
           end
         end
         flying_squirrel = finder.get('Kit', :superhero)
-        expect(flying_squirrel.team).to eq 'Terrific Twosome of Toronto'
-        expect(flying_squirrel.first).to eq 'Kit'
-        expect(flying_squirrel.last).to eq 'Baxter'
+        expect(flying_squirrel).to have_attributes(team: 'Terrific Twosome of Toronto', first: 'Kit', last: 'Baxter')
       end
 
       it 'can create a default employee with no input' do
@@ -77,7 +73,7 @@ RSpec.describe EmployeeFinder do
       it 'extracts the data correctly' do
         dir = Dir.new(hulk_folder)
         hulk = finder.parse_dir(dir)
-        expect(proper?(hulk, 'avengers', 'Bruce', 'Banner')).to be_truthy
+        expect(hulk).to have_attributes(team: 'avengers', first: 'Bruce', last: 'Banner')
       end
     end
 
@@ -95,7 +91,7 @@ RSpec.describe EmployeeFinder do
       it 'extracts the data correctly' do
         dir = Dir.new(winchester_folder)
         winchester = finder.parse_dir(dir)
-        expect(proper?(winchester, 'mash', 'Charles', 'Emerson-Winchester-III')).to be_truthy
+        expect(winchester).to have_attributes(team: 'mash', first: 'Charles', last: 'Emerson-Winchester-III')
       end
     end
 
@@ -109,7 +105,7 @@ RSpec.describe EmployeeFinder do
       it 'extracts the data correctly' do
         dir = Dir.new(rescue_folder)
         avenger_rescue = finder.parse_dir(dir)
-        expect(proper?(avenger_rescue, 'avengers', 'Pepper', 'Potts-Stark')).to be_truthy
+        expect(avenger_rescue).to have_attributes(team: 'avengers', first: 'Pepper', last: 'Potts-Stark')
       end
     end
 
@@ -143,18 +139,18 @@ RSpec.describe EmployeeFinder do
 
       it 'returns the first one by alphabetical order when multiples match' do
         hanks = finder.find('hank')
-        proper?(hanks, 'avengers', 'Hank', 'McCoy')
+        expect(hanks).to have_attributes(team: 'avengers', first: 'Hank', last: 'McCoy')
       end
 
-      it 'finds the expected employee when given a unique key' do
+      it 'finds the expected employee when given a unique key', :aggregated_failures do
         ant_man = finder.find('hank-p')
-        proper?(ant_man, 'avengers', 'Hank', 'Pym')
+        expect(ant_man).to have_attributes(team: 'avengers', first: 'Hank', last: 'Pym')
 
         ant_man_by_last_name = finder.find('pym')
-        proper?(ant_man_by_last_name, 'avengers', 'Hank', 'Pym')
+        expect(ant_man_by_last_name).to have_attributes(team: 'avengers', first: 'Hank', last: 'Pym')
 
         beast = finder.find('hank-m')
-        proper?(beast, 'avengers', 'Hank', 'McCoy')
+        expect(beast).to have_attributes(team: 'avengers', first: 'Hank', last: 'McCoy')
       end
     end
   end
