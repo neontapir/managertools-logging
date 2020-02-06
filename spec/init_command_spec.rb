@@ -19,13 +19,20 @@ RSpec.describe InitCommand do
       end
     end
 
-    it 'will initialize the data structure' do
-      config_file = FakeSettings.config_file
+    config_file = FakeSettings.config_file
+
+    before do
       expect(File.exist?(config_file)).to be_falsey
-      expect { InitCommand.new(FakeSettings).command }.to output(/Initializing MT/).to_stdout.and output('').to_stderr
-      expect(File.exist?(config_file)).to be_truthy
+    end
+
+    after do
       FileUtils.rm_r config_file
       expect(File.exist?(config_file)).to be_falsey
+    end
+
+    it 'will initialize the data structure' do
+      expect { InitCommand.new(FakeSettings).command }.to output(/Initializing MT/).to_stdout.and output('').to_stderr
+      expect(File.exist?(config_file)).to be_truthy
     end
   end
 end

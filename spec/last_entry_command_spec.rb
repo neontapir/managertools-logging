@@ -21,13 +21,10 @@ RSpec.describe LogFile do
       FileUtils.rm_r File.dirname(captain_marvel_folder)
     end
 
-    subject do
-      LastEntryCommand.new
-    end
+    subject(:last_entry) { LastEntryCommand.new }
 
     it 'displays the last entry correctly' do
-      expect($stdout).to receive(:puts).with("=== Observation (February  4, 2001,  5:06 AM)\nContent::\n  Observation B\n")
-      subject.command 'carol'
+      expect { last_entry.command 'carol' }.to output("=== Observation (February  4, 2001,  5:06 AM)\nContent::\n  Observation B\n").to_stdout
     end
   end
 end

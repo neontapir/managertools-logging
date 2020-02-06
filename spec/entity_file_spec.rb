@@ -17,8 +17,8 @@ RSpec.describe EntityFile do
   end
 
   context 'typical usage' do
-    normal_folder = File.join %W[#{Settings.root} normal]
-    muppets_in_space_folder = File.join %W[#{Settings.root} muppets-in-space]
+    normal_folder = File.join(Settings.root, 'normal')
+    muppets_in_space_folder = File.join(Settings.root, 'muppets-in-space')
 
     before :context do
       [normal_folder, muppets_in_space_folder].each do |folder|
@@ -52,7 +52,7 @@ RSpec.describe EntityFile do
   end
 
   context 'in equality context' do
-    equality_folder = File.join %W[#{Settings.root} equality]
+    equality_folder = File.join(Settings.root, 'equality')
 
     subject { EntityFile.new(equality_folder, 'equal_file') }
 

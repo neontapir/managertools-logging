@@ -34,14 +34,14 @@ RSpec.describe MoveTeamCommand do
         expect { new_hire.command %w[Teen\ Titans Princess Koriand'r] }.to output(/#{starfire_id}/).to_stdout
       end
 
-      it 'relocates their files' do
+      it 'relocates their files', :aggregate_failures do
         expect { move_command.command %w[justice-league Princess] }.to output(/Princess Koriandr/).to_stdout
 
         expect(Dir).to exist File.join(justice_league_folder, starfire_id)
         expect(Dir).not_to exist File.join(teen_titans_folder, starfire_id)
       end
 
-      it 'writes a log entry' do
+      it 'writes a log entry', :aggregate_failures do
         expect { move_command.command %w[justice-league Princess] }.to output(/Princess Koriandr/).to_stdout
 
         starfire = Employee.find('Princess')
@@ -50,7 +50,7 @@ RSpec.describe MoveTeamCommand do
         expect(File.read(starfire_log)).to include 'Moving Princess Koriandr to team Justice League'
       end
 
-      it 'updates the image folder in the overview file' do
+      it 'updates the image folder in the overview file', :aggregate_failures do
         expect { move_command.command %w[justice-league Princess] }.to output(/Princess Koriandr/).to_stdout
         starfire = Employee.find('Princess')
         starfire_folder = starfire.file.folder
@@ -78,7 +78,7 @@ RSpec.describe MoveTeamCommand do
         expect { new_hire.command %w[Teen\ Titans Roy Harper] }.to output(/#{red_arrow}/).to_stdout
       end
 
-      it 'relocates their files' do
+      it 'relocates their files', :aggregate_failures do
         expect { move_command.command %w[Harper justice-league] }
           .to output(/no team matching.*swapping/i).to_stderr
           .and output(/moving.*harper/i).to_stdout
@@ -95,7 +95,7 @@ RSpec.describe MoveTeamCommand do
         expect { new_hire.command %w[Teen\ Titans Dick Grayson] }.to output(/dick-grayson/).to_stdout
       end
 
-      it 'relocates all their files' do
+      it 'relocates all their files', :aggregate_failures do
         expect { move_command.command %w[justice-league Stone Grayson] }.to output.to_stdout
 
         %w[victor-stone dick-grayson].each do |member|

@@ -135,50 +135,27 @@ RSpec.describe Employee do
     end
   end
 
-  context 'abnormal usage' do
-    context 'mising keys' do
-      it 'raises on initialization', :aggregate_failures do
-        expect { Employee.new() }.to raise_error KeyError
-        expect { Employee.new(first: 'John', last: 'Smith') }.to raise_error KeyError
-        expect { Employee.new(team: 'normal', last: 'Smith') }.to raise_error KeyError
-        expect { Employee.new(team: 'normal', first: 'John') }.to raise_error KeyError
-      end
+  context 'abnormal initialization' do
+    it 'raises on mising keys', :aggregate_failures do
+      expect { Employee.new() }.to raise_error KeyError
+      expect { Employee.new(first: 'John', last: 'Smith') }.to raise_error KeyError
+      expect { Employee.new(team: 'normal', last: 'Smith') }.to raise_error KeyError
+      expect { Employee.new(team: 'normal', first: 'John') }.to raise_error KeyError
     end
 
-    context 'empty team name' do
-      it 'raises on initialization' do
-        expect { Employee.new(team: '', first: 'John', last: 'Smith') }.to raise_error ArgumentError
-      end
+    it 'raises on invalid team name', :aggregate_failures do
+      expect { Employee.new(team: '', first: 'John', last: 'Smith') }.to raise_error ArgumentError
+      expect { Employee.new(team: nil, first: 'John', last: 'Smith') }.to raise_error ArgumentError
     end
 
-    context 'nil team name' do
-      it 'raises on initialization' do
-        expect { Employee.new(team: nil, first: 'John', last: 'Smith') }.to raise_error ArgumentError
-      end
+    it 'raises on invalid first name', :aggregate_failures do
+      expect { Employee.new(team: 'normal', first: '', last: 'Smith') }.to raise_error ArgumentError
+      expect { Employee.new(team: 'normal', first: nil, last: 'Smith') }.to raise_error ArgumentError
     end
 
-    context 'empty first name' do
-      it 'raises on initialization' do
-        expect { Employee.new(team: 'normal', first: '', last: 'Smith') }.to raise_error ArgumentError
-      end
-    end
-
-    context 'nil first name' do
-      it 'raises on initialization' do
-        expect { Employee.new(team: 'normal', first: nil, last: 'Smith') }.to raise_error ArgumentError
-      end
-    end
-
-    context 'empty last name' do
-      it 'raises on initialization' do
-        expect { Employee.new(team: 'normal', first: 'John', last: '') }.to raise_error ArgumentError
-      end
-    end
-
-    context 'nil last name' do
-      it 'raises on initialization' do
-        expect { Employee.new(team: 'normal', first: 'John', last: nil) }.to raise_error ArgumentError
-      end
+    it 'raises on invalid last name', :aggregate_failures do
+      expect { Employee.new(team: 'normal', first: 'John', last: '') }.to raise_error ArgumentError
+      expect { Employee.new(team: 'normal', first: 'John', last: nil) }.to raise_error ArgumentError
     end
   end
 end

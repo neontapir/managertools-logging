@@ -6,8 +6,15 @@ require './lib/log_file'
 require './lib/entries/observation_entry'
 require './lib/settings'
 
-RSpec.describe LogFile do
+RSpec.describe LogFile, focus: true do
   avengers_folder = File.join(Settings.root, 'avengers')
+
+  shared_examples 'entry insertion' do |item, result|
+    it 'inserts the entry correctly' do
+      subject.insert item
+      expect(File.readlines(subject.path)).to eq result
+    end
+  end
 
   context 'with an employee (isolated examples)' do
     let (:hulk) { Employee.new(team: 'Avengers', first: 'Bruce', last: 'Banner') }
@@ -23,31 +30,16 @@ RSpec.describe LogFile do
       FileUtils.rm_r File.dirname(hulk_folder)
     end
 
-    it 'can insert a nil entry' do
-      hulk_file.insert nil
-      expect(File.readlines(hulk_file.path)).to eq %W[\n \n]
-    end
+    it_behaves_like 'entry insertion', nil, %W[\n \n]
+    it_behaves_like 'entry insertion', '', %W[\n \n]
+    it_behaves_like 'entry insertion', 'foo', %W[\n foo\n]
 
-    it 'can insert a blank entry' do
-      hulk_file.insert ''
-      expect(File.readlines(hulk_file.path)).to eq %W[\n \n]
-    end
+    observation = ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Green')
+    expected = ["\n", "=== Observation (February  3, 2001,  4:05 AM)\n", "Content::\n", "  Green\n"]
+    it_behaves_like 'entry insertion', observation, expected
 
-    it 'can insert a text entry' do
-      hulk_file.insert 'foo'
-      expect(File.readlines(hulk_file.path)).to eq %W[\n foo\n]
-    end
-
-    it 'can insert a dated entry' do
-      hulk_file.insert ObservationEntry.new(datetime: Time.new(2001, 2, 3, 4, 5, 6).to_s, content: 'Green')
-      expect(File.readlines(hulk_file.path)).to eq ["\n", "=== Observation (February  3, 2001,  4:05 AM)\n", "Content::\n", "  Green\n"]
-    end
-
-    it 'implements equality' do
+    it 'implements equality', :aggregate_failures do
       expect(hulk_file).to eq Employee.new(team: 'Avengers', first: 'Bruce', last: 'Banner').file
-    end
-
-    it 'find a different path unequal' do
       expect(hulk_file).not_to eq Employee.new(team: 'Defenders', first: 'Bruce', last: 'Banner').file
     end
   end
@@ -72,20 +64,14 @@ RSpec.describe LogFile do
       expect(thor_file.path).to eq File.join(thor_folder, Settings.log_filename)
     end
 
-    it 'creates a new file if none exists' do
-      thor_file.insert 'foobar'
-      expect(File.readlines(thor_file.path)).to eq %W[\n foobar\n]
-    end
+    # creates a new file if none exists
+    it_behaves_like 'entry insertion', 'foobar', %W[\n foobar\n]
 
-    it 'appends an entry if file is not empty' do
-      thor_file.insert 'baz'
-      expect(File.readlines(thor_file.path)).to eq %W[\n foobar\n \n baz\n]
-    end
+    # appends an entry if file is not empty
+    it_behaves_like 'entry insertion', 'baz', %W[\n foobar\n \n baz\n]
 
-    it 'does not add an extra leading carriage return if one provided' do
-      thor_file.insert "\nqux"
-      expect(File.readlines(thor_file.path)).to eq %W[\n foobar\n \n baz\n \n qux\n]
-    end
+    # does not add an extra leading carriage return if one provided
+    it_behaves_like 'entry insertion', "\nqux", %W[\n foobar\n \n baz\n \n qux\n]
   end
 
   context 'when adding diary entries with date specified' do
