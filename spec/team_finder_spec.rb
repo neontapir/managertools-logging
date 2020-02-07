@@ -8,7 +8,7 @@ RSpec.describe TeamFinder do
 
   subject(:finder) { (Class.new { include TeamFinder }).new }
 
-  shared_examples 'finding' do |team_name, expected|
+  shared_examples 'finding' do |team_name|
     expected = Team.new(team: team_name)
 
     it 'by full name' do
@@ -44,9 +44,11 @@ RSpec.describe TeamFinder do
 
   context 'with a team with spaces in the name (League of Extraordinary Gentlemen)' do
     league_id = 'league-of-extraordinary-gentlemen'
-    league_folder = File.join %W[#{Settings.root} #{league_id}]
+    league_folder = File.join(Settings.root, league_id)
 
     before :context do
+      expect(Dir).not_to exist File.join(Settings.root, 'justice-league')
+      expect(Dir).not_to exist File.join(Settings.root, 'justice-society')
       FileUtils.mkdir_p league_folder
     end
 
@@ -59,10 +61,10 @@ RSpec.describe TeamFinder do
 
   context 'with two team with similar names (Justice League and Justice Society)' do
     justice_league_id = 'justice-league'
-    justice_league_folder = File.join %W[#{Settings.root} #{justice_league_id}]
+    justice_league_folder = File.join(Settings.root, justice_league_id)
 
     justice_society_id = 'justice-society'
-    justice_society_folder = File.join %W[#{Settings.root} #{justice_society_id}]
+    justice_society_folder = File.join(Settings.root, justice_society_id)
 
     before :context do
       [justice_league_folder, justice_society_folder].each do |group_folder|

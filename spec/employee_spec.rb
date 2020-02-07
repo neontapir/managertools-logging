@@ -12,6 +12,10 @@ RSpec.describe Employee do
   context 'when getting the name (Quicksilver)' do
     let(:quicksilver_data) { { team: 'Avengers', first: 'Pietro', last: 'Maximoff' } }
 
+    after :all do
+      expect(Dir).not_to exist File.join(Settings.root, 'avengers')
+    end
+
     it 'is capitalized when input is capitalized' do
       quicksilver = Employee.new(**quicksilver_data)
       expect(quicksilver.to_s).to eq 'Pietro Maximoff'
@@ -89,6 +93,7 @@ RSpec.describe Employee do
 
     after :all do
       FileUtils.rm_r File.dirname(two_gun_kid_folder)
+      expect(Dir).not_to exist File.join(Settings.root, 'avengers')
     end
 
     it 'gives the correct log file location', :aggregate_failures do
@@ -120,11 +125,11 @@ RSpec.describe Employee do
     subject(:wonder_woman) { Employee.new(team: 'Justice League', first: 'Diana', last: 'Prince') }
     wonder_woman_folder = File.join %W[#{Settings.root} justice-league diana-prince]
 
-    before :all do
+    before do
       FileUtils.mkdir_p wonder_woman_folder
     end
 
-    after :all do
+    after do
       FileUtils.rm_r File.dirname(wonder_woman_folder)
       expect(Dir).not_to exist File.join(Settings.root, 'justice-league')
     end

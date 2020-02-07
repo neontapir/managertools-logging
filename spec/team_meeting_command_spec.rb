@@ -22,13 +22,16 @@ RSpec.describe TeamMeetingCommand do
 
   def make_folders(*group)
     group.each do |hero|
-      FileUtils.mkdir_p File.dirname(hero.file.path)
+      hero_folder = File.dirname(hero.file.path)
+      expect(File).not_to exist hero_folder
+      FileUtils.mkdir_p hero_folder
     end
   end
 
-  def remove_folders(*group)
-    group.each do |hero|
-      FileUtils.rm_r File.dirname(hero.file.path)
+  def remove_folders
+    ['avengers','justice-league'].each do |group|
+      group_folder = File.join(Settings.root, group)
+      FileUtils.rm_r group_folder if File.exist? group_folder
     end
   end
 
@@ -41,7 +44,7 @@ RSpec.describe TeamMeetingCommand do
     end
 
     after do
-      remove_folders thing, vision
+      remove_folders
     end
 
     it 'will append the entry to all team members' do
@@ -77,7 +80,7 @@ RSpec.describe TeamMeetingCommand do
     end
 
     after do
-      remove_folders firebird, falcon, diana
+      remove_folders
     end
 
     it "will append the entry to each team's members" do
