@@ -52,7 +52,7 @@ module EmployeeFinder
 
       employee_spec = parse_dir folder
       next if project? employee_spec
-      
+
       result << employee_spec.to_employee
     end
     result.min

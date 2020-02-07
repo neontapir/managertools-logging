@@ -43,7 +43,7 @@ class MoveTeamCommand
       target_team = Team.find target_team_spec
     end
     raise TeamNotFoundError, "No team matching '#{target_team_spec}' found, aborting" unless target_team
-    
+
     employee = Employee.find employee_spec
     raise EmployeeNotFoundError, "No employee matching '#{employee_spec}' found, aborting" unless employee
 
@@ -70,10 +70,10 @@ class MoveTeamCommand
   # compose desitnation for console message
   def destination_label(target_team)
     %w[candidates departed project].each do |word|
-      return "#{word} folder" if target_team.path =~ /#{Settings.send("#{word}_root")}/
+      return "#{word} folder" if target_team.path.match?(/#{Settings.send("#{word}_root")}/)
     end
     "team #{target_team}"
-  end 
+  end
 
   # only add team to person's overview file if it's a regular team
   # NOTE: relies on destination_team implementation

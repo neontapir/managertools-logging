@@ -5,21 +5,23 @@ AllCops:
   Exclude:
     - 'test'
     - 'spec/**/*'
+Layout/LineLength:
+    Max: 120
 Layout/MultilineMethodCallIndentation:
-   EnforcedStyle: indented
+    EnforcedStyle: indented
 Layout/SpaceInLambdaLiteral:
-   Enabled: false
+    Enabled: false
 Lint/AmbiguousOperator:
   Exclude:
     - 'Rakefile'
-Metrics/LineLength:
-  Max: 120
 Metrics/MethodLength:
   Max: 15
 Style/CollectionMethods:
   Enabled: true
 Style/FormatString:
   EnforcedStyle: percent
+Style/ParallelAssignment:
+  Enabled: false
 Style/SignalException:
   EnforcedStyle: only_raise
 Style/SymbolArray:

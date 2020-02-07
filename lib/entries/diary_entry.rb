@@ -63,7 +63,7 @@ class DiaryEntry
     initial = "#{ENTRY_HEADER_MARKER} #{title} (#{date.standard_format})\n"
     elements
       .reject { |element| header_items.include? element.key }
-      .inject(initial) do |output, entry| # rubocop:disable CollectionMethods
+      .inject(initial) do |output, entry| # rubocop:disable Style/CollectionMethods
         output + "#{entry.label}::\n  #{@record.fetch(entry.key, entry.default).to_s.wrap}\n"
       end
   end

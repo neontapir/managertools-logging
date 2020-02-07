@@ -45,7 +45,7 @@ class SentimentCommand < MtCommand
     entry_banners = DiaryEntry
       .descendants
       .reject { |k| [PtoEntry].include? k }
-      .map {|k| k.new.entry_banner}
+      .map { |k| k.new.entry_banner }
     entries_regex = Regexp.union(entry_banners)
 
     doc.sections
