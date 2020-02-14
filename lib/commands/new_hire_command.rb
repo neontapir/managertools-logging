@@ -79,9 +79,9 @@ class NewHireCommand < MtCommand
 
       == #{employee}
 
-      image::#{employee.canonical_name}.jpg[#{employee}, width="200", align="right", float="right"]
+      image::#{employee.canonical_name}.jpg["#{employee}", width="200", align="right", float="right"]
 
-      Team: #{NameCase(employee.team)}
+      Team: #{Team.new(team: employee.team)}
 
     OVERVIEW
     write_file(overview_file.path, contents)
