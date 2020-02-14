@@ -41,7 +41,7 @@ module StringExtensions
     #   Put string in proper name casing
     #   @param [String] input the string to transform
     def to_name
-      NameCase(upcase)
+      NameCase(upcase) 
     end
   end
 end
