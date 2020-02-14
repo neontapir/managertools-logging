@@ -29,6 +29,16 @@ class DiaryDateElement
 
   # obtain()
   #   Display the label, and get the element's value from the user
+  # 
+  #   Note: Chronic does some strange things around parsing 'today'
+  #         that causes diary entries to be inserted in non-intuitive
+  #         places in rare circumstances:
+  #         1) For other days besides today, the relative date is at noon.
+  #            For 'today', it's now. That's why I specify noon if 'today'
+  #            is given.
+  #         2) When using context: :past, if you specify 'today' and a
+  #            time that hasn't happened yet, 'today' becomes 'now'.
+  #            That's why I disable past context if today is passed.
   def obtain
     return default unless prompt
 
@@ -37,7 +47,9 @@ class DiaryDateElement
       input = Settings.console.ask "#{label}: " do |answer|
         answer.default = default.to_s
       end
-      time = Chronic.parse(input.to_s, context: :past)
+      input = 'today noon' if input.match?(/^\s*today\s*$/i)
+      context = input.match?(/today/) ? { } : { context: :past }
+      time = Chronic.parse(input.to_s, context)
       time ||= default
     end
     @value = @formatter.call time

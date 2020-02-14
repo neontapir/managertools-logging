@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'attr_extras'
-require 'chronic'
 require_relative '../string_extensions'
 require_relative '../time_extensions'
 

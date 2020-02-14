@@ -25,14 +25,50 @@ RSpec.describe DiaryDateElement do
     proper?(element, :the_time, 'My date', Time.now)
   end
 
-  context 'with a given date (1/1/2000)' do
+  context 'with a given morning date (1/1/2000 10am)' do
     include_context 'freeze_time' do
-      let(:clock_date) { Time.local(2000, 1, 1) }
+      let(:clock_date) { Time.local(2000, 1, 1, 10) }
+    end
+
+    context 'when valid date specified' do
+      it 'parses "now" as expected' do
+        allow(Settings.console).to receive(:ask) { 'now' }
+        element = DiaryDateElement.new(:datetime)
+        proper?(element, :datetime, 'Datetime', clock_date)
+        expect(element.obtain.to_s).to eq(clock_date.to_s)
+      end
+
+      it 'parses "today" as "today noon" when noon has not yet happened' do
+        allow(Settings.console).to receive(:ask) { 'today' }
+        element = DiaryDateElement.new(:datetime)
+        proper?(element, :datetime, 'Datetime', clock_date)
+        expect(element.obtain.to_s).to eq('2000-01-01 12:00:00 -0700')
+      end
+    end
+  end
+
+  context 'with a given afternoon date (1/1/2000 2pm)' do
+    include_context 'freeze_time' do
+      let(:clock_date) { Time.local(2000, 1, 1, 14) }
     end
 
     context 'when valid date specified' do
       it 'obtains the relative date' do
         verify_date_correct('yesterday', '1999-12-31')
+      end
+
+      it 'parses "now" as expected' do
+        allow(Settings.console).to receive(:ask) { 'now' }
+        element = DiaryDateElement.new(:datetime)
+        proper?(element, :datetime, 'Datetime', clock_date)
+        expect(element.obtain.to_s).to eq('2000-01-01 14:00:00 -0700')
+      end
+
+      it 'parses "today" as "today noon" when noon has passed' do
+        allow(Settings.console).to receive(:ask) { 'today' }
+        element = DiaryDateElement.new(:datetime)
+        proper?(element, :datetime, 'Datetime', clock_date)
+        expect(element.obtain.to_s).to eq('2000-01-01 12:00:00 -0700')
       end
 
       it 'obtains the absolute date' do
