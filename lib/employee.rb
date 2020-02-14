@@ -30,19 +30,6 @@ class Employee
     raise ArgumentError, 'Last name must not be empty' if last.to_s.empty?
   end
 
-  # # Create a new Employee object
-  # #
-  # # @param [String] team the employee's team, also its containing folder
-  # # @param [String] first the employee's first name
-  # # @param [String] last the employee's last name
-  # def initialize(team:, first:, last:)
-  #   @team, @first, @last = team, first, last
-
-  #   raise ArgumentError, 'Team must not be empty' if team.to_s.empty?
-  #   raise ArgumentError, 'First name must not be empty' if first.to_s.empty?
-  #   raise ArgumentError, 'Last name must not be empty' if last.to_s.empty?
-  # end
-
   # The name used in folder creation
   # @return [String] the folder name
   def canonical_name

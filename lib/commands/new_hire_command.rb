@@ -9,10 +9,12 @@ require_relative '../file_writer'
 require_relative 'mt_command'
 require_relative '../entries/observation_entry'
 require_relative '../settings'
+require_relative '../string_extensions'
 
 # Create a new entry for a person
 class NewHireCommand < MtCommand
   include FileWriter
+  include StringExtensions
 
   # colletion of valid parameters
   NhcParameters = Struct.new(:folder, :force)
@@ -79,7 +81,7 @@ class NewHireCommand < MtCommand
 
       image::#{employee.canonical_name}.jpg[#{employee}, width="200", align="right", float="right"]
 
-      Team: #{employee.team}
+      Team: #{NameCase(employee.team)}
 
     OVERVIEW
     write_file(overview_file.path, contents)
