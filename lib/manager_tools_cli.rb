@@ -114,6 +114,13 @@ module ManagerTools
       execute_subcommand(:move_team, [team, names], options)
     end
 
+    desc 'job JOB *NAMES', "Move the people's files to the specified team"
+    map 'job' => 'update_job'
+
+    def update_job(job, *names)
+      execute_subcommand(:grade_update, [job, names], options)
+    end
+
     desc 'new TEAM FIRST LAST', "Create the person's overview and log files in the given team folder"
     method_option :force, type: :boolean, default: false, desc: 'Overwrite files if they exist'
     map 'add' => 'new_hire'
@@ -126,7 +133,7 @@ module ManagerTools
 
     desc 'new-project PROJECT', 'Create the projects log file in the project root'
     method_option :force, type: :boolean, default: false, desc: 'Overwrite files if they exist'
-    
+
     def new_project(project)
       execute_subcommand(:new_project, project, options)
     end

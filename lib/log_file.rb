@@ -32,6 +32,12 @@ class LogFile
     remove_backup
   end
 
+  def replace_with(new_contents)
+    make_backup
+    File.write(path, new_contents)
+    remove_backup
+  end
+
   # Split the contents of the file into the part before the entry and the part after
   # @param [DiaryEntry] entry the entry to insert
   # @return [Array] an array with two entries: the chunk before where the entry belongs,
