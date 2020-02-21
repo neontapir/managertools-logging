@@ -16,12 +16,12 @@ class GradeUpdateCommand < MtCommand
   def command(arguments, _options = nil)
     entry = nil
     new_job_title, people = Array(arguments)
-    people.each do |person|
+    Array(people).each do |person|
       employee = Employee.find person
       raise "no such team #{person}" unless employee
 
       text = File.read(employee.file.path)
-      new_contents = text.gsub(/Grade level:.*/, "Grade level: #{new_job_title}")
+      new_contents = text.gsub(/^Grade level:.*/, "Grade level: #{new_job_title}")
       employee.file.replace_with(new_contents)
     end
   end
