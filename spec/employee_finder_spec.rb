@@ -137,12 +137,18 @@ RSpec.describe EmployeeFinder do
         [ant_man_folder, beast_folder].each { |hero_folder| FileUtils.mkdir_p hero_folder }
       end
 
-      it 'returns the first one by alphabetical order when multiples match' do
+      it '#search returns all when multiples match' do
+        group = finder.search('hank').sort!
+        expect(group[0]).to have_attributes(team: 'avengers', first: 'Hank', last: 'McCoy')
+        expect(group[1]).to have_attributes(team: 'avengers', first: 'Hank', last: 'Pym')
+      end
+
+      it '#find returns the first one by alphabetical order when multiples match' do
         hanks = finder.find('hank')
         expect(hanks).to have_attributes(team: 'avengers', first: 'Hank', last: 'McCoy')
       end
 
-      it 'finds the expected employee when given a unique key', :aggregated_failures do
+      it '#find returns the expected employee when given a unique key', :aggregated_failures do
         ant_man = finder.find('hank-p')
         expect(ant_man).to have_attributes(team: 'avengers', first: 'Hank', last: 'Pym')
 

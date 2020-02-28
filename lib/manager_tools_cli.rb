@@ -163,6 +163,12 @@ module ManagerTools
       execute_subcommand(:report_team, team, options)
     end
 
+    desc 'search NAME(S)', "Find the people matching the search path(s)"
+
+    def search(spec)
+      execute_subcommand(:search, spec, options)
+    end
+
     desc 'sentiment NAME', 'Do sentiment analysis on the person\'s log file'
 
     def sentiment(name)

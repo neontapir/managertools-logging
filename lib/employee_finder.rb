@@ -42,7 +42,7 @@ module EmployeeFinder
   #
   # @param [String] search_string the lookup data needed to find the employee
   # @return [Employee] an Employee object
-  def find(search_string)
+  def search(search_string)
     root = EmployeeFolder.root
     result = []
     key = search_string.downcase
@@ -55,6 +55,15 @@ module EmployeeFinder
 
       result << employee_spec.to_employee
     end
+    result
+  end
+
+  # Given a part of employee data, find the first matching employee
+  #
+  # @param [String] search_string the lookup data needed to find the employee
+  # @return [Employee] an Employee object
+  def find(search_string)
+    result = search(search_string)
     result.min
   end
 
