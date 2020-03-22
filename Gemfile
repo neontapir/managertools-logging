@@ -8,7 +8,6 @@ gem 'chronic'
 gem 'chronic_duration'
 gem 'facets'
 gem 'highline'
-# gem 'loofah'
 gem 'namecase'
 gem 'os'
 gem 'sentimental'
@@ -18,9 +17,11 @@ gem 'titleize'
 gem 'unicode'
 
 group :dev, optional: true do
+  gem 'overcommit'
   gem 'pry'
   gem 'pry-remote'
   gem 'pry-nav' # rubocop: disable Bundler/OrderedGems
+  gem 'ruby-lint'
 end
 
 group :docs, optional: true do
