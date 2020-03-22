@@ -15,8 +15,11 @@
 #
 # Uncomment the following lines to make the configuration take effect.
 
+CommitMsg:
+  CapitalizedSubject:
+    enabled: false
 PreCommit:
-  RubyLint:
+  BundleAudit:
     enabled: true
   RubySyntax:
     enabled: true

@@ -17,6 +17,7 @@ gem 'titleize'
 gem 'unicode'
 
 group :dev, optional: true do
+  gem 'fasterer'
   gem 'overcommit'
   gem 'pry'
   gem 'pry-remote'

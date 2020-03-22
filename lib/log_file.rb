@@ -32,6 +32,7 @@ class LogFile
     remove_backup
   end
 
+  # replace the file with the given contents
   def replace_with(new_contents)
     make_backup
     File.write(path, new_contents)
