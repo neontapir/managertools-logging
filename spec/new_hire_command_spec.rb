@@ -60,6 +60,7 @@ RSpec.describe NewHireCommand do
         expect(File).not_to exist File.join(beast_boy_folder, Settings.overview_filename)
       end
 
+      # these options get passed to the command by the ManagerTools module
       it 'creates a new team member with given data' do
         expect { new_hire.command(%w[Teen\ Titans Garfield Logan], OpenStruct.new(
           biography: 'changed into a West African green monkey to battle Sakutia',

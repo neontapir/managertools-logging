@@ -123,6 +123,9 @@ module ManagerTools
 
     desc 'new TEAM FIRST LAST', "Create the person's overview and log files in the given team folder"
     method_option :force, type: :boolean, default: false, desc: 'Overwrite files if they exist'
+    [:biography, :grade_level, :hire_date].each do |extra|
+      method_option extra, type: :string, desc: "Add #{extra} information to file"
+    end
     map 'add' => 'new_hire'
     map 'create' => 'new_hire'
     map 'new' => 'new_hire'
