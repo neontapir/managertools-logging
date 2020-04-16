@@ -40,7 +40,7 @@ class DiaryElement
   def obtain
     return default unless prompt
 
-    @value = Settings.console.ask "#{label}: " do |answer|
+    @value = Settings.console.ask "#{prompt}: " do |answer|
       answer.default = default
     end
     value
@@ -48,6 +48,6 @@ class DiaryElement
 
   # Print a detailed view of a diary element for debugging
   def inspect
-    "<DiaryElement:#{object_id} with key: '#{key}', label: '#{label}', value: '#{value}'>"
+    "<DiaryElement:#{object_id} with key: '#{key}', label: '#{label}', prompt: '#{prompt}', default: '#{default}', value: '#{value}'>"
   end
 end

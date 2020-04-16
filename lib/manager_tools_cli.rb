@@ -28,11 +28,20 @@ module ManagerTools
 
     desc 'feedback NAME', 'Add a feedback log entry'
     method_option :template, type: :boolean, default: false, desc: 'Add a template to the log file, without entry data'
-    map 'fb' => 'feed'
-    map 'feed' => 'feed'
+    map 'fb' => 'feedback'
+    map 'feed' => 'feedback'
 
     def feedback(*names)
       record_diary_entry(:feedback, Array(names), options)
+    end
+
+    desc 'four_by_four NAME', 'Add a 4x4 log entry'
+    method_option :template, type: :boolean, default: false, desc: 'Add a template to the log file, without entry data'
+    map 'four' => 'four_by_four'
+    map '4x4' => 'four_by_four'
+
+    def four_by_four(*names)
+      record_diary_entry(:four_by_four, Array(names), options)
     end
 
     desc 'goal NAME', "Add a goal log entry to each person's file"
