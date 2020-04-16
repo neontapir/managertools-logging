@@ -11,7 +11,7 @@ require_relative 'settings'
 # @!attribute [r] default
 #   @return [String] the default value of the element
 # @!attribute [r] prompt
-#   @return [String] the phrase to display when prompting the user for its value
+#   @return [String] the phrase to display when prompting the user for its value (defaults to the label)
 class DiaryElement
   # The value used if the element's default value is not specified during object construction
   DEFAULT_VALUE = 'none'
