@@ -30,6 +30,11 @@ task :rubycritic do
   system 'rubycritic' || exit!(1)
 end
 
+desc 'Open coverage report'
+task :coverage do
+  system 'open', 'coverage/index.html' || exit!(1)
+end
+
 desc 'Run flay against the solution to detect code duplication'
 task :flay do
   system 'flay', '.' || exit!(1)
