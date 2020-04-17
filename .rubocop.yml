@@ -20,6 +20,12 @@ Style/CollectionMethods:
   Enabled: true
 Style/FormatString:
   EnforcedStyle: percent
+Style/HashEachMethods:
+  Enabled: true
+Style/HashTransformKeys:
+  Enabled: true
+Style/HashTransformValues:
+  Enabled: true
 Style/ParallelAssignment:
   Enabled: false
 Style/SignalException:

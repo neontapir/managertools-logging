@@ -18,6 +18,6 @@ class EntityFile
 
   # The file system path to this EntityFile
   def path
-    File.join(folder.path, filename)
+    @path ||= File.join(folder.path, filename)
   end
 end

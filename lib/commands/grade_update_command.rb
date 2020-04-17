@@ -14,7 +14,6 @@ class GradeUpdateCommand < MtCommand
   # command(arguments, options)
   #   Create an entry in each team member's file
   def command(arguments, _options = nil)
-    entry = nil
     new_job_title, people = Array(arguments)
     Array(people).each do |person|
       employee = Employee.find person

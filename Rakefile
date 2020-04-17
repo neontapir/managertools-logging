@@ -52,7 +52,7 @@ end
 
 desc 'Run rubocop against the solution to find code quality issues'
 task :rubocop do
-  system 'rubocop', '.' || exit!(1)
+  system *%w[bundle exec rubocop .] || exit!(1)
 end
 
 desc 'Inspect the quality of the code'

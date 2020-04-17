@@ -175,7 +175,7 @@ module ManagerTools
       execute_subcommand(:report_team, team, options)
     end
 
-    desc 'search NAME(S)', "Find the people matching the search path(s)"
+    desc 'search NAME(S)', 'Find the people matching the search path(s)'
 
     def search(spec)
       execute_subcommand(:search, spec, options)

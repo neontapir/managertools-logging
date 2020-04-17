@@ -33,8 +33,10 @@ class Employee
   # The name used in folder creation
   # @return [String] the folder name
   def canonical_name
-    first_name, last_name = [first, last].map { |n| n.tr(' ', '-').strip_nonalnum }
-    "#{first_name}-#{last_name}".unidowncase
+    @canonical_name ||= begin
+      first_name, last_name = [first, last].map { |n| n.tr(' ', '-').strip_nonalnum }
+      "#{first_name}-#{last_name}".unidowncase
+    end
   end
 
   # Get the LogFile for the employee

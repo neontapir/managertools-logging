@@ -33,7 +33,7 @@ class EmployeeFolder
 
   # The path to the file, relative to the parent folder of the root
   def path
-    File.join(EmployeeFolder.root, employee.team.to_s.to_path, folder_name)
+    @path ||= File.join(EmployeeFolder.root, employee.team.to_s.to_path, folder_name)
   end
 
   # Create a file system folder at path

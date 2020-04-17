@@ -29,7 +29,7 @@ class DiaryDateElement
 
   # obtain()
   #   Display the label, and get the element's value from the user
-  # 
+  #
   #   Note: Chronic does some strange things around parsing 'today'
   #         that causes diary entries to be inserted in non-intuitive
   #         places in rare circumstances:
@@ -48,7 +48,7 @@ class DiaryDateElement
         answer.default = default.to_s
       end
       input = 'today noon' if input.match?(/^\s*today\s*$/i)
-      context = input.match?(/today/) ? { } : { context: :past }
+      context = input.match?(/today/) ? {} : { context: :past }
       time = Chronic.parse(input.to_s, context)
       time ||= default
     end
