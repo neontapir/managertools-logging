@@ -23,9 +23,17 @@ RSpec.describe DiaryElement do
     proper?(element, :actions, 'Actions to take', 'No actions')
   end
 
-  context 'when prompt has special characters' do
-    it 'raises' do
+  context 'when label has special characters' do
+    it 'raises an error' do
       expect { DiaryElement.new(:question, 'Questions?', default: 'No questions') }.to raise_error ArgumentError
+    end
+  end
+
+  context 'when prompt is different than label' do
+    it 'shows the prompt, not the label' do
+      allow(Settings.console).to receive(:ask).with('Prompt me: ') { 'plough' }
+      element = DiaryElement.new(:prompted, 'Label me', prompt: 'Prompt me', default: 'xyzzy')
+      expect(element.obtain).to eq 'plough'
     end
   end
 
@@ -33,11 +41,11 @@ RSpec.describe DiaryElement do
     it 'uses default' do
       expect(Settings.console).not_to receive(:ask)
       element = DiaryElement.new(:unprompted, 'Do not prompt', default: 'xyzzy', prompt: nil)
-      proper?(element, :unprompted, 'Do not prompt', 'xyzzy')
+      expect(element.obtain).to eq 'xyzzy'
     end
   end
 
-  context 'in equality context' do
+  context 'when determining equality' do
     subject { DiaryElement.new(:unprompted, 'Do not prompt', default: 'xyzzy', prompt: nil) }
 
     it 'implements equals' do

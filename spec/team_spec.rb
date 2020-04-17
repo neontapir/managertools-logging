@@ -84,7 +84,7 @@ RSpec.describe Team do
     end
   end
 
-  context 'in equality context' do
+  context 'when determining equality' do
     subject(:avengers) { Team.new(team: 'Avengers') }
     let(:justice_league) { Team.new(team: 'JusticeLeague') }
 

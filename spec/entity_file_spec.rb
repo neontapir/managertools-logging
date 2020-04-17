@@ -51,7 +51,7 @@ RSpec.describe EntityFile do
     end
   end
 
-  context 'in equality context' do
+  context 'when determining equality' do
     equality_folder = File.join(Settings.root, 'equality')
 
     subject { EntityFile.new(equality_folder, 'equal_file') }
