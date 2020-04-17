@@ -26,8 +26,9 @@ RSpec.describe InitCommand do
     end
 
     after do
-      FileUtils.rm_r File.dirname(config_file)
-      expect(File).not_to exist config_file
+      temp_folder = File.dirname(config_file)
+      FileUtils.rm_r temp_folder
+      expect(Dir).not_to exist temp_folder
     end
 
     it 'will initialize the data structure' do
