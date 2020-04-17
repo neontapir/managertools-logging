@@ -26,7 +26,7 @@ RSpec.describe InitCommand do
     end
 
     after do
-      FileUtils.rm_r config_file
+      FileUtils.rm_r File.dirname(config_file)
       expect(File).not_to exist config_file
     end
 
