@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'tailor/rake_task'
+
 # rubocop:disable Lint/SuppressedException
 begin
   require 'rspec/core/rake_task'
@@ -55,9 +57,19 @@ task :rubocop do
   system *%w[bundle exec rubocop .] || exit!(1)
 end
 
+desc 'Run sandi_meter against the solution to find code quality issues'
+task :sandi_meter do
+  system 'sandi_meter', '-d' || exit!(1)
+end
+
+desc 'Run tailor against the lib folder to find code quality issues'
+task :tailor do
+  Tailor::RakeTask.new
+end
+
 desc 'Inspect the quality of the code'
 task :quality do
-  %I[rubycritic rubocop].each { |t| task(t).invoke }
+  %I[rubycritic rubocop sandi_meter tailor].each { |t| task(t).invoke }
 end
 
 desc 'Build the team directory document'

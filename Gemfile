@@ -50,6 +50,8 @@ group :quality, optional: true do
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'rubycritic'
+  gem 'sandi_meter', '~> 1.2'
+  gem 'tailor'
 end
 
 group :test do
@@ -62,3 +64,4 @@ group :test do
   gem 'timecop'
   gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 end
+
