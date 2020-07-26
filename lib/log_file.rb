@@ -45,7 +45,7 @@ class LogFile
   #   and the chunk that belongs after
   # @example How to consume this method
   #   before, after = divide_file entry
-  def divide_file(entry)
+  def divide_file(entry) # rubocop:disable Metrics/AbcSize
     entry_date = entry.date
     lines = IO.readlines path
     header_locations = get_header_locations lines
@@ -57,7 +57,7 @@ class LogFile
     when dates.size - 1 then [lines, []]
     else
       demarcation = header_locations[dates[insertion_position + 1]] - 1
-      [lines[0...demarcation], lines[demarcation..-1]]
+      [lines[0...demarcation], lines[demarcation..]]
     end
   end
 

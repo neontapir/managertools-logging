@@ -47,11 +47,14 @@ class SentimentCommand < MtCommand
       .reject { |k| [PtoEntry].include? k }
       .map { |k| k.new.entry_banner }
     entries_regex = Regexp.union(entry_banners)
+    extract_sections(doc, entries_regex)
+  end
 
+  def extract_sections(doc, entries_regex)
     doc.sections
       .filter { |s| s.title.match?(/#{entries_regex}/) }
       .flat_map(&:content)
-      .map { |c| c.tr("\n", ' ').gsub(/\<.+?\>/, '').to_s[0, 50] }
+      .map { |c| c.tr("\n", ' ').gsub(/<.+?>/, '').to_s[0, 50] }
   end
 
   def enrich_content(analyzer, content)

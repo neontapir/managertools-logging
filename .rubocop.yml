@@ -1,26 +1,57 @@
 require:
   - rubocop-performance
 AllCops:
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 2.7
   Exclude:
     - 'test'
     - 'spec/**/*'
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: false
 Layout/LineLength:
-    Max: 120
+  Enabled: false
+  Max: 120
 Layout/MultilineMethodCallIndentation:
-    EnforcedStyle: indented
+  EnforcedStyle: indented
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
 Layout/SpaceInLambdaLiteral:
-    Enabled: false
+  Enabled: false
 Lint/AmbiguousOperator:
   Exclude:
     - 'Rakefile'
+Lint/DeprecatedOpenSSLConstant:
+  Enabled: true
+Lint/DuplicateElsifCondition:
+  Enabled: true
+Lint/MixedRegexpCaptureTypes:
+  Enabled: true
+Lint/RaiseException:
+  Enabled: true
+Lint/StructNewOverride:
+  Enabled: true
 Metrics/MethodLength:
   Max: 15
+Style/AccessorGrouping:
+  Enabled: true
+Style/ArrayCoercion:
+  Enabled: true
+Style/BisectedAttrAccessor:
+  Enabled: true
+Style/CaseLikeIf:
+  Enabled: true
 Style/CollectionMethods:
+  Enabled: true
+Style/CommandLiteral:
+  EnforcedStyle: percent_x
+Style/ExponentialNotation:
   Enabled: true
 Style/FormatString:
   EnforcedStyle: percent
+Style/HashAsLastArrayItem:
+  Enabled: true
 Style/HashEachMethods:
+  Enabled: true
+Style/HashLikeCase:
   Enabled: true
 Style/HashTransformKeys:
   Enabled: true
@@ -28,13 +59,41 @@ Style/HashTransformValues:
   Enabled: true
 Style/ParallelAssignment:
   Enabled: false
+Style/RedundantAssignment:
+  Enabled: true
+Style/RedundantFetchBlock:
+  Enabled: true
+Style/RedundantFileExtensionInRequire:
+  Enabled: true
+Style/RedundantRegexpCharacterClass:
+  Enabled: true
+Style/RedundantRegexpEscape:
+  Enabled: true
 Style/SignalException:
   EnforcedStyle: only_raise
-Style/SymbolArray:
-  Enabled: false
+Style/SlicingWithRange:
+  Enabled: true
 Style/StabbyLambdaParentheses:
   Enabled: false
-Style/TrailingCommaInArrayLiteral:
+Style/SymbolArray:
   Enabled: false
 Style/TrailingCommaInArguments:
   Enabled: false
+Style/TrailingCommaInArrayLiteral:
+  Enabled: false
+Performance/AncestorsInclude:
+  Enabled: true
+Performance/BigDecimalWithNumericArgument:
+  Enabled: true
+Performance/RedundantSortBlock:
+  Enabled: true
+Performance/RedundantStringChars:
+  Enabled: true
+Performance/ReverseFirst:
+  Enabled: true
+Performance/SortReverse:
+  Enabled: true
+Performance/Squeeze:
+  Enabled: true
+Performance/StringInclude:
+  Enabled: true

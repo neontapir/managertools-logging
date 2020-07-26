@@ -8,12 +8,14 @@ require_relative 'string_extensions'
 
 # A data container for employee data, used during searching folders for
 # employee records
+# rubocop:disable Lint/StructNewOverride
 EmployeeSpecification = Struct.new(:team, :first, :last, keyword_init: true) do
   # convert a hash to an employee
   def to_employee
     Employee.new(team: team, first: first, last: last)
   end
 end
+# rubocop:enable Lint/StructNewOverride
 
 # Represents a team member, a person assigned to a team
 # @attr_reader [String] team the name of the team the person belongs to

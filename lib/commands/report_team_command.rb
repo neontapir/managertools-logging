@@ -28,6 +28,12 @@ class ReportTeamCommand < MtCommand
     team = Team.find team_name
     raise TeamNotFoundError unless team
 
+    make_team_report(team, no_launch)
+  end
+
+  private
+
+  def make_team_report(team, no_launch)
     report_name = "team-#{team.to_s.downcase}-report"
     report_source = "#{report_name}.adoc"
     output = "#{report_name}.html"
@@ -37,8 +43,6 @@ class ReportTeamCommand < MtCommand
 
     raise SystemCallError, "Report launch failed with '#{command_line}'" unless system(command_line)
   end
-
-  private
 
   # Generates an HTML report of a team by concatenating its members' reports
   def generate_report(team, report_source, output)

@@ -13,7 +13,7 @@ class SearchCommand < MtCommand
     search_string = Array(arguments).first
     raise 'missing specification argument' unless search_string
 
-    result = search(search_string).map{ |e| e.file.folder }
+    result = search(search_string).map { |e| e.file.folder }
     result.each do |folder|
       Settings.console.say folder
     end

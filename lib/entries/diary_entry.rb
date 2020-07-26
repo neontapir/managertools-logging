@@ -55,7 +55,7 @@ class DiaryEntry
   #   @param [Class] entry_type the Ruby class of the entry type
   #   @raise [ArgumentError] when entry_type is not a kind of DiaryEntry
   #   @return [String] an Asciidoc fragment suitable for appending to a log file
-  def render(title, entry_type = self.class)
+  def render(title, entry_type = self.class) # rubocop:disable Metrics/AbcSize
     raise ArgumentError, "#{entry_type}#elements must return an enumerable" unless elements.is_a?(Enumerable)
     raise ArgumentError, "record[:datetime] must be a Time, not a #{date.class}" unless date.is_a?(Time)
 

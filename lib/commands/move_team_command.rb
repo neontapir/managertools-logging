@@ -89,22 +89,23 @@ class MoveTeamCommand
     temp_file = Tempfile.new(Settings.overview_filename)
     begin
       File.open(overview, 'r') do |file|
-        file.each_line do |line|
-          updated_line = case line
-                         when /imagesdir/
-                           ":imagesdir: #{target_team_path(target_team, employee)}"
-                         when /Team:/
-                           add_to_team_list?(target_team) ? "#{line.chomp}, #{target_team}" : line
-                         else line
-                         end
-          temp_file.puts updated_line
-        end
+        file.each_line { |line| temp_file.puts updated_line(line, target_team, employee) }
       end
       temp_file.close
       FileUtils.mv(temp_file.path, overview)
     ensure
       temp_file.close
       temp_file.unlink
+    end
+  end
+
+  def updated_line(line, target_team, employee)
+    case line
+    when /imagesdir/
+      ":imagesdir: #{target_team_path(target_team, employee)}"
+    when /Team:/
+      add_to_team_list?(target_team) ? "#{line.chomp}, #{target_team}" : line
+    else line
     end
   end
 

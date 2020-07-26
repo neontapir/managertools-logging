@@ -42,17 +42,20 @@ class DiaryDateElement
   def obtain
     return default unless prompt
 
-    time = default
-    if label
-      input = Settings.console.ask "#{label}: " do |answer|
-        answer.default = default.to_s
-      end
-      input = 'today noon' if input.match?(/^\s*today\s*$/i)
-      context = input.match?(/today/) ? {} : { context: :past }
-      time = Chronic.parse(input.to_s, context)
-      time ||= default
-    end
+    time = label ? obtain_with_label : default
     @value = @formatter.call time
     value
+  end
+
+  private
+
+  def obtain_with_label
+    input = Settings.console.ask "#{label}: " do |answer|
+      answer.default = default.to_s
+    end
+    input = 'today noon' if input.match?(/^\s*today\s*$/i)
+    context = input.include?('today') ? {} : { context: :past }
+    time = Chronic.parse(input.to_s, context)
+    time || default
   end
 end

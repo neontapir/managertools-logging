@@ -14,13 +14,13 @@ module ManagerTools
 
   # Defines the command-line interface
   # @private
-  class CLI < Thor
+  class CLI < Thor # rubocop:disable Metrics/ClassLength
     def self.exit_on_failure?
       true
     end
 
     config_file = Settings.config_file
-    unless File.exist? config_file
+    unless File.exist? config_file # rubocop:disable Style/IfUnlessModifier
       warn HighLine.color("Configuration not found at #{config_file}, run 'mt init' to create it", :red)
     end
 

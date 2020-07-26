@@ -22,12 +22,19 @@ class NewHireCommand < MtCommand
   # command(arguments, options)
   #   Create new overview and load files for a person
   def command(arguments, options = nil)
-    force = (options&.force == true)
-
     team, first, last = Array(arguments)
     raise 'missing team argument' unless team
     raise 'missing first name argument' unless first
     raise 'missing last name argument' unless last
+
+    create_new_hire(team, first, last, options)
+  end
+
+  private
+
+  # create a new hire
+  def create_new_hire(team, first, last, options)
+    force = (options&.force == true)
 
     [:biography, :grade_level, :hire_date].each do |var|
       instance_variable_set("@#{var}", options&.send(var) || '')
@@ -42,8 +49,6 @@ class NewHireCommand < MtCommand
     generate_log_file_by(nhc_parameters)
     employee
   end
-
-  private
 
   # template method that uses the parameteres to genereate the given file
   def generate_file_by(nhc_parameters, filename)
