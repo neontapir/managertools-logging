@@ -29,7 +29,7 @@ end
 
 desc 'Run rubycritic against the solution to detect code quality issues'
 task :rubycritic do
-  system 'rubycritic' || exit!(1)
+  system *%w[bundle exec rubycritic] || exit!(1)
 end
 
 desc 'Open coverage report'
@@ -39,17 +39,17 @@ end
 
 desc 'Run flay against the solution to detect code duplication'
 task :flay do
-  system 'flay', '.' || exit!(1)
+  system *%w[bundle exec flay .] || exit!(1)
 end
 
 desc 'Run flog against the solution to detect code complexity'
 task :flog do
-  system *%w[flog . -spec] || exit!(1)
+  system *%w[bundle exec flog . -spec] || exit!(1)
 end
 
 desc 'Run reek against the solution to detect code smells'
 task :reek do
-  system 'reek', '.' || exit!(1)
+  system *%w[bundle exec reek .] || exit!(1)
 end
 
 desc 'Run rubocop against the solution to find code quality issues'

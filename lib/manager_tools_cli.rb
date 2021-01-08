@@ -123,7 +123,7 @@ module ManagerTools
       execute_subcommand(:move_team, [team, names], options)
     end
 
-    desc 'job JOB *NAMES', "Move the people's files to the specified team"
+    desc 'job JOB *NAMES', "Update the job grade for the specified people"
     map 'job' => 'update_job'
 
     def update_job(job, *names)

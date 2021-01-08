@@ -13,6 +13,7 @@ RSpec.describe InitCommand do
   end
 
   context 'config file does not exist' do
+    # settings class that allows us to inject a different folder for testing
     class FakeSettings < Settings
       def self.root
         'test_init_command'
