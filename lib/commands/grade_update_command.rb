@@ -6,13 +6,12 @@ require_relative '../team'
 require_relative '../string_extensions'
 
 # Implements grade level update functionality
-# TODO: Tests!
 class GradeUpdateCommand < MtCommand
   include Diary
   using StringExtensions
 
   # command(arguments, options)
-  #   Create an entry in each team member's file
+  #   Creates or updates the grade level in each team member's file
   def command(arguments, _options = nil)
     new_job_title, people = Array(arguments)
     Array(people).each do |person|

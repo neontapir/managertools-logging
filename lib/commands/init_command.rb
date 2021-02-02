@@ -14,7 +14,7 @@ class InitCommand < MtCommand
   end
 
   # command(arguments, options)
-  #   Create a default config file in the configured location
+  #   Create a default config file in the location given by settings
   def command(_ = nil, _ = nil)
     config_file = settings.config_file
     if File.exist?(config_file)

@@ -17,9 +17,7 @@ class GenerateOverviewFilesCommand < MtCommand
 
     new_hire = NewHireCommand.new
     Dir.glob("#{EmployeeFolder.root}/*/*") do |folder|
-      unless force
-        next unless Dir.exist? folder
-      end
+      next unless (force || Dir.exist?(folder))
       nhc_args = get_nhc_args folder
       new_hire.command nhc_args
     end

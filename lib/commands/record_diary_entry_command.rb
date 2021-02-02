@@ -13,7 +13,6 @@ class RecordDiaryEntryCommand < MtCommand
   # command(arguments, options)
   #   Record a new diary entry in the person's file
   def command(subcommand, arguments, options = nil)
-    @command_opts ||= options
     raise 'missing person name argument' unless arguments.first
 
     log_message(to_entities(arguments), subcommand.to_sym)
