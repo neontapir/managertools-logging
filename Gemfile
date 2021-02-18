@@ -56,6 +56,7 @@ end
 
 group :test do
   gem 'aruba', '> 0.14.10'
+  gem 'fuubar'
   gem 'guard-rspec'
   gem 'mutant-rspec'
   gem 'rspec'
