@@ -31,9 +31,11 @@ end
 
 group :ide, optional: true do
   # gem 'bundler-stats'
+  gem 'debase'
   gem 'fastri'
   gem 'rake'
   gem 'rcodetools'
+  gem 'ruby-debug-ide'
   gem 'solargraph' unless Gem.win_platform? # until nokogiri supported for Ruby 2.7 on Windows
   # ...\managertools-logging> gem install nokogiri --platform=ruby -- --use-system-libraries
   # Temporarily enhancing PATH for MSYS/MINGW...

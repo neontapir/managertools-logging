@@ -77,6 +77,9 @@ GEM
       cucumber-core (~> 8.0, >= 8.0.1)
       cucumber-cucumber-expressions (~> 10.3, >= 10.3.0)
       cucumber-messages (~> 13.0, >= 13.0.1)
+    debase (0.2.5.beta2)
+      debase-ruby_core_source (>= 0.10.12)
+    debase-ruby_core_source (0.10.12)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.4.4)
@@ -247,6 +250,8 @@ GEM
     rubocop-performance (1.9.2)
       rubocop (>= 0.90.0, < 2.0)
       rubocop-ast (>= 0.4.0)
+    ruby-debug-ide (0.7.2)
+      rake (>= 0.8.1)
     ruby-lint (2.3.1)
       parser (~> 2.2)
       slop (~> 3.4, >= 3.4.7)
@@ -345,6 +350,7 @@ DEPENDENCIES
   attr_extras
   chronic
   chronic_duration
+  debase
   facets
   fasterer
   fastri
@@ -367,6 +373,7 @@ DEPENDENCIES
   rspec-pride
   rubocop
   rubocop-performance
+  ruby-debug-ide
   ruby-lint
   rubycritic
   sandi_meter (~> 1.2)

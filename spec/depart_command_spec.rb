@@ -40,8 +40,8 @@ RSpec.describe DepartCommand do
       new_folder = demolition_man_employee.file.folder
       overview_location = File.join new_folder, Settings.overview_filename
       overview_contents = File.read(overview_location)
-      expect(overview_contents).to match /^Team: Revengers\s*$/m
-      expect(overview_contents).not_to match /^Team:.*departed/im
+      expect(overview_contents).to match(/^Team: Revengers\s*$/m)
+      expect(overview_contents).not_to match(/^Team:.*departed/im)
     end
   end
 end

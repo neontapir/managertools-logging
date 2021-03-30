@@ -87,6 +87,7 @@ RSpec.configure do |config|
 
   # This setting enables warnings. It's recommended, but in some cases may
   # be too noisy due to issues in dependencies.
+  # In this case of this application, it's Settingslogic.
   # config.warnings = true
 
   # Many RSpec users commonly either run the entire suite or an individual
@@ -102,7 +103,7 @@ RSpec.configure do |config|
   # Print the 10 slowest examples and example groups at the
   # end of the spec run, to help surface which specs are running
   # particularly slow.
-  config.profile_examples = 5
+  config.profile_examples = 3
 
   # Run specs in random order to surface order dependencies. If you find an
   # order dependency and want to debug it, you can fix the order by providing
@@ -134,13 +135,7 @@ RSpec.configure do |config|
   end
 end
 
-# Aruba support
+# Aruba support, a helper for testing command line applications
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-
-if RUBY_VERSION < '1.9.3'
-  ::Dir.glob(::File.expand_path('../support/*.rb', __FILE__)).each { |f| require File.join(File.dirname(f), File.basename(f, '.rb')) }
-  ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require File.join(File.dirname(f), File.basename(f, '.rb')) }
-else
-  ::Dir.glob(::File.expand_path('../support/*.rb', __FILE__)).each { |f| require_relative f }
-  ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require_relative f }
-end
+::Dir.glob(::File.expand_path('../support/*.rb', __FILE__)).each { |f| require_relative f }
+::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require_relative f }

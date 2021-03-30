@@ -73,4 +73,5 @@ class Settings < Settingslogic
 
   source config_file
   namespace 'production' # Rails.env
+  load!
 end
