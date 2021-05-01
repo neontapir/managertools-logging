@@ -20,7 +20,8 @@ jobs:
     strategy:
       matrix:
         ruby-version: ['3.0']
-
+    env: 
+      BUNDLE_WITH: "quality, dev, test, ide, update, docs"
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby
