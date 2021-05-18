@@ -8,14 +8,6 @@ require_relative 'path_string_extensions'
 require_relative 'settings'
 require_relative 'string_extensions'
 
-# For reporting employee searches with no results
-class EmployeeNotFoundError < StandardError
-end
-
-# For reporting entity searches with no results
-class EntityNotFoundError < StandardError
-end
-
 # Represents a employee search provider
 module EmployeeFinder
   using PathStringExtensions

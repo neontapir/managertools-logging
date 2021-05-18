@@ -31,6 +31,7 @@ class NewProjectCommand < MtCommand
     folder.ensure_exists
 
     summary = ask 'Project summary? '
+    # TODO: This method of setting a default doesn't work in the unit tests, yet we do this elsewhere. Investigate.
     # summary = Settings.console.ask 'Project summary?' do |answer|
     #   answer.default = 'undefined'
     # end

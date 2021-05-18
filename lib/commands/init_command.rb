@@ -15,7 +15,7 @@ class InitCommand < MtCommand
 
   # command(arguments, options)
   #   Create a default config file in the location given by settings
-  def command(_ = nil, _ = nil)
+  def command(_arguments = nil, _options = nil)
     config_file = settings.config_file
     if File.exist?(config_file)
       warn HighLine.color("Aborting, config file #{config_file} already exists", :red)

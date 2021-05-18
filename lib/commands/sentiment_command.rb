@@ -37,24 +37,24 @@ class SentimentCommand < MtCommand
 
     content = enrich_content(analyzer, content)
 
-    content.each { |c| puts c }
+    content.each { |item| puts item }
   end
 
   def extract_log_file_data(employee)
     doc = Asciidoctor.load_file(employee.file.path)
     entry_banners = DiaryEntry
       .descendants
-      .reject { |k| [PtoEntry].include? k }
-      .map { |k| k.new.entry_banner }
+      .reject { |entry_type| [PtoEntry].include? entry_type }
+      .map { |entry_type| entry_type.new.entry_banner }
     entries_regex = Regexp.union(entry_banners)
     extract_sections(doc, entries_regex)
   end
 
   def extract_sections(doc, entries_regex)
     doc.sections
-      .filter { |s| s.title.match?(/#{entries_regex}/) }
+      .filter { |section| section.title.match?(/#{entries_regex}/) }
       .flat_map(&:content)
-      .map { |c| c.tr("\n", ' ').gsub(/<.+?>/, '').to_s[0, 50] }
+      .map { |content| content.tr("\n", ' ').gsub(/<.+?>/, '').to_s[0, 50] }
   end
 
   def enrich_content(analyzer, content)
