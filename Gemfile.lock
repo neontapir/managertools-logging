@@ -346,8 +346,8 @@ GEM
     zeitwerk (2.4.2)
 
 PLATFORMS
-  linux
   ruby
+  x86_64-linux
 
 DEPENDENCIES
   aruba (> 0.14.10)
@@ -394,4 +394,4 @@ DEPENDENCIES
   yard
 
 BUNDLED WITH
-   2.2.3
+   2.2.15
