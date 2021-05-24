@@ -21,6 +21,7 @@ jobs:
         ruby-version: ["3.0"]
     env:
       BUNDLE_WITH: "quality, dev, test, ide, update, docs"
+      ImageOS: "ubuntu18"
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby
