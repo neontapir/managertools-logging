@@ -13,6 +13,12 @@ on:
   pull_request:
     branches: [master]
 
+inputs:
+  bundler:
+    default: "latest"
+  bundler-cache:
+    default: "true"
+
 jobs:
   test:
     runs-on: ubuntu-latest
