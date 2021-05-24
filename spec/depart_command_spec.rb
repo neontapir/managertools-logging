@@ -44,4 +44,35 @@ RSpec.describe DepartCommand do
       expect(overview_contents).not_to match(/^Team:.*departed/im)
     end
   end
+
+  context 'specifying a team as the move subject yields the first person (Justic League)' do
+    departed_folder = File.join(Settings.root, Settings.departed_root)
+    old_team_folder = File.join(Settings.root, 'justice-league')
+    batman = 'bruce-wayne'
+    wonder_woman = 'diana-prince'
+
+    before do
+      expect(Dir).not_to exist departed_folder
+      FileUtils.mkdir_p old_team_folder
+
+      # use new hire command to generate expected files
+      expect { NewHireCommand.new.command %w[justice-league Bruce Wayne] }.to output(/#{batman}/).to_stdout
+      expect { NewHireCommand.new.command %w[justice-league Diana Prince] }.to output(/#{wonder_woman}/).to_stdout
+    end
+
+    after do
+      [old_team_folder, departed_folder].each { |folder| FileUtils.rm_r folder }
+    end
+
+    it 'relocates the first person\'s files', :aggregate_failures do
+      expect(Dir).not_to exist(departed_folder)
+
+      expect { depart.command 'justice-league' }.to output(/Bruce Wayne/).to_stdout
+
+      expect(Dir).to exist(File.join(%W[#{departed_folder} #{batman}]))
+      expect(Dir).not_to exist(File.join(%W[#{departed_folder} #{wonder_woman}]))
+      expect(Dir).not_to exist(File.join(%W[#{old_team_folder} #{batman}]))
+      expect(Dir).to exist(File.join(%W[#{old_team_folder} #{wonder_woman}]))
+    end
+  end
 end
