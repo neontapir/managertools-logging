@@ -31,11 +31,12 @@ end
 
 group :ide, optional: true do
   # gem 'bundler-stats'
-  gem 'debase'
+  gem 'debase', '>= 0.2.5.beta'
   gem 'fastri'
   gem 'rake'
   gem 'rcodetools'
   gem 'ruby-debug-ide'
+  gem 'semgrep'
   gem 'solargraph' unless Gem.win_platform? # until nokogiri supported for Ruby 2.7 on Windows
   # ...\managertools-logging> gem install nokogiri --platform=ruby -- --use-system-libraries
   # Temporarily enhancing PATH for MSYS/MINGW...
@@ -52,12 +53,12 @@ group :quality, optional: true do
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'rubycritic'
-  gem 'sandi_meter', '~> 1.2'
+  gem 'sandi_meter' #, '~> 1.2'
   gem 'tailor'
 end
 
 group :test do
-  gem 'aruba', '> 0.14.10'
+  gem 'aruba' #, '> 0.14.10'
   gem 'fuubar'
   gem 'guard-rspec'
   gem 'mutant-rspec'
@@ -65,7 +66,5 @@ group :test do
   gem 'rspec-pride'
   gem 'simplecov'
   gem 'timecop'
-  gem 'wdm', '>= 0.1.0' if Gem.win_platform?
+  gem 'wdm' #, '>= 0.1.0' if Gem.win_platform?
 end
-
-gem "semgrep", "~> 0.0.1", :group => :ide
