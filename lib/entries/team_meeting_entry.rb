@@ -9,8 +9,7 @@ require_relative '../settings'
 class TeamMeetingEntry < DiaryEntry
   # generates the interactive prompt string
   def prompt(team)
-    personalized = team[','] ? '' : team
-    "For your #{personalized} team meeting, enter the following:"
+    "For your #{to_sentence(team)} team meeting, enter the following:"
   end
 
   # define the items included in the entry

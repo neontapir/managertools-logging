@@ -8,8 +8,7 @@ require_relative 'diary_entry'
 class ObservationEntry < DiaryEntry
   # generates the interactive prompt string
   def prompt(name)
-    personalized = name[','] ? '' : " for #{name}"
-    "Enter your observation#{personalized}:"
+    "Enter your observation for #{to_sentence(name)}:"
   end
 
   # define the items included in the entry

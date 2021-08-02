@@ -121,6 +121,20 @@ class DiaryEntry
     data
   end
 
+  # natural wording of a string containing a list of one or more items
+  #   @param input [string] a string, possibly comma separated
+  #   @return [string] the string in natural language
+  def to_sentence(input)
+    return input unless input[',']
+    result = input.split(',')
+    if result.length > 2
+      result[-1] = 'and ' + result[-1]
+      result.join(', ')
+    else
+      result.join(' and ')
+    end
+  end
+
   private
 
   # items in the header_items array will not be included in the body of the entry, just the header
