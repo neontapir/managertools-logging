@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'tailor/rake_task'
-
 # rubocop:disable Lint/SuppressedException
 begin
   require 'rspec/core/rake_task'
@@ -80,6 +78,7 @@ end
 
 desc 'Run tailor against the lib folder to find code quality issues'
 task :tailor do
+  require 'tailor/rake_task'
   Tailor::RakeTask.new
 end
 
