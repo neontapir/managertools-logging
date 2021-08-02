@@ -22,7 +22,7 @@ class ReportCommand < MtCommand
 
     employee = Employee.get person
     output = generate_report_for employee
-    command_line = [OSAdapter.open_command, output].join(' ')
+    command_line = [OSAdapter.open_command, output]
     return if no_launch
 
     raise ArgumentError, "Report launch failed with '#{command_line}'" unless system(command_line)
