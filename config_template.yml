@@ -1,0 +1,21 @@
+defaults: &defaults
+  data_root: data
+  candidates_root: zzz_candidates
+  departed_root: zzz_departed
+  project_root: projects
+  editor: code
+  feedback_polarity_default: positive
+  meeting_location_default: alcove
+  log_filename: log.adoc
+  overview_filename: overview.adoc
+  pto_default: vacation
+  voip_meeting_default: Zoom
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
