@@ -22,8 +22,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      BUNDLE_WITH: "quality, dev, test, ide, update, docs"
     steps:
       - uses: actions/checkout@v2
         # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
@@ -33,7 +31,7 @@ jobs:
         with:
           ruby-version: 3.0
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - name: Setup test run
+        run: mkdir data
       - name: Run tests
-        run: |
-          mkdir data
-          bundle exec rake spec
+        run: bundle exec rake spec
