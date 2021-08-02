@@ -13,15 +13,15 @@ on:
   pull_request:
     branches: [master]
 
-# inputs:
-#   bundler:
-#     default: "latest"
-#   bundler-cache:
-#     default: "true"
-
 jobs:
   test:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        # Due to https://github.com/actions/runner/issues/849, we have to use quotes for '3.0'
+        # ruby: [2.5, 2.6, 2.7, '3.0', head, jruby, jruby-head, truffleruby, truffleruby-head]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
         # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
