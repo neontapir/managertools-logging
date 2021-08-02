@@ -9,8 +9,7 @@ require_relative '../settings'
 class FeedbackEntry < DiaryEntry
   # generates the interactive prompt string
   def prompt(name)
-    personalized = name[','] ? '' : " to #{name}"
-    "To give feedback#{personalized}, enter the following:"
+    "To give feedback to #{to_sentence(name)}, enter the following:"
   end
 
   # define the items included in the entry
