@@ -27,7 +27,7 @@ RSpec.describe DiaryDateElement do
 
   context 'with a given morning date (1/1/2000 10am)' do
     include_context 'freeze_time' do
-      let(:clock_date) { Time.local(2000, 1, 1, 10) }
+      let(:clock_date) { Time.local(2000, 1, 1, 10).getlocal('-07:00') }
     end
 
     context 'when valid date specified' do
@@ -49,7 +49,7 @@ RSpec.describe DiaryDateElement do
 
   context 'with a given afternoon date (1/1/2000 2pm)' do
     include_context 'freeze_time' do
-      let(:clock_date) { Time.local(2000, 1, 1, 14) }
+      let(:clock_date) { Time.local(2000, 1, 1, 14).getlocal('-07:00') }
     end
 
     context 'when valid date specified' do
