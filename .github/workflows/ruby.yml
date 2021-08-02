@@ -32,6 +32,9 @@ jobs:
           ruby-version: 3.0
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Setup test run
-        run: mkdir data
+        run: |
+          if test -f data/config.yml; then
+            cp data/config_template.yml config.yml
+          fi
       - name: Run tests
         run: bundle exec rake spec
