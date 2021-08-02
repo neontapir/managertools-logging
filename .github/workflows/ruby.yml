@@ -35,5 +35,5 @@ jobs:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Run tests
         run: |
-        Dir.mkdir('data') unless Dir.exist?('data')
+        mkdir data
         bundle exec rake spec
