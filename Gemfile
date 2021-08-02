@@ -36,6 +36,7 @@ group :ide, optional: true do
   gem 'rake'
   gem 'rcodetools'
   gem 'ruby-debug-ide'
+  gem "semgrep", "~> 0.0.1"
   gem 'solargraph' unless Gem.win_platform? # until nokogiri supported for Ruby 2.7 on Windows
   # ...\managertools-logging> gem install nokogiri --platform=ruby -- --use-system-libraries
   # Temporarily enhancing PATH for MSYS/MINGW...
@@ -67,5 +68,3 @@ group :test do
   gem 'timecop'
   gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 end
-
-gem "semgrep", "~> 0.0.1", :group => :ide
