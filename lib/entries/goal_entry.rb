@@ -11,8 +11,7 @@ class GoalEntry < DiaryEntry
 
   # generates the interactive prompt string
   def prompt(name)
-    personalized = name[','] ? '' : " for #{name}"
-    "To record the goal#{personalized}, enter the following:"
+    "To record the goal for #{to_sentence(name)}, enter the following:"
   end
 
   # define the items included in the entry

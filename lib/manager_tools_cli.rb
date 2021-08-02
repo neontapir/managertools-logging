@@ -53,6 +53,7 @@ module ManagerTools
 
     desc 'obs NAMES', 'Add an observation log entry'
     method_option :template, type: :boolean, default: false, desc: 'Add a template to the log file, without entry data'
+    map 'log' => 'observation'
     map 'ob' => 'observation'
     map 'obs' => 'observation'
 

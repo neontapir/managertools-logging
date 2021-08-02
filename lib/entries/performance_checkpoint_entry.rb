@@ -8,8 +8,7 @@ require_relative 'diary_entry'
 class PerformanceCheckpointEntry < DiaryEntry
   # generates the interactive prompt string
   def prompt(name)
-    personalized = name[','] ? '' : " for #{name}"
-    "Enter your performance checkpoint#{personalized}:"
+    "Enter your performance checkpoint for #{to_sentence(name)}:"
   end
 
   # define the items included in the entry
