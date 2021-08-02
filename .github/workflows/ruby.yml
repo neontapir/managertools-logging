@@ -33,8 +33,6 @@ jobs:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Setup test run
         run: |
-          if test -f data/config.yml; then
-            cp data/config_template.yml config.yml
-          fi
+          cp data/config_template.yml config.yml
       - name: Run tests
         run: bundle exec rake spec
