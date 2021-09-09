@@ -39,7 +39,7 @@ RSpec.describe EmployeeFinder do
         end
       end
 
-      it 'can create a employee with given input' do
+      it 'can create an employee with given input' do
         red_panda = Employee.new(first: 'August', last: 'Fenwick', team: 'Terrific Twosome of Toronto')
         allow(Settings.console).to receive(:ask) do |prompt|
           case prompt
@@ -111,17 +111,18 @@ RSpec.describe EmployeeFinder do
 
     context 'when finding an employee (Moondragon)' do
       moondragon_folder = File.join %W[#{Settings.root} avengers heather-douglas]
+      let(:moondragon) { Employee.new(team: 'avengers', first: 'Heather', last: 'Douglas')}
 
       before :context do
         FileUtils.mkdir_p moondragon_folder
       end
 
       it 'does find the expected employee' do
-        expect(finder.find('heather')).not_to be_nil
+        expect(finder.find('heather')).to have_attributes(team: 'avengers', first: 'Heather', last: 'Douglas')
       end
 
       it 'does find the expected employee with capitalized case' do
-        expect(finder.find('Heather')).not_to be_nil
+        expect(finder.find('Heather')).to have_attributes(team: 'avengers', first: 'Heather', last: 'Douglas')
       end
 
       it 'does not find a different employee' do

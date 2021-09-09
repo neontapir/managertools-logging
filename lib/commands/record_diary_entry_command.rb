@@ -22,12 +22,14 @@ class RecordDiaryEntryCommand < MtCommand
 
   # takes a list of entity specs and converts it into entity objects
   def to_entities(arguments)
-    arguments.map do |item|
+    result = arguments.map do |item|
       entity = Employee.find(item) || Project.find(item)
       raise EntityNotFoundError, "unable to find employee or project '#{item}'" unless entity
 
       entity
     end
+    result.uniq! {|employee| [employee.team, employee.first, employee.last]}
+    result
   end
 
   # logs a message to each entity's file

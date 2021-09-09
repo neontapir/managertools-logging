@@ -70,4 +70,22 @@ RSpec.describe RecordDiaryEntryCommand do
       verify_answers_propagated(expected, [black_panther, thor])
     end
   end
+
+  context 'with one person (Cable) mentioned twice' do
+    cable = Employee.new(team: 'Avengers', first: 'Nathan', last: 'Summers')
+
+    before :context do
+      FileUtils.mkdir_p File.dirname(cable.file.path)
+    end
+
+    it 'will only append the entry once' do
+      Settings.with_mock_input "\nSpoke about important things\n" do
+        record_diary_entry.command(:observation, %w[nathan summers])
+      end
+
+      expected = ["  Spoke about important things\n"]
+      verify_answers_propagated(expected, [cable])
+      expect(expected).not_to include('Nathan')
+    end
+  end
 end

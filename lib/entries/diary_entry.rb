@@ -133,6 +133,7 @@ class DiaryEntry
     else
       result.join(' and ')
     end
+    result
   end
 
   private
