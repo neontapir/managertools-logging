@@ -28,7 +28,7 @@ class RecordDiaryEntryCommand < MtCommand
 
       entity
     end
-    result.uniq! {|employee| [employee.team, employee.first, employee.last]}
+    result.uniq!
     result
   end
 

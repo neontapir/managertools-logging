@@ -62,7 +62,24 @@ class Employee
   # @param [Type] other the object to compare
   # @return [Integer] -1 (other less than), 0 (equal), or 1 (greater than)
   def <=>(other)
+    [:team, :first, :last].each do |attribute|
+      return -1 unless other.respond_to?(attribute)
+    end
     [team, first, last] <=> [other.team, other.first, other.last]
+  end
+
+  # Object equality by fieldwise comparison
+  #
+  # @param [Type] other the object to compare
+  # @return [Boolean] whether both object's fields are equal
+  def eql?(other)
+    self.<=>(other) == 0
+  end
+
+  # Computes an object's hash
+  # @return [fixnum] a number representing the uniqueness of the object
+  def hash
+    [team, first, last].hash
   end
 
   # The display name, in title case

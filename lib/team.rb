@@ -41,6 +41,11 @@ class Team
     team
   end
 
+  # Teams are equal if their paths are the same
+  def eql?(other)
+    other.respond_to?(:team) && team.eql?(other.team)
+  end
+
   # Represent a Team by its titlecased name
   def to_s
     team.path_to_name
