@@ -28,8 +28,7 @@ class RecordDiaryEntryCommand < MtCommand
 
       entity
     end
-    result.uniq!
-    result
+    result.uniq
   end
 
   # logs a message to each entity's file
