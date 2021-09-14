@@ -21,8 +21,8 @@ class RecordDiaryEntryCommand < MtCommand
   private
 
   # takes a list of entity specs and converts it into entity objects
-  def to_entities(arguments)
-    arguments.map do |item|
+  def to_entities(entity_specs)
+    entity_specs.map do |item|
       entity = Employee.find(item) || Project.find(item)
       raise EntityNotFoundError, "unable to find employee or project '#{item}'" unless entity
 
@@ -30,14 +30,14 @@ class RecordDiaryEntryCommand < MtCommand
     end.uniq
   end
 
-  # logs a message to each entity's file
-  def log_message(members, entry_type)
+  # logs the same message to each entity's file
+  def log_message(group, entry_type)
     entry = nil
-    members.each do |entity|
+    group.each do |entity|
       entry ||= get_entry(
         entry_type,
-        members.join(','),
-        applies_to: members
+        group.join(','),
+        applies_to: group
           .map { |m| m.to_s.to_name }
           .join(', '),
       )
