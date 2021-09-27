@@ -354,7 +354,7 @@ DEPENDENCIES
   pry
   pry-nav
   pry-remote
-  psych (~> 3.3)
+  psych
   rake
   rcodetools
   reek
