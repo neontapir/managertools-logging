@@ -19,7 +19,7 @@ class GradeUpdateCommand < MtCommand
       raise "no such person #{person}" unless employee
 
       text = File.read(employee.file.path)
-      new_contents = text.gsub(/^Grade level:.*/, "Grade level: #{new_job_title}")
+      new_contents = text.gsub(/^Grade level::.*/, "Grade level:: #{new_job_title}")
       employee.file.replace_with(new_contents)
     end
   end

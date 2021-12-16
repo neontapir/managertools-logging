@@ -9,8 +9,8 @@
 
 #     === Employment information
 
-#     Start date:
-#     Grade level: Developer II
+#     Start date::
+#     Grade level:: Developer II
 #     ID:
 
 #     === File created (October  5, 2018,  9:53 AM)
@@ -41,7 +41,7 @@
 #     === Paid time off (February 19, 2019, 12:00 PM)
 #     Duration::
 #       4 days
-#     Start date::
+#     Start date:::
 #       February 19, 2019
 #     End date::
 #       February 22, 2019
@@ -132,7 +132,7 @@
 #     === Paid time off (May  1, 2019, 12:00 PM)
 #     Duration::
 #       1 day
-#     Start date::
+#     Start date:::
 #       May  1, 2019
 #     End date::
 #       May  1, 2019
@@ -150,7 +150,7 @@
 #       Vern, rather than directing him.
 
 #     === Paid time off (May 29, 2019, 12:00 AM)
-#     Start date::
+#     Start date:::
 #       May 29, 2019
 #     End date::
 #       May 31, 2019
@@ -162,7 +162,7 @@
 #       On PTO until 5/31
 
 #     === Paid time off (June  3, 2019, 12:00 AM)
-#     Start date::
+#     Start date:::
 #       June  3, 2019
 #     End date::
 #       June  3, 2019
@@ -215,7 +215,7 @@
 #       Worked the weekend
 
 #     === Paid time off (July  9, 2019,  8:44 AM)
-#     Start date::
+#     Start date:::
 #       July  9, 2019
 #     End date::
 #       July 10, 2019
@@ -243,7 +243,7 @@
 #       Phil's code review
 
 #     === Paid time off (July 22, 2019,  8:42 AM)
-#     Start date::
+#     Start date:::
 #       July 22, 2019
 #     End date::
 #       July 22, 2019

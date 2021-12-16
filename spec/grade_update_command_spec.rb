@@ -20,12 +20,12 @@ RSpec.describe GradeUpdateCommand do
 
   def ensure_mal_is_a_captain(mal_file)
     grade_update.command %w[Captain mal]
-    expect(File.readlines(mal_file.path)).to include(/^Grade level: Captain\s*$/)
+    expect(File.readlines(mal_file.path)).to include(/^Grade level:: Captain\s*$/)
   end
 
   it 'adds a grade level if none is present' do
     mal_file = mal.file
-    expect(File.readlines(mal_file.path)).to include(/^Grade level:\s*$/)
+    expect(File.readlines(mal_file.path)).to include(/^Grade level::\s*$/)
 
     ensure_mal_is_a_captain(mal_file)
   end
@@ -33,9 +33,9 @@ RSpec.describe GradeUpdateCommand do
   it 'changes the grade level if one is present' do
     mal_file = mal.file
     text = File.read(mal_file.path)
-    new_contents = text.gsub(/Grade level:.*/, "Grade level: Corporal")
+    new_contents = text.gsub(/Grade level::.*/, 'Grade level:: Corporal')
     mal_file.replace_with(new_contents)
-    expect(File.readlines(mal_file.path)).to include(/^Grade level: Corporal\s*$/)
+    expect(File.readlines(mal_file.path)).to include(/^Grade level:: Corporal\s*$/)
 
     ensure_mal_is_a_captain(mal_file)
   end
@@ -43,9 +43,9 @@ RSpec.describe GradeUpdateCommand do
   it 'does not change the grade level if the same one is present' do
     mal_file = mal.file
     text = File.read(mal_file.path)
-    new_contents = text.gsub(/Grade level:.*/, "Grade level: Captain")
+    new_contents = text.gsub(/Grade level::.*/, 'Grade level:: Captain')
     mal_file.replace_with(new_contents)
-    expect(File.readlines(mal_file.path)).to include(/^Grade level: Captain\s*$/)
+    expect(File.readlines(mal_file.path)).to include(/^Grade level:: Captain\s*$/)
 
     ensure_mal_is_a_captain(mal_file)
   end

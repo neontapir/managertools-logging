@@ -76,8 +76,8 @@ RSpec.describe NewHireCommand do
 
         expect_files_created(beast_boy, beast_boy_folder,
                              'changed into a West African green monkey to battle Sakutia',
-                             "Start date: #{tomorrow}",
-                             'Grade level: newcomer')
+                             "Start date:: #{tomorrow}",
+                             'Grade level:: newcomer')
       end
     end
 
