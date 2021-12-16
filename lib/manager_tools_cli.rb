@@ -124,7 +124,7 @@ module ManagerTools
       execute_subcommand(:move_team, [team, names], options)
     end
 
-    desc 'job JOB *NAMES', "Update the job grade for the specified people"
+    desc 'job JOB *NAMES', 'Update the job grade for the specified people'
     map 'job' => 'update_job'
 
     def update_job(job, *names)
@@ -133,7 +133,7 @@ module ManagerTools
 
     desc 'new TEAM FIRST LAST', "Create the person's overview and log files in the given team folder"
     method_option :force, type: :boolean, default: false, desc: 'Overwrite files if they exist'
-    [:biography, :grade_level, :hire_date].each do |extra|
+    [:biography, :grade_level, :start_date].each do |extra|
       method_option extra, type: :string, desc: "Add #{extra} information to file"
     end
     map 'add' => 'new_hire'

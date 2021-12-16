@@ -62,20 +62,22 @@ RSpec.describe NewHireCommand do
 
       # these options get passed to the command by the ManagerTools module
       it 'creates a new team member with given data' do
-        expect { new_hire.command(%w[Teen\ Titans Garfield Logan], OpenStruct.new(
-          biography: 'changed into a West African green monkey to battle Sakutia',
-          grade_level: 'newcomer',
-          hire_date: Date.today.to_s
-        )) }.to output(/garfield-logan/).to_stdout
+        tomorrow = (Date.today + 1).to_datetime
+        expect {
+          new_hire.command(%w[Teen\ Titans Garfield Logan], OpenStruct.new(
+            biography: 'changed into a West African green monkey to battle Sakutia',
+            grade_level: 'newcomer',
+            start_date: tomorrow.to_s,
+          ))
+        }.to output(/garfield-logan/).to_stdout
 
         beast_boy = Employee.find('Gar')
         expect(beast_boy).not_to be_nil
 
         expect_files_created(beast_boy, beast_boy_folder,
-          'changed into a West African green monkey to battle Sakutia',
-          "Hire date: #{Date.today.to_s}",
-          'Grade level: newcomer'
-        )
+                             'changed into a West African green monkey to battle Sakutia',
+                             "Start date: #{tomorrow}",
+                             'Grade level: newcomer')
       end
     end
 

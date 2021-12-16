@@ -36,7 +36,7 @@ class NewHireCommand < MtCommand
   def create_new_hire(team, first, last, options)
     force = (options&.force == true)
 
-    [:biography, :grade_level, :hire_date].each do |var|
+    [:biography, :grade_level, :start_date].each do |var|
       instance_variable_set("@#{var}", options&.send(var) || '')
     end
 
@@ -103,7 +103,7 @@ class NewHireCommand < MtCommand
 
       #{DiaryEntry::ENTRY_HEADER_MARKER} Employment information
 
-      Hire date: #{@hire_date}
+      Start date: #{@start_date}
       Grade level: #{@grade_level}
 
     CONTENTS
