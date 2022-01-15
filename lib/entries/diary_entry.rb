@@ -32,11 +32,14 @@ class DiaryEntry
         .split(' ')
         .map(&:capitalize)
         .join
-      Kernel.const_get "#{entry_type_name}Entry"
+      self.const_get "#{entry_type_name}Entry"
     end
 
-    # overwriting this inherited method allows descendants to return the expected values
+    # This method on Object is invoked when a child class inherits from its parent.
+    # Here, we add ourselves to an array called descendants.
+    # It's used in the sentiment analysis command.
     def inherited(subclass)
+      super
       @descendants ||= []
       @descendants << subclass
     end
@@ -63,8 +66,8 @@ class DiaryEntry
     elements
       .reject { |element| header_items.include? element.key }
       .inject(initial) do |output, entry| # rubocop:disable Style/CollectionMethods
-        output + "#{entry.label}::\n  #{@record.fetch(entry.key, entry.default).to_s.wrap}\n"
-      end
+      output + "#{entry.label}::\n  #{@record.fetch(entry.key, entry.default).to_s.wrap}\n"
+    end
   end
 
   # fill in the template with the given record entries
@@ -74,11 +77,11 @@ class DiaryEntry
     data = elements.each_with_object({}) do |item, entry_record|
       key = item.key
       entry_record[key] = if initial_values.key? key
-                            initial_values[key]
-                          else
-                            user_input = item.obtain
-                            user_input || item.default
-                          end
+          initial_values[key]
+        else
+          user_input = item.obtain
+          user_input || item.default
+        end
     end
     @record = post_create(data)
     record

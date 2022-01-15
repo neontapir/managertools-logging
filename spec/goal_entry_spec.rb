@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'support/shared_contexts'
-Dir.glob('./lib/entries/*_entry.rb', &method(:require))
+Dir['./lib/entries/*_entry.rb'].sort.each(&method(:require))
 
 RSpec.describe GoalEntry do
   it 'gets an entry by identifier' do

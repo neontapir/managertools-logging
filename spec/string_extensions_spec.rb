@@ -2,6 +2,9 @@
 
 require './lib/string_extensions'
 
+LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc egestas imperdiet ' \
+'aliquet. Morbi posuere convallis risus, vitae iaculis felis tincidunt sit amet.'
+
 RSpec.describe StringExtensions do
   using StringExtensions
 
@@ -43,8 +46,6 @@ RSpec.describe StringExtensions do
       expect(fahrenheit_451_opener.wrap(-2)).to eq fahrenheit_451_opener
     end
 
-    LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc egestas imperdiet ' \
-    'aliquet. Morbi posuere convallis risus, vitae iaculis felis tincidunt sit amet.'
     it 'wraps a long string of default length' do
       expected = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc egestas\n" \
       "  imperdiet aliquet. Morbi posuere convallis risus, vitae iaculis felis\n" \

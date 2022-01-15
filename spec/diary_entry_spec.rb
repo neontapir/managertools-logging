@@ -2,7 +2,7 @@
 
 require 'time'
 
-Dir.glob('./lib/entries/*_entry.rb', &method(:require))
+Dir['./lib/entries/*_entry.rb'].sort.each(&method(:require))
 require_relative 'support/shared_contexts'
 
 RSpec.describe DiaryEntry do
@@ -12,6 +12,15 @@ RSpec.describe DiaryEntry do
 
   it 'gets an entry with a space in the name by identifier' do
     expect(DiaryEntry.get('performance-checkpoint')).to be(PerformanceCheckpointEntry)
+  end
+
+  it 'gets inheriting classes' do
+    expect(DiaryEntry.inherited(PerformanceCheckpointEntry)).to include PerformanceCheckpointEntry
+    expect(DiaryEntry.inherited(PerformanceCheckpointEntry)).not_to include String
+
+    class ThrowawayDiaryEntry < DiaryEntry; end
+
+    expect(DiaryEntry.inherited(PerformanceCheckpointEntry)).to include ThrowawayDiaryEntry
   end
 
   context 'with default content' do

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require './lib/diary'
-Dir.glob('./lib/entries/*_entry.rb', &method(:require))
+Dir['./lib/entries/*_entry.rb'].sort.each(&method(:require))
 
 RSpec.describe Diary do
   context 'diary entries' do

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Dir.glob('./lib/entries/*_entry', &method(:require))
+Dir['./lib/entries/*_entry.rb'].sort.each(&method(:require))
 require './lib/employee'
 require './lib/employee_folder'
 require './lib/log_file'
