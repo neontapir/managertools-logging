@@ -22,7 +22,7 @@ CommitMsg:
 PreCommit:
   BundleAudit:
     enabled: true
-    flags: ["--update", "--verbose"]
+    flags: ["--update"]
   BundleCheck:
     enabled: true
   BundleInstall:
