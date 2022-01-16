@@ -45,7 +45,7 @@ class LogFile
   #   and the chunk that belongs after
   # @example How to consume this method
   #   before, after = divide_file entry
-  def divide_file(entry) # rubocop:disable Metrics/AbcSize
+  def divide_file(entry)
     entry_date = entry.date
     lines = IO.readlines path
     header_locations = get_header_locations lines

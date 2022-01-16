@@ -3,9 +3,20 @@ require:
 AllCops:
   TargetRubyVersion: 2.7
   Exclude:
-    - 'test'
-    - 'spec/**/*'
+    - "test"
+    - "spec/**/*"
+  NewCops: enable
+Layout/BeginEndAlignment:
+  Enabled: false
 Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: false
+Layout/EndAlignment:
+  Enabled: false
+Layout/ElseAlignment:
+  Enabled: false
+Layout/IndentationWidth:
+  Enabled: false
+Layout/LeadingCommentSpace:
   Enabled: false
 Layout/LineLength:
   Enabled: false
@@ -18,7 +29,7 @@ Layout/SpaceInLambdaLiteral:
   Enabled: false
 Lint/AmbiguousOperator:
   Exclude:
-    - 'Rakefile'
+    - "Rakefile"
 Lint/DeprecatedOpenSSLConstant:
   Enabled: true
 Lint/DuplicateElsifCondition:

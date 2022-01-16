@@ -29,15 +29,15 @@ class DiaryEntry
       entry_type_name = name
         .to_s
         .tr('_-', StringExtensions::WRAP_INDENT)
-        .split(' ')
+        .split
         .map(&:capitalize)
         .join
-      self.const_get "#{entry_type_name}Entry"
+      const_get "#{entry_type_name}Entry"
     end
 
     # This method on Object is invoked when a child class inherits from its parent.
     # Here, we add ourselves to an array called descendants.
-    # It's used in the sentiment analysis command.
+    # It's used in the sentiment analysis
     def inherited(subclass)
       super
       @descendants ||= []
@@ -129,9 +129,10 @@ class DiaryEntry
   #   @return [string] the string in natural language
   def to_sentence(input)
     return input unless input[',']
+
     result = input.split(',')
     if result.length > 2
-      result[-1] = 'and ' + result[-1]
+      result[-1] = 'and {result[-1]}'
       result.join(', ')
     else
       result.join(' and ')

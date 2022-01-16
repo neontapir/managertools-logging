@@ -28,6 +28,9 @@ GEM
     backport (1.2.0)
     benchmark (0.2.0)
     builder (3.2.4)
+    bundler-audit (0.9.0.1)
+      bundler (>= 1.2.0, < 3)
+      thor (~> 1.0)
     childprocess (4.1.0)
     chronic (0.10.2)
     chronic_duration (0.10.6)
@@ -337,6 +340,7 @@ DEPENDENCIES
   aruba
   asciidoctor
   attr_extras
+  bundler-audit (~> 0.9.0)
   chronic
   chronic_duration
   debase (>= 0.2.5.beta)

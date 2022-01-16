@@ -36,9 +36,9 @@ class Employee
   # @return [String] the folder name
   def canonical_name
     @canonical_name ||= begin
-      first_name, last_name = [first, last].map { |n| n.tr(' ', '-').strip_nonalnum }
-      "#{first_name}-#{last_name}".unidowncase
-    end
+        first_name, last_name = [first, last].map { |n| n.tr(' ', '-').strip_nonalnum }
+        "#{first_name}-#{last_name}".unidowncase
+      end
   end
 
   # Get the LogFile for the employee
@@ -73,7 +73,7 @@ class Employee
   # @param [Type] other the object to compare
   # @return [Boolean] whether both object's fields are equal
   def eql?(other)
-    self.<=>(other) == 0
+    self.<=>(other).zero?
   end
 
   # Computes an object's hash

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'English'
+
 # rubocop:disable Lint/SuppressedException
 begin
   require 'rspec/core/rake_task'
@@ -19,8 +21,8 @@ end
 # rubocop:enable Lint/SuppressedException
 
 def check_installed(program)
-  _ = system('hash ' + program + ' &> /dev/null')
-  result = $?
+  _ = system("hash #{program} &> /dev/null")
+  result = $CHILD_STATUS
   result.exitstatus.eql?(0)
 end
 

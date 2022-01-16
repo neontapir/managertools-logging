@@ -27,7 +27,7 @@ module MtFile
   # @abstract returns the temporary write location of the file
   # Note: I thought about Tempfile for this, but it broke some tests.
   def backup
-    path + '.bak'
+    '{path}.bak'
   end
 
   # # @abstract returns the file system location of the file

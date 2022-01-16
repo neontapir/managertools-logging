@@ -15,15 +15,27 @@
 #
 # Uncomment the following lines to make the configuration take effect.
 
+gemfile: Gemfile
 CommitMsg:
   CapitalizedSubject:
     enabled: false
 PreCommit:
   BundleAudit:
     enabled: true
+    flags: ["--update", "--verbose"]
+  BundleCheck:
+    enabled: true
+  BundleInstall:
+    enabled: true
+  RubyLint:
+    enabled: true
   RubySyntax:
     enabled: true
-
+  RuboCop:
+    enabled: false
+    on_warn: fail
+    problem_on_unmodified_line: ignore
+    command: ["bundle", "exec", "rubocop"]
 #  RuboCop:
 #    enabled: true
 #    on_warn: fail # Treat all warnings as failures
