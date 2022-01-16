@@ -27,8 +27,6 @@ PreCommit:
     enabled: true
   BundleInstall:
     enabled: true
-  RubyLint:
-    enabled: true
   RubySyntax:
     enabled: true
   RuboCop:

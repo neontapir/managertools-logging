@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 
 gem 'asciidoctor'
 gem 'attr_extras'
+gem 'bundler-audit'
 gem 'chronic'
 gem 'chronic_duration'
 gem 'facets'
@@ -69,5 +70,3 @@ group :test do
   gem 'timecop'
   gem 'wdm' #, '>= 0.1.0' if Gem.win_platform?
 end
-
-gem "bundler-audit", "~> 0.9.0"
