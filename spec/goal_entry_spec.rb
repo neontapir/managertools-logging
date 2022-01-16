@@ -30,7 +30,9 @@ RSpec.describe GoalEntry do
     let(:due_date) { Time.new(2001, 3, 2, 5, 6, 7).to_s }
 
     it 'renders correctly' do
-      expect(team_goal.render('Test', GoalEntry)).to include("Applies to::\n  Clark Kent, Bruce Wayne")
+      expect(team_goal.to_s).to include('Development Goal',
+                                        '2001-02-03',
+                                        "Applies to::\n  Clark Kent, Bruce Wayne")
     end
   end
 end
