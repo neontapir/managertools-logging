@@ -44,6 +44,8 @@ class Settings < Settingslogic
     end
 
     # a template for the default configuration
+    # NOTE: settingslogic does not yet support Psych 4,
+    # so removed template use
     def default_config
       <<~CONFIG
         defaults: &defaults
@@ -60,13 +62,46 @@ class Settings < Settingslogic
           voip_meeting_default: Zoom
 
         development:
-          <<: *defaults
+          # <<: *defaults
+          data_root: data
+          candidates_root: zzz_candidates
+          departed_root: zzz_departed
+          project_root: projects
+          editor: code
+          feedback_polarity_default: positive
+          meeting_location_default: alcove
+          log_filename: log.adoc
+          overview_filename: overview.adoc
+          pto_default: vacation
+          voip_meeting_default: Zoom
 
         test:
-          <<: *defaults
+          # <<: *defaults
+          data_root: data
+          candidates_root: zzz_candidates
+          departed_root: zzz_departed
+          project_root: projects
+          editor: code
+          feedback_polarity_default: positive
+          meeting_location_default: alcove
+          log_filename: log.adoc
+          overview_filename: overview.adoc
+          pto_default: vacation
+          voip_meeting_default: Zoom
 
         production:
-          <<: *defaults
+          # <<: *defaults
+          data_root: data
+          candidates_root: zzz_candidates
+          departed_root: zzz_departed
+          project_root: projects
+          editor: code
+          feedback_polarity_default: positive
+          meeting_location_default: alcove
+          log_filename: log.adoc
+          overview_filename: overview.adoc
+          pto_default: vacation
+          voip_meeting_default: Zoom
       CONFIG
     end
   end

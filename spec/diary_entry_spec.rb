@@ -39,7 +39,8 @@ RSpec.describe DiaryEntry do
         data = entry.populate('John Doe')
         expect(data.keys).to contain_exactly :content, :datetime
         expect(data[:content]).to eq 'Good'
-        expect(Time.new(data[:datetime])).to be_within(0.01).of(Time.now)
+        expected_time = Time.strptime(data[:datetime], '%Y-%M-%d %H:%M:%S %z')
+        expect(expected_time).to be_within(0.01).of(Time.now)
       end
     end
 

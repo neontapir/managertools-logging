@@ -1,3 +1,9 @@
+GIT
+  remote: git@github.com:pavelgyravel/settingslogic.git
+  revision: 1e00bd12a200d17d49492564b8ca09d663761940
+  specs:
+    settingslogic (2.0.9)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -56,10 +62,10 @@ GEM
       mime-types (~> 3.3, >= 3.3.1)
       multi_test (~> 0.1, >= 0.1.2)
       sys-uname (~> 1.2, >= 1.2.2)
-    cucumber-core (10.1.0)
+    cucumber-core (10.1.1)
       cucumber-gherkin (~> 22.0, >= 22.0.0)
       cucumber-messages (~> 17.1, >= 17.1.1)
-      cucumber-tag-expressions (~> 4.0, >= 4.0.2)
+      cucumber-tag-expressions (~> 4.1, >= 4.1.0)
     cucumber-create-meta (6.0.4)
       cucumber-messages (~> 17.1, >= 17.1.1)
       sys-uname (~> 1.2, >= 1.2.2)
@@ -98,7 +104,7 @@ GEM
       path_expander (~> 1.0)
       ruby_parser (~> 3.1, > 3.1.0)
       sexp_processor (~> 4.8)
-    formatador (0.3.0)
+    formatador (1.1.0)
     fuubar (2.5.1)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
@@ -199,7 +205,7 @@ GEM
     racc (1.6.0)
     rainbow (3.1.1)
     rake (13.0.6)
-    rb-fsevent (0.11.0)
+    rb-fsevent (0.11.1)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     rcodetools (0.8.5.0)
@@ -208,25 +214,25 @@ GEM
       parser (>= 2.5.0.0, < 2.8, != 2.5.1.1)
       psych (~> 3.1)
       rainbow (>= 2.0, < 4.0)
-    regexp_parser (2.2.0)
+    regexp_parser (2.2.1)
     reverse_markdown (2.1.1)
       nokogiri
     rexml (3.2.5)
-    rspec (3.10.0)
-      rspec-core (~> 3.10.0)
-      rspec-expectations (~> 3.10.0)
-      rspec-mocks (~> 3.10.0)
-    rspec-core (3.10.1)
-      rspec-support (~> 3.10.0)
-    rspec-expectations (3.10.2)
+    rspec (3.11.0)
+      rspec-core (~> 3.11.0)
+      rspec-expectations (~> 3.11.0)
+      rspec-mocks (~> 3.11.0)
+    rspec-core (3.11.0)
+      rspec-support (~> 3.11.0)
+    rspec-expectations (3.11.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.10.0)
-    rspec-mocks (3.10.2)
+      rspec-support (~> 3.11.0)
+    rspec-mocks (3.11.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.10.0)
+      rspec-support (~> 3.11.0)
     rspec-pride (3.2.1)
       rspec (~> 3.0)
-    rspec-support (3.10.3)
+    rspec-support (3.11.0)
     rubocop (1.7.0)
       parallel (~> 1.10)
       parser (>= 2.7.1.5)
@@ -238,7 +244,7 @@ GEM
       unicode-display_width (>= 1.4.0, < 2.0)
     rubocop-ast (1.4.1)
       parser (>= 2.7.1.5)
-    rubocop-performance (1.13.1)
+    rubocop-performance (1.13.2)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
     ruby-debug-ide (0.7.3)
@@ -266,7 +272,6 @@ GEM
       mixlib-cli
     semgrep (0.0.1)
     sentimental (1.5.0)
-    settingslogic (2.0.9)
     sexp_processor (4.16.0)
     shellany (0.0.1)
     simplecov (0.21.2)
@@ -373,7 +378,7 @@ DEPENDENCIES
   sandi_meter
   semgrep
   sentimental
-  settingslogic
+  settingslogic!
   simplecov
   solargraph
   tailor
@@ -385,4 +390,4 @@ DEPENDENCIES
   yard
 
 BUNDLED WITH
-   2.3.1
+   2.3.7

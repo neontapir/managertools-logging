@@ -12,6 +12,7 @@ module SettingsHelper
     FileUtils.mkdir_p(File.join(parent, Settings.root))
     IO.write(@config_file, Settings.default_config)
     raise IOError, "Missing settings file #{config_file}" unless File.exist? config_file
+
     Settings.reload!
   end
 
