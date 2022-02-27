@@ -5,6 +5,11 @@ GIT
     settingslogic (2.0.9)
 
 GEM
+  remote: https://gem.mutant.dev/
+  specs:
+    mutant-license (0.1.1.2.0512658154062261056622782097153356351276.0)
+
+GEM
   remote: https://rubygems.org/
   specs:
     abstract_type (0.0.7)
@@ -357,6 +362,7 @@ DEPENDENCIES
   fuubar
   guard-rspec
   highline
+  mutant-license!
   mutant-rspec
   namecase
   os

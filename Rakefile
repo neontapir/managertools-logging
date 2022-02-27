@@ -103,7 +103,7 @@ end
 
 desc 'Mutation test example using DiaryEntry, to detect test suite gaps'
 task :mutant do
-  system(*%w[NO_SIMPLECOV=true bundle exec mutant run --use rspec --include lib --require entries/diary_entry DiaryEntry]) || exit!(1)
+  system({ 'NO_SIMPLECOV' => 'true' }, *%w[bundle exec mutant run --use rspec --include lib --require entries/diary_entry DiaryEntry]) || exit!(1)
 end
 
 desc 'Run guard, used during development'

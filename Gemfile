@@ -14,7 +14,7 @@ gem 'os'
 gem 'psych'
 gem 'rake'
 gem 'sentimental'
-gem 'settingslogic', git: 'git@github.com:pavelgyravel/settingslogic.git'
+gem 'settingslogic', git: 'https://github.com/pavelgyravel/settingslogic.git'
 gem 'thor'
 gem 'titleize'
 gem 'unicode'
@@ -63,6 +63,9 @@ group :test do
   gem 'aruba' #, '> 0.14.10'
   gem 'fuubar'
   gem 'guard-rspec'
+  source 'https://gem.mutant.dev' do # license set with bundle config
+    gem 'mutant-license'
+  end
   gem 'mutant-rspec'
   gem 'rspec'
   gem 'rspec-pride'
