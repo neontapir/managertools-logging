@@ -1,6 +1,6 @@
 GIT
-  remote: git@github.com:pavelgyravel/settingslogic.git
-  revision: 1e00bd12a200d17d49492564b8ca09d663761940
+  remote: https://github.com/pavelgyravel/settingslogic.git
+  revision: 5419ca3c8a57c824ad157165bf1e71271da682bc
   specs:
     settingslogic (2.0.9)
 
@@ -284,7 +284,7 @@ GEM
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
-    simplecov_json_formatter (0.1.3)
+    simplecov_json_formatter (0.1.4)
     slop (3.6.0)
     solargraph (0.40.1)
       backport (~> 1.1)
