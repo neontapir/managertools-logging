@@ -83,13 +83,13 @@ direct report.
     computer help. She asked if computer training was part of his annual goal
     plan.
 
-You can also make observations about `multiple people at once`. You can use 
+You can also make observations about `multiple people at once`. You can use
 `relative time specification` in date fields.
 
     $ ./mt obs rogers stark
     Enter your observation:
     Effective date: |2020-01-25 10:15:50 -0700| yesterday
-    Content: |none| Came into the office early to help set up for the team 
+    Content: |none| Came into the office early to help set up for the team
     meeting
 
 When I enter that, the following entry is put into their log files.
@@ -177,8 +177,8 @@ test suite assumes that it can create and destroy Avengers data at will.)
 ### Lookups
 
 The script finds people by looking at a string containing the team name and the
-individual's name, then finding the first match by folder and person name in 
-alphabetical order. This is the reason that the candidates folder is prefaced 
+individual's name, then finding the first match by folder and person name in
+alphabetical order. This is the reason that the candidates folder is prefaced
 with "zzz\_", in order to make it last in the search order.
 
 This algorithm can be problematic in some edge cases. For example, I have a
@@ -207,7 +207,7 @@ class in `lib`, using the naming convention `type + Entry`, for example
 After creating a new entry type according to the subsection, you need to update
 `lib\manager_tools_cli.rb` to parse your new entry type. It makes heavy use
 of the `Thor` gem to define subcommands `mt` understands. Use the existing types
-as a guide. For simple cases, "invoke module directly" is the right option. For 
+as a guide. For simple cases, "invoke module directly" is the right option. For
 more complicated cases, create a custom command.
 
 ### Adding a new command
@@ -255,7 +255,7 @@ multiple people are specified.
 
 Each element in the `elements` becomes a question that is asked of the
 user. This example shows two entries, a date and a string. The difference
-is that dates apply parsing to interpret the date given. 
+is that dates apply parsing to interpret the date given.
 
 In the `datetime` entry, the prompt is specified in the second argument. If
 there were a third argument, it would be the default value. For dates, that's
@@ -271,3 +271,7 @@ inherited from `DiaryEntry` uses the results of the `render` method. The
 In cases where I want to quote material, I will often use the script to fill in
 values. I then use a text editor like Atom or VS Code to add the quoted material,
 like a chat room transcript or email.
+
+## Running tests
+
+Use `bundle exec rake rspec`.
