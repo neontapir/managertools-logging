@@ -63,7 +63,7 @@ prompted me for the data it needed. Here are the files that were created:
 These commands store their data as Asciidoc files. I can create an HTML export
 of the log file pretty easily:
 
-    $ ./mt report steve
+    ./mt report steve
 
 There are a number of types of diary entries. You can also provide `feedback`:
 
