@@ -246,6 +246,11 @@ GEM
     rubocop-performance (1.14.0)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
+    rubocop-rake (0.6.0)
+      rubocop (~> 1.0)
+    rubocop-rspec (2.4.0)
+      rubocop (~> 1.0)
+      rubocop-ast (>= 1.1.0)
     ruby-debug-ide (0.7.3)
       rake (>= 0.8.1)
     ruby-lint (2.3.1)
@@ -372,6 +377,8 @@ DEPENDENCIES
   rspec-pride
   rubocop
   rubocop-performance
+  rubocop-rake
+  rubocop-rspec
   ruby-debug-ide
   ruby-lint
   rubycritic

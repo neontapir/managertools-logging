@@ -26,7 +26,7 @@ class Employee
   extend EmployeeFinder
   using StringExtensions
 
-  attr_value_initialize [:team!, :first!, :last!] do
+  attr_value_initialize[:team!, :first!, :last!] do
     raise ArgumentError, 'Team must not be empty' if team.to_s.empty?
     raise ArgumentError, 'First name must not be empty' if first.to_s.empty?
     raise ArgumentError, 'Last name must not be empty' if last.to_s.empty?

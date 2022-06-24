@@ -111,8 +111,16 @@ task :guard do
   system(*%w[bundle exec guard]) || exit!(1)
 end
 
+desc 'Run RubyCritic, alias for rubycritic'
 task critic: :rubycritic
+
+desc 'Generate documentation, alias for document'
 task docs: :document
+
+desc 'Run unit tests, alias for spec'
 task rspec: :spec
+
+desc 'Run unit tests, alias for spec'
 task test: :spec
+
 task default: :build

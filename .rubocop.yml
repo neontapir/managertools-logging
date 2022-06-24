@@ -1,5 +1,7 @@
 require:
   - rubocop-performance
+  - rubocop-rake
+  - rubocop-rspec
 AllCops:
   TargetRubyVersion: 2.7
   Exclude:
@@ -42,6 +44,24 @@ Lint/StructNewOverride:
   Enabled: true
 Metrics/MethodLength:
   Max: 15
+Performance/AncestorsInclude:
+  Enabled: true
+Performance/BigDecimalWithNumericArgument:
+  Enabled: true
+Performance/RedundantSortBlock:
+  Enabled: true
+Performance/RedundantStringChars:
+  Enabled: true
+Performance/ReverseFirst:
+  Enabled: true
+Performance/SortReverse:
+  Enabled: true
+Performance/Squeeze:
+  Enabled: true
+Performance/StringInclude:
+  Enabled: true
+Rake/DuplicateTask:
+  Enabled: false
 Style/AccessorGrouping:
   Enabled: true
 Style/ArrayCoercion:
@@ -92,19 +112,3 @@ Style/TrailingCommaInArguments:
   Enabled: false
 Style/TrailingCommaInArrayLiteral:
   Enabled: false
-Performance/AncestorsInclude:
-  Enabled: true
-Performance/BigDecimalWithNumericArgument:
-  Enabled: true
-Performance/RedundantSortBlock:
-  Enabled: true
-Performance/RedundantStringChars:
-  Enabled: true
-Performance/ReverseFirst:
-  Enabled: true
-Performance/SortReverse:
-  Enabled: true
-Performance/Squeeze:
-  Enabled: true
-Performance/StringInclude:
-  Enabled: true

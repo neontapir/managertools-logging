@@ -54,6 +54,8 @@ group :quality, optional: true do
   gem 'reek'
   gem 'rubocop'
   gem 'rubocop-performance'
+  gem 'rubocop-rake'
+  gem 'rubocop-rspec'
   gem 'rubycritic'
   gem 'sandi_meter' #, '~> 1.2'
   gem 'tailor'
