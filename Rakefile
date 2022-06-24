@@ -117,10 +117,12 @@ task critic: :rubycritic
 desc 'Generate documentation, alias for document'
 task docs: :document
 
-desc 'Run unit tests, alias for spec'
-task rspec: :spec
+desc 'Run unit tests'
+task :rspec do
+  system(*%w[bundle exec rspec]) || exit!(1)
+end
 
-desc 'Run unit tests, alias for spec'
-task test: :spec
+desc 'Run unit tests, alias for rspec'
+task test: :rspec
 
 task default: :build
