@@ -141,7 +141,8 @@ RSpec.describe Diary do
     end
 
     context 'with diary entries that disable prompting' do
-      luke_cage_folder = File.join %W[#{Settings.root} avengers luke-cage]
+      let(:luke_cage_folder) { File.join %W[#{Settings.root} avengers luke-cage] }
+
       subject(:diary_no_prompt) do
         (Class.new do
           include Diary
@@ -177,9 +178,13 @@ RSpec.describe Diary do
       # NOTE: This feature is useful for derived values, like 'duration' on PtoEntry.
       #   Other tests cover post-prompting data modification.
       it 'uses the default values instead of prompting for entry' do
-        expect($stdout).to receive(:puts).with('Enter your test for Luke Cage:')
-        expect(Settings.console).not_to receive(:ask)
+        allow($stdout).to receive(:puts)
+        allow(Settings.console).to receive(:ask)
+
         entry = diary_no_prompt.get_entry 'Test No Prompt', 'Luke Cage'
+
+        expect($stdout).to have_received(:puts).with('Enter your test for Luke Cage:')
+        expect(Settings.console).not_to have_received(:ask)
         expect(entry.record).to include(xyzzy: 'adventure')
         expect(entry.record[:adventure_time].strftime('%F')).to eq('2000-01-01')
       end
