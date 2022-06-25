@@ -6,7 +6,7 @@ require './lib/commands/new_team_command'
 require './lib/settings'
 
 RSpec.describe NewTeamCommand do
-  subject(:new_team) { NewTeamCommand.new }
+  subject(:new_team) { described_class.new }
 
   context 'when creating a new team (Guardians of the Galaxy)' do
     guardians_folder = File.join %W[#{Settings.root} guardians-of-the-galaxy]

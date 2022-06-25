@@ -10,16 +10,16 @@ RSpec.describe ReportTeamCommand do
 
     file_prefix = 'team-shield-report'
 
-    before :context do
+    before do
       expect(Dir).not_to exist shield_folder
       Settings.with_mock_input "\nhere\nMet about goals\n\n\n" do
         expect { NewHireCommand.new.command(%w[Shield Nick Fury]) }.to output.to_stdout
         RecordDiaryEntryCommand.new.command :one_on_one, ['nick']
-        ReportTeamCommand.new.command('shield', OpenStruct.new(no_launch: true))
+        described_class.new.command('shield', OpenStruct.new(no_launch: true))
       end
     end
 
-    after :context do
+    after do
       FileUtils.rm_r shield_folder
       FileUtils.rm ["#{file_prefix}.adoc", "#{file_prefix}.html"]
     end

@@ -6,7 +6,7 @@ require './lib/commands/new_hire_command'
 require './lib/settings'
 
 RSpec.describe NewHireCommand do
-  subject(:new_hire) { NewHireCommand.new }
+  subject(:new_hire) { described_class.new }
 
   def log_contents(employee)
     File.read(employee.file.path)
@@ -34,10 +34,10 @@ RSpec.describe NewHireCommand do
       FileUtils.rm_r teen_titans_folder
     end
 
-    context 'a new team member (Kid Flash)' do
+    context 'with a new team member (Kid Flash)' do
       kid_flash_folder = File.join %W[#{Settings.root} teen-titans wally-west]
 
-      before :context do
+      before do
         expect(File).not_to exist File.join(kid_flash_folder, Settings.log_filename)
         expect(File).not_to exist File.join(kid_flash_folder, Settings.overview_filename)
       end
@@ -52,10 +52,10 @@ RSpec.describe NewHireCommand do
       end
     end
 
-    context 'a new team member with data (Beast Boy)' do
+    context 'with a new team member with data (Beast Boy)' do
       beast_boy_folder = File.join %W[#{Settings.root} teen-titans garfield-logan]
 
-      before :context do
+      before do
         expect(File).not_to exist File.join(beast_boy_folder, Settings.log_filename)
         expect(File).not_to exist File.join(beast_boy_folder, Settings.overview_filename)
       end
@@ -63,13 +63,13 @@ RSpec.describe NewHireCommand do
       # these options get passed to the command by the ManagerTools module
       it 'creates a new team member with given data' do
         tomorrow = (Date.today + 1).to_datetime
-        expect {
+        expect do
           new_hire.command(%w[Teen\ Titans Garfield Logan], OpenStruct.new(
-            biography: 'changed into a West African green monkey to battle Sakutia',
-            grade_level: 'newcomer',
-            start_date: tomorrow.to_s,
-          ))
-        }.to output(/garfield-logan/).to_stdout
+                                                              biography: 'changed into a West African green monkey to battle Sakutia',
+                                                              grade_level: 'newcomer',
+                                                              start_date: tomorrow.to_s,
+                                                            ))
+        end.to output(/garfield-logan/).to_stdout
 
         beast_boy = Employee.find('Gar')
         expect(beast_boy).not_to be_nil
@@ -101,7 +101,7 @@ RSpec.describe NewHireCommand do
         expect_files_created(robin, robin_folder, 'Met about goals')
       end
 
-      before :context do
+      before do
         expect(File).not_to exist File.join(robin_folder, Settings.log_filename)
         expect(File).not_to exist File.join(robin_folder, Settings.overview_filename)
       end

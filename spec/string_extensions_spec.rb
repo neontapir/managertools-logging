@@ -6,7 +6,7 @@ LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc egestas i
 'aliquet. Morbi posuere convallis risus, vitae iaculis felis tincidunt sit amet.'
 
 RSpec.describe StringExtensions do
-  using StringExtensions
+  using described_class
 
   context 'when downcasing strings' do
     it 'downcases regular strings' do

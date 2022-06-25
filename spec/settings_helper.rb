@@ -18,8 +18,8 @@ module SettingsHelper
 
   # FIXME: When running partial test suites, this can fail due to a permissions issue
   def remove_test_settings_file
-    File.delete config_file if (config_file && File.exist?(config_file))
-  rescue => e
+    File.delete config_file if config_file && File.exist?(config_file)
+  rescue StandardError => e
     warn "Unable to remove test settings file, #{e}"
   end
 end

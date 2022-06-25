@@ -6,7 +6,6 @@ AllCops:
   TargetRubyVersion: 2.7
   Exclude:
     - "test"
-    - "spec/**/*"
   NewCops: enable
 Layout/BeginEndAlignment:
   Enabled: false
@@ -42,6 +41,18 @@ Lint/RaiseException:
   Enabled: true
 Lint/StructNewOverride:
   Enabled: true
+Metrics/AbcSize:
+  Exclude:
+    - 'Rakefile'
+    - '**/*.rake'
+    - 'factories/**/*.rb'
+    - 'spec/**/*.rb'
+Metrics/BlockLength:
+  Exclude:
+    - 'Rakefile'
+    - '**/*.rake'
+    - 'factories/**/*.rb'
+    - 'spec/**/*.rb'
 Metrics/MethodLength:
   Max: 15
 Performance/AncestorsInclude:
@@ -62,6 +73,12 @@ Performance/StringInclude:
   Enabled: true
 Rake/DuplicateTask:
   Enabled: false
+RSpec/ExampleLength:
+  Enabled: False
+RSpec/ExpectInHook:
+  Enabled: false
+RSpec/MultipleExpectations:
+  Max: 4
 Style/AccessorGrouping:
   Enabled: true
 Style/ArrayCoercion:

@@ -2,33 +2,33 @@
 
 require 'time'
 
-Dir['./lib/entries/*_entry.rb'].sort.each(&method(:require))
+Dir['./lib/entries/*_entry.rb'].sort.each { |x| require x }
 require_relative 'support/shared_contexts'
 
 RSpec.describe DiaryEntry do
   it 'gets an entry by identifier' do
-    expect(DiaryEntry.get('feedback')).to be(FeedbackEntry)
+    expect(described_class.get('feedback')).to be(FeedbackEntry)
   end
 
   it 'gets an entry with a space in the name by identifier' do
-    expect(DiaryEntry.get('performance-checkpoint')).to be(PerformanceCheckpointEntry)
+    expect(described_class.get('performance-checkpoint')).to be(PerformanceCheckpointEntry)
   end
 
   it 'gets inheriting classes' do
-    expect(DiaryEntry.inherited(PerformanceCheckpointEntry)).to include PerformanceCheckpointEntry
-    expect(DiaryEntry.inherited(PerformanceCheckpointEntry)).not_to include String
+    expect(described_class.inherited(PerformanceCheckpointEntry)).to include PerformanceCheckpointEntry
+    expect(described_class.inherited(PerformanceCheckpointEntry)).not_to include String
 
     class ThrowawayDiaryEntry < DiaryEntry; end
 
-    expect(DiaryEntry.inherited(PerformanceCheckpointEntry)).to include ThrowawayDiaryEntry
+    expect(described_class.inherited(PerformanceCheckpointEntry)).to include ThrowawayDiaryEntry
   end
 
-  context 'with default content' do
-    include_context 'freeze_time' do
+  context 'with another default content' do
+    subject(:entry) { PerformanceCheckpointEntry.new }
+
+    include_context 'with time frozen' do
       let(:clock_date) { Time.local(1999) }
     end
-
-    subject(:entry) { PerformanceCheckpointEntry.new }
 
     it 'renders correctly' do
       expect(entry.render('Test', PerformanceCheckpointEntry)).to eq "=== Test (January  1, 1999, 12:00 AM)\nContent::\n  none\n"
@@ -50,11 +50,11 @@ RSpec.describe DiaryEntry do
   end
 
   context 'with the current time' do
-    include_context 'freeze_time' do
+    subject(:entry) { ObservationEntry.new(datetime: clock_date.to_s) }
+
+    include_context 'with time frozen' do
       let(:clock_date) { Time.new(2001, 2, 3, 4, 5, 6) }
     end
-
-    subject(:entry) { ObservationEntry.new(datetime: clock_date.to_s) }
 
     it 'renders correctly' do
       expect(entry.render('Test', ObservationEntry)).to eq "=== Test (February  3, 2001,  4:05 AM)\nContent::\n  none\n"
@@ -67,6 +67,7 @@ RSpec.describe DiaryEntry do
 
   context 'with a past time' do
     subject(:entry) { ObservationEntry.new(datetime: clock_date.to_s, content: 'blah') }
+
     let(:clock_date) { Time.new(2002) }
 
     it 'renders correctly' do
@@ -78,7 +79,7 @@ RSpec.describe DiaryEntry do
     end
   end
 
-  context 'in unimplemented context' do
+  context 'when methods are not implemented' do
     # A class that doesn't implement some required methods
     class UnimplementedDiaryEntry < DiaryEntry
     end
@@ -98,10 +99,11 @@ RSpec.describe DiaryEntry do
     end
   end
 
-  context 'in improper elements implementation context' do
+  context 'with improper elements' do
     # A class that has some unworkable implementations
     class BadElementsArrayDiaryEntry < DiaryEntry
       def prompt(_); end
+
       def to_s(); end
 
       def elements
@@ -116,12 +118,12 @@ RSpec.describe DiaryEntry do
     end
   end
 
-  context 'with default content' do
-    include_context 'freeze_time' do
+  context 'with another default content' do
+    subject(:entry) { PerformanceCheckpointEntry.new }
+
+    include_context 'with time frozen' do
       let(:clock_date) { Time.local(1999) }
     end
-
-    subject(:entry) { PerformanceCheckpointEntry.new }
 
     it 'implements equality' do
       expect(entry).to eq PerformanceCheckpointEntry.new

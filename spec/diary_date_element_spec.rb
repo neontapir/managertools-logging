@@ -16,31 +16,31 @@ RSpec.describe DiaryDateElement do
   end
 
   it 'creates an element with default values' do
-    element = DiaryDateElement.new(:datetime)
+    element = described_class.new(:datetime)
     proper?(element, :datetime, 'Datetime', Time.now)
   end
 
   it 'creates an element with prompt specified' do
-    element = DiaryDateElement.new(:the_time, 'My date')
+    element = described_class.new(:the_time, 'My date')
     proper?(element, :the_time, 'My date', Time.now)
   end
 
   context 'with a given morning date (1/1/2000 10am)' do
-    include_context 'freeze_time' do
+    include_context 'with time frozen' do
       let(:clock_date) { Time.local(2000, 1, 1, 10) }
     end
 
     context 'when valid date specified' do
       it 'parses "now" as expected' do
-        allow(Settings.console).to receive(:ask) { 'now' }
-        element = DiaryDateElement.new(:datetime)
+        allow(Settings.console).to receive(:ask).and_return('now')
+        element = described_class.new(:datetime)
         proper?(element, :datetime, 'Datetime', clock_date)
         expect(element.obtain.to_s).to eq(clock_date.to_s)
       end
 
       it 'parses "today" as "today noon" when noon has not yet happened' do
-        allow(Settings.console).to receive(:ask) { 'today' }
-        element = DiaryDateElement.new(:datetime)
+        allow(Settings.console).to receive(:ask).and_return('today')
+        element = described_class.new(:datetime)
         proper?(element, :datetime, 'Datetime', clock_date)
         expect(element.obtain.to_s).to start_with('2000-01-01 12:00:00')
       end
@@ -48,7 +48,7 @@ RSpec.describe DiaryDateElement do
   end
 
   context 'with a given afternoon date (1/1/2000 2pm)' do
-    include_context 'freeze_time' do
+    include_context 'with time frozen' do
       let(:clock_date) { Time.local(2000, 1, 1, 14) }
     end
 
@@ -58,15 +58,15 @@ RSpec.describe DiaryDateElement do
       end
 
       it 'parses "now" as expected' do
-        allow(Settings.console).to receive(:ask) { 'now' }
-        element = DiaryDateElement.new(:datetime)
+        allow(Settings.console).to receive(:ask).and_return('now')
+        element = described_class.new(:datetime)
         proper?(element, :datetime, 'Datetime', clock_date)
         expect(element.obtain.to_s).to start_with('2000-01-01 14:00:00')
       end
 
       it 'parses "today" as "today noon" when noon has passed' do
-        allow(Settings.console).to receive(:ask) { 'today' }
-        element = DiaryDateElement.new(:datetime)
+        allow(Settings.console).to receive(:ask).and_return('today')
+        element = described_class.new(:datetime)
         proper?(element, :datetime, 'Datetime', clock_date)
         expect(element.obtain.to_s).to start_with('2000-01-01 12:00:00')
       end
@@ -90,7 +90,7 @@ RSpec.describe DiaryDateElement do
   end
 
   context 'when year is not specified' do
-    include_context 'freeze_time' do
+    include_context 'with time frozen' do
       let(:clock_date) { Time.local(2000, 3, 1) }
     end
 
@@ -99,30 +99,30 @@ RSpec.describe DiaryDateElement do
     end
   end
 
-  context 'using the default attribute' do
-    include_context 'freeze_time' do
+  context 'with the default attribute' do
+    include_context 'with time frozen' do
       let(:clock_date) { Time.local(2000, 1, 1) }
     end
 
     it 'uses now' do
-      element = DiaryDateElement.new(:datetime, 'Datetime')
+      element = described_class.new(:datetime, 'Datetime')
       expect(element.default.to_s).to include('2000-01-01')
     end
 
     it 'obtains the date with the default format' do
-      element = DiaryDateElement.new(:datetime, 'Datetime', default: Time.local(1999, 12, 25))
+      element = described_class.new(:datetime, 'Datetime', default: Time.local(1999, 12, 25))
       expect(element.default.to_s).to include('1999-12-25')
     end
   end
 
-  context 'using formatting' do
-    include_context 'freeze_time' do
+  context 'with formatting' do
+    include_context 'with time frozen' do
       let(:clock_date) { Time.local(2000, 1, 1) }
     end
 
     it 'obtains the date with the default format', :aggregate_failures do
-      allow(Settings.console).to receive(:ask) { 'yesterday' }
-      element = DiaryDateElement.new(:datetime)
+      allow(Settings.console).to receive(:ask).and_return('yesterday')
+      element = described_class.new(:datetime)
       expected = element.obtain.to_s
       expect(expected).to include('1999-12-31 12:00:00')
 
@@ -131,37 +131,37 @@ RSpec.describe DiaryDateElement do
     end
 
     it 'obtains the date with a specified format' do
-      allow(Settings.console).to receive(:ask) { 'yesterday' }
-      element = DiaryDateElement.new(:datetime, 'Datetime', formatter: ->x { x.strftime '%B %e, %Y' })
+      allow(Settings.console).to receive(:ask).and_return('yesterday')
+      element = described_class.new(:datetime, 'Datetime', formatter: ->x { x.strftime '%B %e, %Y' })
       expect(element.obtain.to_s).to include('December 31, 1999')
     end
   end
 
   context 'with 6/29/2007 content' do
-    include_context 'freeze_time' do
+    subject(:date_element) { described_class.new(:datetime, 'Datetime') }
+
+    include_context 'with time frozen' do
       let(:clock_date) { Time.local(2007, 6, 29) }
     end
 
-    subject { DiaryDateElement.new(:datetime, 'Datetime') }
-
     it 'implements equality' do
-      equal = DiaryDateElement.new(:datetime, 'Datetime')
-      is_expected.to eq equal
+      equal = described_class.new(:datetime, 'Datetime')
+      expect(date_element).to eq equal
     end
 
     it 'finds a different key unequal' do
-      different_key = DiaryDateElement.new(:hammer_time, 'Datetime')
-      is_expected.not_to eq different_key
+      different_key = described_class.new(:hammer_time, 'Datetime')
+      expect(date_element).not_to eq different_key
     end
 
     it 'finds a different label unequal' do
-      different_label = DiaryDateElement.new(:datetime, 'Hammer time')
-      is_expected.not_to eq different_label
+      different_label = described_class.new(:datetime, 'Hammer time')
+      expect(date_element).not_to eq different_label
     end
 
     it 'finds a different value unequal' do
-      different_value = DiaryDateElement.new(:datetime, 'Datetime', default: Time.local(1999, 12, 25))
-      is_expected.not_to eq different_value
+      different_value = described_class.new(:datetime, 'Datetime', default: Time.local(1999, 12, 25))
+      expect(date_element).not_to eq different_value
     end
   end
 end

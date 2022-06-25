@@ -25,11 +25,11 @@ RSpec.describe TeamFinder do
   context 'with a typical team (Watchmen)' do
     watchmen_folder = File.join %W[#{Settings.root} watchmen]
 
-    before :context do
+    before do
       FileUtils.mkdir_p watchmen_folder
     end
 
-    after :context do
+    after do
       FileUtils.rm_r watchmen_folder
     end
 
@@ -42,17 +42,19 @@ RSpec.describe TeamFinder do
     end
   end
 
+  #rubocop:disable RSpec/EmptyExampleGroup
   context 'with a team with spaces in the name (League of Extraordinary Gentlemen)' do
+    #rubocop:enable RSpec/EmptyExampleGroup
     league_id = 'league-of-extraordinary-gentlemen'
     league_folder = File.join(Settings.root, league_id)
 
-    before :context do
+    before do
       expect(Dir).not_to exist File.join(Settings.root, 'justice-league')
       expect(Dir).not_to exist File.join(Settings.root, 'justice-society')
       FileUtils.mkdir_p league_folder
     end
 
-    after :context do
+    after do
       FileUtils.rm_r league_folder
     end
 
@@ -66,13 +68,13 @@ RSpec.describe TeamFinder do
     justice_society_id = 'justice-society'
     justice_society_folder = File.join(Settings.root, justice_society_id)
 
-    before :context do
+    before do
       [justice_league_folder, justice_society_folder].each do |group_folder|
         FileUtils.mkdir_p group_folder
       end
     end
 
-    after :context do
+    after do
       [justice_league_folder, justice_society_folder].each do |group_folder|
         FileUtils.rm_r group_folder
       end

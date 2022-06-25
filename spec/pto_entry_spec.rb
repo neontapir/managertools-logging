@@ -5,10 +5,10 @@ require './lib/entries/pto_entry'
 require_relative 'support/shared_contexts'
 
 RSpec.describe PtoEntry do
-  context 'during the post-create hook' do
-    subject(:entry) { PtoEntry.new }
+  context 'when the post-create hook runs' do
+    subject(:entry) { described_class.new }
 
-    include_context 'freeze_time' do
+    include_context 'with time frozen' do
       let(:clock_date) { Time.local(1999) }
     end
 

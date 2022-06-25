@@ -2,7 +2,7 @@
 
 require 'timecop'
 
-RSpec.shared_context 'freeze_time' do
+RSpec.shared_context 'with time frozen' do
   before do
     Timecop.freeze clock_date
   end

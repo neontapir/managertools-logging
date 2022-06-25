@@ -6,7 +6,9 @@ require './lib/project_folder'
 require_relative 'settings_helper'
 
 RSpec.describe ProjectFinder do
-  after :context do
+  subject(:project_finder) { (Class.new { include ProjectFinder }).new }
+
+  after do
     FileUtils.rm_r ProjectFolder.root
   end
 
@@ -20,14 +22,12 @@ RSpec.describe ProjectFinder do
 
   include SettingsHelper
 
-  subject(:project_finder) { (Class.new { include ProjectFinder }).new }
-
   context 'when parsing a project folder (Bloodtide)' do
-    before :context do
+    before do
       FileUtils.mkdir_p bloodties_folder
     end
 
-    after :context do
+    after do
       FileUtils.rm_r bloodties_folder
     end
 
@@ -40,11 +40,11 @@ RSpec.describe ProjectFinder do
   end
 
   context 'when finding a project (Bloodtide)' do
-    before :context do
+    before do
       FileUtils.mkdir_p bloodties_folder
     end
 
-    after :context do
+    after do
       FileUtils.rm_r bloodties_folder
     end
 
@@ -67,11 +67,11 @@ RSpec.describe ProjectFinder do
   end
 
   context 'when finding a project with spaces in the name (Galactic Storm)' do
-    before :context do
+    before do
       FileUtils.mkdir_p galactic_storm_folder
     end
 
-    after :context do
+    after do
       FileUtils.rm_r galactic_storm_folder
     end
 

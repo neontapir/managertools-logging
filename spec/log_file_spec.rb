@@ -17,8 +17,9 @@ RSpec.describe LogFile do
   end
 
   context 'with an employee (isolated examples)' do
-    let (:hulk) { Employee.new(team: 'Avengers', first: 'Bruce', last: 'Banner') }
     subject(:hulk_file) { hulk.file }
+
+    let(:hulk) { Employee.new(team: 'Avengers', first: 'Bruce', last: 'Banner') }
 
     hulk_folder = File.join avengers_folder, 'bruce-banner'
 
@@ -52,13 +53,15 @@ RSpec.describe LogFile do
 
     thor_folder = File.join avengers_folder, 'thor-odinson'
 
-    before :context do
+    #rubocop:disable RSpec/BeforeAfterAll
+    before :all do
       FileUtils.mkdir_p thor_folder
     end
 
-    after :context do
+    after :all do
       FileUtils.rm_r File.dirname(thor_folder)
     end
+    #rubocop:enable RSpec/BeforeAfterAll
 
     it 'knows the file path' do
       expect(thor_file.path).to eq File.join(thor_folder, Settings.log_filename)
@@ -125,11 +128,11 @@ RSpec.describe LogFile do
 
     hawkeye_folder = File.join avengers_folder, 'clinton-barton'
 
-    before :context do
+    before do
       FileUtils.mkdir_p hawkeye_folder
     end
 
-    after :context do
+    after do
       FileUtils.rm_r File.dirname(hawkeye_folder)
     end
 

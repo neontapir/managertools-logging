@@ -6,9 +6,9 @@ require './lib/commands/new_hire_command'
 require_relative 'spec_helper'
 
 RSpec.describe DepartCommand do
-  subject(:depart) { DepartCommand.new }
+  subject(:depart) { described_class.new }
 
-  context 'moving a departing team member (Demolition Man)' do
+  context 'when moving a departing team member (Demolition Man)' do
     departed_folder = File.join(Settings.root, Settings.departed_root)
     old_team_folder = File.join(Settings.root, 'revengers')
     demolition_man = 'dennis-dunphy'
@@ -45,7 +45,7 @@ RSpec.describe DepartCommand do
     end
   end
 
-  context 'specifying a team as the move subject yields the first person (Justic League)' do
+  context 'with a team as the move subject yields the first person (Justic League)' do
     departed_folder = File.join(Settings.root, Settings.departed_root)
     old_team_folder = File.join(Settings.root, 'justice-league')
     batman = 'bruce-wayne'

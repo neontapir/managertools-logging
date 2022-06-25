@@ -7,6 +7,8 @@ RSpec.describe GradeUpdateCommand do
   mal_folder = File.join %W[#{Settings.root} firefly malcolm-reynolds]
   new_hire = NewHireCommand.new
 
+  subject(:grade_update) { described_class.new }
+
   before do
     expect { new_hire.command %w[firefly malcolm reynolds] }.to output(/malcolm-reynolds/).to_stdout
   end
@@ -15,7 +17,6 @@ RSpec.describe GradeUpdateCommand do
     FileUtils.rm_r File.dirname(mal_folder)
   end
 
-  subject(:grade_update) { GradeUpdateCommand.new }
   let(:mal) { Employee.find 'mal' }
 
   def ensure_mal_is_a_captain(mal_file)

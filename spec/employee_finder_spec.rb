@@ -8,14 +8,20 @@ require './lib/settings'
 require_relative 'settings_helper'
 
 RSpec.describe EmployeeFinder do
-  include EmployeeFinder
+  include described_class
   include SettingsHelper
 
-  context 'finding employees' do
+  context 'when finding employees' do
     subject(:finder) { (Class.new { include EmployeeFinder }).new }
 
-    after :context do
-      FileUtils.rm_r File.join(Settings.root, 'avengers')
+    let(:avengers_folder) { File.join(Settings.root, 'avengers') }
+
+    before do
+      FileUtils.mkdir_p avengers_folder
+    end
+
+    after do
+      FileUtils.rm_r avengers_folder
     end
 
     # this context creates no files
@@ -66,7 +72,7 @@ RSpec.describe EmployeeFinder do
     context 'when parsing an employee folder (Hulk)' do
       hulk_folder = File.join %W[#{Settings.root} avengers bruce-banner]
 
-      before :context do
+      before do
         FileUtils.mkdir_p hulk_folder
       end
 
@@ -80,11 +86,11 @@ RSpec.describe EmployeeFinder do
     context 'when parsing an employee folder with a suffix (Winchester)' do
       winchester_folder = File.join %W[#{Settings.root} mash charles-emerson-winchester-iii]
 
-      before :context do
+      before do
         FileUtils.mkdir_p winchester_folder
       end
 
-      after :context do
+      after do
         FileUtils.rm_r File.dirname(winchester_folder)
       end
 
@@ -98,7 +104,7 @@ RSpec.describe EmployeeFinder do
     context 'when parsing an employee folder with a hyphen (Rescue)' do
       rescue_folder = File.join %W[#{Settings.root} avengers pepper-potts-stark]
 
-      before :context do
+      before do
         FileUtils.mkdir_p rescue_folder
       end
 
@@ -111,9 +117,9 @@ RSpec.describe EmployeeFinder do
 
     context 'when finding an employee (Moondragon)' do
       moondragon_folder = File.join %W[#{Settings.root} avengers heather-douglas]
-      let(:moondragon) { Employee.new(team: 'avengers', first: 'Heather', last: 'Douglas')}
+      let(:moondragon) { Employee.new(team: 'avengers', first: 'Heather', last: 'Douglas') }
 
-      before :context do
+      before do
         FileUtils.mkdir_p moondragon_folder
       end
 

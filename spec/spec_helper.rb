@@ -19,15 +19,17 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
-unless ARGV.any? { |e| e =~ /guard-rspec/ } or ENV['NO_SIMPLECOV']
+require './spec/settings_helper'
+require 'aruba/rspec'
+
+#rubocop:disable Style/MixinUsage
+include SettingsHelper
+#rubocop:enable Style/MixinUsage
+
+unless ARGV.any? { |e| e.include?('guard-rspec') } || ENV['NO_SIMPLECOV']
   require 'simplecov'
   SimpleCov.start
 end
-
-require './spec/settings_helper'
-include SettingsHelper
-
-require 'aruba/rspec'
 
 RSpec.configure do |config|
   config.before :suite do
@@ -136,6 +138,6 @@ RSpec.configure do |config|
 end
 
 # Aruba support, a helper for testing command line applications
-$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-::Dir.glob(::File.expand_path('../support/*.rb', __FILE__)).each { |f| require_relative f }
-::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require_relative f }
+$LOAD_PATH.unshift File.expand_path('../lib', __dir__)
+::Dir.glob(::File.expand_path('support/*.rb', __dir__)).each { |f| require_relative f }
+::Dir.glob(::File.expand_path('support/**/*.rb', __dir__)).each { |f| require_relative f }

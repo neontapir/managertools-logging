@@ -8,13 +8,13 @@ require './lib/project_folder'
 require './lib/settings'
 
 RSpec.describe NewProjectCommand do
-  subject (:new_project) { NewProjectCommand.new }
+  subject(:new_project) { described_class.new }
 
-  after :context do
+  after do
     FileUtils.rm_r ProjectFolder.root
   end
 
-  context 'existing project' do
+  context 'with an existing project' do
     bloodties_log = File.join %W[#{ProjectFolder.root} bloodties #{Settings.log_filename}]
 
     before do
@@ -22,12 +22,14 @@ RSpec.describe NewProjectCommand do
     end
 
     it 'creates a new project with defaults' do
+      #rubocop:disable RSpec/SubjectStub
       allow(new_project).to receive(:ask)
+      #rubocop:enable RSpec/SubjectStub
 
       expect(File).not_to exist bloodties_log
 
       # Settings.with_mock_input("\n") do
-        expect { new_project.command(%w[Bloodties]) }.to output(/bloodties/).to_stdout
+      expect { new_project.command(%w[Bloodties]) }.to output(/bloodties/).to_stdout
       # end
 
       bloodties = Project.find('Bloodties')
@@ -41,12 +43,12 @@ RSpec.describe NewProjectCommand do
     end
   end
 
-  context 'force overwrites project' do
+  context 'when force overwriting a project' do
     def galactic_storm_log
       File.join(%W[#{ProjectFolder.root} galactic-storm #{Settings.log_filename}])
     end
 
-    before :context do
+    before do
       FileUtils.mkdir_p File.dirname(galactic_storm_log)
     end
 
@@ -57,7 +59,9 @@ RSpec.describe NewProjectCommand do
     end
 
     def setup_new_project_with_entry
-      allow(new_project).to receive(:ask) { 'Intervene in the Kree and Shi\'ar war' }
+      #rubocop:disable RSpec/SubjectStub
+      allow(new_project).to receive(:ask).and_return('Intervene in the Kree and Shi\'ar war')
+      #rubocop:enable RSpec/SubjectStub
       expect { new_project.command(%w[galactic-storm]) }.to output(/galactic-storm/).to_stdout
       expect(storm).not_to be_nil
 

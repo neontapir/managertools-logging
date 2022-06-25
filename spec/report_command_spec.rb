@@ -9,15 +9,15 @@ RSpec.describe ReportCommand do
     avengers_folder = File.join %W[#{Settings.root} avengers]
     file_prefix = 'report-james-rhodes'
 
-    before :context do
+    before do
       Settings.with_mock_input "\nhere\nMet about goals\n\n\n" do
         expect { NewHireCommand.new.command(%w[Avengers James Rhodes]) }.to output.to_stdout
         RecordDiaryEntryCommand.new.command :one_on_one, ['james']
-        ReportCommand.new.command('james', OpenStruct.new(no_launch: true))
+        described_class.new.command('james', OpenStruct.new(no_launch: true))
       end
     end
 
-    after :context do
+    after do
       FileUtils.rm_r avengers_folder
       FileUtils.rm ["#{file_prefix}.adoc", "#{file_prefix}.html"]
     end

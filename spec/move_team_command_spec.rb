@@ -6,7 +6,7 @@ require './lib/commands/new_hire_command'
 require './lib/settings'
 require_relative 'spec_helper'
 
-RSpec.shared_context 'team folders' do
+RSpec.shared_context 'with team folders' do
   before do
     [justice_league_folder, teen_titans_folder].each do |folder|
       expect(Dir).not_to exist(folder), "invalid state, #{folder} existed before test began"
@@ -31,15 +31,17 @@ RSpec.describe MoveTeamCommand do
     File.join(Settings.root, 'teen-titans')
   end
 
-  context 'moving' do
-    subject(:move_command) { MoveTeamCommand.new }
+  context 'when moving' do
+    subject(:move_command) { described_class.new }
+
     new_hire = NewHireCommand.new
 
-    context 'a team member to another team (Starfire)' do
+    context 'when a team member to another team (Starfire)' do
       let(:starfire) { Employee.find('Princess') }
+
       starfire_id = 'princess-koriandr'
 
-      include_context 'team folders'
+      include_context 'with team folders'
 
       before do
         expect { new_hire.command %w[Teen\ Titans Princess Koriand'r] }.to output(/#{starfire_id}/).to_stdout
@@ -80,10 +82,10 @@ RSpec.describe MoveTeamCommand do
       end
     end
 
-    context 'a team member to another team with swapped parameters (Red Arrow)' do
+    context 'when a team member to another team with swapped parameters (Red Arrow)' do
       let(:red_arrow) { 'roy-harper' }
 
-      include_context 'team folders'
+      include_context 'with team folders'
 
       before do
         # use new hire command to generate expected files
@@ -100,8 +102,8 @@ RSpec.describe MoveTeamCommand do
       end
     end
 
-    context 'multiple team members at once (Cyborg, Robin)' do
-      include_context 'team folders'
+    context 'when multiple team members at once (Cyborg, Robin)' do
+      include_context 'with team folders'
 
       before do
         # use new hire command to generate expected files
@@ -113,16 +115,16 @@ RSpec.describe MoveTeamCommand do
         expect { move_command.command %w[justice-league Stone Grayson] }.to output.to_stdout
 
         %w[victor-stone dick-grayson].each do |member|
-          expect(Dir).to exist File.join(justice_league_folder, "#{member}")
-          expect(Dir).not_to exist File.join(teen_titans_folder, "#{member}")
+          expect(Dir).to exist File.join(justice_league_folder, member.to_s)
+          expect(Dir).not_to exist File.join(teen_titans_folder, member.to_s)
         end
       end
     end
 
-    context 'a team member to the same folder fails (Raven)' do
+    context 'when a team member to the same folder fails (Raven)' do
       let(:raven) { 'rachel-roth' }
 
-      include_context 'team folders'
+      include_context 'with team folders'
 
       before do
         # use new hire command to generate expected files

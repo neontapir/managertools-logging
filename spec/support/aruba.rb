@@ -3,7 +3,7 @@
 require 'aruba/rspec'
 
 unless defined? MT
-  MT = File.expand_path('../../../mt', __FILE__)
+  MT = File.expand_path('../../mt', __dir__)
   load MT
 end
 

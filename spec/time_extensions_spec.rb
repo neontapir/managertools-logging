@@ -3,7 +3,7 @@
 require './lib/time_extensions'
 
 RSpec.describe TimeExtensions do
-  using TimeExtensions
+  using described_class
 
   let(:test_date) { Time.strptime('03-02-2001 04:05:06 PM', '%d-%m-%Y %I:%M:%S %p') }
 

@@ -18,7 +18,7 @@ RSpec.describe EmployeeFolder do
   context 'with normal characters' do
     subject(:normal_folder) do
       john = Employee.new(team: 'normal', first: 'John', last: 'Smith')
-      EmployeeFolder.new(john)
+      described_class.new(john)
     end
 
     normal_path = File.join %W[#{Settings.root} normal]
@@ -43,7 +43,7 @@ RSpec.describe EmployeeFolder do
   context 'with accented characters' do
     subject(:accented_folder) do
       ezel = Employee.new(team: 'ĀčĊÉñŤÈÐ', first: 'Ezel', last: 'Çeçek')
-      EmployeeFolder.new(ezel)
+      described_class.new(ezel)
     end
 
     accented_path = File.join(%W[#{Settings.root} āčċéñťèð])
@@ -64,7 +64,7 @@ RSpec.describe EmployeeFolder do
   context 'with nonalnum characters' do
     subject(:nonalnum_folder) do
       bad = Employee.new(team: 'bad', first: 'J%hn', last: 'Sm][th')
-      EmployeeFolder.new bad
+      described_class.new bad
     end
 
     nonalnum_path = File.join %W[#{Settings.root} bad]

@@ -9,7 +9,7 @@ require_relative 'file_contents_validation_helper'
 RSpec.describe InterviewCommand do
   include FileContentsValidationHelper
 
-  subject(:interview) { InterviewCommand.new }
+  subject(:interview) { described_class.new }
 
   def non_default_values(input)
     input.reject { |i| i == "\n" }.map { |i| "  #{i}" }
@@ -43,7 +43,7 @@ RSpec.describe InterviewCommand do
 
     before do
       Settings.with_mock_input input do
-        expect { interview.command ['nick', 'fury'] }.to output.to_stdout
+        expect { interview.command %w[nick fury] }.to output.to_stdout
       end
     end
 
@@ -54,7 +54,8 @@ RSpec.describe InterviewCommand do
     let(:nick) { Employee.find('nick') }
 
     it 'will create a new hire' do
-      fail 'Employee not found' unless nick
+      raise 'Employee not found' unless nick
+
       expect(nick.file.path[Settings.candidates_root]).to be_truthy
     end
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Dir['./lib/entries/*_entry.rb'].sort.each(&method(:require))
+Dir['./lib/entries/*_entry.rb'].sort.each { |x| require x }
 require './lib/employee'
 require './lib/employee_folder'
 require './lib/log_file'
@@ -11,7 +11,7 @@ require_relative 'file_contents_validation_helper'
 RSpec.describe RecordDiaryEntryCommand do
   include FileContentsValidationHelper
 
-  subject(:record_diary_entry) { RecordDiaryEntryCommand.new }
+  subject(:record_diary_entry) { described_class.new }
 
   avengers_folder = File.join(Settings.root, 'avengers')
 
@@ -38,24 +38,24 @@ RSpec.describe RecordDiaryEntryCommand do
     end
 
     include_examples 'writing entry',
-      :one_on_one, "\nhere\nMet about goals\n\n\n", ["  here\n", "  Met about goals\n", "  none\n"]
+                     :one_on_one, "\nhere\nMet about goals\n\n\n", ["  here\n", "  Met about goals\n", "  none\n"]
     include_examples 'writing entry',
-      :feedback, "\nnegative\nDid a bad thing\n", ["  negative\n", "  Did a bad thing\n"]
+                     :feedback, "\nnegative\nDid a bad thing\n", ["  negative\n", "  Did a bad thing\n"]
     include_examples 'writing entry',
-      :goal, "\ntoday\nBe a good citizen\n", ["  Be a good citizen\n"]
+                     :goal, "\ntoday\nBe a good citizen\n", ["  Be a good citizen\n"]
     include_examples 'writing entry',
-      :observation, "\nCaught him doing a nice thing\n", ["  Caught him doing a nice thing\n"]
+                     :observation, "\nCaught him doing a nice thing\n", ["  Caught him doing a nice thing\n"]
     include_examples 'writing entry',
-      :performance_checkpoint, "\nOn track\n", ["  On track\n"]
+                     :performance_checkpoint, "\nOn track\n", ["  On track\n"]
     include_examples 'writing entry',
-      :pto, "today\ntomorrow\nsick\n", ["  sick\n"]
+                     :pto, "today\ntomorrow\nsick\n", ["  sick\n"]
   end
 
   context 'with multiple people (Black Panther, Thor)' do
     black_panther = Employee.new(team: 'Avengers', first: 'Luke', last: 'Charles')
     thor = Employee.new(team: 'Avengers', first: 'Thor', last: 'Odinson')
 
-    before :context do
+    before do
       [black_panther, thor].each do |hero|
         FileUtils.mkdir_p File.dirname(hero.file.path)
       end
@@ -74,7 +74,7 @@ RSpec.describe RecordDiaryEntryCommand do
   context 'with one person (Cable) mentioned twice' do
     cable = Employee.new(team: 'Avengers', first: 'Nathan', last: 'Summers')
 
-    before :context do
+    before do
       FileUtils.mkdir_p File.dirname(cable.file.path)
     end
 

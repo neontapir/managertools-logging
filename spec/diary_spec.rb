@@ -1,26 +1,28 @@
 # frozen_string_literal: true
 
 require './lib/diary'
-Dir['./lib/entries/*_entry.rb'].sort.each(&method(:require))
+Dir['./lib/entries/*_entry.rb'].sort.each { |x| require x }
 
 RSpec.describe Diary do
-  context 'diary entries' do
-    after :context do
+  context 'when making diary entries' do
+    after do
       FileUtils.rm_r File.join(Settings.root, 'avengers')
     end
 
     context 'with template' do
-      subject(:diary_templated) do (Class.new do
+      subject(:diary_templated) do
+        (Class.new do
         include Diary
 
         def template?
           true # non-interactive mode
         end
-      end).new     end
+         end).new
+      end
 
       mantis_folder = File.join %W[#{Settings.root} avengers mr-brandt]
 
-      before :context do
+      before do
         FileUtils.mkdir_p mantis_folder
       end
 
@@ -34,10 +36,6 @@ RSpec.describe Diary do
 
     context 'with interaction', order: :defined do
       iron_man_folder = File.join %W[#{Settings.root} avengers tony-stark]
-      before :context do
-        FileUtils.mkdir_p iron_man_folder
-      end
-
       subject(:diary) do
         (Class.new do
           include Diary
@@ -46,6 +44,10 @@ RSpec.describe Diary do
             false # interactive mode
           end
         end).new
+      end
+
+      before do
+        FileUtils.mkdir_p iron_man_folder
       end
 
       # Create a plain type of diary entry
@@ -69,7 +71,7 @@ RSpec.describe Diary do
 
       it 'displays a prompt' do
         expect($stdout).to receive(:puts).with('Enter your test for Tony Stark:')
-        allow(Settings.console).to receive(:ask) { 'anything' }
+        allow(Settings.console).to receive(:ask).and_return('anything')
         diary.record_to_file(:test, 'tony-stark')
       end
 
@@ -78,7 +80,7 @@ RSpec.describe Diary do
         old_length = File.size?(log) ? File.size(log) : 0
 
         expect($stdout).to receive(:puts)
-        allow(Settings.console).to receive(:ask) { "Lorem ipsum dolor sit amet, ea sea integre aliquando cotidieque, est dicta dolores concludaturque ne, his in dolorem volutpat.\nPro in iudico deseruisse, vix feugait accommodare ut, ne iisque appetere delicatissimi nec." }
+        allow(Settings.console).to receive(:ask).and_return("Lorem ipsum dolor sit amet, ea sea integre aliquando cotidieque, est dicta dolores concludaturque ne, his in dolorem volutpat.\nPro in iudico deseruisse, vix feugait accommodare ut, ne iisque appetere delicatissimi nec.")
         diary.record_to_file(:test, 'tony-stark')
         expect(File.size(log)).to be > old_length
       end
@@ -96,7 +98,7 @@ RSpec.describe Diary do
 
       it 'uses default values when getting an entry' do
         expect($stdout).to receive(:puts)
-        allow(Settings.console).to receive(:ask) { }
+        allow(Settings.console).to receive(:ask).and_return(nil)
         entry = diary.get_entry 'Test', 'Tony Stark'
         expect(entry.record).to include(wumpus: 'I feel a draft')
       end
@@ -140,10 +142,6 @@ RSpec.describe Diary do
 
     context 'with diary entries that disable prompting' do
       luke_cage_folder = File.join %W[#{Settings.root} avengers luke-cage]
-      before :context do
-        FileUtils.mkdir_p luke_cage_folder
-      end
-
       subject(:diary_no_prompt) do
         (Class.new do
           include Diary
@@ -152,6 +150,10 @@ RSpec.describe Diary do
             false # interactive mode
           end
         end).new
+      end
+
+      before do
+        FileUtils.mkdir_p luke_cage_folder
       end
 
       # Create a plain type of diary entry

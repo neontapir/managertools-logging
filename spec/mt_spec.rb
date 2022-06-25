@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 unless defined? MT
-  MT = File.expand_path('../mt', __FILE__)
+  MT = File.expand_path('mt', __dir__)
   load MT
 end
 
@@ -15,7 +15,7 @@ RSpec.describe 'mt script', type: :aruba do
 
   context 'without arguments' do
     let(:command) do
-      run_command_and_stop("#{MT}")
+      run_command_and_stop(MT.to_s)
     end
 
     it 'finds the script' do
@@ -30,19 +30,19 @@ RSpec.describe 'mt script', type: :aruba do
       expect(File).to exist File.join(aruba_root, 'config.yml')
     end
 
-    context 'after running the command' do
-      subject do
+    context 'when the command has run' do
+      subject(:the_command) do
         command
         last_command_started.stdout
       end
 
       it 'prints a usage message' do
-        is_expected.to match(/Manager Tools commands/)
+        expect(the_command).to match(/Manager Tools commands/)
       end
 
       it 'the usage message contains all known commands' do
         %w[depart feedback gen goal interview latest move new o3 obs open perf report report_team team_meeting].each do |subcommand|
-          is_expected.to match(/^\s*?\w+ #{subcommand}/)
+          expect(the_command).to match(/^\s*?\w+ #{subcommand}/)
         end
       end
     end

@@ -9,15 +9,10 @@ require_relative 'file_contents_validation_helper'
 RSpec.describe TeamMeetingCommand do
   include FileContentsValidationHelper
 
-  subject(:team_meeting) { TeamMeetingCommand.new }
-
-  # force interactive mode, avoid reading global variables
-  module Diary
-    undef :template? if method_defined? :template?
-
-    def template?
-      false
-    end
+  subject(:team_meeting) do
+    command = described_class.new
+    allow(command).to receive(:template?).and_return false
+    command
   end
 
   def make_folders(*group)
@@ -29,7 +24,7 @@ RSpec.describe TeamMeetingCommand do
   end
 
   def remove_folders
-    ['avengers','justice-league'].each do |group|
+    %w[avengers justice-league].each do |group|
       group_folder = File.join(Settings.root, group)
       FileUtils.rm_r group_folder if File.exist? group_folder
     end
