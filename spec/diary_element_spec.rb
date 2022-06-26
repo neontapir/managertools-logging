@@ -39,8 +39,9 @@ RSpec.describe DiaryElement do
 
   context 'when prompt is nil' do
     it 'uses default' do
-      expect(Settings.console).not_to receive(:ask)
+      allow(Settings.console).to receive(:ask)
       element = described_class.new(:unprompted, 'Do not prompt', default: 'xyzzy', prompt: nil)
+      expect(Settings.console).not_to have_received(:ask)
       expect(element.obtain).to eq 'xyzzy'
     end
   end

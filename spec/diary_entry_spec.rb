@@ -14,37 +14,49 @@ RSpec.describe DiaryEntry do
     expect(described_class.get('performance-checkpoint')).to be(PerformanceCheckpointEntry)
   end
 
-  it 'gets inheriting classes' do
-    expect(described_class.inherited(PerformanceCheckpointEntry)).to include PerformanceCheckpointEntry
-    expect(described_class.inherited(PerformanceCheckpointEntry)).not_to include String
+  context 'when getting inheriting classes' do
+    it 'gets itself' do
+      expect(described_class.inherited(PerformanceCheckpointEntry)).to include PerformanceCheckpointEntry
+    end
 
-    class ThrowawayDiaryEntry < DiaryEntry; end
+    it 'gets classes that inherit from DiaryEntry' do
+      throwaway_diary_entry = Class.new(described_class)
+      stub_const('ThrowawayDiaryEntry', throwaway_diary_entry)
+      expect(described_class.inherited(PerformanceCheckpointEntry)).to include ThrowawayDiaryEntry
+    end
 
-    expect(described_class.inherited(PerformanceCheckpointEntry)).to include ThrowawayDiaryEntry
+    it 'does not get classes that do not inherit from DiaryEntry' do
+      expect(described_class.inherited(PerformanceCheckpointEntry)).not_to include String
+    end
   end
 
-  context 'with another default content' do
+  context '#populate' do
     subject(:entry) { PerformanceCheckpointEntry.new }
 
     include_context 'with time frozen' do
       let(:clock_date) { Time.local(1999) }
     end
 
-    it 'renders correctly' do
-      expect(entry.render('Test', PerformanceCheckpointEntry)).to eq "=== Test (January  1, 1999, 12:00 AM)\nContent::\n  none\n"
-    end
-
-    it 'populates as expected' do
+    let(:populated_data) do
       Settings.with_mock_input("\nGood\n") do
-        data = entry.populate('John Doe')
-        expect(data.keys).to contain_exactly :content, :datetime
-        expect(data[:content]).to eq 'Good'
-        expected_time = Time.strptime(data[:datetime], '%Y-%M-%d %H:%M:%S %z')
-        expect(expected_time).to be_within(0.01).of(Time.now)
+        return entry.populate('John Doe')
       end
     end
 
-    it 'yields the correct date' do
+    it 'populates data keys as expected' do
+      expect(populated_data.keys).to contain_exactly :content, :datetime
+    end
+
+    it 'populates content correctly' do
+      expect(populated_data[:content]).to eq 'Good'
+    end
+
+    it 'populates datetime as expected' do
+      expected_time = Time.strptime(populated_data[:datetime], '%Y-%M-%d %H:%M:%S %z')
+      expect(expected_time).to be_within(0.01).of(Time.now)
+    end
+
+    it 'entry contains the correct date' do
       expect(entry.date).to eq clock_date
     end
   end
@@ -65,7 +77,7 @@ RSpec.describe DiaryEntry do
     end
   end
 
-  context 'with a past time' do
+  context 'in 2002' do
     subject(:entry) { ObservationEntry.new(datetime: clock_date.to_s, content: 'blah') }
 
     let(:clock_date) { Time.new(2002) }
@@ -80,11 +92,16 @@ RSpec.describe DiaryEntry do
   end
 
   context 'when methods are not implemented' do
-    # A class that doesn't implement some required methods
-    class UnimplementedDiaryEntry < DiaryEntry
+    subject(:entry) { unimplemented_diary_entry.new(datetime: Time.new(2003)) }
+
+    let(:unimplemented_diary_entry) do
+      # A class that doesn't implement some required methods
+      Class.new(described_class)
     end
 
-    subject(:entry) { UnimplementedDiaryEntry.new(datetime: Time.new(2003)) }
+    before do
+      stub_const('UnimplementedDiaryEntry', unimplemented_diary_entry)
+    end
 
     it 'raises when the template class is not inherited' do
       expect { entry.render('Test') }.to raise_error AttrExtras::MethodNotImplementedError
@@ -101,24 +118,30 @@ RSpec.describe DiaryEntry do
 
   context 'with improper elements' do
     # A class that has some unworkable implementations
-    class BadElementsArrayDiaryEntry < DiaryEntry
-      def prompt(_); end
+    subject(:entry) { bad_elements_array_diary_entry.new(datetime: Time.new(2004)) }
 
-      def to_s(); end
+    let(:bad_elements_array_diary_entry) do
+      Class.new(DiaryEntry) do
+        def prompt(_); end
 
-      def elements
-        42 # not enumerable
+        def to_s(); end
+
+        def elements
+          42 # not enumerable
+        end
       end
     end
 
-    subject(:entry) { BadElementsArrayDiaryEntry.new(datetime: Time.new(2004)) }
+    before do
+      stub_const('BadElementsArrayDiaryEntry', bad_elements_array_diary_entry)
+    end
 
     it 'raises when enumerable not returned by elements' do
       expect { entry.render('Test') }.to raise_error(ArgumentError, 'BadElementsArrayDiaryEntry#elements must return an enumerable')
     end
   end
 
-  context 'with another default content' do
+  context 'when looking for equality' do
     subject(:entry) { PerformanceCheckpointEntry.new }
 
     include_context 'with time frozen' do
