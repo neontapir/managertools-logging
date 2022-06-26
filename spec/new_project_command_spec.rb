@@ -72,14 +72,12 @@ RSpec.describe NewProjectCommand do
 
     it 'will not recreate an existing project without force' do
       setup_new_project_with_entry
-      expect(storm_log_contents).to include 'Defined first epics'
       expect { new_project.command(%w[galactic-storm]) }.to output(/#{Settings.log_filename}... exists/).to_stdout
       expect(storm_log_contents).to include 'Defined first epics'
     end
 
     it 'forces recreates an existing project' do
       setup_new_project_with_entry
-      expect(storm_log_contents).to include 'Defined first epics'
       expect { new_project.command(%w[galactic-storm], OpenStruct.new(force: true)) }.to output(/#{Settings.log_filename}... created/).to_stdout
       expect(storm_log_contents).not_to include 'Defined first epics'
     end
