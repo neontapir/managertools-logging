@@ -74,7 +74,7 @@ GEM
     cucumber-cucumber-expressions (15.2.0)
     cucumber-gherkin (23.0.1)
       cucumber-messages (~> 18.0, >= 18.0.0)
-    cucumber-html-formatter (19.1.0)
+    cucumber-html-formatter (19.2.0)
       cucumber-messages (~> 18.0, >= 18.0.0)
     cucumber-messages (18.0.0)
     cucumber-tag-expressions (4.1.0)
@@ -213,7 +213,7 @@ GEM
       parser (>= 2.5.0.0, < 2.8, != 2.5.1.1)
       psych (~> 3.1)
       rainbow (>= 2.0, < 4.0)
-    regexp_parser (2.4.0)
+    regexp_parser (2.5.0)
     reverse_markdown (2.1.1)
       nokogiri
     rexml (3.2.5)
@@ -243,7 +243,7 @@ GEM
       unicode-display_width (>= 1.4.0, < 2.0)
     rubocop-ast (1.4.1)
       parser (>= 2.7.1.5)
-    rubocop-performance (1.14.0)
+    rubocop-performance (1.14.2)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
     rubocop-rake (0.6.0)
@@ -339,7 +339,7 @@ GEM
       equalizer (~> 0.0, >= 0.0.9)
     wdm (0.1.1)
     webrick (1.7.0)
-    yard (0.9.27)
+    yard (0.9.28)
       webrick (~> 1.7.0)
 
 PLATFORMS
