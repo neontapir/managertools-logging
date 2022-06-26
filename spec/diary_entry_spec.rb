@@ -6,15 +6,17 @@ Dir['./lib/entries/*_entry.rb'].sort.each { |x| require x }
 require_relative 'support/shared_contexts'
 
 RSpec.describe DiaryEntry do
-  it 'gets an entry by identifier' do
-    expect(described_class.get('feedback')).to be(FeedbackEntry)
+  context 'with #get' do
+    it 'gets an entry by identifier' do
+      expect(described_class.get('feedback')).to be(FeedbackEntry)
+    end
+
+    it 'gets an entry with a space in the name by identifier' do
+      expect(described_class.get('performance-checkpoint')).to be(PerformanceCheckpointEntry)
+    end
   end
 
-  it 'gets an entry with a space in the name by identifier' do
-    expect(described_class.get('performance-checkpoint')).to be(PerformanceCheckpointEntry)
-  end
-
-  context 'when getting inheriting classes' do
+  context 'with #inherited' do
     it 'gets itself' do
       expect(described_class.inherited(PerformanceCheckpointEntry)).to include PerformanceCheckpointEntry
     end
@@ -30,7 +32,7 @@ RSpec.describe DiaryEntry do
     end
   end
 
-  context '#populate' do
+  context 'with #populate' do
     subject(:entry) { PerformanceCheckpointEntry.new }
 
     include_context 'with time frozen' do
@@ -61,7 +63,7 @@ RSpec.describe DiaryEntry do
     end
   end
 
-  context 'with the current time' do
+  context 'with #render' do
     subject(:entry) { ObservationEntry.new(datetime: clock_date.to_s) }
 
     include_context 'with time frozen' do
@@ -70,20 +72,6 @@ RSpec.describe DiaryEntry do
 
     it 'renders correctly' do
       expect(entry.render('Test', ObservationEntry)).to eq "=== Test (February  3, 2001,  4:05 AM)\nContent::\n  none\n"
-    end
-
-    it 'yields the correct date' do
-      expect(entry.date).to eq clock_date
-    end
-  end
-
-  context 'in 2002' do
-    subject(:entry) { ObservationEntry.new(datetime: clock_date.to_s, content: 'blah') }
-
-    let(:clock_date) { Time.new(2002) }
-
-    it 'renders correctly' do
-      expect(entry.render('Test', ObservationEntry)).to eq "=== Test (January  1, 2002, 12:00 AM)\nContent::\n  blah\n"
     end
 
     it 'yields the correct date' do
@@ -141,7 +129,7 @@ RSpec.describe DiaryEntry do
     end
   end
 
-  context 'when looking for equality' do
+  context 'with #equals' do
     subject(:entry) { PerformanceCheckpointEntry.new }
 
     include_context 'with time frozen' do

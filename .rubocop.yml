@@ -78,7 +78,7 @@ RSpec/ExampleLength:
 RSpec/ExpectInHook:
   Enabled: false
 RSpec/MultipleExpectations:
-  Enabled: false
+  Max: 3
 Style/AccessorGrouping:
   Enabled: true
 Style/ArrayCoercion:

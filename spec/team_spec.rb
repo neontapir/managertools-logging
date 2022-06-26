@@ -74,8 +74,6 @@ RSpec.describe Team do
     end
 
     it 'lists its team members by folder' do
-      expect(Dir).to exist batman_folder
-      expect(Dir).to exist superman_folder
       expect(justice_league.members_by_folder).to contain_exactly(batman_folder, superman_folder)
     end
   end
