@@ -39,7 +39,7 @@ end
 desc 'Rebuild the overview and team directory documents'
 task :rebuild do
   system(*%w[rm -f */*/*/overview.adoc]) || exit!(1)
-  system(*%w[./mt generate-overview-files]) || exit!(1)
+  system(*%w[bundle exec ./mt generate-overview-files]) || exit!(1)
   task(:build).invoke
 end
 
