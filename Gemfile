@@ -2,6 +2,7 @@
 
 source 'https://rubygems.org'
 
+gem "abbrev", "~> 0.1.2"
 gem 'asciidoctor', '~> 2.0'
 gem 'attr_extras', '~> 7.1'
 gem 'bundler-audit', '~> 0.9'
@@ -9,6 +10,7 @@ gem 'chronic', '~> 0.10'
 gem 'chronic_duration', '~> 0.10'
 gem 'facets', '~> 3.1'
 gem 'highline', '~> 2.1'
+gem "monitor", "~> 0.2.0"
 gem 'namecase', '~> 2.0'
 gem 'os', '~> 1.1'
 gem 'psych', '~> 5.1'
@@ -76,3 +78,4 @@ group :test do
   gem 'timecop'
   gem 'wdm' #, '>= 0.1.0' if Gem.win_platform?
 end
+
