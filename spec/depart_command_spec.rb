@@ -45,7 +45,7 @@ RSpec.describe DepartCommand do
     end
   end
 
-  context 'with a team as the move subject yields the first person (Justic League)' do
+  context 'with a team as the move subject yields the first person (Justice League)' do
     departed_folder = File.join(Settings.root, Settings.departed_root)
     old_team_folder = File.join(Settings.root, 'justice-league')
     batman = 'bruce-wayne'
