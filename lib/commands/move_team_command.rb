@@ -7,6 +7,7 @@ require 'tempfile'
 require_relative '../employee'
 require_relative '../team'
 require_relative '../settings'
+require_relative 'mt_command'
 
 # Implements team folder movement functionality
 class MoveTeamCommand
@@ -42,10 +43,10 @@ class MoveTeamCommand
       (employee_spec, target_team_spec) = target_team_spec, employee_spec
       target_team = Team.find target_team_spec
     end
-    raise TeamNotFoundError, "No team matching '#{target_team_spec}' found, aborting" unless target_team
+    raise TeamNotFoundError, target_team_spec unless target_team
 
     employee = Employee.find employee_spec
-    raise EmployeeNotFoundError, "No employee matching '#{employee_spec}' found, aborting" unless employee
+    raise EmployeeNotFoundError, employee_spec unless employee
 
     [employee, target_team]
   end

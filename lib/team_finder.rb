@@ -7,10 +7,7 @@ require_relative 'log_file'
 require_relative 'string_extensions'
 require_relative 'path_string_extensions'
 require_relative 'settings'
-
-# For reporting searches with no results
-class TeamNotFoundError < StandardError
-end
+require_relative 'commands/mt_command'
 
 # Represents a team search provider
 module TeamFinder

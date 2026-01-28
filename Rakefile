@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'English'
+require 'open3'
 
 # rubocop:disable Lint/SuppressedException
 begin
@@ -21,18 +22,24 @@ end
 # rubocop:enable Lint/SuppressedException
 
 def check_installed(program)
-  _ = system("hash #{program} &> /dev/null")
-  result = $CHILD_STATUS
-  result.exitstatus.eql?(0)
+  # Sanitize program name to prevent command injection
+  sanitized_program = program.gsub(/[;&|`$(){}\[\]]/, '')
+  stdout, stderr, status = Open3.capture3("which", sanitized_program)
+  status.success?
 end
 
 def call_with_check(command_string)
-  call = command_string.split
-  program = call.first
-  if check_installed(program)
-    system(command_string) || exit!(1)
+  # Split command safely to prevent injection
+  parts = command_string.shellsplit
+  program = parts.first
+  sanitized_program = program.gsub(/[;&|`$(){}\[\]]/, '')
+  
+  if check_installed(sanitized_program)
+    # Reconstruct command with sanitized program name
+    safe_command = [sanitized_program] + parts[1..-1]
+    system(*safe_command) || exit!(1)
   else
-    warn "#{program} not installed, skipping"
+    warn "#{sanitized_program} not installed, skipping"
   end
 end
 

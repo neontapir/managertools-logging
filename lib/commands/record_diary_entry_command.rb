@@ -24,7 +24,7 @@ class RecordDiaryEntryCommand < MtCommand
   def to_entities(entity_specs)
     entity_specs.map do |item|
       entity = Employee.find(item) || Project.find(item)
-      raise EntityNotFoundError, "unable to find employee or project '#{item}'" unless entity
+      raise EntityNotFoundError, item unless entity
 
       entity
     end.uniq

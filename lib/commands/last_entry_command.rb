@@ -17,7 +17,7 @@ class LastEntryCommand < MtCommand
   def command(arguments, _ = nil)
     search_term = Array(arguments).first
     employee = find search_term
-    raise EmployeeNotFoundError, "No employee matching '#{search_term}' found, aborting" unless employee
+    raise EmployeeNotFoundError, search_term unless employee
 
     log_file = employee.file.path
     last = []

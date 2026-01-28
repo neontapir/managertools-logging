@@ -26,7 +26,7 @@ class ReportTeamCommand < MtCommand
     raise 'missing team name argument' unless team_name
 
     team = Team.find team_name
-    raise TeamNotFoundError unless team
+    raise TeamNotFoundError, team_name unless team
 
     make_team_report(team, no_launch)
   end

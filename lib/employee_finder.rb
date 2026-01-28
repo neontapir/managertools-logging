@@ -20,14 +20,28 @@ module EmployeeFinder
   def parse_dir(dir)
     paths = dir.split_path
     _root, team, name = paths
-    EmployeeSpecification.new(team: team, **parse_name(name))
+    # If this looks like a team folder (no employee name component), handle it differently
+    if File.basename(dir) == name
+      EmployeeSpecification.new(team: team, first: '', last: '')
+    else
+      EmployeeSpecification.new(team: team, **parse_name(name))
+    end
   end
 
   # Parse a string as though it is part of an employee spec and return the result
   def parse_name(name)
-    words = name.path_to_name.strip.split(/\s+/)
-    first = words.shift
-    { first: first, last: words.join('-') }
+    # Handle folder names like "hank-pym" (single hyphenated word)
+    # or "hank-pym-last" (multiple parts)
+    clean_name = name.path_to_name.strip
+    return { first: '', last: '' } if clean_name.empty?
+    
+    # Split on spaces, then join remaining parts with hyphens
+    parts = clean_name.split(/\s+/)
+    return { first: '', last: '' } if parts.empty?
+    
+    first = parts.shift
+    last = parts.empty? ? '' : parts.join('-')
+    { first: first, last: last }
   end
 
   # Given a part of employee data, find the first matching employee
@@ -37,13 +51,17 @@ module EmployeeFinder
   def search(search_string)
     root = EmployeeFolder.root
     result = []
-    key = search_string.downcase
-    Dir.glob("#{root}/*/*") do |folder|
+    key = sanitize_search_string(search_string)
+    
+    safe_glob_pattern = File.expand_path("#{root}/*/*").gsub(/\.\./, '')
+    Dir.glob(safe_glob_pattern) do |folder|
       next unless Dir.exist? folder
-      next unless folder[key]
+      next unless folder.include?(key)
 
       employee_spec = parse_dir folder
       next if project? employee_spec
+      # Skip specs that don't have both first and last names (team folders)
+      next unless employee_spec.first && employee_spec.last
 
       result << employee_spec.to_employee
     end
@@ -56,7 +74,7 @@ module EmployeeFinder
   # @return [Employee] an Employee object
   def find(search_string)
     result = search(search_string)
-    result.min
+    result.select { |emp| !project?(emp.to_h) }.min
   end
 
   # returns true if found item is a project, not an employee
@@ -96,5 +114,20 @@ module EmployeeFinder
     Settings.console.ask "#{prompt}: " do |answer|
       answer.default = default
     end
+  end
+
+  private
+
+  # Sanitize search string to prevent path traversal attacks
+  #
+  # @param [String] search_string the input string to sanitize
+  # @return [String] the sanitized string
+  def sanitize_search_string(search_string)
+    return '' if search_string.nil?
+    search_string.gsub(/\.\./, '').downcase.strip
+  end
+  
+  def self.included(base)
+    base.extend(self)
   end
 end
