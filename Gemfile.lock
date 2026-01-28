@@ -420,6 +420,7 @@ DEPENDENCIES
   mutant-rspec
   namecase (~> 2.0)
   os (~> 1.1)
+  ostruct (~> 0.6)
   overcommit
   pry
   pry-nav

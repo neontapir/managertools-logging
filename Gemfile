@@ -12,6 +12,7 @@ gem 'facets', '~> 3.1'
 gem 'highline', '~> 2.1'
 gem "monitor", "~> 0.2.0"
 gem 'namecase', '~> 2.0'
+gem 'ostruct', '~> 0.6'
 gem 'os', '~> 1.1'
 gem 'psych', '~> 5.1'
 gem 'rake', '~> 13'
